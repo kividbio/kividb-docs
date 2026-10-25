@@ -1,6 +1,6 @@
 ---
 title: "FT.ALIASUPDATE"
-description: "Update an alias; overwrites if it already exists; AOF-logged"
+description: "Points an alias at an index, creating it if needed, or moving it from another index."
 version: "1.1"
 command: "FT.ALIASUPDATE"
 syntax: "FT.ALIASUPDATE alias index"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["search", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ FT.ALIASUPDATE alias index
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Points an alias at an index, creating it if needed, or moving it from another index.
 
-Update an alias; overwrites if it already exists; AOF-logged
+## Examples
+
+```
+> FT.ALIASUPDATE shop products
+OK
+```

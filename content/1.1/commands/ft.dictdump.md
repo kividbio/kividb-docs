@@ -1,6 +1,6 @@
 ---
 title: "FT.DICTDUMP"
-description: "Return all terms in a dictionary, sorted alphabetically"
+description: "Returns the words of a dictionary, sorted."
 version: "1.1"
 command: "FT.DICTDUMP"
 syntax: "FT.DICTDUMP dict"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "search", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ FT.DICTDUMP dict
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the words of a dictionary, sorted.
 
-Return all terms in a dictionary, sorted alphabetically
+## Examples
+
+```
+> FT.DICTDUMP words
+1) "kividb"
+```

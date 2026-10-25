@@ -1,6 +1,6 @@
 ---
 title: "FT.EXPLAINCLI"
-description: "The same plan as an array of its lines"
+description: "FT.EXPLAIN, as an array of its lines."
 version: "1.2"
 command: "FT.EXPLAINCLI"
 syntax: "FT.EXPLAINCLI index query"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "search", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,14 @@ FT.EXPLAINCLI index query
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
 <!-- generated: end -->
-## Description
+[`FT.EXPLAIN`](ft.explain.md), as an array of its lines.
 
-The same plan as an array of its lines
+## Examples
+
+```
+> FT.EXPLAINCLI products "desk | lamp"
+1) "UNION {"
+2) "  desk"
+3) "  lamp"
+4) "}"
+```

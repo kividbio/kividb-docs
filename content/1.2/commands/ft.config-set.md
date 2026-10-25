@@ -1,6 +1,6 @@
 ---
 title: "FT.CONFIG SET"
-description: "Set one; an unknown option or a value of the wrong kind is an error."
+description: "Sets a setting."
 version: "1.2"
 command: "FT.CONFIG SET"
 syntax: "FT.CONFIG SET option value"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "FT.CONFIG"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,15 @@ FT.CONFIG SET option value
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Sets a setting. An unknown name, or a value of the wrong kind, is an error.
 
-Set one; an unknown option or a value of the wrong kind is an error. Acted on: `CURSOR_MAX_IDLE` (the longest a cursor may sit unread) and `MAXSEARCHRESULTS` (the largest `LIMIT` an `FT.SEARCH` may ask for). The rest are kept and reported — `TIMEOUT` and `ON_TIMEOUT` in particular do not cut a query short
+Two are acted on: `CURSOR_MAX_IDLE`, the longest a cursor may sit unread, and `MAXSEARCHRESULTS`, the largest `LIMIT` an `FT.SEARCH` may ask for. The others are kept and reported. `TIMEOUT` and `ON_TIMEOUT` do not cut a query short.
+
+## Examples
+
+```
+> FT.CONFIG SET MAXSEARCHRESULTS 1000
+OK
+> FT.CONFIG SET NOPE 1
+(error) Invalid option
+```

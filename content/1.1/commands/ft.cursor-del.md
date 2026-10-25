@@ -1,6 +1,6 @@
 ---
 title: "FT.CURSOR DEL"
-description: "Close a cursor."
+description: "Closes a cursor before it is read to the end."
 version: "1.1"
 command: "FT.CURSOR DEL"
 syntax: "FT.CURSOR DEL index cursor_id"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "FT.CURSOR"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,9 @@ FT.CURSOR DEL index cursor_id
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Closes a cursor before it is read to the end.
 
-Close a cursor. `OK`, or `Cursor does not exist`
+## Reply
+
+- `OK`.
+- `Cursor does not exist`, also for one read to the end.

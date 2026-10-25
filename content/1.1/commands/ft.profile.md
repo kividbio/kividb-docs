@@ -1,6 +1,6 @@
 ---
 title: "FT.PROFILE"
-description: "Runs the query and returns [reply, profile] (a map with Results and Profile under RESP3)."
+description: "Runs a query, SEARCH, AGGREGATE or HYBRID, and returns its result with a profile: total, parsing and lock-wait times, warnings, and the tree of iterators and result processors the query used."
 version: "1.1"
 command: "FT.PROFILE"
 syntax: "FT.PROFILE index SEARCH|AGGREGATE|HYBRID [LIMITED] QUERY query …"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "search", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,4 @@ FT.PROFILE index SEARCH|AGGREGATE|HYBRID [LIMITED] QUERY query …
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
 <!-- generated: end -->
-## Description
-
-Runs the query and returns `[reply, profile]` (a map with `Results` and `Profile` under RESP3). The profile has the 8.x shape — `Shards` (total, parsing and GIL times, `Warning`, `Iterators profile`, `Result processors profile`) and `Coordinator`. The iterator tree is the query's; times are of the query as a whole, not per iterator
+Runs a query, `SEARCH`, `AGGREGATE` or `HYBRID`, and returns its result with a profile: total, parsing and lock-wait times, warnings, and the tree of iterators and result processors the query used. Under RESP3 the reply is a map of `Results` and `Profile`. Times are of the query as a whole, not of each iterator.

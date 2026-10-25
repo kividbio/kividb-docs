@@ -1,6 +1,6 @@
 ---
 title: "FT.DROPINDEX"
-description: "Delete an index definition; does not delete the underlying data keys"
+description: "Deletes an index."
 version: "1.2"
 command: "FT.DROPINDEX"
 syntax: "FT.DROPINDEX index"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["search", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,13 @@ FT.DROPINDEX index
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Deletes an index. The keys it indexed are kept.
 
-Delete an index definition; does not delete the underlying data keys
+## Examples
+
+```
+> FT.DROPINDEX books
+OK
+> EXISTS book:1
+(integer) 1
+```

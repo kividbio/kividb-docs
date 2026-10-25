@@ -1,6 +1,6 @@
 ---
 title: "FT.DICTADD"
-description: "Add terms to a named global dictionary; returns count of newly added terms; AOF-logged"
+description: "Adds words to a dictionary: a named list of words, which FT.SPELLCHECK can include or exclude."
 version: "1.1"
 command: "FT.DICTADD"
 syntax: "FT.DICTADD dict term [term ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["search", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ FT.DICTADD dict term [term ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Adds words to a dictionary: a named list of words, which [`FT.SPELLCHECK`](ft.spellcheck.md) can include or exclude.
 
-Add terms to a named global dictionary; returns count of newly added terms; AOF-logged
+## Reply
+
+- The number of words added.
+
+## Examples
+
+```
+> FT.DICTADD words kividb valkey
+(integer) 2
+```

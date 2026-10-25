@@ -1,6 +1,6 @@
 ---
 title: "FT.ALIASDEL"
-description: "Remove an alias; AOF-logged"
+description: "Deletes an alias."
 version: "1.1"
 command: "FT.ALIASDEL"
 syntax: "FT.ALIASDEL alias"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["search", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ FT.ALIASDEL alias
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Deletes an alias. The index is kept.
 
-Remove an alias; AOF-logged
+## Examples
+
+```
+> FT.ALIASDEL shop
+OK
+```

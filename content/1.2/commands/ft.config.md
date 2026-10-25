@@ -1,6 +1,6 @@
 ---
 title: "FT.CONFIG"
-description: "FT.CONFIG and its subcommands."
+description: "Reads and sets the search engine's settings, by RediSearch's names."
 version: "1.2"
 command: "FT.CONFIG"
 syntax: "FT.CONFIG"
@@ -12,7 +12,7 @@ acl_categories: ["read", "search", "slow"]
 history: []
 subcommands: ["FT.CONFIG GET", "FT.CONFIG SET"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ FT.CONFIG
 
 Subcommands: [FT.CONFIG GET](ft.config-get.md), [FT.CONFIG SET](ft.config-set.md)
 <!-- generated: end -->
+Reads and sets the search engine's settings, by RediSearch's names. See its subcommands.

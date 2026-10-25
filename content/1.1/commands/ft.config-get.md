@@ -1,6 +1,6 @@
 ---
 title: "FT.CONFIG GET"
-description: "The query engine's settings by RediSearch's names (TIMEOUT, DEFAULT_DIALECT, MINPREFIX, MAXSEARCHRESULTS, CURSOR_MAX_IDLE, …), as [name, value] pairs; * for all"
+description: "Returns settings matching a name or pattern, * for all, as [name, value] pairs."
 version: "1.1"
 command: "FT.CONFIG GET"
 syntax: "FT.CONFIG GET option|pattern"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "FT.CONFIG"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,12 @@ FT.CONFIG GET option|pattern
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns settings matching a name or pattern, `*` for all, as `[name, value]` pairs.
 
-The query engine's settings by RediSearch's names (`TIMEOUT`, `DEFAULT_DIALECT`, `MINPREFIX`, `MAXSEARCHRESULTS`, `CURSOR_MAX_IDLE`, …), as `[name, value]` pairs; `*` for all
+## Examples
+
+```
+> FT.CONFIG GET TIMEOUT
+1) 1) "TIMEOUT"
+   2) "500"
+```

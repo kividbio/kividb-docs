@@ -1,6 +1,6 @@
 ---
 title: "FT._LIST"
-description: "Return a list of all index names"
+description: "Returns the names of every index."
 version: "1.1"
 command: "FT._LIST"
 syntax: "FT._LIST"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "search", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ FT._LIST
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the names of every index.
 
-Return a list of all index names
+## Examples
+
+```
+> FT._LIST
+1) "products"
+```

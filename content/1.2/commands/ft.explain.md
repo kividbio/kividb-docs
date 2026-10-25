@@ -1,6 +1,6 @@
 ---
 title: "FT.EXPLAIN"
-description: "The query's plan as Redis writes one: INTERSECT { … }, UNION { … }, NOT, OPTIONAL, TAG:@field { … }, NUMERIC {lo <= @field <= hi}, VECTOR { … }, one clause to a line."
+description: "Returns how a query is understood, as Redis writes a query plan: INTERSECT { ..."
 version: "1.2"
 command: "FT.EXPLAIN"
 syntax: "FT.EXPLAIN index query [PARAMS …] [DIALECT n]"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "search", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,16 @@ FT.EXPLAIN index query [PARAMS …] [DIALECT n]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
 <!-- generated: end -->
-## Description
+Returns how a query is understood, as Redis writes a query plan: `INTERSECT { ... }`, `UNION { ... }`, `NOT`, `OPTIONAL`, `TAG:@field { ... }`, `NUMERIC {lo <= @field <= hi}`, `VECTOR { ... }`, a clause to a line. A query that does not parse is an error.
 
-The query's plan as Redis writes one: `INTERSECT { … }`, `UNION { … }`, `NOT`, `OPTIONAL`, `TAG:@field { … }`, `NUMERIC {lo <= @field <= hi}`, `VECTOR { … }`, one clause to a line. An error for a query that does not parse or an index that does not exist
+## Examples
+
+```
+> FT.EXPLAIN products "@category:{furniture} @price:[0 100]"
+INTERSECT {
+  TAG:@category {
+    furniture
+  }
+  NUMERIC {0.000000 <= @price <= 100.000000}
+}
+```

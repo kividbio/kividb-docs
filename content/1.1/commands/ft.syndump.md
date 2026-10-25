@@ -1,6 +1,6 @@
 ---
 title: "FT.SYNDUMP"
-description: "Return all synonym groups as a flat term → [group_id] mapping"
+description: "Returns an index's synonym groups, as each word followed by the groups it is in."
 version: "1.1"
 command: "FT.SYNDUMP"
 syntax: "FT.SYNDUMP index"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "search", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,14 @@ FT.SYNDUMP index
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
 <!-- generated: end -->
-## Description
+Returns an index's synonym groups, as each word followed by the groups it is in.
 
-Return all synonym groups as a flat term → [group_id] mapping
+## Examples
+
+```
+> FT.SYNDUMP products
+1) "lamp"
+2) 1) "g1"
+3) "light"
+4) 1) "g1"
+```

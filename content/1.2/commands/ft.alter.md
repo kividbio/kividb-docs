@@ -1,6 +1,6 @@
 ---
 title: "FT.ALTER"
-description: "Add new fields to an existing index schema."
+description: "Adds fields to an index."
 version: "1.2"
 command: "FT.ALTER"
 syntax: "FT.ALTER index [SKIPINITIALSCAN] SCHEMA ADD field type [options ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["search", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ FT.ALTER index [SKIPINITIALSCAN] SCHEMA ADD field type [options ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Adds fields to an index. TEXT, TAG and NUMERIC fields take effect at once. A VECTOR field gets an index of its own, filled from the existing keys unless `SKIPINITIALSCAN` is given.
 
-Add new fields to an existing index schema. TEXT/TAG/NUMERIC fields take effect immediately. VECTOR fields have a fresh live index provisioned and are backfilled from existing keys unless SKIPINITIALSCAN is given. Multiple VECTOR fields per index are supported; each is queryable by `@field_name` in KNN clauses
+## Examples
+
+```
+> FT.ALTER products SCHEMA ADD stock NUMERIC
+OK
+```

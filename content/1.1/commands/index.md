@@ -451,31 +451,31 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`FT.AGGREGATE`](ft.aggregate.md) | Aggregate the documents a query matches. | 1.1.0 |
-| [`FT.ALIASADD`](ft.aliasadd.md) | Create an alias pointing to an existing index; AOF-logged | 1.1.0 |
-| [`FT.ALIASDEL`](ft.aliasdel.md) | Remove an alias; AOF-logged | 1.1.0 |
-| [`FT.ALIASLIST`](ft.aliaslist.md) | The aliases that point to index (Redis 8.10) | 1.1.0 |
-| [`FT.ALIASUPDATE`](ft.aliasupdate.md) | Update an alias; overwrites if it already exists; AOF-logged | 1.1.0 |
-| [`FT.ALTER`](ft.alter.md) | Add new fields to an existing index schema. | 1.1.0 |
-| [`FT.CONFIG`](ft.config.md) | FT.CONFIG and its subcommands. | 1.1.0 |
-| [`FT.CREATE`](ft.create.md) | Create a search index; supported field types: TEXT, TAG, NUMERIC, VECTOR; backfills existing keys on creation. | 1.1.0 |
-| [`FT.CURSOR`](ft.cursor.md) | FT.CURSOR and its subcommands. | 1.1.0 |
-| [`FT.DEBUG`](ft.debug.md) | FT.DEBUG and its subcommands. | 1.1.0 |
-| [`FT.DICTADD`](ft.dictadd.md) | Add terms to a named global dictionary; returns count of newly added terms; AOF-logged | 1.1.0 |
-| [`FT.DICTDEL`](ft.dictdel.md) | Remove terms from a dictionary; returns count removed; AOF-logged | 1.1.0 |
-| [`FT.DICTDUMP`](ft.dictdump.md) | Return all terms in a dictionary, sorted alphabetically | 1.1.0 |
-| [`FT.DROPINDEX`](ft.dropindex.md) | Delete an index definition; does not delete the underlying data keys | 1.1.0 |
-| [`FT.EXPLAIN`](ft.explain.md) | The query's plan as Redis writes one: INTERSECT { … }, UNION { … }, NOT, OPTIONAL, TAG:@field { … }, NUMERIC {lo <= @field <= hi}, VECTOR { … }, one clause to a line. | 1.1.0 |
-| [`FT.EXPLAINCLI`](ft.explaincli.md) | The same plan as an array of its lines | 1.1.0 |
-| [`FT.HYBRID`](ft.hybrid.md) | Combined text + vector search with score fusion. | 1.1.0 |
-| [`FT.INFO`](ft.info.md) | Return index metadata: name, type, prefixes, field schemas, field count. | 1.1.0 |
-| [`FT.PROFILE`](ft.profile.md) | Runs the query and returns [reply, profile] (a map with Results and Profile under RESP3). | 1.1.0 |
-| [`FT.SEARCH`](ft.search.md) | Search an index; supports pure KNN (*=>[KNN k @field $param AS alias]), pure text/filter queries (@field:token, @field:{tag}, @field:[lo hi], *), and hybrid pre-filter KNN; TEXT fields use BM25 scori… | 1.1.0 |
-| [`FT.SPELLCHECK`](ft.spellcheck.md) | Return spelling suggestions for unrecognised query terms. | 1.1.0 |
-| [`FT.SYNDUMP`](ft.syndump.md) | Return all synonym groups as a flat term → [group_id] mapping | 1.1.0 |
-| [`FT.SYNUPDATE`](ft.synupdate.md) | Create or update a synonym group; terms in a group are treated as equivalent; AOF-logged | 1.1.0 |
-| [`FT.TAGVALS`](ft.tagvals.md) | Return all distinct values stored in a TAG field across indexed keys; sorted alphabetically; splits on \| and , | 1.1.0 |
-| [`FT._LIST`](ft._list.md) | Return a list of all index names | 1.1.0 |
+| [`FT.AGGREGATE`](ft.aggregate.md) | Runs a query and transforms its results: groups them, reduces each group, computes new fields, filters and sorts. | 1.1.0 |
+| [`FT.ALIASADD`](ft.aliasadd.md) | Creates an alias for an index: a second name, usable wherever the index's name is. | 1.1.0 |
+| [`FT.ALIASDEL`](ft.aliasdel.md) | Deletes an alias. | 1.1.0 |
+| [`FT.ALIASLIST`](ft.aliaslist.md) | Returns the aliases that point to an index (Redis 8.10). | 1.1.0 |
+| [`FT.ALIASUPDATE`](ft.aliasupdate.md) | Points an alias at an index, creating it if needed, or moving it from another index. | 1.1.0 |
+| [`FT.ALTER`](ft.alter.md) | Adds fields to an index. | 1.1.0 |
+| [`FT.CONFIG`](ft.config.md) | Reads and sets the search engine's settings, by RediSearch's names. | 1.1.0 |
+| [`FT.CREATE`](ft.create.md) | Creates a search index over the hashes, or JSON documents, whose keys start with the given prefixes. | 1.1.0 |
+| [`FT.CURSOR`](ft.cursor.md) | Reads and closes the cursors FT.AGGREGATE ... | 1.1.0 |
+| [`FT.DEBUG`](ft.debug.md) | Maintenance of search indexes. | 1.1.0 |
+| [`FT.DICTADD`](ft.dictadd.md) | Adds words to a dictionary: a named list of words, which FT.SPELLCHECK can include or exclude. | 1.1.0 |
+| [`FT.DICTDEL`](ft.dictdel.md) | Removes words from a dictionary. | 1.1.0 |
+| [`FT.DICTDUMP`](ft.dictdump.md) | Returns the words of a dictionary, sorted. | 1.1.0 |
+| [`FT.DROPINDEX`](ft.dropindex.md) | Deletes an index. | 1.1.0 |
+| [`FT.EXPLAIN`](ft.explain.md) | Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... | 1.1.0 |
+| [`FT.EXPLAINCLI`](ft.explaincli.md) | FT.EXPLAIN, as an array of its lines. | 1.1.0 |
+| [`FT.HYBRID`](ft.hybrid.md) | Searches an index by text and by vector together, and fuses the two rankings into one. | 1.1.0 |
+| [`FT.INFO`](ft.info.md) | Returns an index's definition and state: its key type and prefixes, its fields with their options, how many documents and terms it holds, and whether it is still indexing. | 1.1.0 |
+| [`FT.PROFILE`](ft.profile.md) | Runs a query, SEARCH, AGGREGATE or HYBRID, and returns its result with a profile: total, parsing and lock-wait times, warnings, and the tree of iterators and result processors the query used. | 1.1.0 |
+| [`FT.SEARCH`](ft.search.md) | Searches an index and returns the matching documents. | 1.1.0 |
+| [`FT.SPELLCHECK`](ft.spellcheck.md) | Suggests spellings for the words of a query that are not in the index. | 1.1.0 |
+| [`FT.SYNDUMP`](ft.syndump.md) | Returns an index's synonym groups, as each word followed by the groups it is in. | 1.1.0 |
+| [`FT.SYNUPDATE`](ft.synupdate.md) | Creates or updates a synonym group of an index: words to be treated as the same. | 1.1.0 |
+| [`FT.TAGVALS`](ft.tagvals.md) | Returns the distinct values of a TAG field across the indexed documents, sorted. | 1.1.0 |
+| [`FT._LIST`](ft._list.md) | Returns the names of every index. | 1.1.0 |
 
 ## Vector set
 

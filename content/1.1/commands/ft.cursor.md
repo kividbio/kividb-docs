@@ -1,6 +1,6 @@
 ---
 title: "FT.CURSOR"
-description: "FT.CURSOR and its subcommands."
+description: "Reads and closes the cursors FT.AGGREGATE ..."
 version: "1.1"
 command: "FT.CURSOR"
 syntax: "FT.CURSOR"
@@ -12,7 +12,7 @@ acl_categories: ["read", "search", "slow"]
 history: []
 subcommands: ["FT.CURSOR DEL", "FT.CURSOR READ"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ FT.CURSOR
 
 Subcommands: [FT.CURSOR DEL](ft.cursor-del.md), [FT.CURSOR READ](ft.cursor-read.md)
 <!-- generated: end -->
+Reads and closes the cursors [`FT.AGGREGATE ... WITHCURSOR`](ft.aggregate.md) returns. See its subcommands.

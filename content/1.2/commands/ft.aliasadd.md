@@ -1,6 +1,6 @@
 ---
 title: "FT.ALIASADD"
-description: "Create an alias pointing to an existing index; AOF-logged"
+description: "Creates an alias for an index: a second name, usable wherever the index's name is."
 version: "1.2"
 command: "FT.ALIASADD"
 syntax: "FT.ALIASADD alias index"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["search", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,13 @@ FT.ALIASADD alias index
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Creates an alias for an index: a second name, usable wherever the index's name is. Swapping an alias to a newly built index changes what clients search without changing the clients.
 
-Create an alias pointing to an existing index; AOF-logged
+## Examples
+
+```
+> FT.ALIASADD shop products
+OK
+> FT.SEARCH shop "@category:{furniture}" LIMIT 0 0
+1) (integer) 2
+```

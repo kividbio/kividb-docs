@@ -1,6 +1,6 @@
 ---
 title: "FT.DEBUG"
-description: "FT.DEBUG and its subcommands."
+description: "Maintenance of search indexes."
 version: "1.2"
 command: "FT.DEBUG"
 syntax: "FT.DEBUG"
@@ -12,7 +12,7 @@ acl_categories: ["read", "search", "slow"]
 history: []
 subcommands: ["FT.DEBUG COMPACT"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ FT.DEBUG
 
 Subcommands: [FT.DEBUG COMPACT](ft.debug-compact.md)
 <!-- generated: end -->
+Maintenance of search indexes. See its subcommand.

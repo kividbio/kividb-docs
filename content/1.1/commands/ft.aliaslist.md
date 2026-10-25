@@ -1,6 +1,6 @@
 ---
 title: "FT.ALIASLIST"
-description: "The aliases that point to index (Redis 8.10)"
+description: "Returns the aliases that point to an index (Redis 8.10)."
 version: "1.1"
 command: "FT.ALIASLIST"
 syntax: "FT.ALIASLIST index"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "search", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ FT.ALIASLIST index
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the aliases that point to an index (Redis 8.10).
 
-The aliases that point to `index` (Redis 8.10)
+## Examples
+
+```
+> FT.ALIASLIST products
+1) "shop"
+```

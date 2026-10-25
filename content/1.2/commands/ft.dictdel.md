@@ -1,6 +1,6 @@
 ---
 title: "FT.DICTDEL"
-description: "Remove terms from a dictionary; returns count removed; AOF-logged"
+description: "Removes words from a dictionary."
 version: "1.2"
 command: "FT.DICTDEL"
 syntax: "FT.DICTDEL dict term [term ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["search", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ FT.DICTDEL dict term [term ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Removes words from a dictionary.
 
-Remove terms from a dictionary; returns count removed; AOF-logged
+## Reply
+
+- The number of words removed.
+
+## Examples
+
+```
+> FT.DICTDEL words valkey
+(integer) 1
+```
