@@ -101,8 +101,14 @@
   ],
   "FUNCTION": [
    "DELETE",
+   "DUMP",
+   "FLUSH",
+   "HELP",
+   "KILL",
+   "LIST",
    "LOAD",
-   "RESTORE"
+   "RESTORE",
+   "STATS"
   ],
   "HOTKEYS": [
    "GET",
@@ -164,6 +170,9 @@
   "SCRIPT": [
    "DEBUG",
    "EXISTS",
+   "FLUSH",
+   "HELP",
+   "KILL",
    "LOAD"
   ],
   "SLOWLOG": [
@@ -187,20 +196,6 @@
    "STREAM"
   ]
  },
- "lua": false,
- "unsure": {
-  "FUNCTION": [
-   "DUMP",
-   "FLUSH",
-   "HELP",
-   "KILL",
-   "LIST",
-   "STATS"
-  ],
-  "SCRIPT": [
-   "FLUSH",
-   "HELP",
-   "KILL"
-  ]
- }
+ "lua": true,
+ "unsure": {}
 }

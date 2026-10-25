@@ -9,7 +9,7 @@ What each release added, removed and changed in the commands and settings, as ea
 
 ## 1.1.2
 
-**New commands:** [`FUNCTION DUMP`](commands/function-dump.md), [`FUNCTION HELP`](commands/function-help.md), [`SCRIPT HELP`](commands/script-help.md)
+No change to the commands or settings.
 
 ## 1.1.1
 

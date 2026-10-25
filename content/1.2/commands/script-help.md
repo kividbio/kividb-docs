@@ -5,7 +5,7 @@ version: "1.2"
 command: "SCRIPT HELP"
 syntax: "SCRIPT HELP"
 group: "other"
-since: "1.1.2"
+since: "1.1.0"
 history: []
 container: "SCRIPT"
 # generated: end
@@ -19,6 +19,6 @@ status: "reviewed"
 SCRIPT HELP
 ```
 
-**Available since:** 1.1.2
+**Available since:** 1.1.0
 <!-- generated: end -->
 Lists the `SCRIPT` subcommands and what each does.

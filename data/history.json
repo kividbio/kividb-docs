@@ -987,7 +987,7 @@
   "FUNCTION|DUMP": {
    "changes": [],
    "removed": null,
-   "since": "1.1.2"
+   "since": "1.1.0"
   },
   "FUNCTION|FLUSH": {
    "changes": [],
@@ -997,7 +997,7 @@
   "FUNCTION|HELP": {
    "changes": [],
    "removed": null,
-   "since": "1.1.2"
+   "since": "1.1.0"
   },
   "FUNCTION|KILL": {
    "changes": [],
@@ -2008,7 +2008,7 @@
   "SCRIPT|HELP": {
    "changes": [],
    "removed": null,
-   "since": "1.1.2"
+   "since": "1.1.0"
   },
   "SCRIPT|KILL": {
    "changes": [],
@@ -2772,11 +2772,7 @@
    "settings_removed": []
   },
   {
-   "commands_added": [
-    "FUNCTION|DUMP",
-    "FUNCTION|HELP",
-    "SCRIPT|HELP"
-   ],
+   "commands_added": [],
    "commands_changed": [],
    "commands_removed": [],
    "defaults_changed": [],

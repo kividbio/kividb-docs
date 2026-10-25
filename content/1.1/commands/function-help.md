@@ -5,7 +5,7 @@ version: "1.1"
 command: "FUNCTION HELP"
 syntax: "FUNCTION HELP"
 group: "scripting"
-since: "1.1.2"
+since: "1.1.0"
 history: []
 container: "FUNCTION"
 # generated: end
@@ -19,6 +19,6 @@ status: "reviewed"
 FUNCTION HELP
 ```
 
-**Available since:** 1.1.2
+**Available since:** 1.1.0
 <!-- generated: end -->
 Lists the `FUNCTION` subcommands and what each does.

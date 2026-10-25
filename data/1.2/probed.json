@@ -196,6 +196,6 @@
    "STREAM"
   ]
  },
- "lua": false,
+ "lua": true,
  "unsure": {}
 }
