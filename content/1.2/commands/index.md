@@ -18,24 +18,24 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`ARCOUNT`](arcount.md) | Number of non-empty elements, or 0 | 1.1.0 |
-| [`ARDEL`](ardel.md) | Delete elements at the given indices; returns the number actually removed | 1.1.0 |
-| [`ARDELRANGE`](ardelrange.md) | Delete elements in one or more inclusive ranges; overlapping ranges count each element once | 1.1.0 |
-| [`ARGET`](arget.md) | Get the value at an index, or nil | 1.1.0 |
-| [`ARGETRANGE`](argetrange.md) | Get every slot in the range including nils for empty ones; start > end returns the range in reverse. | 1.1.0 |
-| [`ARGREP`](argrep.md) | Search elements by textual predicate. | 1.1.0 |
-| [`ARINFO`](arinfo.md) | Array metadata: count, len, next-insert-index, slices, directory-size, super-dir-entries, slice-size (plus ring-size for rings). | 1.1.0 |
-| [`ARINSERT`](arinsert.md) | Insert at the cursor, advancing it once per value; returns the last index written | 1.1.0 |
-| [`ARLASTITEMS`](arlastitems.md) | The most recently inserted elements, oldest-first by default, newest-first with REV. | 1.1.0 |
-| [`ARLEN`](arlen.md) | Highest occupied index + 1, or 0 | 1.1.0 |
-| [`ARMGET`](armget.md) | Get values at multiple indices; order is preserved and empty slots return nil | 1.1.0 |
-| [`ARMSET`](armset.md) | Set multiple index-value pairs, non-contiguous and in any order; returns the number of previously-empty slots filled | 1.1.0 |
-| [`ARNEXT`](arnext.md) | The index the next ARINSERT would use; 0 for a missing key, nil when the cursor is exhausted | 1.1.0 |
-| [`AROP`](arop.md) | Aggregate over non-empty elements in a range. | 1.1.0 |
-| [`ARRING`](arring.md) | Insert into a ring buffer of size, wrapping at size so newer values overwrite older ones; shrinking size truncates. | 1.1.0 |
-| [`ARSCAN`](arscan.md) | Iterate existing elements in a range, skipping empty slots. | 1.1.0 |
-| [`ARSEEK`](arseek.md) | Move the insert cursor; returns 1 if set, 0 if the key does not exist. | 1.1.0 |
-| [`ARSET`](arset.md) | Set one or more contiguous values starting at index; returns the number of previously-empty slots filled | 1.1.0 |
+| [`ARCOUNT`](arcount.md) | Returns the number of filled slots; 0 for a missing key. | 1.1.0 |
+| [`ARDEL`](ardel.md) | Empties the slots at the given indexes. | 1.1.0 |
+| [`ARDELRANGE`](ardelrange.md) | Empties the slots in one or more ranges, each from start to end, both included. | 1.1.0 |
+| [`ARGET`](arget.md) | Returns the value at index, or nil for an empty slot. | 1.1.0 |
+| [`ARGETRANGE`](argetrange.md) | Returns every slot from start to end, both included, nil for empty ones. | 1.1.0 |
+| [`ARGREP`](argrep.md) | Returns the indexes of the slots from start to end whose values match. | 1.1.0 |
+| [`ARINFO`](arinfo.md) | Returns the array's filled slots (count), its len, the insert cursor (next-insert-index), and how it is laid out in memory: its slices of slice-size slots, and the directories that find them. | 1.1.0 |
+| [`ARINSERT`](arinsert.md) | Writes values at the array's insert cursor, moving the cursor on one slot per value. | 1.1.0 |
+| [`ARLASTITEMS`](arlastitems.md) | Returns the count slots before the insert cursor, oldest first, or newest first with REV, nil for empty ones. | 1.1.0 |
+| [`ARLEN`](arlen.md) | Returns the highest filled index plus one; 0 for a missing key. | 1.1.0 |
+| [`ARMGET`](armget.md) | Returns the values at several indexes, in the order given, nil for empty slots. | 1.1.0 |
+| [`ARMSET`](armset.md) | Sets values at several indexes, in any order, in one call. | 1.1.0 |
+| [`ARNEXT`](arnext.md) | Returns the index the next ARINSERT will use: 0 for a missing key, nil once the cursor has run past the last index. | 1.1.0 |
+| [`AROP`](arop.md) | Computes over the filled slots from start to end. | 1.1.0 |
+| [`ARRING`](arring.md) | Writes values into a ring buffer of size slots: the cursor wraps around at size, so newer values overwrite the oldest. | 1.1.0 |
+| [`ARSCAN`](arscan.md) | Returns the filled slots from start to end, skipping empty ones, as [index, value] pairs; in reverse with start greater than end. | 1.1.0 |
+| [`ARSEEK`](arseek.md) | Moves the insert cursor to index. | 1.1.0 |
+| [`ARSET`](arset.md) | Sets values in the array at key from index on, one slot each. | 1.1.0 |
 
 ## Bitmap
 

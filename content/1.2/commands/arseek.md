@@ -1,6 +1,6 @@
 ---
 title: "ARSEEK"
-description: "Move the insert cursor; returns 1 if set, 0 if the key does not exist."
+description: "Moves the insert cursor to index."
 version: "1.2"
 command: "ARSEEK"
 syntax: "ARSEEK key index"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["array", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ ARSEEK key index
 
 **Available since:** 1.1.0 · **ACL categories:** `@array`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Moves the insert cursor to `index`. It does not create the key.
 
-Move the insert cursor; returns 1 if set, 0 if the key does not exist. Does **not** create the key
+## Reply
+
+- `1` if the cursor moved, `0` if the key does not exist.
+
+## Examples
+
+```
+> ARSEEK log 10
+(integer) 1
+> ARINSERT log at10
+(integer) 10
+```

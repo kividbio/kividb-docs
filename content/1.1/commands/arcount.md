@@ -1,6 +1,6 @@
 ---
 title: "ARCOUNT"
-description: "Number of non-empty elements, or 0"
+description: "Returns the number of filled slots; 0 for a missing key."
 version: "1.1"
 command: "ARCOUNT"
 syntax: "ARCOUNT key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["array", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ ARCOUNT key
 
 **Available since:** 1.1.0 · **ACL categories:** `@array`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the number of filled slots; `0` for a missing key.
 
-Number of non-empty elements, or 0
+## Examples
+
+```
+> ARCOUNT a
+(integer) 4
+```

@@ -1,6 +1,6 @@
 ---
 title: "ARDELRANGE"
-description: "Delete elements in one or more inclusive ranges; overlapping ranges count each element once"
+description: "Empties the slots in one or more ranges, each from start to end, both included."
 version: "1.1"
 command: "ARDELRANGE"
 syntax: "ARDELRANGE key start end [start end ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["array", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ ARDELRANGE key start end [start end ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@array`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Empties the slots in one or more ranges, each from `start` to `end`, both included. A slot in two ranges counts once.
 
-Delete elements in one or more inclusive ranges; overlapping ranges count each element once
+## Reply
+
+- The number of slots that were filled.
+
+## Examples
+
+```
+> ARDELRANGE a 0 1 5 5
+(integer) 3
+```

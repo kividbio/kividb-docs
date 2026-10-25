@@ -1,6 +1,6 @@
 ---
 title: "ARGETRANGE"
-description: "Get every slot in the range including nils for empty ones; start > end returns the range in reverse."
+description: "Returns every slot from start to end, both included, nil for empty ones."
 version: "1.1"
 command: "ARGETRANGE"
 syntax: "ARGETRANGE key start end"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["array", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ ARGETRANGE key start end
 
 **Available since:** 1.1.0 · **ACL categories:** `@array`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns every slot from `start` to `end`, both included, `nil` for empty ones. With `start` greater than `end`, the slots come in reverse. A range of more than 1,000,000 slots is refused: use [`ARSCAN`](arscan.md).
 
-Get every slot in the range including nils for empty ones; `start > end` returns the range in reverse. Spans wider than 1,000,000 indices are rejected — use `ARSCAN`
+## Examples
+
+```
+> ARGETRANGE a 0 5
+1) "x"
+2) "y"
+3) "z"
+4) (nil)
+5) (nil)
+6) "w"
+> ARGETRANGE a 5 3
+1) "w"
+2) (nil)
+3) (nil)
+```

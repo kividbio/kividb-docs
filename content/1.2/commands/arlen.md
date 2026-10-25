@@ -1,6 +1,6 @@
 ---
 title: "ARLEN"
-description: "Highest occupied index + 1, or 0"
+description: "Returns the highest filled index plus one; 0 for a missing key."
 version: "1.2"
 command: "ARLEN"
 syntax: "ARLEN key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["array", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ ARLEN key
 
 **Available since:** 1.1.0 · **ACL categories:** `@array`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the highest filled index plus one; `0` for a missing key. A lone value at index 5 gives `ARLEN` 6 and [`ARCOUNT`](arcount.md) 1.
 
-Highest occupied index + 1, or 0
+## Examples
+
+```
+> ARSET a 0 x y z
+(integer) 3
+> ARSET a 5 w
+(integer) 1
+> ARLEN a
+(integer) 6
+```

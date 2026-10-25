@@ -1,6 +1,6 @@
 ---
 title: "ARGET"
-description: "Get the value at an index, or nil"
+description: "Returns the value at index, or nil for an empty slot."
 version: "1.2"
 command: "ARGET"
 syntax: "ARGET key index"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["array", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ ARGET key index
 
 **Available since:** 1.1.0 · **ACL categories:** `@array`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the value at `index`, or `nil` for an empty slot.
 
-Get the value at an index, or nil
+## Examples
+
+```
+> ARSET a 0 x y z
+(integer) 3
+> ARGET a 1
+"y"
+> ARGET a 3
+(nil)
+```

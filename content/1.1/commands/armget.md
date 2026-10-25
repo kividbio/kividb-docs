@@ -1,6 +1,6 @@
 ---
 title: "ARMGET"
-description: "Get values at multiple indices; order is preserved and empty slots return nil"
+description: "Returns the values at several indexes, in the order given, nil for empty slots."
 version: "1.1"
 command: "ARMGET"
 syntax: "ARMGET key index [index ...]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["array", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,13 @@ ARMGET key index [index ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@array`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the values at several indexes, in the order given, `nil` for empty slots.
 
-Get values at multiple indices; order is preserved and empty slots return nil
+## Examples
+
+```
+> ARMGET a 0 3 5
+1) "x"
+2) (nil)
+3) "w"
+```

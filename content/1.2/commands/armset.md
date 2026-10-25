@@ -1,6 +1,6 @@
 ---
 title: "ARMSET"
-description: "Set multiple index-value pairs, non-contiguous and in any order; returns the number of previously-empty slots filled"
+description: "Sets values at several indexes, in any order, in one call."
 version: "1.2"
 command: "ARMSET"
 syntax: "ARMSET key index value [index value ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["array", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ ARMSET key index value [index value ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@array`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Sets values at several indexes, in any order, in one call.
 
-Set multiple index-value pairs, non-contiguous and in any order; returns the number of previously-empty slots filled
+## Reply
+
+- The number of slots that were empty and are now filled.
+
+## Examples
+
+```
+> ARMSET a 3 m 9 n
+(integer) 2
+```

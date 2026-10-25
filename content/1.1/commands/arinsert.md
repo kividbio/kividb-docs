@@ -1,6 +1,6 @@
 ---
 title: "ARINSERT"
-description: "Insert at the cursor, advancing it once per value; returns the last index written"
+description: "Writes values at the array's insert cursor, moving the cursor on one slot per value."
 version: "1.1"
 command: "ARINSERT"
 syntax: "ARINSERT key value [value ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["array", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ ARINSERT key value [value ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@array`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Writes values at the array's insert cursor, moving the cursor on one slot per value. A missing key is created, with the cursor at 0.
 
-Insert at the cursor, advancing it once per value; returns the last index written
+## Reply
+
+- The index of the last value written.
+
+## Examples
+
+```
+> ARINSERT log first second
+(integer) 1
+> ARINSERT log third
+(integer) 2
+> ARNEXT log
+(integer) 3
+```
