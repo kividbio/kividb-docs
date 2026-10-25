@@ -26,13 +26,13 @@ FUNCTION DUMP` / `FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]
 
 Subcommands: [FUNCTION DELETE](function-delete.md), [FUNCTION FLUSH](function-flush.md), [FUNCTION KILL](function-kill.md), [FUNCTION LIST](function-list.md), [FUNCTION LOAD](function-load.md), [FUNCTION STATS](function-stats.md)
 <!-- generated: end -->
-Manages libraries of functions, which [`FCALL`](fcall.md) calls. Unlike scripts, libraries are kept with the data, in snapshots and the AOF, and replicated, so they survive restarts. See its subcommands.
+Manages libraries of functions, which [`FCALL`](fcall.md) calls. Libraries are kept with the data, in snapshots and the AOF, so they come back when the server restarts. See its subcommands.
 
 `FUNCTION DUMP` serializes every library into a payload, and `FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]` loads one. The format is KiviDB's own. By default, `RESTORE` fails if a library in the payload exists; `REPLACE` replaces those, `FLUSH` deletes every library first.
 
 ```
 > FUNCTION DUMP
-"\xf5\xc3@X..."
-> FUNCTION RESTORE "\xf5\xc3@X..." REPLACE
+"..."             (a binary payload)
+> FUNCTION RESTORE "..." REPLACE
 OK
 ```

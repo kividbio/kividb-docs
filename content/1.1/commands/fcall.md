@@ -36,5 +36,5 @@ A function is held to the flags it was registered with. With `no-writes`, it can
 
 ```
 > FCALL hello 0 Ada
-"hello Ada"
+"hi Ada"
 ```
