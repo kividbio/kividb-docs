@@ -1,6 +1,6 @@
 ---
 title: "RPOP"
-description: "Remove and return the last element; with count returns an array of up to count elements"
+description: "Removes and returns the last element of the list at key."
 version: "1.2"
 command: "RPOP"
 syntax: "RPOP key [count]"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "list", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,21 @@ RPOP key [count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@list`, `@write`
 <!-- generated: end -->
-## Description
+Removes and returns the last element of the list at `key`. With `count`, removes and returns up to that many, last first. A list left empty is deleted.
 
-Remove and return the last element; with count returns an array of up to count elements
+## Reply
+
+- The element, or `nil` if the key does not exist.
+- With `count`: an array of up to `count` elements, or `nil` if the key does not exist.
+
+## Examples
+
+```
+> RPUSH l a b c
+(integer) 3
+> RPOP l
+"c"
+> RPOP l 5
+1) "b"
+2) "a"
+```

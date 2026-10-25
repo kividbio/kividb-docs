@@ -1,6 +1,6 @@
 ---
 title: "LREM"
-description: "Remove occurrences of element; count > 0 from head, < 0 from tail, 0 = all"
+description: "Removes elements equal to element from the list at key:\n- count greater than 0: the first count of them, from the head;\n- count less than 0: the last -count of them, from the tail;\n- count 0: all of…"
 version: "1.1"
 command: "LREM"
 syntax: "LREM key count element"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["list", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,28 @@ LREM key count element
 
 **Available since:** 1.1.0 · **ACL categories:** `@list`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Removes elements equal to `element` from the list at `key`:
+- `count` greater than 0: the first `count` of them, from the head;
+- `count` less than 0: the last `-count` of them, from the tail;
+- `count` 0: all of them.
 
-Remove occurrences of element; count > 0 from head, < 0 from tail, 0 = all
+## Reply
+
+- The number of elements removed.
+
+## Examples
+
+```
+> RPUSH r a b a c a
+(integer) 5
+> LREM r 2 a
+(integer) 2
+> LRANGE r 0 -1
+1) "b"
+2) "c"
+3) "a"
+> RPUSH r2 a b a c a
+(integer) 5
+> LREM r2 -1 a
+(integer) 1
+```

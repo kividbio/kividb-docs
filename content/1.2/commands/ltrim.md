@@ -1,6 +1,6 @@
 ---
 title: "LTRIM"
-description: "Trim a list in-place to the specified inclusive range"
+description: "Keeps only the elements from index start to index stop, both included, and removes the rest."
 version: "1.2"
 command: "LTRIM"
 syntax: "LTRIM key start stop"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["list", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,21 @@ LTRIM key start stop
 
 **Available since:** 1.1.0 · **ACL categories:** `@list`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Keeps only the elements from index `start` to index `stop`, both included, and removes the rest. Negative indexes count from the end. A range outside the list leaves it empty, and the key is deleted.
 
-Trim a list in-place to the specified inclusive range
+## Reply
+
+- `OK`.
+
+## Examples
+
+```
+> RPUSH t a b c d e
+(integer) 5
+> LTRIM t 1 3
+OK
+> LRANGE t 0 -1
+1) "b"
+2) "c"
+3) "d"
+```

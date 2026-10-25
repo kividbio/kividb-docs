@@ -1,6 +1,6 @@
 ---
 title: "RPOPLPUSH"
-description: "Pop from tail of source, push to head of destination; deprecated alias for LMOVE"
+description: "Removes the last element of source and adds it to the head of destination."
 version: "1.2"
 command: "RPOPLPUSH"
 syntax: "RPOPLPUSH source destination"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["list", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ RPOPLPUSH source destination
 
 **Available since:** 1.1.0 · **ACL categories:** `@list`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Removes the last element of `source` and adds it to the head of `destination`. It is `LMOVE source destination RIGHT LEFT`; use [`LMOVE`](lmove.md) in new code.
 
-Pop from tail of source, push to head of destination; deprecated alias for LMOVE
+## Reply
+
+- The element moved, or `nil` if `source` does not exist.
+
+## Examples
+
+```
+> RPUSH src a b
+(integer) 2
+> RPOPLPUSH src dst
+"b"
+```

@@ -1,6 +1,6 @@
 ---
 title: "LMOVEM"
-description: "Move several elements between lists in one atomic step (Redis 8.10); one element if no count is given."
+description: "Moves several elements from one end of source to one end of destination in one step, a command of Redis 8.10."
 version: "1.1"
 command: "LMOVEM"
 syntax: "LMOVEM source destination LEFT|RIGHT LEFT|RIGHT [<COUNT count | EXACTLY count> <OBO | BULK>]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["list", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,45 @@ LMOVEM source destination LEFT|RIGHT LEFT|RIGHT [<COUNT count | EXACTLY count> <
 
 **Available since:** 1.1.0 · **ACL categories:** `@list`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Moves several elements from one end of `source` to one end of `destination` in one step, a command of Redis 8.10. Without a count it moves one element.
 
-Move several elements between lists in one atomic step (Redis 8.10); one element if no count is given. `COUNT` moves up to that many; `EXACTLY` moves that many or nothing (nil). `OBO` moves them one by one, as repeated `LMOVE` would; `BULK` moves them as a block, keeping their order. Returns the moved elements
+## Options
+
+| Option | Effect |
+|---|---|
+| `COUNT count` | Move up to `count` elements. |
+| `EXACTLY count` | Move exactly `count` elements, or none if `source` has fewer. |
+| `OBO` | Move them one by one, as repeated `LMOVE` would: into the head of `destination`, their order is reversed. |
+| `BULK` | Move them as a block, keeping their order. |
+
+## Reply
+
+- An array of the elements moved, in the order they now have in `destination`.
+- `nil` if `EXACTLY` could not be met, or `source` does not exist; nothing is moved.
+
+## Examples
+
+```
+> RPUSH a 1 2 3 4 5
+(integer) 5
+> LMOVEM a b LEFT LEFT COUNT 3 OBO
+1) "3"
+2) "2"
+3) "1"
+> LRANGE b 0 -1
+1) "3"
+2) "2"
+3) "1"
+> RPUSH c 1 2 3 4 5
+(integer) 5
+> LMOVEM c d LEFT LEFT COUNT 3 BULK
+1) "1"
+2) "2"
+3) "3"
+> LRANGE d 0 -1
+1) "1"
+2) "2"
+3) "3"
+> LMOVEM c d LEFT LEFT EXACTLY 5 BULK
+(nil)
+```

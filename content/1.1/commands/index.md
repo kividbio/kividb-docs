@@ -183,30 +183,33 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`BLMOVE`](blmove.md) | Blocking LMOVE; blocks until source has an element | 1.1.0 |
-| [`BLMOVEM`](blmovem.md) | Blocking LMOVEM: waits until the source has an element — or, with EXACTLY, enough of them | 1.1.0 |
-| [`BLMPOP`](blmpop.md) | Blocking LMPOP; blocks until any key has an element | 1.1.0 |
-| [`BLPOP`](blpop.md) | Blocking pop from head; unblocks when an element is available or timeout expires | 1.1.0 |
-| [`BRPOP`](brpop.md) | Blocking pop from tail; unblocks when an element is available or timeout expires | 1.1.0 |
-| [`BRPOPLPUSH`](brpoplpush.md) | Blocking RPOPLPUSH; deprecated, use BLMOVE instead | 1.1.0 |
-| [`LINDEX`](lindex.md) | Return the element at an index | 1.1.0 |
-| [`LINSERT`](linsert.md) | Insert an element before or after a pivot value | 1.1.0 |
-| [`LLEN`](llen.md) | Return the number of elements | 1.1.0 |
-| [`LMOVE`](lmove.md) | Pop from one end of source and push to one end of destination | 1.1.0 |
-| [`LMOVEM`](lmovem.md) | Move several elements between lists in one atomic step (Redis 8.10); one element if no count is given. | 1.1.0 |
-| [`LMPOP`](lmpop.md) | Pop one or more elements from the first non-empty list | 1.1.0 |
-| [`LPOP`](lpop.md) | Remove and return the first element; with count returns an array of up to count elements | 1.1.0 |
-| [`LPOS`](lpos.md) | Return the index of matching elements; RANK skips the first n-1 matches (negative=scan from tail), COUNT=number of matches to return (0=all), MAXLEN=limit scan length | 1.1.0 |
-| [`LPUSH`](lpush.md) | Prepend one or more values; returns new length | 1.1.0 |
-| [`LPUSHX`](lpushx.md) | Prepend only if key exists; returns new length or 0 | 1.1.0 |
-| [`LRANGE`](lrange.md) | Return a range of elements; negative indices count from the end | 1.1.0 |
-| [`LREM`](lrem.md) | Remove occurrences of element; count > 0 from head, < 0 from tail, 0 = all | 1.1.0 |
-| [`LSET`](lset.md) | Set the element at an index | 1.1.0 |
-| [`LTRIM`](ltrim.md) | Trim a list in-place to the specified inclusive range | 1.1.0 |
-| [`RPOP`](rpop.md) | Remove and return the last element; with count returns an array of up to count elements | 1.1.0 |
-| [`RPOPLPUSH`](rpoplpush.md) | Pop from tail of source, push to head of destination; deprecated alias for LMOVE | 1.1.0 |
-| [`RPUSH`](rpush.md) | Append one or more values; returns new length | 1.1.0 |
-| [`RPUSHX`](rpushx.md) | Append only if key exists; returns new length or 0 | 1.1.0 |
+| [`BLMOVE`](blmove.md) | LMOVE that waits, as BLPOP does, until source has an element or timeout seconds have passed. | 1.1.0 |
+| [`BLMOVEM`](blmovem.md) | LMOVEM that waits until source has an element, or, with EXACTLY, enough of them, or until timeout seconds have passed. | 1.1.0 |
+| [`BLMPOP`](blmpop.md) | LMPOP that waits until one of the lists has an element, or timeout seconds have passed. | 1.1.0 |
+| [`BLPOP`](blpop.md) | Pops the first element of the first non-empty list of those given. | 1.1.0 |
+| [`BRPOP`](brpop.md) | Like BLPOP, but pops the last element. | 1.1.0 |
+| [`BRPOPLPUSH`](brpoplpush.md) | RPOPLPUSH that waits until source has an element or timeout seconds have passed. | 1.1.0 |
+| [`LINDEX`](lindex.md) | Returns the element at index in the list at key. | 1.1.0 |
+| [`LINSERT`](linsert.md) | Inserts element before or after the first element equal to pivot, in the list at key. | 1.1.0 |
+| [`LLEN`](llen.md) | Returns the number of elements in the list at key. | 1.1.0 |
+| [`LMOVE`](lmove.md) | Removes an element from one end of source and adds it to one end of destination, in one step. | 1.1.0 |
+| [`LMOVEM`](lmovem.md) | Moves several elements from one end of source to one end of destination in one step, a command of Redis 8.10. | 1.1.0 |
+| [`LMPOP`](lmpop.md) | Pops elements from the first of the given lists that is not empty. | 1.1.0 |
+| [`LPOP`](lpop.md) | Removes and returns the first element of the list at key. | 1.1.0 |
+| [`LPOS`](lpos.md) | Returns the index of an element equal to element in the list at key. | 1.1.0 |
+| [`LPUSH`](lpush.md) | Adds values to the head (left) of the list at key, one after another, so the last value given ends up first. | 1.1.0 |
+| [`LPUSHX`](lpushx.md) | Adds values to the head of the list at key, only if the list exists. | 1.1.0 |
+| [`LRANGE`](lrange.md) | Returns the elements of the list at key from index start to index stop, both included. | 1.1.0 |
+| [`LREM`](lrem.md) | Removes elements equal to element from the list at key:
+- count greater than 0: the first count of them, from the head;
+- count less than 0: the last -count of them, from the tail;
+- count 0: all of… | 1.1.0 |
+| [`LSET`](lset.md) | Replaces the element at index in the list at key. | 1.1.0 |
+| [`LTRIM`](ltrim.md) | Keeps only the elements from index start to index stop, both included, and removes the rest. | 1.1.0 |
+| [`RPOP`](rpop.md) | Removes and returns the last element of the list at key. | 1.1.0 |
+| [`RPOPLPUSH`](rpoplpush.md) | Removes the last element of source and adds it to the head of destination. | 1.1.0 |
+| [`RPUSH`](rpush.md) | Adds values to the tail (right) of the list at key, in the order given. | 1.1.0 |
+| [`RPUSHX`](rpushx.md) | Adds values to the tail of the list at key, only if the list exists. | 1.1.0 |
 
 ## Observability
 

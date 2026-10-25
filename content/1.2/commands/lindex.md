@@ -1,6 +1,6 @@
 ---
 title: "LINDEX"
-description: "Return the element at an index"
+description: "Returns the element at index in the list at key."
 version: "1.2"
 command: "LINDEX"
 syntax: "LINDEX key index"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["list", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,22 @@ LINDEX key index
 
 **Available since:** 1.1.0 · **ACL categories:** `@list`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the element at `index` in the list at `key`. Negative indexes count from the end.
 
-Return the element at an index
+## Reply
+
+- The element.
+- `nil` if the index is outside the list, or the key does not exist.
+
+## Examples
+
+```
+> RPUSH l a b c
+(integer) 3
+> LINDEX l 0
+"a"
+> LINDEX l -1
+"c"
+> LINDEX l 9
+(nil)
+```

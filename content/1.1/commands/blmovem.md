@@ -1,6 +1,6 @@
 ---
 title: "BLMOVEM"
-description: "Blocking LMOVEM: waits until the source has an element — or, with EXACTLY, enough of them"
+description: "LMOVEM that waits until source has an element, or, with EXACTLY, enough of them, or until timeout seconds have passed."
 version: "1.1"
 command: "BLMOVEM"
 syntax: "BLMOVEM source destination LEFT|RIGHT LEFT|RIGHT timeout [<COUNT count | EXACTLY count> <OBO | BULK>]"
@@ -11,7 +11,7 @@ flags: ["blocking", "write"]
 acl_categories: ["blocking", "list", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,16 @@ BLMOVEM source destination LEFT|RIGHT LEFT|RIGHT timeout [<COUNT count | EXACTLY
 
 **Available since:** 1.1.0 · **ACL categories:** `@blocking`, `@list`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+[`LMOVEM`](lmovem.md) that waits until `source` has an element, or, with `EXACTLY`, enough of them, or until `timeout` seconds have passed.
 
-Blocking `LMOVEM`: waits until the source has an element — or, with `EXACTLY`, enough of them
+## Reply
+
+- An array of the elements moved.
+- `nil` if the timeout passed.
+
+## Examples
+
+```
+> BLMOVEM empty dst LEFT RIGHT 0.1
+(nil)
+```

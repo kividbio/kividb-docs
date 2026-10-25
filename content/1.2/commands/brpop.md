@@ -1,6 +1,6 @@
 ---
 title: "BRPOP"
-description: "Blocking pop from tail; unblocks when an element is available or timeout expires"
+description: "Like BLPOP, but pops the last element."
 version: "1.2"
 command: "BRPOP"
 syntax: "BRPOP key [key ...] timeout"
@@ -11,7 +11,7 @@ flags: ["blocking", "write"]
 acl_categories: ["blocking", "list", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ BRPOP key [key ...] timeout
 
 **Available since:** 1.1.0 · **ACL categories:** `@blocking`, `@list`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Like [`BLPOP`](blpop.md), but pops the last element.
 
-Blocking pop from tail; unblocks when an element is available or timeout expires
+## Reply
+
+- A two-element array: the key, and the element.
+- `nil` if the timeout passed.
+
+## Examples
+
+```
+> RPUSH b1 x y
+(integer) 2
+> BRPOP b1 1
+1) "b1"
+2) "y"
+```

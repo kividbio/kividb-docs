@@ -1,6 +1,6 @@
 ---
 title: "LLEN"
-description: "Return the number of elements"
+description: "Returns the number of elements in the list at key."
 version: "1.1"
 command: "LLEN"
 syntax: "LLEN key"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "list", "read"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ LLEN key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@list`, `@read`
 <!-- generated: end -->
-## Description
+Returns the number of elements in the list at `key`.
 
-Return the number of elements
+## Reply
+
+- The length; `0` if the key does not exist.
+- A `WRONGTYPE` error if the key is not a list.
+
+## Examples
+
+```
+> RPUSH l a b c
+(integer) 3
+> LLEN l
+(integer) 3
+> LLEN missing
+(integer) 0
+```

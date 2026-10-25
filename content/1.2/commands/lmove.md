@@ -1,6 +1,6 @@
 ---
 title: "LMOVE"
-description: "Pop from one end of source and push to one end of destination"
+description: "Removes an element from one end of source and adds it to one end of destination, in one step."
 version: "1.2"
 command: "LMOVE"
 syntax: "LMOVE source destination LEFT|RIGHT LEFT|RIGHT"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["list", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,23 @@ LMOVE source destination LEFT|RIGHT LEFT|RIGHT
 
 **Available since:** 1.1.0 · **ACL categories:** `@list`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Removes an element from one end of `source` and adds it to one end of `destination`, in one step. `LEFT` is the head, `RIGHT` the tail. `source` and `destination` can be the same list, to rotate it.
 
-Pop from one end of source and push to one end of destination
+## Reply
+
+- The element moved.
+- `nil` if `source` does not exist.
+
+## Examples
+
+```
+> RPUSH src a b c
+(integer) 3
+> LMOVE src dst RIGHT LEFT
+"c"
+> LMOVE src dst LEFT RIGHT
+"a"
+> LRANGE dst 0 -1
+1) "c"
+2) "a"
+```
