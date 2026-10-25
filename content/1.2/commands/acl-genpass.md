@@ -23,6 +23,10 @@ ACL GENPASS [bits]
 <!-- generated: end -->
 Returns a random password, as hexadecimal digits, from the system's secure random source. `bits` is how much randomness, 256 by default, rounded up to a multiple of 4: each digit is 4 bits.
 
+## Known issue
+
+`bits` from 1 to 4 gives an empty string, where Redis gives one digit. Filed as [kividb#140](https://github.com/kividbio/kividb/issues/140).
+
 ## Examples
 
 ```
