@@ -1,6 +1,6 @@
 ---
 title: "SISMEMBER"
-description: "Return 1 if member exists, 0 otherwise"
+description: "Tells whether member is in the set at key."
 version: "1.1"
 command: "SISMEMBER"
 syntax: "SISMEMBER key member"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "read", "set"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ SISMEMBER key member
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@read`, `@set`
 <!-- generated: end -->
-## Description
+Tells whether `member` is in the set at `key`.
 
-Return 1 if member exists, 0 otherwise
+## Reply
+
+- `1` if it is, `0` if not or if the key does not exist.
+
+## Examples
+
+```
+> SADD s a b
+(integer) 2
+> SISMEMBER s a
+(integer) 1
+> SISMEMBER s z
+(integer) 0
+```

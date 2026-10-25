@@ -1,6 +1,6 @@
 ---
 title: "SDIFF"
-description: "Return members in the first set not present in any subsequent set."
+description: "Returns the members of the first set that are in none of the others."
 version: "1.1"
 command: "SDIFF"
 syntax: "SDIFF key [key ...]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "set", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ SDIFF key [key ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@set`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the members of the first set that are in none of the others. A key that does not exist is an empty set.
 
-Return members in the first set not present in any subsequent set. As for `SINTER` and `SUNION`, a key that does not exist is an empty set and a key of another type is a `WRONGTYPE` error
+## Reply
+
+- An array of members, in no particular order.
+
+## Examples
+
+```
+> SADD x a b c d
+(integer) 4
+> SADD y c d e
+(integer) 3
+> SDIFF x y
+1) "a"
+2) "b"
+```

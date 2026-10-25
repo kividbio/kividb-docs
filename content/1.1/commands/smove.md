@@ -1,6 +1,6 @@
 ---
 title: "SMOVE"
-description: "Move a member from source to destination atomically; returns 1 if moved, 0 if not found"
+description: "Moves member from the set at source to the set at destination, in one step."
 version: "1.1"
 command: "SMOVE"
 syntax: "SMOVE source destination member"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "set", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,22 @@ SMOVE source destination member
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@set`, `@write`
 <!-- generated: end -->
-## Description
+Moves `member` from the set at `source` to the set at `destination`, in one step.
 
-Move a member from source to destination atomically; returns 1 if moved, 0 if not found
+## Reply
+
+- `1` if the member was moved.
+- `0` if it was not in `source`; nothing changes.
+
+## Examples
+
+```
+> SADD x a b
+(integer) 2
+> SMOVE x y a
+(integer) 1
+> SISMEMBER y a
+(integer) 1
+> SMOVE x y nope
+(integer) 0
+```

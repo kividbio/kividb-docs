@@ -1,6 +1,6 @@
 ---
 title: "SREM"
-description: "Remove one or more members; returns count actually removed"
+description: "Removes members from the set at key."
 version: "1.2"
 command: "SREM"
 syntax: "SREM key member [member ...]"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "set", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ SREM key member [member ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@set`, `@write`
 <!-- generated: end -->
-## Description
+Removes members from the set at `key`. A set left empty is deleted.
 
-Remove one or more members; returns count actually removed
+## Reply
+
+- The number of members removed; members not in the set are not counted.
+
+## Examples
+
+```
+> SADD s a b
+(integer) 2
+> SREM s a z
+(integer) 1
+```

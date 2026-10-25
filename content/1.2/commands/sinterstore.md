@@ -1,6 +1,6 @@
 ---
 title: "SINTERSTORE"
-description: "Store the intersection in destination; returns count of members stored"
+description: "Stores the intersection of the given sets, as SINTER computes it, at destination, replacing whatever was there, and its expiry."
 version: "1.2"
 command: "SINTERSTORE"
 syntax: "SINTERSTORE destination key [key ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["set", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,23 @@ SINTERSTORE destination key [key ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@set`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Stores the intersection of the given sets, as [`SINTER`](sinter.md) computes it, at `destination`, replacing whatever was there, and its expiry. An empty result leaves no key at `destination`.
 
-Store the intersection in destination; returns count of members stored
+## Reply
+
+- The number of members stored.
+
+## Examples
+
+```
+> SADD x a b c d
+(integer) 4
+> SADD y c d e
+(integer) 3
+> SET old v EX 100
+OK
+> SINTERSTORE old x y
+(integer) 2
+> TTL old
+(integer) -1
+```

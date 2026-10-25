@@ -1,6 +1,6 @@
 ---
 title: "SDIFFCARD"
-description: "Return the cardinality of the difference between the first set and the others (Redis 8.10)"
+description: "Returns how many members the difference of the given sets has, without returning them: a command of Redis 8.10."
 version: "1.2"
 command: "SDIFFCARD"
 syntax: "SDIFFCARD numkeys key [key ...] [LIMIT limit]"
@@ -11,7 +11,7 @@ flags: ["movablekeys", "readonly"]
 acl_categories: ["read", "set", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ SDIFFCARD numkeys key [key ...] [LIMIT limit]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@set`, `@slow`
 <!-- generated: end -->
-## Description
+Returns how many members the difference of the given sets has, without returning them: a command of Redis 8.10. `numkeys` is how many keys follow. `LIMIT limit` stops counting at `limit`.
 
-Return the cardinality of the difference between the first set and the others (Redis 8.10)
+## Reply
+
+- The count.
+
+## Examples
+
+```
+> SADD x a b c d
+(integer) 4
+> SADD y c d e
+(integer) 3
+> SDIFFCARD 2 x y
+(integer) 2
+```

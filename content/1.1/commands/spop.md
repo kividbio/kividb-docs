@@ -1,6 +1,6 @@
 ---
 title: "SPOP"
-description: "Remove and return one or more random members"
+description: "Removes and returns members of the set at key, picked at random."
 version: "1.1"
 command: "SPOP"
 syntax: "SPOP key [count]"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "set", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,23 @@ SPOP key [count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@set`, `@write`
 <!-- generated: end -->
-## Description
+Removes and returns members of the set at `key`, picked at random. A set left empty is deleted.
 
-Remove and return one or more random members
+## Reply
+
+- Without `count`: a member, or `nil` if the key does not exist.
+- With `count`: an array of up to `count` members; empty if the key does not exist.
+
+## Examples
+
+```
+> SADD s a b c
+(integer) 3
+> SPOP s
+"c"
+> SPOP s 5
+1) "b"
+2) "a"
+> EXISTS s
+(integer) 0
+```

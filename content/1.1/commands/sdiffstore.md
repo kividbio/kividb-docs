@@ -1,6 +1,6 @@
 ---
 title: "SDIFFSTORE"
-description: "Store the diff result in destination, replacing whatever was there (and its TTL); returns count of members stored."
+description: "Stores the difference of the given sets, as SDIFF computes it, at destination, replacing whatever was there, and its expiry."
 version: "1.1"
 command: "SDIFFSTORE"
 syntax: "SDIFFSTORE destination key [key ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["set", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,23 @@ SDIFFSTORE destination key [key ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@set`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Stores the difference of the given sets, as [`SDIFF`](sdiff.md) computes it, at `destination`, replacing whatever was there, and its expiry. An empty result leaves no key at `destination`.
 
-Store the diff result in destination, replacing whatever was there (and its TTL); returns count of members stored. An empty result leaves no destination key — likewise for `SINTERSTORE` and `SUNIONSTORE`
+## Reply
+
+- The number of members stored.
+
+## Examples
+
+```
+> SADD x a b c d
+(integer) 4
+> SADD y c d e
+(integer) 3
+> SDIFFSTORE d x y
+(integer) 2
+> SDIFFSTORE empty x x
+(integer) 0
+> EXISTS empty
+(integer) 0
+```

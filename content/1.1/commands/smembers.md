@@ -1,6 +1,6 @@
 ---
 title: "SMEMBERS"
-description: "Return all members; order is not guaranteed"
+description: "Returns every member of the set at key, in no particular order."
 version: "1.1"
 command: "SMEMBERS"
 syntax: "SMEMBERS key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "set", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ SMEMBERS key
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@set`, `@slow`
 <!-- generated: end -->
-## Description
+Returns every member of the set at `key`, in no particular order.
 
-Return all members; order is not guaranteed
+## Reply
+
+- An array of members; empty if the key does not exist.
+
+## Examples
+
+```
+> SADD s a b c
+(integer) 3
+> SMEMBERS s
+1) "b"
+2) "a"
+3) "c"
+```

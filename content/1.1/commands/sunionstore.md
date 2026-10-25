@@ -1,6 +1,6 @@
 ---
 title: "SUNIONSTORE"
-description: "Store the union in destination; returns count of members stored"
+description: "Stores the union of the given sets at destination, replacing whatever was there, and its expiry."
 version: "1.1"
 command: "SUNIONSTORE"
 syntax: "SUNIONSTORE destination key [key ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["set", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ SUNIONSTORE destination key [key ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@set`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Stores the union of the given sets at `destination`, replacing whatever was there, and its expiry. An empty result leaves no key at `destination`.
 
-Store the union in destination; returns count of members stored
+## Reply
+
+- The number of members stored.
+
+## Examples
+
+```
+> SADD x a b c d
+(integer) 4
+> SADD y c d e
+(integer) 3
+> SUNIONSTORE u x y
+(integer) 5
+```

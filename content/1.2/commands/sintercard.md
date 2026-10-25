@@ -1,6 +1,6 @@
 ---
 title: "SINTERCARD"
-description: "Return the cardinality of the intersection; LIMIT caps the count"
+description: "Returns how many members the intersection of the given sets has, without returning them."
 version: "1.2"
 command: "SINTERCARD"
 syntax: "SINTERCARD numkeys key [key ...] [LIMIT limit]"
@@ -11,7 +11,7 @@ flags: ["movablekeys", "readonly"]
 acl_categories: ["read", "set", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,21 @@ SINTERCARD numkeys key [key ...] [LIMIT limit]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@set`, `@slow`
 <!-- generated: end -->
-## Description
+Returns how many members the intersection of the given sets has, without returning them. `numkeys` is how many keys follow. `LIMIT limit` stops counting at `limit`, which is faster when only a minimum matters.
 
-Return the cardinality of the intersection; LIMIT caps the count
+## Reply
+
+- The count.
+
+## Examples
+
+```
+> SADD x a b c d
+(integer) 4
+> SADD y c d e
+(integer) 3
+> SINTERCARD 2 x y
+(integer) 2
+> SINTERCARD 2 x y LIMIT 1
+(integer) 1
+```

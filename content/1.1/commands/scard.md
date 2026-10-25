@@ -1,6 +1,6 @@
 ---
 title: "SCARD"
-description: "Return the number of members; 0 if key missing"
+description: "Returns the number of members of the set at key."
 version: "1.1"
 command: "SCARD"
 syntax: "SCARD key"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "read", "set"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ SCARD key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@read`, `@set`
 <!-- generated: end -->
-## Description
+Returns the number of members of the set at `key`.
 
-Return the number of members; 0 if key missing
+## Reply
+
+- The count; `0` if the key does not exist.
+
+## Examples
+
+```
+> SADD s a b c
+(integer) 3
+> SCARD s
+(integer) 3
+```

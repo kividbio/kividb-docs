@@ -296,25 +296,25 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`SADD`](sadd.md) | Add one or more members; returns count of new members added | 1.1.0 |
-| [`SCARD`](scard.md) | Return the number of members; 0 if key missing | 1.1.0 |
-| [`SDIFF`](sdiff.md) | Return members in the first set not present in any subsequent set. | 1.1.0 |
-| [`SDIFFCARD`](sdiffcard.md) | Return the cardinality of the difference between the first set and the others (Redis 8.10) | 1.1.0 |
-| [`SDIFFSTORE`](sdiffstore.md) | Store the diff result in destination, replacing whatever was there (and its TTL); returns count of members stored. | 1.1.0 |
-| [`SINTER`](sinter.md) | Return members present in all given sets | 1.1.0 |
-| [`SINTERCARD`](sintercard.md) | Return the cardinality of the intersection; LIMIT caps the count | 1.1.0 |
-| [`SINTERSTORE`](sinterstore.md) | Store the intersection in destination; returns count of members stored | 1.1.0 |
-| [`SISMEMBER`](sismember.md) | Return 1 if member exists, 0 otherwise | 1.1.0 |
-| [`SMEMBERS`](smembers.md) | Return all members; order is not guaranteed | 1.1.0 |
-| [`SMISMEMBER`](smismember.md) | Return an array of 1/0 for each member | 1.1.0 |
-| [`SMOVE`](smove.md) | Move a member from source to destination atomically; returns 1 if moved, 0 if not found | 1.1.0 |
-| [`SPOP`](spop.md) | Remove and return one or more random members | 1.1.0 |
-| [`SRANDMEMBER`](srandmember.md) | Return random members without removing; negative count allows repeats | 1.1.0 |
-| [`SREM`](srem.md) | Remove one or more members; returns count actually removed | 1.1.0 |
-| [`SSCAN`](sscan.md) | Incrementally iterate members; cursor 0 begins and ends a full iteration. | 1.1.0 |
-| [`SUNION`](sunion.md) | Return all members from all given sets combined | 1.1.0 |
-| [`SUNIONCARD`](sunioncard.md) | Return the cardinality of the union without building it for the client (Redis 8.10); LIMIT stops counting once it is reached. | 1.1.0 |
-| [`SUNIONSTORE`](sunionstore.md) | Store the union in destination; returns count of members stored | 1.1.0 |
+| [`SADD`](sadd.md) | Adds members to the set at key. | 1.1.0 |
+| [`SCARD`](scard.md) | Returns the number of members of the set at key. | 1.1.0 |
+| [`SDIFF`](sdiff.md) | Returns the members of the first set that are in none of the others. | 1.1.0 |
+| [`SDIFFCARD`](sdiffcard.md) | Returns how many members the difference of the given sets has, without returning them: a command of Redis 8.10. | 1.1.0 |
+| [`SDIFFSTORE`](sdiffstore.md) | Stores the difference of the given sets, as SDIFF computes it, at destination, replacing whatever was there, and its expiry. | 1.1.0 |
+| [`SINTER`](sinter.md) | Returns the members that are in every one of the given sets. | 1.1.0 |
+| [`SINTERCARD`](sintercard.md) | Returns how many members the intersection of the given sets has, without returning them. | 1.1.0 |
+| [`SINTERSTORE`](sinterstore.md) | Stores the intersection of the given sets, as SINTER computes it, at destination, replacing whatever was there, and its expiry. | 1.1.0 |
+| [`SISMEMBER`](sismember.md) | Tells whether member is in the set at key. | 1.1.0 |
+| [`SMEMBERS`](smembers.md) | Returns every member of the set at key, in no particular order. | 1.1.0 |
+| [`SMISMEMBER`](smismember.md) | Tells, for each of several members, whether it is in the set at key. | 1.1.0 |
+| [`SMOVE`](smove.md) | Moves member from the set at source to the set at destination, in one step. | 1.1.0 |
+| [`SPOP`](spop.md) | Removes and returns members of the set at key, picked at random. | 1.1.0 |
+| [`SRANDMEMBER`](srandmember.md) | Returns members of the set at key, picked at random, without removing them. | 1.1.0 |
+| [`SREM`](srem.md) | Removes members from the set at key. | 1.1.0 |
+| [`SSCAN`](sscan.md) | Goes through the members of the set at key a page at a time, as SCAN goes through keys. | 1.1.0 |
+| [`SUNION`](sunion.md) | Returns the members that are in any of the given sets. | 1.1.0 |
+| [`SUNIONCARD`](sunioncard.md) | Returns how many members the union of the given sets has, without returning them: a command of Redis 8.10. | 1.1.0 |
+| [`SUNIONSTORE`](sunionstore.md) | Stores the union of the given sets at destination, replacing whatever was there, and its expiry. | 1.1.0 |
 
 ## Sorted set
 
