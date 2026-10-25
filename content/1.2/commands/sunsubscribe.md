@@ -1,6 +1,6 @@
 ---
 title: "SUNSUBSCRIBE"
-description: "Unsubscribe from shard channels."
+description: "Unsubscribes this connection from shard channels, or from all of them if none is given."
 version: "1.2"
 command: "SUNSUBSCRIBE"
 syntax: "SUNSUBSCRIBE [shardchannel ...]"
@@ -11,7 +11,7 @@ flags: ["pubsub"]
 acl_categories: ["pubsub", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ SUNSUBSCRIBE [shardchannel ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@pubsub`, `@slow`
 <!-- generated: end -->
-## Description
+Unsubscribes this connection from shard channels, or from all of them if none is given.
 
-Unsubscribe from shard channels. With no arguments, unsubscribes from all shard channels
+## Reply
+
+- For each shard channel, an acknowledgement: `sunsubscribe`, the channel, and how many shard subscriptions are left.
+
+## Examples
+
+```
+> SUNSUBSCRIBE
+1) "sunsubscribe"
+2) "orders"
+3) (integer) 0
+```

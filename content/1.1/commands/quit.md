@@ -1,6 +1,6 @@
 ---
 title: "QUIT"
-description: "Close the connection cleanly"
+description: "Asks the server to close the connection, after replying OK."
 version: "1.1"
 command: "QUIT"
 syntax: "QUIT"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["connection", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,8 +23,4 @@ QUIT
 
 **Available since:** 1.1.0 · **ACL categories:** `@connection`, `@slow`
 <!-- generated: end -->
-## Description
-
-Close the connection cleanly
-
-Close the connection
+Asks the server to close the connection, after replying `OK`. Clients usually close it themselves instead.

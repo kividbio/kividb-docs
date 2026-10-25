@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB SHARDCHANNELS"
-description: "Return active shard channels."
+description: "Returns the shard channels with at least one subscriber, or those matching a glob-style pattern."
 version: "1.1"
 command: "PUBSUB SHARDCHANNELS"
 syntax: "PUBSUB SHARDCHANNELS [pattern]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "PUBSUB"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ PUBSUB SHARDCHANNELS [pattern]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the shard channels with at least one subscriber, or those matching a glob-style pattern.
 
-Return active shard channels. Optional glob pattern to filter
+## Examples
+
+```
+> PUBSUB SHARDCHANNELS
+1) "orders"
+```

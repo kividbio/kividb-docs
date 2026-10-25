@@ -1,6 +1,6 @@
 ---
 title: "PSUBSCRIBE"
-description: "Subscribe to all channels matching a glob pattern."
+description: "Subscribes this connection to every channel matching a glob-style pattern."
 version: "1.2"
 command: "PSUBSCRIBE"
 syntax: "PSUBSCRIBE pattern [pattern ...]"
@@ -11,7 +11,7 @@ flags: ["pubsub"]
 acl_categories: ["pubsub", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,26 @@ PSUBSCRIBE pattern [pattern ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@pubsub`, `@slow`
 <!-- generated: end -->
-## Description
+Subscribes this connection to every channel matching a glob-style pattern. A message to a matching channel arrives as a four-element array: `pmessage`, the pattern, the channel it was sent to, the message.
 
-Subscribe to all channels matching a glob pattern. Messages are delivered as `["pmessage", pattern, channel, payload]` — note the 4-element format vs the 3-element `message` format
+## Reply
+
+- For each pattern, an acknowledgement: `psubscribe`, the pattern, and how many subscriptions the connection now has.
+
+## Examples
+
+```
+> PSUBSCRIBE n*
+1) "psubscribe"
+2) "n*"
+3) (integer) 1
+```
+
+After another client's `PUBLISH news hello`:
+
+```
+1) "pmessage"
+2) "n*"
+3) "news"
+4) "hello"
+```

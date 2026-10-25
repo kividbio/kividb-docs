@@ -1,6 +1,6 @@
 ---
 title: "PUBLISH"
-description: "Post a message to a channel."
+description: "Sends message to every client subscribed to channel, with SUBSCRIBE, or to a pattern that matches it, with PSUBSCRIBE."
 version: "1.2"
 command: "PUBLISH"
 syntax: "PUBLISH channel message"
@@ -11,7 +11,7 @@ flags: ["fast", "pubsub"]
 acl_categories: ["fast", "pubsub"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,23 @@ PUBLISH channel message
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@pubsub`
 <!-- generated: end -->
-## Description
+Sends `message` to every client subscribed to `channel`, with [`SUBSCRIBE`](subscribe.md), or to a pattern that matches it, with [`PSUBSCRIBE`](psubscribe.md). Messages are not stored: a client that is not subscribed when one is sent never gets it.
 
-Post a message to a channel. Delivered to all `SUBSCRIBE` subscribers and all `PSUBSCRIBE` subscribers whose pattern matches the channel. Returns the total number of clients that received the message
+## Reply
+
+- The number of clients that got the message. A client subscribed both to the channel and to a matching pattern gets it, and is counted, twice.
+
+## Examples
+
+```
+client 1> SUBSCRIBE news
+1) "subscribe"
+2) "news"
+3) (integer) 1
+client 2> PUBLISH news hello
+(integer) 1
+client 1>
+1) "message"
+2) "news"
+3) "hello"
+```

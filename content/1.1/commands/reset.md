@@ -1,6 +1,6 @@
 ---
 title: "RESET"
-description: "Unsubscribe from everything and put the connection back as it was when it was opened: no transaction or watches, database 0, RESP2, no name, no tracking, and the default user if that needs no password"
+description: "Puts the connection back as it was when it was opened: unsubscribed from everything, out of any transaction and with no keys watched, on database 0, speaking RESP2, with no name and no client-side ca…"
 version: "1.1"
 command: "RESET"
 syntax: "RESET"
@@ -11,7 +11,7 @@ flags: ["pubsub"]
 acl_categories: ["connection", "pubsub", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ RESET
 
 **Available since:** 1.1.0 · **ACL categories:** `@connection`, `@pubsub`, `@slow`
 <!-- generated: end -->
-## Description
+Puts the connection back as it was when it was opened: unsubscribed from everything, out of any transaction and with no keys watched, on database 0, speaking RESP2, with no name and no client-side caching, and authenticated as the `default` user if that user needs no password.
 
-Unsubscribe from everything and put the connection back as it was when it was opened: no transaction or watches, database 0, RESP2, no name, no tracking, and the `default` user if that needs no password
+## Reply
+
+- `RESET`.
+
+## Examples
+
+```
+> RESET
+RESET
+```

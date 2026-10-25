@@ -1,6 +1,6 @@
 ---
 title: "WATCH"
-description: "Mark keys for optimistic locking; must be called before MULTI"
+description: "Watches keys for the next transaction on this connection: if any of them is changed, by any client, before EXEC, the transaction runs nothing and EXEC replies nil."
 version: "1.1"
 command: "WATCH"
 syntax: "WATCH key [key ...]"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "transaction"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,30 @@ WATCH key [key ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@transaction`
 <!-- generated: end -->
-## Description
+Watches keys for the next transaction on this connection: if any of them is changed, by any client, before [`EXEC`](exec.md), the transaction runs nothing and `EXEC` replies `nil`. This is optimistic locking: read, decide, and write only if nothing changed meanwhile, or try again.
 
-Mark keys for optimistic locking; must be called before `MULTI`
+Of two transactions racing on a watched key, the second always sees the first's write. Keys stop being watched at `EXEC`, `DISCARD` or [`UNWATCH`](unwatch.md).
+
+## Reply
+
+- `OK`.
+- `ERR WATCH inside MULTI is not allowed`.
+
+## Examples
+
+```
+client 1> SET bal 100
+OK
+client 1> WATCH bal
+OK
+client 1> MULTI
+OK
+client 1> DECRBY bal 10
+QUEUED
+client 2> SET bal 50
+OK
+client 1> EXEC
+(nil)
+client 1> GET bal
+"50"
+```

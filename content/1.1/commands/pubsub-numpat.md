@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB NUMPAT"
-description: "Return the total number of active pattern subscriptions across all clients"
+description: "Returns how many pattern subscriptions there are, from all clients together."
 version: "1.1"
 command: "PUBSUB NUMPAT"
 syntax: "PUBSUB NUMPAT"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "PUBSUB"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ PUBSUB NUMPAT
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns how many pattern subscriptions there are, from all clients together.
 
-Return the total number of active pattern subscriptions across all clients
+## Examples
+
+```
+> PUBSUB NUMPAT
+(integer) 1
+```

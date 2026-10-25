@@ -232,18 +232,18 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`PING`](ping.md) | In subscriber mode returns ["pong", message] (a 2-element array), not +PONG. | 1.1.0 |
-| [`PSUBSCRIBE`](psubscribe.md) | Subscribe to all channels matching a glob pattern. | 1.1.0 |
-| [`PUBLISH`](publish.md) | Post a message to a channel. | 1.1.0 |
-| [`PUBSUB`](pubsub.md) | PUBSUB and its subcommands. | 1.1.0 |
-| [`PUNSUBSCRIBE`](punsubscribe.md) | Unsubscribe from patterns. | 1.1.0 |
-| [`QUIT`](quit.md) | Close the connection cleanly | 1.1.0 |
-| [`RESET`](reset.md) | Unsubscribe from everything and put the connection back as it was when it was opened: no transaction or watches, database 0, RESP2, no name, no tracking, and the default user if that needs no password | 1.1.0 |
-| [`SPUBLISH`](spublish.md) | Post a message to a shard channel. | 1.1.0 |
-| [`SSUBSCRIBE`](ssubscribe.md) | Subscribe to one or more shard channels. | 1.1.0 |
-| [`SUBSCRIBE`](subscribe.md) | Subscribe to one or more channels. | 1.1.0 |
-| [`SUNSUBSCRIBE`](sunsubscribe.md) | Unsubscribe from shard channels. | 1.1.0 |
-| [`UNSUBSCRIBE`](unsubscribe.md) | Unsubscribe from channels. | 1.1.0 |
+| [`PING`](ping.md) | Checks that the server answers. | 1.1.0 |
+| [`PSUBSCRIBE`](psubscribe.md) | Subscribes this connection to every channel matching a glob-style pattern. | 1.1.0 |
+| [`PUBLISH`](publish.md) | Sends message to every client subscribed to channel, with SUBSCRIBE, or to a pattern that matches it, with PSUBSCRIBE. | 1.1.0 |
+| [`PUBSUB`](pubsub.md) | Reports on the channels and patterns clients are subscribed to. | 1.1.0 |
+| [`PUNSUBSCRIBE`](punsubscribe.md) | Unsubscribes this connection from patterns, or from all of them if none is given. | 1.1.0 |
+| [`QUIT`](quit.md) | Asks the server to close the connection, after replying OK. | 1.1.0 |
+| [`RESET`](reset.md) | Puts the connection back as it was when it was opened: unsubscribed from everything, out of any transaction and with no keys watched, on database 0, speaking RESP2, with no name and no client-side ca… | 1.1.0 |
+| [`SPUBLISH`](spublish.md) | Sends message to the clients subscribed to the shard channel shardchannel with SSUBSCRIBE. | 1.1.0 |
+| [`SSUBSCRIBE`](ssubscribe.md) | Subscribes this connection to shard channels. | 1.1.0 |
+| [`SUBSCRIBE`](subscribe.md) | Subscribes this connection to channels. | 1.1.0 |
+| [`SUNSUBSCRIBE`](sunsubscribe.md) | Unsubscribes this connection from shard channels, or from all of them if none is given. | 1.1.0 |
+| [`UNSUBSCRIBE`](unsubscribe.md) | Unsubscribes this connection from channels, or from all of them if none is given. | 1.1.0 |
 
 ## Scripting
 
@@ -441,11 +441,11 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`DISCARD`](discard.md) | Discard all queued commands and exit transaction mode | 1.1.0 |
-| [`EXEC`](exec.md) | Execute all queued commands atomically; returns nil if a WATCHed key was modified | 1.1.0 |
-| [`MULTI`](multi.md) | Begin a transaction; subsequent commands are queued and return +QUEUED | 1.1.0 |
-| [`UNWATCH`](unwatch.md) | Clear all watched keys for the current connection | 1.1.0 |
-| [`WATCH`](watch.md) | Mark keys for optimistic locking; must be called before MULTI | 1.1.0 |
+| [`DISCARD`](discard.md) | Drops the commands queued since MULTI, ends the transaction, and stops watching keys. | 1.1.0 |
+| [`EXEC`](exec.md) | Runs the commands queued since MULTI, as one step: no other client's command that could see their keys starts between two of them, reads included, so nobody sees the transaction half done. | 1.1.0 |
+| [`MULTI`](multi.md) | Starts a transaction on this connection. | 1.1.0 |
+| [`UNWATCH`](unwatch.md) | Stops watching every key this connection watches. | 1.1.0 |
+| [`WATCH`](watch.md) | Watches keys for the next transaction on this connection: if any of them is changed, by any client, before EXEC, the transaction runs nothing and EXEC replies nil. | 1.1.0 |
 
 ## Vector search
 

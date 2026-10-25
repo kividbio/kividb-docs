@@ -1,6 +1,6 @@
 ---
 title: "UNSUBSCRIBE"
-description: "Unsubscribe from channels."
+description: "Unsubscribes this connection from channels, or from all of them if none is given."
 version: "1.1"
 command: "UNSUBSCRIBE"
 syntax: "UNSUBSCRIBE [channel ...]"
@@ -11,7 +11,7 @@ flags: ["pubsub"]
 acl_categories: ["pubsub", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ UNSUBSCRIBE [channel ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@pubsub`, `@slow`
 <!-- generated: end -->
-## Description
+Unsubscribes this connection from channels, or from all of them if none is given.
 
-Unsubscribe from channels. With no arguments, unsubscribes from all channels. Each unsubscription sends an ack: `["unsubscribe", channel, remaining_count]`
+## Reply
+
+- For each channel, an acknowledgement: `unsubscribe`, the channel, and how many subscriptions the connection has left. At `0`, the connection can send any command again.
+
+## Examples
+
+```
+> UNSUBSCRIBE news
+1) "unsubscribe"
+2) "news"
+3) (integer) 2
+```

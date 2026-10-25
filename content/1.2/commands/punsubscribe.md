@@ -1,6 +1,6 @@
 ---
 title: "PUNSUBSCRIBE"
-description: "Unsubscribe from patterns."
+description: "Unsubscribes this connection from patterns, or from all of them if none is given."
 version: "1.2"
 command: "PUNSUBSCRIBE"
 syntax: "PUNSUBSCRIBE [pattern ...]"
@@ -11,7 +11,7 @@ flags: ["pubsub"]
 acl_categories: ["pubsub", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ PUNSUBSCRIBE [pattern ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@pubsub`, `@slow`
 <!-- generated: end -->
-## Description
+Unsubscribes this connection from patterns, or from all of them if none is given.
 
-Unsubscribe from patterns. With no arguments, unsubscribes from all patterns
+## Reply
+
+- For each pattern, an acknowledgement: `punsubscribe`, the pattern, and how many subscriptions the connection has left.
+
+## Examples
+
+```
+> PUNSUBSCRIBE
+1) "punsubscribe"
+2) "n*"
+3) (integer) 1
+```

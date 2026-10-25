@@ -1,6 +1,6 @@
 ---
 title: "PING"
-description: "In subscriber mode returns [\"pong\", message] (a 2-element array), not +PONG."
+description: "Checks that the server answers."
 version: "1.1"
 command: "PING"
 syntax: "PING [message]"
@@ -11,7 +11,7 @@ flags: ["fast"]
 acl_categories: ["connection", "fast"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,8 +23,23 @@ PING [message]
 
 **Available since:** 1.1.0 · **ACL categories:** `@connection`, `@fast`
 <!-- generated: end -->
-## Description
+Checks that the server answers. On a subscribed connection it replies the way subscribers' messages are replied, as an array.
 
-In subscriber mode returns `["pong", message]` (a 2-element array), not `+PONG`. This is the standard Redis subscriber-mode PING behaviour
+## Reply
 
-With no argument returns `PONG`. With a message returns that message as a **bulk string** (Redis echo semantics). Subscriber mode still uses the Pub/Sub array reply
+- `PONG`, or `message` if one is given.
+- On a subscribed connection: `["pong", ""]`, or `["pong", message]`.
+
+## Examples
+
+```
+> PING
+PONG
+> PING hi
+"hi"
+> SUBSCRIBE news
+...
+> PING hi
+1) "pong"
+2) "hi"
+```

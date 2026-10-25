@@ -1,6 +1,6 @@
 ---
 title: "DISCARD"
-description: "Discard all queued commands and exit transaction mode"
+description: "Drops the commands queued since MULTI, ends the transaction, and stops watching keys."
 version: "1.2"
 command: "DISCARD"
 syntax: "DISCARD"
@@ -11,7 +11,7 @@ flags: ["fast"]
 acl_categories: ["fast", "transaction"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,22 @@ DISCARD
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@transaction`
 <!-- generated: end -->
-## Description
+Drops the commands queued since [`MULTI`](multi.md), ends the transaction, and stops watching keys.
 
-Discard all queued commands and exit transaction mode
+## Reply
+
+- `OK`.
+- `ERR DISCARD without MULTI` outside a transaction.
+
+## Examples
+
+```
+> MULTI
+OK
+> SET z 1
+QUEUED
+> DISCARD
+OK
+> EXISTS z
+(integer) 0
+```

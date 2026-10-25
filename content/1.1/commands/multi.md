@@ -1,6 +1,6 @@
 ---
 title: "MULTI"
-description: "Begin a transaction; subsequent commands are queued and return +QUEUED"
+description: "Starts a transaction on this connection."
 version: "1.1"
 command: "MULTI"
 syntax: "MULTI"
@@ -11,7 +11,7 @@ flags: ["fast"]
 acl_categories: ["fast", "transaction"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,23 @@ MULTI
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@transaction`
 <!-- generated: end -->
-## Description
+Starts a transaction on this connection. The commands that follow are not run but queued, each replying `QUEUED`, until [`EXEC`](exec.md) runs them all or [`DISCARD`](discard.md) drops them.
 
-Begin a transaction; subsequent commands are queued and return `+QUEUED`
+## Reply
+
+- `OK`.
+- `ERR MULTI calls can not be nested` inside a transaction.
+
+## Examples
+
+```
+> MULTI
+OK
+> SET k v
+QUEUED
+> INCR counter
+QUEUED
+> EXEC
+1) OK
+2) (integer) 1
+```

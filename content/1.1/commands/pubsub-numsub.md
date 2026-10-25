@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB NUMSUB"
-description: "Return subscriber counts for the given channels as alternating channel, count pairs"
+description: "Returns how many clients are subscribed to each of the given channels, not counting pattern subscriptions."
 version: "1.1"
 command: "PUBSUB NUMSUB"
 syntax: "PUBSUB NUMSUB [channel ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "PUBSUB"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,14 @@ PUBSUB NUMSUB [channel ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns how many clients are subscribed to each of the given channels, not counting pattern subscriptions.
 
-Return subscriber counts for the given channels as alternating `channel, count` pairs
+## Examples
+
+```
+> PUBSUB NUMSUB news x
+1) "news"
+2) (integer) 1
+3) "x"
+4) (integer) 0
+```

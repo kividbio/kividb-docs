@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB CHANNELS"
-description: "Return the list of active channels (those with at least one subscriber)."
+description: "Returns the channels with at least one subscriber, or those matching a glob-style pattern."
 version: "1.2"
 command: "PUBSUB CHANNELS"
 syntax: "PUBSUB CHANNELS [pattern]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "PUBSUB"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,14 @@ PUBSUB CHANNELS [pattern]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the channels with at least one subscriber, or those matching a glob-style pattern. Pattern subscriptions are not counted.
 
-Return the list of active channels (those with at least one subscriber). Optional glob pattern to filter
+## Examples
+
+```
+> PUBSUB CHANNELS
+1) "news"
+2) "sport"
+> PUBSUB CHANNELS s*
+1) "sport"
+```
