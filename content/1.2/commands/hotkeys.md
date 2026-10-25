@@ -1,6 +1,6 @@
 ---
 title: "HOTKEYS"
-description: "HOTKEYS and its subcommands."
+description: "Finds the keys that use the most CPU time, or the most network bytes, during a session started with HOTKEYS START."
 version: "1.2"
 command: "HOTKEYS"
 syntax: "HOTKEYS"
@@ -12,7 +12,7 @@ acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 subcommands: ["HOTKEYS GET", "HOTKEYS HELP", "HOTKEYS RESET", "HOTKEYS START", "HOTKEYS STOP"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ HOTKEYS
 
 Subcommands: [HOTKEYS GET](hotkeys-get.md), [HOTKEYS HELP](hotkeys-help.md), [HOTKEYS RESET](hotkeys-reset.md), [HOTKEYS START](hotkeys-start.md), [HOTKEYS STOP](hotkeys-stop.md)
 <!-- generated: end -->
+Finds the keys that use the most CPU time, or the most network bytes, during a session started with [`HOTKEYS START`](hotkeys-start.md). See its subcommands.

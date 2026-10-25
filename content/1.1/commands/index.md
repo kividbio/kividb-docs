@@ -216,9 +216,9 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`HOTKEYS`](hotkeys.md) | HOTKEYS and its subcommands. | 1.1.0 |
-| [`LATENCY`](latency.md) | LATENCY and its subcommands. | 1.1.0 |
-| [`SLOWLOG`](slowlog.md) | SLOWLOG and its subcommands. | 1.1.0 |
+| [`HOTKEYS`](hotkeys.md) | Finds the keys that use the most CPU time, or the most network bytes, during a session started with HOTKEYS START. | 1.1.0 |
+| [`LATENCY`](latency.md) | The latency monitor: it records, for each kind of event, the times it took longer than latency-monitor-threshold milliseconds, which is 0, off, by default. | 1.1.0 |
+| [`SLOWLOG`](slowlog.md) | The slow log: the commands that took longer than slowlog-log-slower-than microseconds to run, up to slowlog-max-len entries (128 by default). | 1.1.0 |
 
 ## Other
 

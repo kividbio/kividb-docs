@@ -1,6 +1,6 @@
 ---
 title: "HOTKEYS HELP"
-description: "The HOTKEYS HELP command."
+description: "Lists the HOTKEYS subcommands and what each does."
 version: "1.1"
 command: "HOTKEYS HELP"
 syntax: "HOTKEYS HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "HOTKEYS"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ HOTKEYS HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `HOTKEYS` subcommands and what each does.

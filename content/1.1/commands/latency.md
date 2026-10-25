@@ -1,6 +1,6 @@
 ---
 title: "LATENCY"
-description: "LATENCY and its subcommands."
+description: "The latency monitor: it records, for each kind of event, the times it took longer than latency-monitor-threshold milliseconds, which is 0, off, by default."
 version: "1.1"
 command: "LATENCY"
 syntax: "LATENCY"
@@ -12,7 +12,7 @@ acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 subcommands: ["LATENCY DOCTOR", "LATENCY GRAPH", "LATENCY HELP", "LATENCY HISTOGRAM", "LATENCY HISTORY", "LATENCY LATEST", "LATENCY RESET"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ LATENCY
 
 Subcommands: [LATENCY DOCTOR](latency-doctor.md), [LATENCY GRAPH](latency-graph.md), [LATENCY HELP](latency-help.md), [LATENCY HISTOGRAM](latency-histogram.md), [LATENCY HISTORY](latency-history.md), [LATENCY LATEST](latency-latest.md), [LATENCY RESET](latency-reset.md)
 <!-- generated: end -->
+The latency monitor: it records, for each kind of event, the times it took longer than `latency-monitor-threshold` milliseconds, which is `0`, off, by default. Events include `command` (a slow command), `fast-command` (a slow `O(1)` or `O(log N)` one), and `expire-cycle` (expiring keys in the background). See its subcommands.

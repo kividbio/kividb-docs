@@ -1,6 +1,6 @@
 ---
 title: "LATENCY DOCTOR"
-description: "Return a human-readable diagnostic report."
+description: "Reports, in words, the events whose latest samples were slow: as warnings from 100 ms, as critical from 500 ms."
 version: "1.2"
 command: "LATENCY DOCTOR"
 syntax: "LATENCY DOCTOR"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "LATENCY"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ LATENCY DOCTOR
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Reports, in words, the events whose latest samples were slow: as warnings from 100 ms, as critical from 500 ms. With nothing to report, it says so as Redis does.
 
-Return a human-readable diagnostic report. Flags events whose latest sample exceeds warning (≥100ms) or critical (≥500ms) thresholds. Returns Redis's exact clean-bill-of-health message when no issues are detected
+## Examples
+
+```
+> LATENCY DOCTOR
+Dave, I have observed the system for some time and I have no problem to report.
+```

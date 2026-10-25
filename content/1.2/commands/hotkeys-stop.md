@@ -1,6 +1,6 @@
 ---
 title: "HOTKEYS STOP"
-description: "Stop the session; its results stay available"
+description: "Stops the session."
 version: "1.2"
 command: "HOTKEYS STOP"
 syntax: "HOTKEYS STOP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "HOTKEYS"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ HOTKEYS STOP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Stop the session; its results stay available
+Stops the session. Its results stay, for [`HOTKEYS GET`](hotkeys-get.md).

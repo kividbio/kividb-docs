@@ -1,6 +1,6 @@
 ---
 title: "HOTKEYS RESET"
-description: "Discard a stopped session's results"
+description: "Discards a stopped session's results."
 version: "1.1"
 command: "HOTKEYS RESET"
 syntax: "HOTKEYS RESET"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "HOTKEYS"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ HOTKEYS RESET
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Discard a stopped session's results
+Discards a stopped session's results.

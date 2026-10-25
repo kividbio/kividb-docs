@@ -1,6 +1,6 @@
 ---
 title: "SLOWLOG LEN"
-description: "Return the current number of entries in the log"
+description: "Returns how many entries the slow log holds."
 version: "1.1"
 command: "SLOWLOG LEN"
 syntax: "SLOWLOG LEN"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "SLOWLOG"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ SLOWLOG LEN
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns how many entries the slow log holds.
 
-Return the current number of entries in the log
+## Examples
+
+```
+> SLOWLOG LEN
+(integer) 2
+```

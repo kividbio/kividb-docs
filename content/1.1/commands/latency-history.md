@@ -1,6 +1,6 @@
 ---
 title: "LATENCY HISTORY"
-description: "Return all stored samples for event in chronological order as [[timestamp_secs, latency_ms], ...]."
+description: "Returns an event's samples, oldest first, each the Unix time and the milliseconds; an empty array for an event with none."
 version: "1.1"
 command: "LATENCY HISTORY"
 syntax: "LATENCY HISTORY event"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "LATENCY"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,14 @@ LATENCY HISTORY event
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns an event's samples, oldest first, each the Unix time and the milliseconds; an empty array for an event with none.
 
-Return all stored samples for `event` in chronological order as `[[timestamp_secs, latency_ms], ...]`. Returns an empty array for unknown events
+## Examples
+
+```
+> LATENCY HISTORY command
+1) 1) (integer) 1792968201
+   2) (integer) 100
+2) 1) (integer) 1792968201
+   2) (integer) 120
+```

@@ -1,6 +1,6 @@
 ---
 title: "HOTKEYS START"
-description: "Start a session tracking the named metrics; COUNT is how many keys to report per metric, DURATION stops it automatically, SAMPLE tracks one command in ratio, SLOTS restricts it to those hash slots"
+description: "Starts a session that tracks, per key, the metrics named: CPU (CPU time) and NET (network bytes)."
 version: "1.1"
 command: "HOTKEYS START"
 syntax: "HOTKEYS START METRICS count [CPU] [NET] [COUNT k] [DURATION seconds] [SAMPLE ratio] [SLOTS count slot [slot ...]]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "HOTKEYS"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,20 @@ HOTKEYS START METRICS count [CPU] [NET] [COUNT k] [DURATION seconds] [SAMPLE rat
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Starts a session that tracks, per key, the metrics named: `CPU` (CPU time) and `NET` (network bytes). `METRICS count` is how many metrics follow.
 
-Start a session tracking the named metrics; `COUNT` is how many keys to report per metric, `DURATION` stops it automatically, `SAMPLE` tracks one command in `ratio`, `SLOTS` restricts it to those hash slots
+## Options
+
+| Option | Effect |
+|---|---|
+| `COUNT k` | How many keys to report per metric. |
+| `DURATION seconds` | Stop the session by itself after this long. |
+| `SAMPLE ratio` | Track one command in `ratio`, to cost less. |
+| `SLOTS count slot ...` | Track only keys in these hash slots. |
+
+## Examples
+
+```
+> HOTKEYS START METRICS 2 CPU NET COUNT 3
+OK
+```

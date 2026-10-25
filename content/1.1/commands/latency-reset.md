@@ -1,6 +1,6 @@
 ---
 title: "LATENCY RESET"
-description: "Clear all events (no args) or the named ones."
+description: "Clears the samples of every event, or of the events named."
 version: "1.1"
 command: "LATENCY RESET"
 syntax: "LATENCY RESET [event ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "LATENCY"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,15 @@ LATENCY RESET [event ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Clears the samples of every event, or of the events named.
 
-Clear all events (no args) or the named ones. Returns the number of events that had samples to clear
+## Reply
+
+- The number of events that had samples.
+
+## Examples
+
+```
+> LATENCY RESET
+(integer) 2
+```

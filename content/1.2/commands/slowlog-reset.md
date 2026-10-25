@@ -1,6 +1,6 @@
 ---
 title: "SLOWLOG RESET"
-description: "Clear all entries."
+description: "Empties the slow log."
 version: "1.2"
 command: "SLOWLOG RESET"
 syntax: "SLOWLOG RESET"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "SLOWLOG"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ SLOWLOG RESET
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Empties the slow log.
 
-Clear all entries. Returns `OK`
+## Examples
+
+```
+> SLOWLOG RESET
+OK
+```

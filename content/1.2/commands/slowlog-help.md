@@ -1,6 +1,6 @@
 ---
 title: "SLOWLOG HELP"
-description: "The SLOWLOG HELP command."
+description: "Lists the SLOWLOG subcommands and what each does."
 version: "1.2"
 command: "SLOWLOG HELP"
 syntax: "SLOWLOG HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "SLOWLOG"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ SLOWLOG HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `SLOWLOG` subcommands and what each does.

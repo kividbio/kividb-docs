@@ -1,6 +1,6 @@
 ---
 title: "LATENCY LATEST"
-description: "Return the most recent sample for each tracked event as [[event, timestamp_secs, latency_ms], ...]"
+description: "Returns each event's latest sample: the event, the Unix time, and the milliseconds it took."
 version: "1.2"
 command: "LATENCY LATEST"
 syntax: "LATENCY LATEST"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "LATENCY"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,17 @@ LATENCY LATEST
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns each event's latest sample: the event, the Unix time, and the milliseconds it took.
 
-Return the most recent sample for each tracked event as `[[event, timestamp_secs, latency_ms], ...]`
+## Examples
+
+```
+> CONFIG SET latency-monitor-threshold 50
+OK
+> DEBUG SLEEP 0.12
+OK
+> LATENCY LATEST
+1) 1) "command"
+   2) (integer) 1792968201
+   3) (integer) 120
+```

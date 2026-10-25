@@ -1,6 +1,6 @@
 ---
 title: "LATENCY GRAPH"
-description: "Return a UTF-8 sparkline string (up to 80 chars, using ▁▂▃▄▅▆▇█) visualising the history of event."
+description: "Draws an event's samples as a small text chart, with the highest and lowest."
 version: "1.1"
 command: "LATENCY GRAPH"
 syntax: "LATENCY GRAPH event"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "LATENCY"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,21 @@ LATENCY GRAPH event
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Draws an event's samples as a small text chart, with the highest and lowest.
 
-Return a UTF-8 sparkline string (up to 80 chars, using `▁▂▃▄▅▆▇█`) visualising the history of `event`. Returns an error if the event has no samples
+## Reply
+
+- The chart, as a bulk string.
+- `ERR No samples for event '<event>'`.
+
+## Examples
+
+```
+> LATENCY GRAPH command
+command - high 120 ms, low 2 ms (all time high 120 ms)
+--------------------------------------------------------------------------------
+   _#
+   ||
+   ||
+___||_
+```
