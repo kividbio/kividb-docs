@@ -227,7 +227,6 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 | [`BACKUP`](backup.md) | The BACKUP command. | 1.1.0 |
 | [`FAILOVER`](failover.md) | The FAILOVER command. | 1.1.0 |
 | [`MODULE`](module.md) | The MODULE command. | 1.1.0 |
-| [`XIDMPRECORD`](xidmprecord.md) | Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ... | 1.1.1 |
 
 ## Pub sub
 
@@ -369,6 +368,7 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 | [`XDEL`](xdel.md) | Deletes entries from the stream at key by ID. | 1.1.0 |
 | [`XDELEX`](xdelex.md) | Deletes entries from the stream at key, with control over the references consumer groups hold to them (Redis 8.2). | 1.1.0 |
 | [`XGROUP`](xgroup.md) | Creates and manages consumer groups: named readers of a stream that share its entries among their consumers, and track what each consumer has been given and not yet acknowledged. | 1.1.0 |
+| [`XIDMPRECORD`](xidmprecord.md) | Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ... | 1.1.1 |
 | [`XINFO`](xinfo.md) | Reports on a stream, its consumer groups and their consumers. | 1.1.0 |
 | [`XLEN`](xlen.md) | Returns the number of entries in the stream at key. | 1.1.0 |
 | [`XNACK`](xnack.md) | Releases pending entries back to the group without acknowledging them, so that another consumer can take them at once, with XREADGROUP ... | 1.1.0 |

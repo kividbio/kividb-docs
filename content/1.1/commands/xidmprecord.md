@@ -4,7 +4,7 @@ description: "Records that producer producer-id's idempotent ID idempotent-id pr
 version: "1.1"
 command: "XIDMPRECORD"
 syntax: "XIDMPRECORD"
-group: "other"
+group: "stream"
 since: "1.1.1"
 arity: 5
 flags: ["write"]
@@ -12,6 +12,7 @@ acl_categories: ["slow", "stream", "write"]
 history: []
 # generated: end
 status: "reviewed"
+group_override: "stream"
 ---
 
 <!-- generated: start -->
