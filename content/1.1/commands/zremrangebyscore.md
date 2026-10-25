@@ -1,6 +1,6 @@
 ---
 title: "ZREMRANGEBYSCORE"
-description: "Remove members with scores in range"
+description: "Removes the members of the sorted set at key with scores from min to max."
 version: "1.1"
 command: "ZREMRANGEBYSCORE"
 syntax: "ZREMRANGEBYSCORE key min max"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "sortedset", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ ZREMRANGEBYSCORE key min max
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@sortedset`, `@write`
 <!-- generated: end -->
-## Description
+Removes the members of the sorted set at `key` with scores from `min` to `max`. `(` excludes a bound; `-inf` and `+inf` are open ends.
 
-Remove members with scores in range
+## Reply
+
+- The number of members removed.
+
+## Examples
+
+```
+> ZADD rm 3 c 4 d 5 e
+(integer) 3
+> ZREMRANGEBYSCORE rm (3 4
+(integer) 1
+```

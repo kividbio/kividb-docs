@@ -1,6 +1,6 @@
 ---
 title: "ZRANK"
-description: "Return 0-based rank in ascending score order"
+description: "Returns the rank of member in the sorted set at key: its position from the lowest score, starting at 0."
 version: "1.1"
 command: "ZRANK"
 syntax: "ZRANK key member [WITHSCORE]"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "read", "sortedset"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,21 @@ ZRANK key member [WITHSCORE]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@read`, `@sortedset`
 <!-- generated: end -->
-## Description
+Returns the rank of `member` in the sorted set at `key`: its position from the lowest score, starting at `0`. With `WITHSCORE`, the score too.
 
-Return 0-based rank in ascending score order
+## Reply
+
+- The rank; with `WITHSCORE`, an array of the rank and the score.
+- `nil` if the member or the key does not exist.
+
+## Examples
+
+```
+> ZADD z 1 a 2 b 3 c
+(integer) 3
+> ZRANK z b
+(integer) 1
+> ZRANK z b WITHSCORE
+1) (integer) 1
+2) "2"
+```

@@ -1,6 +1,6 @@
 ---
 title: "ZPOPMAX"
-description: "Remove and return highest-scoring members"
+description: "Removes and returns the members with the highest scores in the sorted set at key: one, or count."
 version: "1.2"
 command: "ZPOPMAX"
 syntax: "ZPOPMAX key [count]"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "sortedset", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ ZPOPMAX key [count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@sortedset`, `@write`
 <!-- generated: end -->
-## Description
+Removes and returns the members with the highest scores in the sorted set at `key`: one, or `count`.
 
-Remove and return highest-scoring members
+## Reply
+
+- An array: member, score, member, score, and so on, highest first. Empty if the key does not exist.
+
+## Examples
+
+```
+> ZADD p 2 b 3 c 4 d
+(integer) 3
+> ZPOPMAX p 2
+1) "d"
+2) "4"
+3) "c"
+4) "3"
+```

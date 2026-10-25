@@ -1,6 +1,6 @@
 ---
 title: "ZMPOP"
-description: "Pop from first non-empty sorted set"
+description: "Pops members from the first of the given sorted sets that is not empty: the lowest (MIN) or highest (MAX) scores, one or COUNT count of them."
 version: "1.2"
 command: "ZMPOP"
 syntax: "ZMPOP numkeys key [key ...] MIN|MAX [COUNT count]"
@@ -11,7 +11,7 @@ flags: ["movablekeys", "write"]
 acl_categories: ["slow", "sortedset", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,22 @@ ZMPOP numkeys key [key ...] MIN|MAX [COUNT count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@sortedset`, `@write`
 <!-- generated: end -->
-## Description
+Pops members from the first of the given sorted sets that is not empty: the lowest (`MIN`) or highest (`MAX`) scores, one or `COUNT count` of them. `numkeys` is how many keys follow.
 
-Pop from first non-empty sorted set
+## Reply
+
+- A two-element array: the key, and an array of `[member, score]` pairs.
+- `nil` if every sorted set is empty.
+
+## Examples
+
+```
+> ZADD p 2 b
+(integer) 1
+> ZMPOP 2 empty p MAX
+1) "p"
+2) 1) 1) "b"
+      2) "2"
+> ZMPOP 1 empty MIN
+(nil)
+```

@@ -1,6 +1,6 @@
 ---
 title: "ZINTERSTORE"
-description: "Store ZINTER result"
+description: "Stores what ZINTER would return at destination, replacing whatever was there."
 version: "1.1"
 command: "ZINTERSTORE"
 syntax: "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS ...] [AGGREGATE SUM|MIN|MAX|COUNT]"
@@ -11,7 +11,7 @@ flags: ["movablekeys", "write"]
 acl_categories: ["slow", "sortedset", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ ZINTERSTORE destination numkeys key [key ...] [WEIGHTS ...] [AGGREGATE SUM|MIN|M
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@sortedset`, `@write`
 <!-- generated: end -->
-## Description
+Stores what [`ZINTER`](zinter.md) would return at `destination`, replacing whatever was there.
 
-Store ZINTER result
+## Reply
+
+- The number of members stored.
+
+## Examples
+
+```
+> ZADD s1 1 a 2 b 3 c
+(integer) 3
+> ZADD s2 10 b 20 c 30 d
+(integer) 3
+> ZINTERSTORE out 2 s1 s2
+(integer) 2
+```

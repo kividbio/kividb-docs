@@ -1,6 +1,6 @@
 ---
 title: "ZCARD"
-description: "Return the number of members"
+description: "Returns the number of members of the sorted set at key."
 version: "1.1"
 command: "ZCARD"
 syntax: "ZCARD key"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "read", "sortedset"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ ZCARD key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@read`, `@sortedset`
 <!-- generated: end -->
-## Description
+Returns the number of members of the sorted set at `key`.
 
-Return the number of members
+## Reply
+
+- The count; `0` if the key does not exist.
+
+## Examples
+
+```
+> ZADD z 1 a 2 b
+(integer) 2
+> ZCARD z
+(integer) 2
+```

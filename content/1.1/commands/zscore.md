@@ -1,6 +1,6 @@
 ---
 title: "ZSCORE"
-description: "Return the score of a member, or nil"
+description: "Returns the score of member in the sorted set at key."
 version: "1.1"
 command: "ZSCORE"
 syntax: "ZSCORE key member"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "read", "sortedset"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ ZSCORE key member
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@read`, `@sortedset`
 <!-- generated: end -->
-## Description
+Returns the score of `member` in the sorted set at `key`.
 
-Return the score of a member, or nil
+## Reply
+
+- The score, as a bulk string.
+- `nil` if the member or the key does not exist.
+
+## Examples
+
+```
+> ZADD z 7 a
+(integer) 1
+> ZSCORE z a
+"7"
+> ZSCORE z nope
+(nil)
+```

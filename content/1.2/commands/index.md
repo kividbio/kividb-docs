@@ -320,41 +320,41 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`BZMPOP`](bzmpop.md) | Blocking ZMPOP | 1.1.0 |
-| [`BZPOPMAX`](bzpopmax.md) | Blocking ZPOPMAX; blocks until a member is available | 1.1.0 |
-| [`BZPOPMIN`](bzpopmin.md) | Blocking ZPOPMIN; blocks until a member is available | 1.1.0 |
-| [`ZADD`](zadd.md) | Add or update members with scores; NX=only add new, XX=only update existing, GT/LT=conditional update, CH=return changed count, INCR=treat as increment | 1.1.0 |
-| [`ZCARD`](zcard.md) | Return the number of members | 1.1.0 |
-| [`ZCOUNT`](zcount.md) | Count members with scores in range; supports ( for exclusive bounds and -inf/+inf | 1.1.0 |
-| [`ZDIFF`](zdiff.md) | Return members in first set not in subsequent sets | 1.1.0 |
-| [`ZDIFFSTORE`](zdiffstore.md) | Store ZDIFF result | 1.1.0 |
-| [`ZINCRBY`](zincrby.md) | Increment a member's score; returns new score | 1.1.0 |
-| [`ZINTER`](zinter.md) | Return intersection of sorted sets; AGGREGATE COUNT (Redis 8.8) scores each member by the number of input sets it is in | 1.1.0 |
-| [`ZINTERCARD`](zintercard.md) | Return cardinality of intersection | 1.1.0 |
-| [`ZINTERSTORE`](zinterstore.md) | Store ZINTER result | 1.1.0 |
-| [`ZLEXCOUNT`](zlexcount.md) | Count members in lexicographical range; bounds use [ (inclusive) or ( (exclusive); - and + for open ends | 1.1.0 |
-| [`ZMPOP`](zmpop.md) | Pop from first non-empty sorted set | 1.1.0 |
-| [`ZMSCORE`](zmscore.md) | Return scores for multiple members | 1.1.0 |
-| [`ZPOPMAX`](zpopmax.md) | Remove and return highest-scoring members | 1.1.0 |
-| [`ZPOPMIN`](zpopmin.md) | Remove and return lowest-scoring members | 1.1.0 |
-| [`ZRANDMEMBER`](zrandmember.md) | Return random members; positive count = distinct, negative = with repetition | 1.1.0 |
-| [`ZRANGE`](zrange.md) | Return members in range; unified command supporting index, score, and lex modes | 1.1.0 |
-| [`ZRANGEBYLEX`](zrangebylex.md) | Return members in lexicographical range | 1.1.0 |
-| [`ZRANGEBYSCORE`](zrangebyscore.md) | Return members by score range (legacy alias) | 1.1.0 |
-| [`ZRANGESTORE`](zrangestore.md) | Store result of ZRANGE into a key; returns count stored | 1.1.0 |
-| [`ZRANK`](zrank.md) | Return 0-based rank in ascending score order | 1.1.0 |
-| [`ZREM`](zrem.md) | Remove members; returns count removed | 1.1.0 |
-| [`ZREMRANGEBYLEX`](zremrangebylex.md) | Remove members in lexicographical range | 1.1.0 |
-| [`ZREMRANGEBYRANK`](zremrangebyrank.md) | Remove members by index range | 1.1.0 |
-| [`ZREMRANGEBYSCORE`](zremrangebyscore.md) | Remove members with scores in range | 1.1.0 |
-| [`ZREVRANGE`](zrevrange.md) | Return members by index descending (legacy alias) | 1.1.0 |
-| [`ZREVRANGEBYLEX`](zrevrangebylex.md) | Return members in reverse lexicographical range | 1.1.0 |
-| [`ZREVRANGEBYSCORE`](zrevrangebyscore.md) | Return members by score range descending (legacy alias) | 1.1.0 |
-| [`ZREVRANK`](zrevrank.md) | Return 0-based rank in descending score order | 1.1.0 |
-| [`ZSCAN`](zscan.md) | Cursor-based iteration over members and scores; NOSCORES returns members only. | 1.1.0 |
-| [`ZSCORE`](zscore.md) | Return the score of a member, or nil | 1.1.0 |
-| [`ZUNION`](zunion.md) | Return union of sorted sets; AGGREGATE COUNT (Redis 8.8) scores each member by the number of input sets it is in | 1.1.0 |
-| [`ZUNIONSTORE`](zunionstore.md) | Store ZUNION result | 1.1.0 |
+| [`BZMPOP`](bzmpop.md) | ZMPOP that waits until one of the sorted sets has a member, or timeout seconds have passed. | 1.1.0 |
+| [`BZPOPMAX`](bzpopmax.md) | BZPOPMIN for the highest score. | 1.1.0 |
+| [`BZPOPMIN`](bzpopmin.md) | ZPOPMIN of one member from the first non-empty sorted set of those given. | 1.1.0 |
+| [`ZADD`](zadd.md) | Adds members with scores to the sorted set at key, or updates the scores of members already in it. | 1.1.0 |
+| [`ZCARD`](zcard.md) | Returns the number of members of the sorted set at key. | 1.1.0 |
+| [`ZCOUNT`](zcount.md) | Counts the members of the sorted set at key with a score between min and max. | 1.1.0 |
+| [`ZDIFF`](zdiff.md) | Returns the members of the first sorted set that are in none of the others, with their scores if WITHSCORES is given. | 1.1.0 |
+| [`ZDIFFSTORE`](zdiffstore.md) | Stores what ZDIFF would return at destination, replacing whatever was there. | 1.1.0 |
+| [`ZINCRBY`](zincrby.md) | Adds increment to the score of member in the sorted set at key. | 1.1.0 |
+| [`ZINTER`](zinter.md) | Returns the members in every one of the given sorted sets, with scores combined. | 1.1.0 |
+| [`ZINTERCARD`](zintercard.md) | Returns how many members the intersection of the given sorted sets has, without returning them. | 1.1.0 |
+| [`ZINTERSTORE`](zinterstore.md) | Stores what ZINTER would return at destination, replacing whatever was there. | 1.1.0 |
+| [`ZLEXCOUNT`](zlexcount.md) | Counts the members of the sorted set at key between min and max in lexicographical order. | 1.1.0 |
+| [`ZMPOP`](zmpop.md) | Pops members from the first of the given sorted sets that is not empty: the lowest (MIN) or highest (MAX) scores, one or COUNT count of them. | 1.1.0 |
+| [`ZMSCORE`](zmscore.md) | Returns the scores of several members of the sorted set at key. | 1.1.0 |
+| [`ZPOPMAX`](zpopmax.md) | Removes and returns the members with the highest scores in the sorted set at key: one, or count. | 1.1.0 |
+| [`ZPOPMIN`](zpopmin.md) | Removes and returns the members with the lowest scores in the sorted set at key: one, or count. | 1.1.0 |
+| [`ZRANDMEMBER`](zrandmember.md) | Returns members of the sorted set at key, picked at random, without removing them. | 1.1.0 |
+| [`ZRANGE`](zrange.md) | Returns members of the sorted set at key in a range. | 1.1.0 |
+| [`ZRANGEBYLEX`](zrangebylex.md) | Returns members of the sorted set at key between min and max in lexicographical order, for sets whose members all have the same score. | 1.1.0 |
+| [`ZRANGEBYSCORE`](zrangebyscore.md) | Returns members of the sorted set at key with scores from min to max, lowest first. | 1.1.0 |
+| [`ZRANGESTORE`](zrangestore.md) | Stores the members ZRANGE would return, with their scores, at dst, replacing whatever was there. | 1.1.0 |
+| [`ZRANK`](zrank.md) | Returns the rank of member in the sorted set at key: its position from the lowest score, starting at 0. | 1.1.0 |
+| [`ZREM`](zrem.md) | Removes members from the sorted set at key. | 1.1.0 |
+| [`ZREMRANGEBYLEX`](zremrangebylex.md) | Removes the members of the sorted set at key between min and max in lexicographical order, with bounds as ZRANGEBYLEX takes them. | 1.1.0 |
+| [`ZREMRANGEBYRANK`](zremrangebyrank.md) | Removes the members of the sorted set at key with ranks from start to stop, both included. | 1.1.0 |
+| [`ZREMRANGEBYSCORE`](zremrangebyscore.md) | Removes the members of the sorted set at key with scores from min to max. | 1.1.0 |
+| [`ZREVRANGE`](zrevrange.md) | Returns members of the sorted set at key by rank, highest score first. | 1.1.0 |
+| [`ZREVRANGEBYLEX`](zrevrangebylex.md) | ZRANGEBYLEX in reverse order; max comes first. | 1.1.0 |
+| [`ZREVRANGEBYSCORE`](zrevrangebyscore.md) | Returns members of the sorted set at key with scores from max down to min. | 1.1.0 |
+| [`ZREVRANK`](zrevrank.md) | Returns the rank of member from the highest score, starting at 0. | 1.1.0 |
+| [`ZSCAN`](zscan.md) | Goes through the members of the sorted set at key a page at a time, as SCAN goes through keys. | 1.1.0 |
+| [`ZSCORE`](zscore.md) | Returns the score of member in the sorted set at key. | 1.1.0 |
+| [`ZUNION`](zunion.md) | Returns the members in any of the given sorted sets, with scores combined. | 1.1.0 |
+| [`ZUNIONSTORE`](zunionstore.md) | Stores what ZUNION would return at destination, replacing whatever was there. | 1.1.0 |
 
 ## Stream
 

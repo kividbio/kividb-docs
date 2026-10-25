@@ -1,6 +1,6 @@
 ---
 title: "BZPOPMAX"
-description: "Blocking ZPOPMAX; blocks until a member is available"
+description: "BZPOPMIN for the highest score."
 version: "1.2"
 command: "BZPOPMAX"
 syntax: "BZPOPMAX key [key ...] timeout"
@@ -11,7 +11,7 @@ flags: ["blocking", "write"]
 acl_categories: ["blocking", "slow", "sortedset", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ BZPOPMAX key [key ...] timeout
 
 **Available since:** 1.1.0 · **ACL categories:** `@blocking`, `@slow`, `@sortedset`, `@write`
 <!-- generated: end -->
-## Description
+[`BZPOPMIN`](bzpopmin.md) for the highest score.
 
-Blocking ZPOPMAX; blocks until a member is available
+## Examples
+
+```
+> BZPOPMAX empty 0.1
+(nil)
+```

@@ -1,6 +1,6 @@
 ---
 title: "ZREMRANGEBYRANK"
-description: "Remove members by index range"
+description: "Removes the members of the sorted set at key with ranks from start to stop, both included."
 version: "1.1"
 command: "ZREMRANGEBYRANK"
 syntax: "ZREMRANGEBYRANK key start stop"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "sortedset", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ ZREMRANGEBYRANK key start stop
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@sortedset`, `@write`
 <!-- generated: end -->
-## Description
+Removes the members of the sorted set at `key` with ranks from `start` to `stop`, both included. Negative ranks count from the end.
 
-Remove members by index range
+## Reply
+
+- The number of members removed.
+
+## Examples
+
+```
+> ZADD rm 1 a 2 b 3 c
+(integer) 3
+> ZREMRANGEBYRANK rm 0 1
+(integer) 2
+```

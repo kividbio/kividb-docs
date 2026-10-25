@@ -1,6 +1,6 @@
 ---
 title: "BZMPOP"
-description: "Blocking ZMPOP"
+description: "ZMPOP that waits until one of the sorted sets has a member, or timeout seconds have passed."
 version: "1.1"
 command: "BZMPOP"
 syntax: "BZMPOP timeout numkeys key [key ...] MIN|MAX [COUNT count]"
@@ -11,7 +11,7 @@ flags: ["blocking", "movablekeys", "write"]
 acl_categories: ["blocking", "slow", "sortedset", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ BZMPOP timeout numkeys key [key ...] MIN|MAX [COUNT count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@blocking`, `@slow`, `@sortedset`, `@write`
 <!-- generated: end -->
-## Description
+[`ZMPOP`](zmpop.md) that waits until one of the sorted sets has a member, or `timeout` seconds have passed.
 
-Blocking ZMPOP
+## Examples
+
+```
+> ZADD bz 1 y 2 w
+(integer) 2
+> BZMPOP 1 1 bz MAX COUNT 2
+1) "bz"
+2) 1) 1) "w"
+      2) "2"
+   2) 1) "y"
+      2) "1"
+```

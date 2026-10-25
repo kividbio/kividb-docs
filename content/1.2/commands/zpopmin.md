@@ -1,6 +1,6 @@
 ---
 title: "ZPOPMIN"
-description: "Remove and return lowest-scoring members"
+description: "Removes and returns the members with the lowest scores in the sorted set at key: one, or count."
 version: "1.2"
 command: "ZPOPMIN"
 syntax: "ZPOPMIN key [count]"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "sortedset", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,18 @@ ZPOPMIN key [count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@sortedset`, `@write`
 <!-- generated: end -->
-## Description
+Removes and returns the members with the lowest scores in the sorted set at `key`: one, or `count`.
 
-Remove and return lowest-scoring members
+## Reply
+
+- An array: member, score, member, score, and so on, lowest first. Empty if the key does not exist.
+
+## Examples
+
+```
+> ZADD p 1 a 2 b 3 c
+(integer) 3
+> ZPOPMIN p
+1) "a"
+2) "1"
+```

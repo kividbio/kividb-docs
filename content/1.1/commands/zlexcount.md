@@ -1,6 +1,6 @@
 ---
 title: "ZLEXCOUNT"
-description: "Count members in lexicographical range; bounds use [ (inclusive) or ( (exclusive); - and + for open ends"
+description: "Counts the members of the sorted set at key between min and max in lexicographical order."
 version: "1.1"
 command: "ZLEXCOUNT"
 syntax: "ZLEXCOUNT key min max"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "read", "sortedset"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,18 @@ ZLEXCOUNT key min max
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@read`, `@sortedset`
 <!-- generated: end -->
-## Description
+Counts the members of the sorted set at `key` between `min` and `max` in lexicographical order. It is meant for sets whose members all have the same score. A bound starts with `[` (included) or `(` (excluded); `-` and `+` are the open ends.
 
-Count members in lexicographical range; bounds use `[` (inclusive) or `(` (exclusive); `-` and `+` for open ends
+## Reply
+
+- The count.
+- `ERR min or max not valid string range item` if a bound has no `[` or `(`.
+
+## Examples
+
+```
+> ZADD lx 0 apple 0 banana 0 cherry 0 date
+(integer) 4
+> ZLEXCOUNT lx [b [d
+(integer) 2
+```

@@ -1,6 +1,6 @@
 ---
 title: "ZREM"
-description: "Remove members; returns count removed"
+description: "Removes members from the sorted set at key."
 version: "1.2"
 command: "ZREM"
 syntax: "ZREM key member [member ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "sortedset", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ ZREM key member [member ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@sortedset`, `@write`
 <!-- generated: end -->
-## Description
+Removes members from the sorted set at `key`. A sorted set left empty is deleted.
 
-Remove members; returns count removed
+## Reply
+
+- The number of members removed.
+
+## Examples
+
+```
+> ZADD z 1 a 2 b
+(integer) 2
+> ZREM z a nope
+(integer) 1
+```

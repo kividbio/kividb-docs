@@ -1,6 +1,6 @@
 ---
 title: "ZREVRANGEBYLEX"
-description: "Return members in reverse lexicographical range"
+description: "ZRANGEBYLEX in reverse order; max comes first."
 version: "1.1"
 command: "ZREVRANGEBYLEX"
 syntax: "ZREVRANGEBYLEX key max min [LIMIT offset count]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "sortedset"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ ZREVRANGEBYLEX key max min [LIMIT offset count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@sortedset`
 <!-- generated: end -->
-## Description
+[`ZRANGEBYLEX`](zrangebylex.md) in reverse order; `max` comes first.
 
-Return members in reverse lexicographical range
+## Examples
+
+```
+> ZADD lx 0 apple 0 banana 0 cherry 0 date
+(integer) 4
+> ZREVRANGEBYLEX lx + [b
+1) "date"
+2) "cherry"
+3) "banana"
+```
