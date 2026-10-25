@@ -4,7 +4,7 @@ description: "Lists the JSON.DEBUG subcommands and what each does."
 version: "1.2"
 command: "JSON.DEBUG HELP"
 syntax: "JSON.DEBUG HELP"
-group: "other"
+group: "json"
 since: "1.1.0"
 history: []
 container: "JSON.DEBUG"

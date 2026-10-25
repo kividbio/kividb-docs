@@ -172,16 +172,33 @@ def commands_md(path):
         cells = [c.strip() for c in re.split(r"(?<!\\)\|", line.strip())[1:-1]]
         if len(cells) < 3 or not cells[0].startswith("`"):
             continue
-        name = command_name(cells[0].strip("`"))
-        if not name:
-            continue
-        rows.setdefault(name, []).append({
-            "section": section,
-            "subsection": subsection,
-            "syntax": re.sub(r"^`|`$", "", cells[1]).replace("\\|", "|"),
-            "notes": " | ".join(cells[2:]).replace("\\|", "|"),
-        })
+        # A cell can hold several code spans: two names for one row
+        # (`CLUSTER REPLICAS` / `CLUSTER SLAVES`), or two syntax forms
+        # (`... node-id` or `... STABLE`). Each name gets the forms that start
+        # with it; a name none starts with, an alias, gets the first form
+        # with its own name in it.
+        names = spans(cells[0])
+        forms = [f.replace("\\|", "|") for f in spans(cells[1])]
+        for shown in names:
+            name = command_name(shown)
+            if not name:
+                continue
+            own = [f for f in forms if f.upper().startswith(shown.upper())]
+            if not own and len(names) > 1 and forms and forms[0].upper().startswith(names[0].upper()):
+                own = [shown + forms[0][len(names[0]):]]
+            rows.setdefault(name, []).append({
+                "section": section,
+                "subsection": subsection,
+                "syntax": "\n".join(own or forms),
+                "notes": " | ".join(cells[2:]).replace("\\|", "|"),
+            })
     return rows
+
+
+def spans(cell):
+    """The code spans of a table cell, or the whole cell if it has none."""
+    found = re.findall(r"`([^`]+)`", cell)
+    return [s.strip() for s in found] if found else [cell.strip()]
 
 
 # ── main ─────────────────────────────────────────────────────────────────────

@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER BUMPEPOCH"
-description: "Advance current_epoch and return BUMPED <new>."
+description: "Increments the cluster's current epoch and gives it to this node, so that this node's claims to its slots win over older ones."
 version: "1.1"
 command: "CLUSTER BUMPEPOCH"
 syntax: "CLUSTER BUMPEPOCH"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLUSTER BUMPEPOCH
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Increments the cluster's current epoch and gives it to this node, so that this node's claims to its slots win over older ones. Returns `BUMPED` and the new epoch.
 
-Advance `current_epoch` and return `BUMPED <new>`.
+## Examples
+
+```
+> CLUSTER BUMPEPOCH
+BUMPED 2
+```

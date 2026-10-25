@@ -1,6 +1,6 @@
 ---
 title: "READWRITE"
-description: "Clears the READONLY flag."
+description: "Turns off READONLY for the connection: reads on a replica are redirected to the master again."
 version: "1.2"
 command: "READWRITE"
 syntax: "READWRITE"
@@ -11,7 +11,7 @@ flags: ["fast"]
 acl_categories: ["cluster", "fast"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ READWRITE
 
 **Available since:** 1.1.0 · **ACL categories:** `@cluster`, `@fast`
 <!-- generated: end -->
-## Description
+Turns off [`READONLY`](readonly.md) for the connection: reads on a replica are redirected to the master again.
 
-Clears the `READONLY` flag.
+## Examples
+
+```
+> READWRITE
+OK
+```

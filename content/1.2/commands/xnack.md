@@ -1,6 +1,6 @@
 ---
 title: "XNACK"
-description: "Releases pending entries back to the group without acknowledging them, so that another consumer can take them at once, with XREADGROUP ..."
+description: "Releases pending entries back to the group without acknowledging them, so that another consumer can take them at once, with XREADGROUP ... CLAIM or XAUTOCLAIM."
 version: "1.2"
 command: "XNACK"
 syntax: "XNACK key group <SILENT | FAIL | FATAL> IDS numids id [id ...] [RETRYCOUNT count] [FORCE]"

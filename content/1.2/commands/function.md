@@ -3,7 +3,7 @@ title: "FUNCTION"
 description: "Manages libraries of functions, which FCALL calls."
 version: "1.2"
 command: "FUNCTION"
-syntax: "FUNCTION DUMP` / `FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]"
+syntax: "FUNCTION"
 group: "scripting"
 since: "1.1.0"
 arity: -2
@@ -19,7 +19,7 @@ status: "reviewed"
 ## Syntax
 
 ```
-FUNCTION DUMP` / `FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]
+FUNCTION
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@scripting`, `@slow`

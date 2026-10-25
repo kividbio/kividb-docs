@@ -4,7 +4,7 @@ description: "Lists the SCRIPT subcommands and what each does."
 version: "1.2"
 command: "SCRIPT HELP"
 syntax: "SCRIPT HELP"
-group: "other"
+group: "scripting"
 since: "1.1.0"
 history: []
 container: "SCRIPT"

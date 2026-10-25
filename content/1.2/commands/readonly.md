@@ -1,6 +1,6 @@
 ---
 title: "READONLY"
-description: "Per-connection flag: read commands for slots this node replicates are served here instead of redirected to the master."
+description: "Lets the connection read from this replica: read commands for the slots of its master are served here, instead of being answered with MOVED."
 version: "1.2"
 command: "READONLY"
 syntax: "READONLY"
@@ -11,7 +11,7 @@ flags: ["fast"]
 acl_categories: ["cluster", "fast"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ READONLY
 
 **Available since:** 1.1.0 · **ACL categories:** `@cluster`, `@fast`
 <!-- generated: end -->
-## Description
+Lets the connection read from this replica: read commands for the slots of its master are served here, instead of being answered with `MOVED`. Writes are still redirected. What a replica returns can be behind its master. [`READWRITE`](readwrite.md) turns it off.
 
-Per-connection flag: read commands for slots this node replicates are served here instead of redirected to the master.
+## Examples
+
+On a replica:
+
+```
+> GET user:7
+(error) MOVED 2780 127.0.0.1:17621
+> READONLY
+OK
+> GET user:7
+"v"
+> SET user:7 w
+(error) MOVED 2780 127.0.0.1:17621
+```

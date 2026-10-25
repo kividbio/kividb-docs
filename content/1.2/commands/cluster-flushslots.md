@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER FLUSHSLOTS"
-description: "Clear all slot ownership for this node."
+description: "Makes this node give up every slot it owns, as CLUSTER DELSLOTS of each."
 version: "1.2"
 command: "CLUSTER FLUSHSLOTS"
 syntax: "CLUSTER FLUSHSLOTS"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLUSTER FLUSHSLOTS
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Makes this node give up every slot it owns, as [`CLUSTER DELSLOTS`](cluster-delslots.md) of each.
 
-Clear all slot ownership for this node.
+## Examples
+
+```
+> CLUSTER FLUSHSLOTS
+OK
+```

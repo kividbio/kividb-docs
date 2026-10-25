@@ -4,7 +4,7 @@ description: "Lists the HOTKEYS subcommands and what each does."
 version: "1.2"
 command: "HOTKEYS HELP"
 syntax: "HOTKEYS HELP"
-group: "other"
+group: "observability"
 since: "1.1.0"
 history: []
 container: "HOTKEYS"

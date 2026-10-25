@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER DELSLOTS"
-description: "Release individual slots."
+description: "Makes this node give up each slot."
 version: "1.1"
 command: "CLUSTER DELSLOTS"
 syntax: "CLUSTER DELSLOTS slot [slot ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLUSTER DELSLOTS slot [slot ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Makes this node give up each `slot`. A slot that no node owns is not served: while there is one, `cluster_state` is `fail` and keyed commands are answered with `CLUSTERDOWN`, unless `cluster-require-full-coverage` is `no`.
 
-Release individual slots.
+## Examples
+
+```
+> CLUSTER DELSLOTS 8191
+OK
+```

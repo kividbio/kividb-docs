@@ -58,7 +58,8 @@ def first_sentence(text, limit=200):
     plain = re.sub(r"`([^`]*)`", r"\1", text or "")
     plain = re.sub(r"\*\*|__", "", plain)
     plain = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", plain)
-    m = re.match(r"(.+?[.!?])(\s|$)", plain)
+    # A sentence ends at `.`, `!` or `?` and a space, but not at `...`.
+    m = re.match(r"(.+?(?<!\.\.)(?<!\.\.\.)[.!?])(\s|$)", plain)
     sentence = (m.group(1) if m else plain).strip()
     return sentence if len(sentence) <= limit else sentence[: limit - 1].rstrip() + "…"
 
@@ -138,6 +139,10 @@ def command_pages(version, release, releases, history):
             # A container is in the group of its subcommands' rows.
             section = next((s["documented"][0]["section"] for s in entry.get("subcommands", [])
                             if s.get("documented")), None)
+        if not section and parent:
+            # So is a subcommand with no row: CLUSTER HELP.
+            section = next((s["documented"][0]["section"] for s in parent.get("subcommands", [])
+                            if s.get("documented")), None)
         group = group_of(section)
         h = hist.get(name, {})
         fm = {
@@ -145,7 +150,7 @@ def command_pages(version, release, releases, history):
             "description": first_sentence(row.get("notes")) or f"The {display(name)} command.",
             "version": version,
             "command": display(name),
-            "syntax": row.get("syntax") or display(name),
+            "syntax": "\n".join(dict.fromkeys(r["syntax"] for r in rows if r.get("syntax"))) or display(name),
             "group": group,
             "since": h.get("since", releases[0]),
         }

@@ -4,7 +4,7 @@ description: "Lists the CONFIG subcommands and what each does."
 version: "1.1"
 command: "CONFIG HELP"
 syntax: "CONFIG HELP"
-group: "other"
+group: "server"
 since: "1.1.0"
 history: []
 container: "CONFIG"

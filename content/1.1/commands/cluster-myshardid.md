@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER MYSHARDID"
-description: "Returns the shard ID — own ID for masters, master's ID for replicas."
+description: "Returns the ID of this node's shard: a master's own ID, or a replica's master's."
 version: "1.1"
 command: "CLUSTER MYSHARDID"
 syntax: "CLUSTER MYSHARDID"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLUSTER MYSHARDID
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the ID of this node's shard: a master's own ID, or a replica's master's.
 
-Returns the shard ID — own ID for masters, master's ID for replicas.
+## Examples
+
+```
+> CLUSTER MYSHARDID
+"b2744aeada9b56dd000f101f31447a33a15c9b08"
+```

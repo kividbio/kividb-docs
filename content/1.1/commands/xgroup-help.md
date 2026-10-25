@@ -4,7 +4,7 @@ description: "Lists the XGROUP subcommands and what each does."
 version: "1.1"
 command: "XGROUP HELP"
 syntax: "XGROUP HELP"
-group: "other"
+group: "stream"
 since: "1.1.0"
 history: []
 container: "XGROUP"

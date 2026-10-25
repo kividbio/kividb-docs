@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER GETKEYSINSLOT"
-description: "Returns up to count keys in slot."
+description: "Returns up to count of the keys this node holds in slot."
 version: "1.1"
 command: "CLUSTER GETKEYSINSLOT"
 syntax: "CLUSTER GETKEYSINSLOT slot count"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,12 @@ CLUSTER GETKEYSINSLOT slot count
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns up to `count` of the keys this node holds in `slot`.
 
-Returns up to `count` keys in `slot`.
+## Examples
+
+```
+> CLUSTER GETKEYSINSLOT 15495 10
+1) "a"
+2) "{a}1"
+```

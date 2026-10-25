@@ -3,7 +3,7 @@ title: "FUNCTION RESTORE"
 description: "Loads a payload from FUNCTION DUMP."
 version: "1.1"
 command: "FUNCTION RESTORE"
-syntax: "FUNCTION RESTORE"
+syntax: "FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]"
 group: "scripting"
 since: "1.1.0"
 history: []
@@ -16,7 +16,7 @@ status: "reviewed"
 ## Syntax
 
 ```
-FUNCTION RESTORE
+FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]
 ```
 
 **Available since:** 1.1.0

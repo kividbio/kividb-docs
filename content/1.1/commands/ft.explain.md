@@ -1,6 +1,6 @@
 ---
 title: "FT.EXPLAIN"
-description: "Returns how a query is understood, as Redis writes a query plan: INTERSECT { ..."
+description: "Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... }, UNION { ... }, NOT, OPTIONAL, TAG:@field { ... }, NUMERIC {lo <= @field <= hi}, VECTOR { ... }, a clause to a line."
 version: "1.1"
 command: "FT.EXPLAIN"
 syntax: "FT.EXPLAIN index query [PARAMS …] [DIALECT n]"

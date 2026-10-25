@@ -4,7 +4,7 @@ description: "Lists the FT.CONFIG subcommands and what each does."
 version: "1.2"
 command: "FT.CONFIG HELP"
 syntax: "FT.CONFIG HELP"
-group: "other"
+group: "vector-search"
 since: "1.1.0"
 history: []
 container: "FT.CONFIG"

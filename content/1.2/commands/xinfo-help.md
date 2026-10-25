@@ -4,7 +4,7 @@ description: "Lists the XINFO subcommands and what each does."
 version: "1.2"
 command: "XINFO HELP"
 syntax: "XINFO HELP"
-group: "other"
+group: "stream"
 since: "1.1.0"
 history: []
 container: "XINFO"

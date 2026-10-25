@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER SAVECONFIG"
-description: "Force a write of nodes.conf."
+description: "Writes the node's topology to nodes.conf (cluster-config-file) now."
 version: "1.2"
 command: "CLUSTER SAVECONFIG"
 syntax: "CLUSTER SAVECONFIG"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLUSTER SAVECONFIG
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Writes the node's topology to `nodes.conf` (`cluster-config-file`) now. The node writes it itself whenever the topology changes.
 
-Force a write of `nodes.conf`.
+## Examples
+
+```
+> CLUSTER SAVECONFIG
+OK
+```

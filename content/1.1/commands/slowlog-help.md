@@ -4,7 +4,7 @@ description: "Lists the SLOWLOG subcommands and what each does."
 version: "1.1"
 command: "SLOWLOG HELP"
 syntax: "SLOWLOG HELP"
-group: "other"
+group: "observability"
 since: "1.1.0"
 history: []
 container: "SLOWLOG"

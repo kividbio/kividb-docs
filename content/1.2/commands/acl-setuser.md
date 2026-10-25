@@ -4,7 +4,7 @@ description: "Creates the user username, or changes it, by applying rules from l
 version: "1.2"
 command: "ACL SETUSER"
 syntax: "ACL SETUSER"
-group: "other"
+group: "acl"
 since: "1.1.0"
 history: []
 container: "ACL"

@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER COUNT-FAILURE-REPORTS"
-description: "Number of distinct nodes currently flagging this node as failing."
+description: "Returns how many other nodes currently report node-id as failing."
 version: "1.2"
 command: "CLUSTER COUNT-FAILURE-REPORTS"
 syntax: "CLUSTER COUNT-FAILURE-REPORTS node-id"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLUSTER COUNT-FAILURE-REPORTS node-id
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns how many other nodes currently report `node-id` as failing. When a majority of masters do, the node is marked `FAIL` and a replica takes its place.
 
-Number of distinct nodes currently flagging this node as failing. Excludes the local node's own opinion.
+## Examples
+
+```
+> CLUSTER COUNT-FAILURE-REPORTS 2e3eefa800e802047f92cb529ac5d1424daebb27
+(integer) 0
+```

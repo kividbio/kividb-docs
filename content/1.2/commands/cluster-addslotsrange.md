@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER ADDSLOTSRANGE"
-description: "Claim contiguous ranges."
+description: "Like CLUSTER ADDSLOTS, for the ranges start to end, both included."
 version: "1.2"
 command: "CLUSTER ADDSLOTSRANGE"
 syntax: "CLUSTER ADDSLOTSRANGE start end [start end ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLUSTER ADDSLOTSRANGE start end [start end ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Like [`CLUSTER ADDSLOTS`](cluster-addslots.md), for the ranges `start` to `end`, both included.
 
-Claim contiguous ranges.
+## Examples
+
+```
+> CLUSTER ADDSLOTSRANGE 0 8191
+OK
+```

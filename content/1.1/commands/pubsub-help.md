@@ -4,7 +4,7 @@ description: "Lists the PUBSUB subcommands and what each does."
 version: "1.1"
 command: "PUBSUB HELP"
 syntax: "PUBSUB HELP"
-group: "other"
+group: "pub-sub"
 since: "1.1.0"
 history: []
 container: "PUBSUB"

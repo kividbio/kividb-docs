@@ -4,7 +4,7 @@ description: "Lists the CLIENT subcommands and what each does."
 version: "1.1"
 command: "CLIENT HELP"
 syntax: "CLIENT HELP"
-group: "other"
+group: "server"
 since: "1.1.0"
 history: []
 container: "CLIENT"

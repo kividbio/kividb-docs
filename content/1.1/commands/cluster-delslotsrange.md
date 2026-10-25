@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER DELSLOTSRANGE"
-description: "Release contiguous ranges."
+description: "Like CLUSTER DELSLOTS, for the ranges start to end, both included."
 version: "1.1"
 command: "CLUSTER DELSLOTSRANGE"
 syntax: "CLUSTER DELSLOTSRANGE start end [start end ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLUSTER DELSLOTSRANGE start end [start end ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Like [`CLUSTER DELSLOTS`](cluster-delslots.md), for the ranges `start` to `end`, both included.
 
-Release contiguous ranges.
+## Examples
+
+```
+> CLUSTER DELSLOTSRANGE 8000 8010
+OK
+```

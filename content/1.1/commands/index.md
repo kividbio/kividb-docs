@@ -53,11 +53,11 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`ASKING`](asking.md) | Per-connection single-shot flag. | 1.1.0 |
-| [`CLUSTER`](cluster.md) | List replicas of a given master. | 1.1.0 |
-| [`MIGRATE`](migrate.md) | Serialise each key, RESTORE it on the destination with its TTL, and delete it here once the destination has acknowledged. | 1.1.0 |
-| [`READONLY`](readonly.md) | Per-connection flag: read commands for slots this node replicates are served here instead of redirected to the master. | 1.1.0 |
-| [`READWRITE`](readwrite.md) | Clears the READONLY flag. | 1.1.0 |
+| [`ASKING`](asking.md) | Lets the connection's next command use a slot this node is importing (CLUSTER SETSLOT ... IMPORTING) but does not own yet. | 1.1.0 |
+| [`CLUSTER`](cluster.md) | Manages a cluster node: which slots it owns, which nodes it knows, its replicas, and the moving of slots between masters. | 1.1.0 |
+| [`MIGRATE`](migrate.md) | Moves keys to another server: each is serialised, restored on the server at host port in database db, with its time to live, and deleted here once the other server has acknowledged it. | 1.1.0 |
+| [`READONLY`](readonly.md) | Lets the connection read from this replica: read commands for the slots of its master are served here, instead of being answered with MOVED. | 1.1.0 |
+| [`READWRITE`](readwrite.md) | Turns off READONLY for the connection: reads on a replica are redirected to the master again. | 1.1.0 |
 
 ## Generic
 
@@ -363,10 +363,10 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 | [`XDEL`](xdel.md) | Deletes entries from the stream at key by ID. | 1.1.0 |
 | [`XDELEX`](xdelex.md) | Deletes entries from the stream at key, with control over the references consumer groups hold to them (Redis 8.2). | 1.1.0 |
 | [`XGROUP`](xgroup.md) | Creates and manages consumer groups: named readers of a stream that share its entries among their consumers, and track what each consumer has been given and not yet acknowledged. | 1.1.0 |
-| [`XIDMPRECORD`](xidmprecord.md) | Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ... | 1.1.1 |
+| [`XIDMPRECORD`](xidmprecord.md) | Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ... IDMP would have (Redis 8.10). | 1.1.1 |
 | [`XINFO`](xinfo.md) | Reports on a stream, its consumer groups and their consumers. | 1.1.0 |
 | [`XLEN`](xlen.md) | Returns the number of entries in the stream at key. | 1.1.0 |
-| [`XNACK`](xnack.md) | Releases pending entries back to the group without acknowledging them, so that another consumer can take them at once, with XREADGROUP ... | 1.1.0 |
+| [`XNACK`](xnack.md) | Releases pending entries back to the group without acknowledging them, so that another consumer can take them at once, with XREADGROUP ... CLAIM or XAUTOCLAIM. | 1.1.0 |
 | [`XPENDING`](xpending.md) | Returns the entries the group has delivered and that are not yet acknowledged. | 1.1.0 |
 | [`XRANGE`](xrange.md) | Returns the entries of the stream at key with IDs from start to end, both included, oldest first. | 1.1.0 |
 | [`XREAD`](xread.md) | Reads entries with IDs greater than the ones given, from one or more streams. | 1.1.0 |
@@ -454,13 +454,13 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 | [`FT.ALTER`](ft.alter.md) | Adds fields to an index. | 1.1.0 |
 | [`FT.CONFIG`](ft.config.md) | Reads and sets the search engine's settings, by RediSearch's names. | 1.1.0 |
 | [`FT.CREATE`](ft.create.md) | Creates a search index over the hashes, or JSON documents, whose keys start with the given prefixes. | 1.1.0 |
-| [`FT.CURSOR`](ft.cursor.md) | Reads and closes the cursors FT.AGGREGATE ... | 1.1.0 |
+| [`FT.CURSOR`](ft.cursor.md) | Reads and closes the cursors FT.AGGREGATE ... WITHCURSOR returns. | 1.1.0 |
 | [`FT.DEBUG`](ft.debug.md) | Maintenance of search indexes. | 1.1.0 |
 | [`FT.DICTADD`](ft.dictadd.md) | Adds words to a dictionary: a named list of words, which FT.SPELLCHECK can include or exclude. | 1.1.0 |
 | [`FT.DICTDEL`](ft.dictdel.md) | Removes words from a dictionary. | 1.1.0 |
 | [`FT.DICTDUMP`](ft.dictdump.md) | Returns the words of a dictionary, sorted. | 1.1.0 |
 | [`FT.DROPINDEX`](ft.dropindex.md) | Deletes an index. | 1.1.0 |
-| [`FT.EXPLAIN`](ft.explain.md) | Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... | 1.1.0 |
+| [`FT.EXPLAIN`](ft.explain.md) | Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... }, UNION { ... }, NOT, OPTIONAL, TAG:@field { ... }, NUMERIC {lo <= @field <= hi}, VECTOR { ... }, a clause to a line. | 1.1.0 |
 | [`FT.EXPLAINCLI`](ft.explaincli.md) | FT.EXPLAIN, as an array of its lines. | 1.1.0 |
 | [`FT.HYBRID`](ft.hybrid.md) | Searches an index by text and by vector together, and fuses the two rankings into one. | 1.1.0 |
 | [`FT.INFO`](ft.info.md) | Returns an index's definition and state: its key type and prefixes, its fields with their options, how many documents and terms it holds, and whether it is still indexing. | 1.1.0 |

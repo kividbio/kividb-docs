@@ -4,7 +4,7 @@ description: "In Redis, lists the ACL subcommands."
 version: "1.2"
 command: "ACL HELP"
 syntax: "ACL HELP"
-group: "other"
+group: "acl"
 since: "1.1.0"
 history: []
 container: "ACL"

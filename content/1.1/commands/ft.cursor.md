@@ -1,6 +1,6 @@
 ---
 title: "FT.CURSOR"
-description: "Reads and closes the cursors FT.AGGREGATE ..."
+description: "Reads and closes the cursors FT.AGGREGATE ... WITHCURSOR returns."
 version: "1.1"
 command: "FT.CURSOR"
 syntax: "FT.CURSOR"

@@ -1,6 +1,6 @@
 ---
 title: "XIDMPRECORD"
-description: "Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ..."
+description: "Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ... IDMP would have (Redis 8.10)."
 version: "1.2"
 command: "XIDMPRECORD"
 syntax: "XIDMPRECORD"

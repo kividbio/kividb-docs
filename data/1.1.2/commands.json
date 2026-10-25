@@ -1433,14 +1433,7 @@
    "slow"
   ],
   "arity": -2,
-  "documented": [
-   {
-    "notes": "List replicas of a given master. Aliases.",
-    "section": "Cluster",
-    "subsection": "Discovery and membership",
-    "syntax": "CLUSTER REPLICAS master-id"
-   }
-  ],
+  "documented": [],
   "first_key": 0,
   "flags": [],
   "key_specs": [],
@@ -1694,9 +1687,16 @@
     "source": "COMMANDS.md"
    },
    {
-    "documented": [],
+    "documented": [
+     {
+      "notes": "List replicas of a given master. Aliases.",
+      "section": "Cluster",
+      "subsection": "Discovery and membership",
+      "syntax": "CLUSTER REPLICAS master-id"
+     }
+    ],
     "name": "CLUSTER|REPLICAS",
-    "source": "probe"
+    "source": "COMMANDS.md"
    },
    {
     "documented": [
@@ -1752,7 +1752,7 @@
       "notes": "Mark migration state or finalize ownership transfer.",
       "section": "Cluster",
       "subsection": "Slot ownership",
-      "syntax": "CLUSTER SETSLOT slot <IMPORTING|MIGRATING|NODE> node-id` or `CLUSTER SETSLOT slot STABLE"
+      "syntax": "CLUSTER SETSLOT slot <IMPORTING|MIGRATING|NODE> node-id\nCLUSTER SETSLOT slot STABLE"
      }
     ],
     "name": "CLUSTER|SETSLOT",
@@ -1771,9 +1771,16 @@
     "source": "COMMANDS.md"
    },
    {
-    "documented": [],
+    "documented": [
+     {
+      "notes": "List replicas of a given master. Aliases.",
+      "section": "Cluster",
+      "subsection": "Discovery and membership",
+      "syntax": "CLUSTER SLAVES master-id"
+     }
+    ],
     "name": "CLUSTER|SLAVES",
-    "source": "probe"
+    "source": "COMMANDS.md"
    },
    {
     "documented": [
@@ -1781,7 +1788,7 @@
       "notes": "Per-slot stats. Only `key-count` carries real data; `cpu-usec` / `network-bytes-in` / `network-bytes-out` are reported as 0 (no per-slot instrumentation yet). `ORDERBY` only accepts `key-count`.",
       "section": "Cluster",
       "subsection": "Statistics",
-      "syntax": "CLUSTER SLOT-STATS SLOTSRANGE start end` or `CLUSTER SLOT-STATS ORDERBY metric [LIMIT n] [ASC | DESC]"
+      "syntax": "CLUSTER SLOT-STATS SLOTSRANGE start end\nCLUSTER SLOT-STATS ORDERBY metric [LIMIT n] [ASC | DESC]"
      }
     ],
     "name": "CLUSTER|SLOT-STATS",
@@ -3302,14 +3309,7 @@
    "slow"
   ],
   "arity": -2,
-  "documented": [
-   {
-    "notes": "Serialise every library, and load such a payload. The format is KiviDB's own",
-    "section": "Scripting commands (Lua)",
-    "subsection": null,
-    "syntax": "FUNCTION DUMP` / `FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]"
-   }
-  ],
+  "documented": [],
   "first_key": 0,
   "flags": [],
   "key_specs": [],
@@ -3330,9 +3330,16 @@
     "source": "COMMANDS.md"
    },
    {
-    "documented": [],
+    "documented": [
+     {
+      "notes": "Serialise every library, and load such a payload. The format is KiviDB's own",
+      "section": "Scripting commands (Lua)",
+      "subsection": null,
+      "syntax": "FUNCTION DUMP"
+     }
+    ],
     "name": "FUNCTION|DUMP",
-    "source": "probe"
+    "source": "COMMANDS.md"
    },
    {
     "documented": [
@@ -3388,9 +3395,16 @@
     "source": "COMMANDS.md"
    },
    {
-    "documented": [],
+    "documented": [
+     {
+      "notes": "Serialise every library, and load such a payload. The format is KiviDB's own",
+      "section": "Scripting commands (Lua)",
+      "subsection": null,
+      "syntax": "FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]"
+     }
+    ],
     "name": "FUNCTION|RESTORE",
-    "source": "probe"
+    "source": "COMMANDS.md"
    },
    {
     "documented": [

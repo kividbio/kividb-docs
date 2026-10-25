@@ -4,7 +4,7 @@ description: "Lists the LATENCY subcommands and what each does."
 version: "1.1"
 command: "LATENCY HELP"
 syntax: "LATENCY HELP"
-group: "other"
+group: "observability"
 since: "1.1.0"
 history: []
 container: "LATENCY"

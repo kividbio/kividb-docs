@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER COUNTKEYSINSLOT"
-description: "Walks the current DB to count keys hashing to slot."
+description: "Returns the number of keys this node holds in slot."
 version: "1.2"
 command: "CLUSTER COUNTKEYSINSLOT"
 syntax: "CLUSTER COUNTKEYSINSLOT slot"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLUSTER"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,16 @@ CLUSTER COUNTKEYSINSLOT slot
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the number of keys this node holds in `slot`.
 
-Walks the current DB to count keys hashing to `slot`.
+## Reply
+
+- The number of keys.
+- `ERR Invalid slot slot, must be between 0 and 16383`.
+
+## Examples
+
+```
+> CLUSTER COUNTKEYSINSLOT 15495
+(integer) 2
+```
