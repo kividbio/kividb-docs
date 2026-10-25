@@ -1,6 +1,6 @@
 ---
 title: "GEORADIUS_RO"
-description: "Read-only variant of GEORADIUS; does not support STORE or STOREDIST"
+description: "GEORADIUS without STORE or STOREDIST: it only reads, so it can be sent to a read-only replica."
 version: "1.1"
 command: "GEORADIUS_RO"
 syntax: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["geo", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,12 @@ GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHD
 
 **Available since:** 1.1.0 · **ACL categories:** `@geo`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+[`GEORADIUS`](georadius.md) without `STORE` or `STOREDIST`: it only reads, so it can be sent to a read-only replica.
 
-Read-only variant of `GEORADIUS`; does not support `STORE` or `STOREDIST`
+## Examples
+
+```
+> GEORADIUS_RO g 15 37 200 km
+1) "Palermo"
+2) "Catania"
+```

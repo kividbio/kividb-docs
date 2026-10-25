@@ -41,13 +41,13 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`BITCOUNT`](bitcount.md) | Count the number of set bits; without range counts the whole string; BYTE mode (default) treats start/end as byte indices; BIT mode treats them as bit indices; negative indices count from the end | 1.1.0 |
-| [`BITFIELD`](bitfield.md) | Perform arbitrary bitfield integer operations in a single call; encoding is u<n> for unsigned or i<n> for signed where n is the bit width (1–63 for unsigned, 1–64 for signed); SET returns the old val… | 1.1.0 |
-| [`BITFIELD_RO`](bitfield_ro.md) | Read-only variant of BITFIELD; only GET subcommands are accepted | 1.1.0 |
-| [`BITOP`](bitop.md) | Perform a bitwise operation across one or more source keys and store the result at destkey; shorter strings are zero-padded; NOT requires exactly one source key; returns the length of the destination… | 1.1.0 |
-| [`BITPOS`](bitpos.md) | Find the position of the first set (1) or clear (0) bit; returns -1 if not found; for clear-bit search with no explicit end, returns the first bit past the string | 1.1.0 |
-| [`GETBIT`](getbit.md) | Return the bit value (0 or 1) at offset; returns 0 if key missing or offset beyond string length | 1.1.0 |
-| [`SETBIT`](setbit.md) | Set or clear the bit at offset; auto-extends the string with zero bytes if needed; returns the old bit value; AOF-logged | 1.1.0 |
+| [`BITCOUNT`](bitcount.md) | Counts the bits set to 1 in the string at key, or in a part of it. | 1.1.0 |
+| [`BITFIELD`](bitfield.md) | Reads, writes and increments integers of any width from 1 to 64 bits, stored at any bit offset of the string at key, in one command. | 1.1.0 |
+| [`BITFIELD_RO`](bitfield_ro.md) | BITFIELD with GET only: it only reads, so it can be sent to a read-only replica. | 1.1.0 |
+| [`BITOP`](bitop.md) | Combines the strings at the source keys bit by bit and stores the result at destkey. | 1.1.0 |
+| [`BITPOS`](bitpos.md) | Returns the position of the first bit set to bit (0 or 1) in the string at key, or in a part of it. | 1.1.0 |
+| [`GETBIT`](getbit.md) | Returns the bit at offset in the string at key. | 1.1.0 |
+| [`SETBIT`](setbit.md) | Sets or clears the bit at offset in the string at key. | 1.1.0 |
 
 ## Cluster
 
@@ -95,16 +95,17 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`GEOADD`](geoadd.md) | Add one or more members to a geospatial index; NX only adds new members (never updates existing); XX only updates existing members (never adds new); CH changes the return value from count-of-added to… | 1.1.0 |
-| [`GEODIST`](geodist.md) | Return the distance between two members; default unit is metres (M); returns nil if either member is missing | 1.1.0 |
-| [`GEOHASH`](geohash.md) | Return the standard 11-character base32 geohash string for each member; nil for missing members | 1.1.0 |
-| [`GEOPOS`](geopos.md) | Return [longitude, latitude] pairs for each member; nil for missing members | 1.1.0 |
-| [`GEORADIUS`](georadius.md) | Query members within a radius of explicit coordinates; STORE writes results to a destination key as a geo index; STOREDIST writes with distance scores; AOF-logged when STORE or STOREDIST is used | 1.1.0 |
-| [`GEORADIUSBYMEMBER`](georadiusbymember.md) | Query members within a radius of an existing member; supports STORE and STOREDIST; AOF-logged when storing | 1.1.0 |
-| [`GEORADIUSBYMEMBER_RO`](georadiusbymember_ro.md) | Read-only variant of GEORADIUSBYMEMBER; does not support STORE or STOREDIST | 1.1.0 |
-| [`GEORADIUS_RO`](georadius_ro.md) | Read-only variant of GEORADIUS; does not support STORE or STOREDIST | 1.1.0 |
-| [`GEOSEARCH`](geosearch.md) | Query members inside a circle or axis-aligned box; FROMMEMBER uses an existing member as the centre; FROMLONLAT uses explicit coordinates; BYRADIUS filters by great-circle distance; BYBOX filters by… | 1.1.0 |
-| [`GEOSEARCHSTORE`](geosearchstore.md) | Same search as GEOSEARCH but writes the results into destination as a sorted set; without STOREDIST the score is the geohash (so the destination is itself a valid geo index); with STOREDIST the score… | 1.1.0 |
+| [`GEOADD`](geoadd.md) | Adds places, each a longitude, a latitude and a name, to the geospatial index at key: a sorted set whose scores encode positions, so that it can be searched by distance. | 1.1.0 |
+| [`GEODELBYMEMBER`](geodelbymember.md) | COMMAND lists GEODELBYMEMBER, but KiviDB 1.1 does not have it: calling it replies ERR unknown command 'GEODELBYMEMBER'. | 1.1.0 |
+| [`GEODIST`](geodist.md) | Returns the distance between two members of the geospatial index at key, in metres, or in KM, FT or MI. | 1.1.0 |
+| [`GEOHASH`](geohash.md) | Returns the geohash of members of the geospatial index at key: the standard 11-character base32 string, which other geohash tools read. | 1.1.0 |
+| [`GEOPOS`](geopos.md) | Returns the longitude and latitude of members of the geospatial index at key. | 1.1.0 |
+| [`GEORADIUS`](georadius.md) | Returns the members of the geospatial index at key within radius of a longitude and latitude. | 1.1.0 |
+| [`GEORADIUSBYMEMBER`](georadiusbymember.md) | GEORADIUS centred on a member of the index, not a position. | 1.1.0 |
+| [`GEORADIUSBYMEMBER_RO`](georadiusbymember_ro.md) | GEORADIUSBYMEMBER without STORE or STOREDIST, for read-only replicas. | 1.1.0 |
+| [`GEORADIUS_RO`](georadius_ro.md) | GEORADIUS without STORE or STOREDIST: it only reads, so it can be sent to a read-only replica. | 1.1.0 |
+| [`GEOSEARCH`](geosearch.md) | Returns the members of the geospatial index at key within a circle or a box. | 1.1.0 |
+| [`GEOSEARCHSTORE`](geosearchstore.md) | Stores the members GEOSEARCH would return at destination. | 1.1.0 |
 
 ## Hash
 
@@ -144,11 +145,11 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`PFADD`](pfadd.md) | Add one or more elements to the HyperLogLog; creates the key if it does not exist; returns 1 if the internal representation was modified (cardinality estimate changed), 0 otherwise; calling with no e… | 1.1.0 |
-| [`PFCOUNT`](pfcount.md) | Return the approximated cardinality of the set observed by the HyperLogLog at key; with multiple keys, returns the cardinality of the union by merging into a temporary HyperLogLog without persisting… | 1.1.0 |
-| [`PFDEBUG`](pfdebug.md) | PFDEBUG and its subcommands. | 1.1.0 |
-| [`PFMERGE`](pfmerge.md) | Merge one or more source HyperLogLogs into destkey by taking the element-wise maximum of all registers; missing source keys are treated as empty; AOF-logged | 1.1.0 |
-| [`PFSELFTEST`](pfselftest.md) | Run internal correctness tests of the HyperLogLog implementation: verifies empty cardinality returns 0, estimation accuracy is within 2% for 10,000 elements, and register encode/decode round-trips co… | 1.1.0 |
+| [`PFADD`](pfadd.md) | Adds elements to the HyperLogLog at key: a structure of fixed size that estimates how many different elements it has been given, however many that is. | 1.1.0 |
+| [`PFCOUNT`](pfcount.md) | Returns the estimated number of different elements added to the HyperLogLog at key. | 1.1.0 |
+| [`PFDEBUG`](pfdebug.md) | Inspects or resets a HyperLogLog. | 1.1.0 |
+| [`PFMERGE`](pfmerge.md) | Merges the HyperLogLogs at the source keys into destkey, so that it estimates their union. | 1.1.0 |
+| [`PFSELFTEST`](pfselftest.md) | Runs KiviDB's checks of its HyperLogLog code: an empty one counts 0, 10,000 elements are estimated within 2%, and registers read back as written. | 1.1.0 |
 
 ## Json
 
@@ -225,7 +226,6 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 |---|---|---|
 | [`BACKUP`](backup.md) | The BACKUP command. | 1.1.0 |
 | [`FAILOVER`](failover.md) | The FAILOVER command. | 1.1.0 |
-| [`GEODELBYMEMBER`](geodelbymember.md) | The GEODELBYMEMBER command. | 1.1.0 |
 | [`MODULE`](module.md) | The MODULE command. | 1.1.0 |
 | [`XIDMPRECORD`](xidmprecord.md) | The XIDMPRECORD command. | 1.1.1 |
 

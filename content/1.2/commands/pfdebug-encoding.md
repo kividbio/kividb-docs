@@ -1,6 +1,6 @@
 ---
 title: "PFDEBUG ENCODING"
-description: "Return the encoding type; always dense as KiviDB uses only the dense representation"
+description: "Returns the HyperLogLog's encoding: always dense in KiviDB, which does not use Redis's sparse encoding."
 version: "1.2"
 command: "PFDEBUG ENCODING"
 syntax: "PFDEBUG ENCODING key"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "PFDEBUG"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ PFDEBUG ENCODING key
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the HyperLogLog's encoding: always `dense` in KiviDB, which does not use Redis's sparse encoding.
 
-Return the encoding type; always `dense` as KiviDB uses only the dense representation
+## Examples
+
+```
+> PFDEBUG ENCODING h
+"dense"
+```

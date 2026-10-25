@@ -1,6 +1,6 @@
 ---
 title: "GEOSEARCHSTORE"
-description: "Same search as GEOSEARCH but writes the results into destination as a sorted set; without STOREDIST the score is the geohash (so the destination is itself a valid geo index); with STOREDIST the score…"
+description: "Stores the members GEOSEARCH would return at destination."
 version: "1.1"
 command: "GEOSEARCHSTORE"
 syntax: "GEOSEARCHSTORE destination source <FROMMEMBER member | FROMLONLAT longitude latitude> <BYRADIUS radius <M | KM | FT | MI> | BYBOX width height <M | KM | FT | MI>> [ASC | DESC] [COUNT count [ANY]] [STOREDIST]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["geo", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,22 @@ GEOSEARCHSTORE destination source <FROMMEMBER member | FROMLONLAT longitude lati
 
 **Available since:** 1.1.0 · **ACL categories:** `@geo`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Stores the members [`GEOSEARCH`](geosearch.md) would return at `destination`. Their scores are their positions, so `destination` is a geospatial index too; with `STOREDIST`, the scores are their distances from the centre instead, in the unit asked.
 
-Same search as `GEOSEARCH` but writes the results into `destination` as a sorted set; without `STOREDIST` the score is the geohash (so the destination is itself a valid geo index); with `STOREDIST` the score is the distance in the requested unit; returns the number of members stored; AOF-logged
+## Reply
+
+- The number of members stored.
+
+## Examples
+
+```
+> GEOADD g 13.361389 38.115556 Palermo 15.087269 37.502669 Catania
+(integer) 2
+> GEOSEARCHSTORE near g FROMLONLAT 15 37 BYRADIUS 200 KM STOREDIST
+(integer) 2
+> ZRANGE near 0 -1 WITHSCORES
+1) "Catania"
+2) "56.4412578701582"
+3) "Palermo"
+4) "190.44242984775784"
+```

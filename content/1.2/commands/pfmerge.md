@@ -1,6 +1,6 @@
 ---
 title: "PFMERGE"
-description: "Merge one or more source HyperLogLogs into destkey by taking the element-wise maximum of all registers; missing source keys are treated as empty; AOF-logged"
+description: "Merges the HyperLogLogs at the source keys into destkey, so that it estimates their union."
 version: "1.2"
 command: "PFMERGE"
 syntax: "PFMERGE destkey [sourcekey [sourcekey ...]]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["hyperloglog", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,21 @@ PFMERGE destkey [sourcekey [sourcekey ...]]
 
 **Available since:** 1.1.0 · **ACL categories:** `@hyperloglog`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Merges the HyperLogLogs at the source keys into `destkey`, so that it estimates their union. A missing source is empty.
 
-Merge one or more source HyperLogLogs into `destkey` by taking the element-wise maximum of all registers; missing source keys are treated as empty; AOF-logged
+## Reply
+
+- `OK`.
+
+## Examples
+
+```
+> PFADD h a b c d
+(integer) 1
+> PFADD h2 c d e f
+(integer) 1
+> PFMERGE m h h2
+OK
+> PFCOUNT m
+(integer) 6
+```

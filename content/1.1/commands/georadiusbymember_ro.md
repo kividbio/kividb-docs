@@ -1,6 +1,6 @@
 ---
 title: "GEORADIUSBYMEMBER_RO"
-description: "Read-only variant of GEORADIUSBYMEMBER; does not support STORE or STOREDIST"
+description: "GEORADIUSBYMEMBER without STORE or STOREDIST, for read-only replicas."
 version: "1.1"
 command: "GEORADIUSBYMEMBER_RO"
 syntax: "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["geo", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,12 @@ GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST]
 
 **Available since:** 1.1.0 · **ACL categories:** `@geo`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+[`GEORADIUSBYMEMBER`](georadiusbymember.md) without `STORE` or `STOREDIST`, for read-only replicas. `STORE` is refused with `ERR syntax error`.
 
-Read-only variant of `GEORADIUSBYMEMBER`; does not support `STORE` or `STOREDIST`
+## Examples
+
+```
+> GEORADIUSBYMEMBER_RO g Palermo 200 km
+1) "Palermo"
+2) "Catania"
+```

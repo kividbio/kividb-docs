@@ -1,6 +1,6 @@
 ---
 title: "PFSELFTEST"
-description: "Run internal correctness tests of the HyperLogLog implementation: verifies empty cardinality returns 0, estimation accuracy is within 2% for 10,000 elements, and register encode/decode round-trips co…"
+description: "Runs KiviDB's checks of its HyperLogLog code: an empty one counts 0, 10,000 elements are estimated within 2%, and registers read back as written."
 version: "1.2"
 command: "PFSELFTEST"
 syntax: "PFSELFTEST"
@@ -11,7 +11,7 @@ flags: ["admin"]
 acl_categories: ["admin", "dangerous", "hyperloglog", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ PFSELFTEST
 
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@hyperloglog`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Runs KiviDB's checks of its HyperLogLog code: an empty one counts 0, 10,000 elements are estimated within 2%, and registers read back as written.
 
-Run internal correctness tests of the HyperLogLog implementation: verifies empty cardinality returns 0, estimation accuracy is within 2% for 10,000 elements, and register encode/decode round-trips correctly; returns OK on success or an error describing the failure
+## Reply
+
+- `OK`, or an error describing what failed.
+
+## Examples
+
+```
+> PFSELFTEST
+OK
+```

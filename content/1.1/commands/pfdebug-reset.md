@@ -1,6 +1,6 @@
 ---
 title: "PFDEBUG RESET"
-description: "Zero all registers and invalidate the cached cardinality, effectively resetting the HyperLogLog to empty while keeping the key; AOF-logged"
+description: "Sets every register of the HyperLogLog to zero, so that it counts 0; the key is kept."
 version: "1.1"
 command: "PFDEBUG RESET"
 syntax: "PFDEBUG RESET key"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "PFDEBUG"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,13 @@ PFDEBUG RESET key
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Sets every register of the HyperLogLog to zero, so that it counts 0; the key is kept.
 
-Zero all registers and invalidate the cached cardinality, effectively resetting the HyperLogLog to empty while keeping the key; AOF-logged
+## Examples
+
+```
+> PFDEBUG RESET h
+OK
+> PFCOUNT h
+(integer) 0
+```

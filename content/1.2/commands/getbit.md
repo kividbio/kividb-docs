@@ -1,6 +1,6 @@
 ---
 title: "GETBIT"
-description: "Return the bit value (0 or 1) at offset; returns 0 if key missing or offset beyond string length"
+description: "Returns the bit at offset in the string at key."
 version: "1.2"
 command: "GETBIT"
 syntax: "GETBIT key offset"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["bitmap", "fast", "read"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ GETBIT key offset
 
 **Available since:** 1.1.0 · **ACL categories:** `@bitmap`, `@fast`, `@read`
 <!-- generated: end -->
-## Description
+Returns the bit at `offset` in the string at `key`.
 
-Return the bit value (0 or 1) at `offset`; returns 0 if key missing or offset beyond string length
+## Reply
+
+- `0` or `1`; `0` if the offset is past the end of the string, or the key does not exist.
+
+## Examples
+
+```
+> SETBIT b 1 1
+(integer) 0
+> GETBIT b 1
+(integer) 1
+> GETBIT b 100
+(integer) 0
+```

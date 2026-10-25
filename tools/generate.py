@@ -178,11 +178,16 @@ def command_pages(version, release, releases, history):
         seed_fm = [fm_line("status", "draft" if notes or subs else "needs-text")]
         seed = ("## Description\n\n" + notes + "\n") if notes else ""
         page = CONTENT / version / "commands" / f"{slug(name)}.md"
-        # A reviewed page is described by its own first sentence.
+        # A reviewed page is described by its own first sentence. A page can
+        # name its group (`group_override`), for a command COMMANDS.md has no
+        # row for.
         if page.exists():
             kept_fm, kept_body = split_page(page.read_text(encoding="utf-8"))
             if any(l.strip() == 'status: "reviewed"' for l in kept_fm) and kept_body.strip():
                 fm["description"] = first_sentence(kept_body.strip().split("\n\n", 1)[0])
+            for line in kept_fm:
+                if line.startswith("group_override:"):
+                    fm["group"] = group = json.loads(line.split(":", 1)[1])
         write_page(page, fm, "\n".join(gen), seed, seed_fm)
         if not parent:
             index.setdefault(group, []).append((name, fm["description"], fm["since"]))

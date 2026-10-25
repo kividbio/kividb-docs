@@ -1,6 +1,6 @@
 ---
 title: "GEORADIUSBYMEMBER"
-description: "Query members within a radius of an existing member; supports STORE and STOREDIST; AOF-logged when storing"
+description: "GEORADIUS centred on a member of the index, not a position."
 version: "1.1"
 command: "GEORADIUSBYMEMBER"
 syntax: "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC] [STORE key | STOREDIST key]"
@@ -11,7 +11,7 @@ flags: ["movablekeys", "readonly"]
 acl_categories: ["geo", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,14 @@ GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [W
 
 **Available since:** 1.1.0 · **ACL categories:** `@geo`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+[`GEORADIUS`](georadius.md) centred on a member of the index, not a position.
 
-Query members within a radius of an existing member; supports `STORE` and `STOREDIST`; AOF-logged when storing
+## Examples
+
+```
+> GEOADD g 13.361389 38.115556 Palermo 15.087269 37.502669 Catania
+(integer) 2
+> GEORADIUSBYMEMBER g Palermo 200 km
+1) "Palermo"
+2) "Catania"
+```
