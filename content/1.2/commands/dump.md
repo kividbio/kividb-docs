@@ -1,6 +1,6 @@
 ---
 title: "DUMP"
-description: "Serialize the value at key to a binary string in KiviDB's snapshot format with a 10-byte CRC64 envelope; returns nil if key missing or expired; TimeSeries and VectorSet keys are not portable"
+description: "Serializes the value at key into a payload that RESTORE turns back into the value."
 version: "1.2"
 command: "DUMP"
 syntax: "DUMP key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["generic", "keyspace", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ DUMP key
 
 **Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Serializes the value at `key` into a payload that [`RESTORE`](restore.md) turns back into the value.
 
-Serialize the value at key to a binary string in KiviDB's snapshot format with a 10-byte CRC64 envelope; returns nil if key missing or expired; TimeSeries and VectorSet keys are not portable
+The payload is in KiviDB's own snapshot format, with a 2-byte version and a CRC64 checksum at the end, as Redis does. It restores into KiviDB, not into Redis. Time series and vector sets, which Redis has no type for, dump and restore between KiviDB servers.
+
+## Reply
+
+- The payload, as a bulk string.
+- `nil` if the key does not exist.
+
+## Examples
+
+```
+> SET src hello
+OK
+> DUMP src
+"\x01\x05\x00\x00\x00hello\n\x00..."
+```

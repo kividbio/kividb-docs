@@ -63,33 +63,33 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`COPY`](copy.md) | Copy the value of source to destination without deleting source; REPLACE overwrites destination if it exists; DB copies to a different database; returns 1 if copied, 0 if skipped | 1.1.0 |
-| [`DEL`](del.md) | Delete one or more keys; returns count of keys actually removed; ignores missing keys | 1.1.0 |
-| [`DUMP`](dump.md) | Serialize the value at key to a binary string in KiviDB's snapshot format with a 10-byte CRC64 envelope; returns nil if key missing or expired; TimeSeries and VectorSet keys are not portable | 1.1.0 |
-| [`EXISTS`](exists.md) | Count how many of the given keys exist; the same key repeated counts multiple times | 1.1.0 |
-| [`EXPIRE`](expire.md) | Set a TTL in seconds; returns 1 if set, 0 if key missing or condition not met; NX=only if no TTL exists, XX=only if TTL exists, GT=only if new TTL is greater than current, LT=only if new TTL is less… | 1.1.0 |
-| [`EXPIREAT`](expireat.md) | Set expiry as an absolute Unix timestamp in seconds; a past timestamp expires the key immediately; same NX/XX/GT/LT conditions | 1.1.0 |
-| [`EXPIRETIME`](expiretime.md) | Absolute Unix expiry timestamp in seconds; -1 = no expiry, -2 = key not found or expired | 1.1.0 |
-| [`KEYS`](keys.md) | Return all keys matching a glob pattern; O(N) over the full keyspace — avoid in production hot paths | 1.1.0 |
-| [`MOVE`](move.md) | Move a key to another database; returns 1 if moved, 0 if key missing or already exists in target db | 1.1.0 |
-| [`OBJECT`](object.md) | OBJECT and its subcommands. | 1.1.0 |
-| [`PERSIST`](persist.md) | Remove the TTL from a key; returns 1 if a TTL was removed, 0 if key had no TTL or does not exist | 1.1.0 |
-| [`PEXPIRE`](pexpire.md) | Set a TTL in milliseconds; same NX/XX/GT/LT conditions as EXPIRE | 1.1.0 |
-| [`PEXPIREAT`](pexpireat.md) | Set expiry as an absolute Unix timestamp in milliseconds; same NX/XX/GT/LT conditions | 1.1.0 |
-| [`PEXPIRETIME`](pexpiretime.md) | Absolute Unix expiry timestamp in milliseconds; -1 = no expiry, -2 = key not found or expired | 1.1.0 |
-| [`PTTL`](pttl.md) | Remaining TTL in milliseconds; -1 = no expiry, -2 = key not found or expired | 1.1.0 |
-| [`RANDOMKEY`](randomkey.md) | Return a random key from the current database; nil if the database is empty | 1.1.0 |
-| [`RENAME`](rename.md) | Rename a key; overwrites destination if it exists; returns ERR if source does not exist; preserves TTL | 1.1.0 |
-| [`RENAMENX`](renamenx.md) | Rename only if destination does not exist; returns 1 if renamed, 0 if destination exists | 1.1.0 |
-| [`RESTORE`](restore.md) | Deserialize a value from a DUMP payload and store it at key; ttl is in milliseconds (0 = no expiry); REPLACE overwrites an existing key; ABSTTL treats ttl as a Unix timestamp in milliseconds; returns… | 1.1.0 |
-| [`SCAN`](scan.md) | Cursor-based incremental key iteration; cursor 0 starts and ends a full cycle; MATCH filters by glob pattern (Redis's matching rules); COUNT is a hint for page size (default 10); TYPE returns only ke… | 1.1.0 |
-| [`SORT`](sort.md) | Sort the elements of a list, set, or sorted set; numeric sort by default; ALPHA for lexicographic; LIMIT for pagination; STORE writes result as a List and returns count; BY pattern sorts by external… | 1.1.0 |
-| [`SORT_RO`](sort_ro.md) | Read-only variant of SORT; identical except STORE is rejected | 1.1.0 |
-| [`SWAPDB`](swapdb.md) | Atomically swap the contents of two databases; all keys and expiries are exchanged | 1.1.0 |
-| [`TOUCH`](touch.md) | Returns the count of keys that exist; expired keys count as absent; does not modify LRU | 1.1.0 |
-| [`TTL`](ttl.md) | Remaining TTL in seconds; -1 = no expiry, -2 = key not found or expired | 1.1.0 |
-| [`TYPE`](type.md) | Return the data type of a key: string, list, set, zset, hash, stream, ReJSON-RL, or none if missing/expired | 1.1.0 |
-| [`UNLINK`](unlink.md) | Alias for DEL — accepted for Redis compatibility | 1.1.0 |
+| [`COPY`](copy.md) | Copies the value at source to destination, with its expiry. | 1.1.0 |
+| [`DEL`](del.md) | Deletes the given keys, of any type. | 1.1.0 |
+| [`DUMP`](dump.md) | Serializes the value at key into a payload that RESTORE turns back into the value. | 1.1.0 |
+| [`EXISTS`](exists.md) | Counts how many of the given keys exist. | 1.1.0 |
+| [`EXPIRE`](expire.md) | Makes key expire after seconds. | 1.1.0 |
+| [`EXPIREAT`](expireat.md) | Makes key expire at a Unix time, in seconds. | 1.1.0 |
+| [`EXPIRETIME`](expiretime.md) | Returns the Unix time, in seconds, at which key expires. | 1.1.0 |
+| [`KEYS`](keys.md) | Returns every key of the current database that matches a glob-style pattern. | 1.1.0 |
+| [`MOVE`](move.md) | Moves key to database db. | 1.1.0 |
+| [`OBJECT`](object.md) | Inspects how a key's value is stored and used. | 1.1.0 |
+| [`PERSIST`](persist.md) | Removes the expiry of key, so that it is kept until deleted. | 1.1.0 |
+| [`PEXPIRE`](pexpire.md) | Makes key expire after milliseconds. | 1.1.0 |
+| [`PEXPIREAT`](pexpireat.md) | Makes key expire at a Unix time, in milliseconds. | 1.1.0 |
+| [`PEXPIRETIME`](pexpiretime.md) | Returns the Unix time, in milliseconds, at which key expires. | 1.1.0 |
+| [`PTTL`](pttl.md) | Returns how long key has before it expires, in milliseconds. | 1.1.0 |
+| [`RANDOMKEY`](randomkey.md) | Returns a key of the current database, picked at random. | 1.1.0 |
+| [`RENAME`](rename.md) | Renames source to destination, with its expiry. | 1.1.0 |
+| [`RENAMENX`](renamenx.md) | Renames source to destination only if destination does not exist. | 1.1.0 |
+| [`RESTORE`](restore.md) | Creates key from a DUMP payload. | 1.1.0 |
+| [`SCAN`](scan.md) | Goes through the keys of the current database a page at a time. | 1.1.0 |
+| [`SORT`](sort.md) | Sorts the elements of a list, set or sorted set, as numbers unless ALPHA is given. | 1.1.0 |
+| [`SORT_RO`](sort_ro.md) | SORT without STORE: it only reads, so it can be sent to a read-only replica. | 1.1.0 |
+| [`SWAPDB`](swapdb.md) | Swaps the contents of two databases in one step, keys and expiries together. | 1.1.0 |
+| [`TOUCH`](touch.md) | Counts how many of the given keys exist. | 1.1.0 |
+| [`TTL`](ttl.md) | Returns how long key has before it expires, in seconds. | 1.1.0 |
+| [`TYPE`](type.md) | Returns the type of the value at key. | 1.1.0 |
+| [`UNLINK`](unlink.md) | Deletes the given keys, like DEL, but frees large values in the background. | 1.1.0 |
 
 ## Geospatial
 

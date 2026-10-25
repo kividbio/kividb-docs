@@ -1,6 +1,6 @@
 ---
 title: "OBJECT"
-description: "OBJECT and its subcommands."
+description: "Inspects how a key's value is stored and used."
 version: "1.2"
 command: "OBJECT"
 syntax: "OBJECT"
@@ -12,7 +12,7 @@ acl_categories: ["generic", "keyspace", "read", "slow"]
 history: []
 subcommands: ["OBJECT ENCODING", "OBJECT FREQ", "OBJECT HELP", "OBJECT IDLETIME", "OBJECT REFCOUNT"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ OBJECT
 
 Subcommands: [OBJECT ENCODING](object-encoding.md), [OBJECT FREQ](object-freq.md), [OBJECT HELP](object-help.md), [OBJECT IDLETIME](object-idletime.md), [OBJECT REFCOUNT](object-refcount.md)
 <!-- generated: end -->
+Inspects how a key's value is stored and used. See its subcommands.

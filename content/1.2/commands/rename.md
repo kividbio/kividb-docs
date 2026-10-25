@@ -1,6 +1,6 @@
 ---
 title: "RENAME"
-description: "Rename a key; overwrites destination if it exists; returns ERR if source does not exist; preserves TTL"
+description: "Renames source to destination, with its expiry."
 version: "1.2"
 command: "RENAME"
 syntax: "RENAME source destination"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["generic", "keyspace", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,22 @@ RENAME source destination
 
 **Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Renames `source` to `destination`, with its expiry. If `destination` exists, it is replaced.
 
-Rename a key; overwrites destination if it exists; returns `ERR` if source does not exist; preserves TTL
+## Reply
+
+- `OK`.
+- `ERR no such key` if `source` does not exist.
+
+## Examples
+
+```
+> SET r v EX 100
+OK
+> RENAME r r2
+OK
+> TTL r2
+(integer) 100
+> RENAME nope x
+(error) ERR no such key
+```

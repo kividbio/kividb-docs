@@ -1,6 +1,6 @@
 ---
 title: "SORT_RO"
-description: "Read-only variant of SORT; identical except STORE is rejected"
+description: "SORT without STORE: it only reads, so it can be sent to a read-only replica."
 version: "1.2"
 command: "SORT_RO"
 syntax: "SORT_RO key [BY pattern] [LIMIT offset count] [GET pattern [...]] [ASC|DESC] [ALPHA]"
@@ -11,7 +11,7 @@ flags: ["movablekeys", "readonly"]
 acl_categories: ["generic", "keyspace", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ SORT_RO key [BY pattern] [LIMIT offset count] [GET pattern [...]] [ASC|DESC] [AL
 
 **Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+[`SORT`](sort.md) without `STORE`: it only reads, so it can be sent to a read-only replica.
 
-Read-only variant of `SORT`; identical except `STORE` is rejected
+## Reply
+
+- The sorted elements, or what `GET` reads.
+- `ERR syntax error` if `STORE` is given.
+
+## Examples
+
+```
+> RPUSH nums 3 1 2
+(integer) 3
+> SORT_RO nums
+1) "1"
+2) "2"
+3) "3"
+```

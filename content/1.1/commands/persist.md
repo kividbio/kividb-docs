@@ -1,6 +1,6 @@
 ---
 title: "PERSIST"
-description: "Remove the TTL from a key; returns 1 if a TTL was removed, 0 if key had no TTL or does not exist"
+description: "Removes the expiry of key, so that it is kept until deleted."
 version: "1.1"
 command: "PERSIST"
 syntax: "PERSIST key"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "generic", "keyspace", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ PERSIST key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@write`
 <!-- generated: end -->
-## Description
+Removes the expiry of `key`, so that it is kept until deleted.
 
-Remove the TTL from a key; returns 1 if a TTL was removed, 0 if key had no TTL or does not exist
+## Reply
+
+- `1` if an expiry was removed.
+- `0` if the key had none, or does not exist.
+
+## Examples
+
+```
+> SET a 1 EX 100
+OK
+> PERSIST a
+(integer) 1
+> PERSIST a
+(integer) 0
+```

@@ -1,6 +1,6 @@
 ---
 title: "DEL"
-description: "Delete one or more keys; returns count of keys actually removed; ignores missing keys"
+description: "Deletes the given keys, of any type."
 version: "1.2"
 command: "DEL"
 syntax: "DEL key [key ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["generic", "keyspace", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ DEL key [key ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Deletes the given keys, of any type. Keys that do not exist are skipped.
 
-Delete one or more keys; returns count of keys actually removed; ignores missing keys
+## Reply
+
+- The number of keys deleted.
+
+## Examples
+
+```
+> SET a 1
+OK
+> SET b 2
+OK
+> DEL a b missing
+(integer) 2
+```

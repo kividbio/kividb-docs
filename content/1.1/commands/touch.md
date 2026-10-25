@@ -1,6 +1,6 @@
 ---
 title: "TOUCH"
-description: "Returns the count of keys that exist; expired keys count as absent; does not modify LRU"
+description: "Counts how many of the given keys exist."
 version: "1.1"
 command: "TOUCH"
 syntax: "TOUCH key [key ...]"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "generic", "keyspace", "read"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ TOUCH key [key ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@read`
 <!-- generated: end -->
-## Description
+Counts how many of the given keys exist. An expired key counts as missing.
 
-Returns the count of keys that exist; expired keys count as absent; does not modify LRU
+## Reply
+
+- The count.
+
+## Examples
+
+```
+> SET a 1
+OK
+> TOUCH a missing
+(integer) 1
+```

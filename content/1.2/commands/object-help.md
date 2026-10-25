@@ -1,6 +1,6 @@
 ---
 title: "OBJECT HELP"
-description: "List the OBJECT subcommands"
+description: "Lists the OBJECT subcommands and what each does."
 version: "1.2"
 command: "OBJECT HELP"
 syntax: "OBJECT HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "OBJECT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ OBJECT HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-List the `OBJECT` subcommands
+Lists the `OBJECT` subcommands and what each does.

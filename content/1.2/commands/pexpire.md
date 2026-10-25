@@ -1,6 +1,6 @@
 ---
 title: "PEXPIRE"
-description: "Set a TTL in milliseconds; same NX/XX/GT/LT conditions as EXPIRE"
+description: "Makes key expire after milliseconds."
 version: "1.2"
 command: "PEXPIRE"
 syntax: "PEXPIRE key milliseconds [NX | XX | GT | LT]"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "generic", "keyspace", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ PEXPIRE key milliseconds [NX | XX | GT | LT]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@write`
 <!-- generated: end -->
-## Description
+Makes `key` expire after `milliseconds`. It takes the same `NX`, `XX`, `GT` and `LT` conditions as [`EXPIRE`](expire.md).
 
-Set a TTL in milliseconds; same NX/XX/GT/LT conditions as `EXPIRE`
+## Reply
+
+- `1` if the expiry was set; `0` if the key does not exist or the condition was not met.
+
+## Examples
+
+```
+> SET a 1
+OK
+> PEXPIRE a 5000
+(integer) 1
+> PTTL a
+(integer) 5000
+```

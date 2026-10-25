@@ -1,6 +1,6 @@
 ---
 title: "OBJECT ENCODING"
-description: "The encoding Redis would use for the value, from its size and the *-max-listpack-* / set-max-intset-entries settings: int, embstr or raw for strings; listpack or quicklist for lists; listpack, intset…"
+description: "Returns the name of the encoding Redis would use for the value at key, from the value's size and the *-max-listpack-* and set-max-intset-entries settings."
 version: "1.1"
 command: "OBJECT ENCODING"
 syntax: "OBJECT ENCODING key"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "OBJECT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,8 +21,28 @@ OBJECT ENCODING key
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the name of the encoding Redis would use for the value at `key`, from the value's size and the `*-max-listpack-*` and `set-max-intset-entries` settings.
 
-The encoding Redis would use for the value, from its size and the `*-max-listpack-*` / `set-max-intset-entries` settings: `int`, `embstr` or `raw` for strings; `listpack` or `quicklist` for lists; `listpack`, `intset` or `hashtable` for sets; `listpack` or `hashtable` for hashes; `listpack` or `skiplist` for sorted sets; `stream`. KiviDB stores each type one way internally; the name is for clients and tests that look at it
+KiviDB stores each type one way, whatever its size. The name is there for clients and tests that look at it.
 
-The encoding Redis would use for the value, from its size and the `*-max-listpack-*` / `set-max-intset-entries` settings: `int`, `embstr` or `raw` for strings; `listpack` or `quicklist` for lists; `listpack`, `intset` or `hashtable` for sets; `listpack` or `hashtable` for hashes; `listpack` or `skiplist` for sorted sets; `stream`. KiviDB stores each type one way internally; the name is for clients and tests that look at it
+| Type | Names |
+|---|---|
+| string | `int`, `embstr`, `raw` |
+| list | `listpack`, `quicklist` |
+| set | `listpack`, `intset`, `hashtable` |
+| hash | `listpack`, `hashtable` |
+| sorted set | `listpack`, `skiplist` |
+| stream | `stream` |
+
+## Examples
+
+```
+> SET a 123
+OK
+> OBJECT ENCODING a
+"int"
+> SET b hello
+OK
+> OBJECT ENCODING b
+"embstr"
+```

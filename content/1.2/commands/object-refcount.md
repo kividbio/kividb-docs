@@ -1,6 +1,6 @@
 ---
 title: "OBJECT REFCOUNT"
-description: "Returns 1 — semantically correct since every value is behind a single Arc; returns nil for missing or expired keys"
+description: "Returns 1 for a key that exists: in KiviDB a value is not shared between keys."
 version: "1.2"
 command: "OBJECT REFCOUNT"
 syntax: "OBJECT REFCOUNT key"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "OBJECT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,8 +21,18 @@ OBJECT REFCOUNT key
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns `1` for a key that exists: in KiviDB a value is not shared between keys.
 
-Returns `1` — semantically correct since every value is behind a single `Arc`; returns nil for missing or expired keys
+## Reply
 
-Returns `1` for existing keys; nil for missing
+- `1`.
+- `nil` if the key does not exist.
+
+## Examples
+
+```
+> SET a 123
+OK
+> OBJECT REFCOUNT a
+(integer) 1
+```

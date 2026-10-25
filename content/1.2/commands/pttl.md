@@ -1,6 +1,6 @@
 ---
 title: "PTTL"
-description: "Remaining TTL in milliseconds; -1 = no expiry, -2 = key not found or expired"
+description: "Returns how long key has before it expires, in milliseconds."
 version: "1.2"
 command: "PTTL"
 syntax: "PTTL key"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "generic", "keyspace", "read"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ PTTL key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@read`
 <!-- generated: end -->
-## Description
+Returns how long `key` has before it expires, in milliseconds.
 
-Remaining TTL in milliseconds; `-1` = no expiry, `-2` = key not found or expired
+## Reply
+
+- The milliseconds left.
+- `-1` if the key has no expiry.
+- `-2` if the key does not exist.
+
+## Examples
+
+```
+> PSETEX p 1500 v
+OK
+> PTTL p
+(integer) 1500
+```

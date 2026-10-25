@@ -1,6 +1,6 @@
 ---
 title: "EXISTS"
-description: "Count how many of the given keys exist; the same key repeated counts multiple times"
+description: "Counts how many of the given keys exist."
 version: "1.1"
 command: "EXISTS"
 syntax: "EXISTS key [key ...]"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "generic", "keyspace", "read"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ EXISTS key [key ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@read`
 <!-- generated: end -->
-## Description
+Counts how many of the given keys exist. A key given twice is counted twice.
 
-Count how many of the given keys exist; the same key repeated counts multiple times
+## Reply
+
+- The count.
+
+## Examples
+
+```
+> SET a 1
+OK
+> EXISTS a a missing
+(integer) 2
+```

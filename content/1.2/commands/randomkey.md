@@ -1,6 +1,6 @@
 ---
 title: "RANDOMKEY"
-description: "Return a random key from the current database; nil if the database is empty"
+description: "Returns a key of the current database, picked at random."
 version: "1.2"
 command: "RANDOMKEY"
 syntax: "RANDOMKEY"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["generic", "keyspace", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,22 @@ RANDOMKEY
 
 **Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns a key of the current database, picked at random.
 
-Return a random key from the current database; nil if the database is empty
+## Reply
+
+- A key name.
+- `nil` if the database is empty.
+
+## Examples
+
+```
+> FLUSHDB
+OK
+> RANDOMKEY
+(nil)
+> SET k1 1
+OK
+> RANDOMKEY
+"k1"
+```

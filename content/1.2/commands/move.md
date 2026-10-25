@@ -1,6 +1,6 @@
 ---
 title: "MOVE"
-description: "Move a key to another database; returns 1 if moved, 0 if key missing or already exists in target db"
+description: "Moves key to database db."
 version: "1.2"
 command: "MOVE"
 syntax: "MOVE key db"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["generic", "keyspace", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ MOVE key db
 
 **Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Moves `key` to database `db`.
 
-Move a key to another database; returns 1 if moved, 0 if key missing or already exists in target db
+## Reply
+
+- `1` if the key was moved.
+- `0` if the key does not exist, or `db` already has a key of that name; then nothing changes.
+
+## Examples
+
+```
+> SET m v
+OK
+> MOVE m 1
+(integer) 1
+> MOVE m 1
+(integer) 0
+```

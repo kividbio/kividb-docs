@@ -1,6 +1,6 @@
 ---
 title: "TTL"
-description: "Remaining TTL in seconds; -1 = no expiry, -2 = key not found or expired"
+description: "Returns how long key has before it expires, in seconds."
 version: "1.2"
 command: "TTL"
 syntax: "TTL key"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "generic", "keyspace", "read"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,25 @@ TTL key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@read`
 <!-- generated: end -->
-## Description
+Returns how long `key` has before it expires, in seconds.
 
-Remaining TTL in seconds; `-1` = no expiry, `-2` = key not found or expired
+## Reply
+
+- The seconds left.
+- `-1` if the key has no expiry.
+- `-2` if the key does not exist.
+
+## Examples
+
+```
+> SET a 1 EX 100
+OK
+> TTL a
+(integer) 100
+> PERSIST a
+(integer) 1
+> TTL a
+(integer) -1
+> TTL missing
+(integer) -2
+```
