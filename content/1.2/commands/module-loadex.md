@@ -1,6 +1,6 @@
 ---
 title: "MODULE LOADEX"
-description: "The MODULE LOADEX command."
+description: "Refused, as MODULE LOAD is."
 version: "1.2"
 command: "MODULE LOADEX"
 syntax: "MODULE LOADEX"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "MODULE"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ MODULE LOADEX
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Refused, as [`MODULE LOAD`](module-load.md) is.

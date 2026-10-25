@@ -1,6 +1,6 @@
 ---
 title: "FT.CONFIG HELP"
-description: "The FT.CONFIG HELP command."
+description: "Lists the FT.CONFIG subcommands and what each does."
 version: "1.2"
 command: "FT.CONFIG HELP"
 syntax: "FT.CONFIG HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "FT.CONFIG"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ FT.CONFIG HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `FT.CONFIG` subcommands and what each does.

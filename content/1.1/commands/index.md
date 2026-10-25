@@ -220,14 +220,6 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 | [`LATENCY`](latency.md) | The latency monitor: it records, for each kind of event, the times it took longer than latency-monitor-threshold milliseconds, which is 0, off, by default. | 1.1.0 |
 | [`SLOWLOG`](slowlog.md) | The slow log: the commands that took longer than slowlog-log-slower-than microseconds to run, up to slowlog-max-len entries (128 by default). | 1.1.0 |
 
-## Other
-
-| Command | Summary | Since |
-|---|---|---|
-| [`BACKUP`](backup.md) | BACKUP and its subcommands. | 1.1.0 |
-| [`FAILOVER`](failover.md) | The FAILOVER command. | 1.1.0 |
-| [`MODULE`](module.md) | MODULE and its subcommands. | 1.1.0 |
-
 ## Pub sub
 
 | Command | Summary | Since |
@@ -262,6 +254,7 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
+| [`BACKUP`](backup.md) | Takes a consistent backup of the dataset while the server keeps serving: a snapshot as of the start, then the writes that follow, up to the moment it is sealed. | 1.1.0 |
 | [`BGREWRITEAOF`](bgrewriteaof.md) | Trigger a background AOF rewrite; returns ERR if AOF is not enabled | 1.1.0 |
 | [`BGSAVE`](bgsave.md) | Save a snapshot in the background | 1.1.0 |
 | [`CLIENT`](client.md) | CLIENT and its subcommands. | 1.1.0 |
@@ -270,6 +263,7 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 | [`DBSIZE`](dbsize.md) | Return the number of keys in the current database | 1.1.0 |
 | [`DEBUG`](debug.md) | Accepted and ignored for redis-cli compatibility | 1.1.0 |
 | [`ECHO`](echo.md) | Returns the message back | 1.1.0 |
+| [`FAILOVER`](failover.md) | Refused. | 1.1.0 |
 | [`FLUSHALL`](flushall.md) | Delete all keys in all databases | 1.1.0 |
 | [`FLUSHDB`](flushdb.md) | Delete all keys in the current database | 1.1.0 |
 | [`HELLO`](hello.md) | Switch the connection to RESP2 or RESP3 and return the server's details (server, version, proto, id, mode, role, modules) — a map under RESP3. | 1.1.0 |
@@ -277,6 +271,7 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 | [`LASTSAVE`](lastsave.md) | Return the Unix timestamp of the last successful save | 1.1.0 |
 | [`LOLWUT`](lolwut.md) | Return ASCII art and the server version | 1.1.0 |
 | [`MEMORY`](memory.md) | MEMORY and its subcommands. | 1.1.0 |
+| [`MODULE`](module.md) | KiviDB does not load modules. | 1.1.0 |
 | [`MONITOR`](monitor.md) | Stream every command executed on the server to this connection in real time. | 1.1.0 |
 | [`PSYNC`](psync.md) | Internal replication sync command | 1.1.0 |
 | [`REPLCONF`](replconf.md) | Internal replication configuration command | 1.1.0 |

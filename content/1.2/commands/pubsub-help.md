@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB HELP"
-description: "The PUBSUB HELP command."
+description: "Lists the PUBSUB subcommands and what each does."
 version: "1.2"
 command: "PUBSUB HELP"
 syntax: "PUBSUB HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "PUBSUB"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ PUBSUB HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `PUBSUB` subcommands and what each does.

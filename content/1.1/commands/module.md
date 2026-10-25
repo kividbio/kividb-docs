@@ -1,10 +1,10 @@
 ---
 title: "MODULE"
-description: "MODULE and its subcommands."
+description: "KiviDB does not load modules."
 version: "1.1"
 command: "MODULE"
 syntax: "MODULE"
-group: "other"
+group: "server"
 since: "1.1.0"
 arity: -2
 flags: ["admin"]
@@ -12,7 +12,8 @@ acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 subcommands: ["MODULE HELP", "MODULE LIST", "MODULE LOAD", "MODULE LOADEX", "MODULE UNLOAD"]
 # generated: end
-status: "needs-text"
+status: "reviewed"
+group_override: "server"
 ---
 
 <!-- generated: start -->
@@ -26,3 +27,4 @@ MODULE
 
 Subcommands: [MODULE HELP](module-help.md), [MODULE LIST](module-list.md), [MODULE LOAD](module-load.md), [MODULE LOADEX](module-loadex.md), [MODULE UNLOAD](module-unload.md)
 <!-- generated: end -->
+KiviDB does not load modules. Search, JSON, time series and vector sets are built in. [`MODULE LIST`](module-list.md) names them, for clients that check which modules a server has.

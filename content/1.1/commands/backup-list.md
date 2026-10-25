@@ -1,6 +1,6 @@
 ---
 title: "BACKUP LIST"
-description: "The BACKUP LIST command."
+description: "Returns the paths of the backup's files that are complete and safe to copy: the snapshot; once sealed, also the writes and the manifest."
 version: "1.1"
 command: "BACKUP LIST"
 syntax: "BACKUP LIST"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "BACKUP"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,13 @@ BACKUP LIST
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Returns the paths of the backup's files that are complete and safe to copy: the snapshot; once sealed, also the writes and the manifest.
+
+## Examples
+
+```
+> BACKUP LIST
+1) "/data/backupdir/appendonly.aof.1.base.kdb"
+2) "/data/backupdir/appendonly.aof.1.incr.aof"
+3) "/data/backupdir/appendonly.aof.manifest"
+```

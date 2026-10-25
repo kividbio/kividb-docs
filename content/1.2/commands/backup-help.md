@@ -1,6 +1,6 @@
 ---
 title: "BACKUP HELP"
-description: "The BACKUP HELP command."
+description: "Lists the BACKUP subcommands and what each does."
 version: "1.2"
 command: "BACKUP HELP"
 syntax: "BACKUP HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "BACKUP"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ BACKUP HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `BACKUP` subcommands and what each does.

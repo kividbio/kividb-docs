@@ -1,6 +1,6 @@
 ---
 title: "BACKUP CLEANUP"
-description: "The BACKUP CLEANUP command."
+description: "Removes the files of a sealed or failed backup."
 version: "1.1"
 command: "BACKUP CLEANUP"
 syntax: "BACKUP CLEANUP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "BACKUP"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,10 @@ BACKUP CLEANUP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Removes the files of a sealed or failed backup.
+
+## Reply
+
+- `OK`.
+- `ERR a backup is in progress; seal or abort it first`.
+- `ERR there is no backup to clean up`.

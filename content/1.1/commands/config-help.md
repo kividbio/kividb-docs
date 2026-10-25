@@ -1,6 +1,6 @@
 ---
 title: "CONFIG HELP"
-description: "The CONFIG HELP command."
+description: "Lists the CONFIG subcommands and what each does."
 version: "1.1"
 command: "CONFIG HELP"
 syntax: "CONFIG HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CONFIG"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ CONFIG HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `CONFIG` subcommands and what each does.

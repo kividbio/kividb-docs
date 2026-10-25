@@ -1,6 +1,6 @@
 ---
 title: "BACKUP START"
-description: "The BACKUP START command."
+description: "Starts a backup: writes a snapshot of the dataset as of now into the backup directory, then collects the writes that follow."
 version: "1.1"
 command: "BACKUP START"
 syntax: "BACKUP START"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "BACKUP"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,20 @@ BACKUP START
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Starts a backup: writes a snapshot of the dataset as of now into the backup directory, then collects the writes that follow.
+
+## Reply
+
+- `OK`.
+- `ERR a backup is already in progress`.
+
+## Examples
+
+```
+> BACKUP START
+OK
+> BACKUP STATUS
+1) "state"
+2) "snapshotting"
+...
+```

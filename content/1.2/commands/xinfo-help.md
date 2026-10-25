@@ -1,6 +1,6 @@
 ---
 title: "XINFO HELP"
-description: "The XINFO HELP command."
+description: "Lists the XINFO subcommands and what each does."
 version: "1.2"
 command: "XINFO HELP"
 syntax: "XINFO HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "XINFO"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ XINFO HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `XINFO` subcommands and what each does.

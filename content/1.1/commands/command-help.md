@@ -1,6 +1,6 @@
 ---
 title: "COMMAND HELP"
-description: "The COMMAND HELP command."
+description: "Lists the COMMAND subcommands and what each does."
 version: "1.1"
 command: "COMMAND HELP"
 syntax: "COMMAND HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "COMMAND"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ COMMAND HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `COMMAND` subcommands and what each does.

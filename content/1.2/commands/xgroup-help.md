@@ -1,6 +1,6 @@
 ---
 title: "XGROUP HELP"
-description: "The XGROUP HELP command."
+description: "Lists the XGROUP subcommands and what each does."
 version: "1.2"
 command: "XGROUP HELP"
 syntax: "XGROUP HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "XGROUP"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ XGROUP HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `XGROUP` subcommands and what each does.

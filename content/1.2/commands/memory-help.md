@@ -1,6 +1,6 @@
 ---
 title: "MEMORY HELP"
-description: "List the MEMORY subcommands"
+description: "Lists the MEMORY subcommands and what each does."
 version: "1.2"
 command: "MEMORY HELP"
 syntax: "MEMORY HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "MEMORY"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ MEMORY HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-List the `MEMORY` subcommands
+Lists the `MEMORY` subcommands and what each does.

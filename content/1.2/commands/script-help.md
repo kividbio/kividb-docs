@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT HELP"
-description: "The SCRIPT HELP command."
+description: "Lists the SCRIPT subcommands and what each does."
 version: "1.2"
 command: "SCRIPT HELP"
 syntax: "SCRIPT HELP"
@@ -9,7 +9,7 @@ since: "1.1.2"
 history: []
 container: "SCRIPT"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ SCRIPT HELP
 
 **Available since:** 1.1.2
 <!-- generated: end -->
+Lists the `SCRIPT` subcommands and what each does.

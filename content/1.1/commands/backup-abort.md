@@ -1,6 +1,6 @@
 ---
 title: "BACKUP ABORT"
-description: "The BACKUP ABORT command."
+description: "Cancels a backup that has not been sealed; its state becomes failed, with the error aborted."
 version: "1.1"
 command: "BACKUP ABORT"
 syntax: "BACKUP ABORT"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "BACKUP"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ BACKUP ABORT
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Cancels a backup that has not been sealed; its state becomes `failed`, with the error `aborted`.

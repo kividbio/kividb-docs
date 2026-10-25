@@ -1,6 +1,6 @@
 ---
 title: "JSON.DEBUG HELP"
-description: "The JSON.DEBUG HELP command."
+description: "Lists the JSON.DEBUG subcommands and what each does."
 version: "1.2"
 command: "JSON.DEBUG HELP"
 syntax: "JSON.DEBUG HELP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "JSON.DEBUG"
 # generated: end
-status: "needs-text"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,3 +21,4 @@ JSON.DEBUG HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
+Lists the `JSON.DEBUG` subcommands and what each does.
