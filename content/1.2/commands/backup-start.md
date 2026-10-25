@@ -23,6 +23,10 @@ BACKUP START
 <!-- generated: end -->
 Starts a backup: writes a snapshot of the dataset as of now into the backup directory, then collects the writes that follow.
 
+## Known issue
+
+After a restart, a sealed backup's files are left in the directory, and it refuses to start until they are deleted by hand. Filed as [kividb#150](https://github.com/kividbio/kividb/issues/150).
+
 ## Reply
 
 - `OK`.

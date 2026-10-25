@@ -25,6 +25,10 @@ REPLICAOF host port | NO ONE
 <!-- generated: end -->
 Makes the server a replica of the master at `host port`, or, with `NO ONE`, a master. It is refused in cluster mode, where [`CLUSTER REPLICATE`](cluster-replicate.md) does it.
 
+## Known issue
+
+A replica accepts replicas of its own, but sends them only its first snapshot and nothing after, while their `ROLE` says `connected`: replicate every replica from the master. Filed as [kividb#144](https://github.com/kividbio/kividb/issues/144).
+
 ## Examples
 
 ```

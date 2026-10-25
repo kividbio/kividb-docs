@@ -29,6 +29,10 @@ Only the `lua` and `full` builds run scripts. In the default build, every script
 
 Inside a script, `redis.call(command, ...)` runs a command and raises its error, if it fails; `redis.pcall` returns the error instead. `redis.error_reply(text)` and `redis.status_reply(text)` make replies.
 
+## Known issue
+
+Refused on a replica with `READONLY`, even for a script that only reads; use [`EVAL_RO`](eval_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145).
+
 ## Reply
 
 What the script returns, converted to RESP:

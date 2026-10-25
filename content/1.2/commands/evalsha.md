@@ -25,6 +25,10 @@ EVALSHA sha1 numkeys key [key ...] arg [arg ...]
 <!-- generated: end -->
 Runs a script the server already has, named by its SHA1 digest, as [`SCRIPT LOAD`](script-load.md) returns it, or as a previous `EVAL` cached it. Clients send the digest instead of the whole script.
 
+## Known issue
+
+Refused on a replica with `READONLY`, even for a script that only reads; use [`EVALSHA_RO`](evalsha_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145).
+
 ## Reply
 
 - What the script returns, as for [`EVAL`](eval.md).

@@ -15,7 +15,8 @@ These pages document KiviDB 1.1, which covers releases 1.1.0, 1.1.1 and 1.1.2. A
 - [Quick start](get-started/quick-start.md): connect, store and read data, and what is different from Redis out of the box.
 - [Choose a build](get-started/builds.md): the default build, or one with Lua scripting, TLS, or both.
 - [Commands](commands/index.md): every command, by group.
-- [Configuration](reference/configuration.md): every setting and its default.
+- [Configuration](reference/configuration.md): every setting, its default, how it is given, and what it does.
+- Guides: [Persistence](guides/persistence.md), [Replication](guides/replication.md).
 - [What changed](changes.md): what each 1.1 release added and changed.
 
 ## How KiviDB differs from Redis

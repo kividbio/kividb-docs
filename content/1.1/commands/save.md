@@ -25,6 +25,10 @@ SAVE
 <!-- generated: end -->
 Writes a snapshot of the dataset to `dump.kdb`, in the working directory, before replying. Clients wait meanwhile; [`BGSAVE`](bgsave.md) does not make them.
 
+## Known issue
+
+With the append-only file off, the dataset is copied a part at a time rather than at one moment: a transaction or script whose keys are in two parts can be saved half applied. Filed as [kividb#148](https://github.com/kividbio/kividb/issues/148).
+
 ## Examples
 
 ```

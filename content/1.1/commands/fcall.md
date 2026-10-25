@@ -27,6 +27,10 @@ Calls a function of a library loaded with [`FUNCTION LOAD`](function-load.md). `
 
 A function is held to the flags it was registered with. With `no-writes`, it cannot write. When the server is at its memory limit, a function runs only if it has `allow-oom` or `no-writes`.
 
+## Known issue
+
+Refused on a replica with `READONLY`, even for a function that only reads; use [`FCALL_RO`](fcall_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145).
+
 ## Reply
 
 - What the function returns, converted as for [`EVAL`](eval.md).
