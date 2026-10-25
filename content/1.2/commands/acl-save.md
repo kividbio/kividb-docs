@@ -1,6 +1,6 @@
 ---
 title: "ACL SAVE"
-description: "Save all users to the configured ACL file (--aclfile); returns ERR if no ACL file is configured"
+description: "Writes every user to the ACL file, the aclfile setting."
 version: "1.2"
 command: "ACL SAVE"
 syntax: "ACL SAVE"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "ACL"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,9 @@ ACL SAVE
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Writes every user to the ACL file, the `aclfile` setting.
 
-Save all users to the configured ACL file (`--aclfile`); returns `ERR` if no ACL file is configured
+## Reply
+
+- `OK`.
+- An error if no ACL file is configured.

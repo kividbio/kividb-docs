@@ -78,6 +78,11 @@
     "source": "COMMANDS.md"
    },
    {
+    "documented": [],
+    "name": "ACL|HELP",
+    "source": "probe"
+   },
+   {
     "documented": [
      {
       "notes": "Return all users in ACL file format: `user <name> <on|off> <nopass|#hash> ~keys &channels +commands`",
@@ -124,6 +129,11 @@
     ],
     "name": "ACL|SAVE",
     "source": "COMMANDS.md"
+   },
+   {
+    "documented": [],
+    "name": "ACL|SETUSER",
+    "source": "probe"
    },
    {
     "documented": [
@@ -714,7 +724,43 @@
   "key_step": 0,
   "last_key": 0,
   "name": "BACKUP",
-  "subcommands": [],
+  "subcommands": [
+   {
+    "documented": [],
+    "name": "BACKUP|ABORT",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "BACKUP|CLEANUP",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "BACKUP|HELP",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "BACKUP|LIST",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "BACKUP|SEAL",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "BACKUP|START",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "BACKUP|STATUS",
+    "source": "probe"
+   }
+  ],
   "tips": []
  },
  {
@@ -1206,6 +1252,11 @@
     "source": "COMMANDS.md"
    },
    {
+    "documented": [],
+    "name": "CLIENT|HELP",
+    "source": "probe"
+   },
+   {
     "documented": [
      {
       "notes": "Return the client ID",
@@ -1530,6 +1581,11 @@
     "source": "COMMANDS.md"
    },
    {
+    "documented": [],
+    "name": "CLUSTER|HELP",
+    "source": "probe"
+   },
+   {
     "documented": [
      {
       "notes": "Cluster state, slot counts, known nodes, current/my epoch, gossip stats.",
@@ -1638,6 +1694,11 @@
     "source": "COMMANDS.md"
    },
    {
+    "documented": [],
+    "name": "CLUSTER|REPLICAS",
+    "source": "probe"
+   },
+   {
     "documented": [
      {
       "notes": "Configure this node as a replica. Refuses if the candidate owns slots \u2014 `DELSLOTS` first.",
@@ -1708,6 +1769,11 @@
     ],
     "name": "CLUSTER|SHARDS",
     "source": "COMMANDS.md"
+   },
+   {
+    "documented": [],
+    "name": "CLUSTER|SLAVES",
+    "source": "probe"
    },
    {
     "documented": [
@@ -1806,6 +1872,11 @@
     "source": "COMMANDS.md"
    },
    {
+    "documented": [],
+    "name": "COMMAND|HELP",
+    "source": "probe"
+   },
+   {
     "documented": [
      {
       "notes": "The same entries for the named commands (nil for a name that is not a command), or for all of them",
@@ -1861,6 +1932,11 @@
     ],
     "name": "CONFIG|GET",
     "source": "COMMANDS.md"
+   },
+   {
+    "documented": [],
+    "name": "CONFIG|HELP",
+    "source": "probe"
    },
    {
     "documented": [
@@ -2735,6 +2811,11 @@
     "source": "COMMANDS.md"
    },
    {
+    "documented": [],
+    "name": "FT.CONFIG|HELP",
+    "source": "probe"
+   },
+   {
     "documented": [
      {
       "notes": "Set one; an unknown option or a value of the wrong kind is an error. Acted on: `CURSOR_MAX_IDLE` (the longest a cursor may sit unread) and `MAXSEARCHRESULTS` (the largest `LIMIT` an `FT.SEARCH` may ask for). The rest are kept and reported \u2014 `TIMEOUT` and `ON_TIMEOUT` in particular do not cut a query short",
@@ -3295,6 +3376,11 @@
     ],
     "name": "FUNCTION|LOAD",
     "source": "COMMANDS.md"
+   },
+   {
+    "documented": [],
+    "name": "FUNCTION|RESTORE",
+    "source": "probe"
    },
    {
     "documented": [
@@ -4264,6 +4350,11 @@
     "source": "COMMANDS.md"
    },
    {
+    "documented": [],
+    "name": "HOTKEYS|HELP",
+    "source": "probe"
+   },
+   {
     "documented": [
      {
       "notes": "Discard a stopped session's results",
@@ -4974,6 +5065,11 @@
   "name": "JSON.DEBUG",
   "subcommands": [
    {
+    "documented": [],
+    "name": "JSON.DEBUG|HELP",
+    "source": "probe"
+   },
+   {
     "documented": [
      {
       "notes": "The approximate size of each match in bytes",
@@ -5499,6 +5595,11 @@
     ],
     "name": "LATENCY|GRAPH",
     "source": "COMMANDS.md"
+   },
+   {
+    "documented": [],
+    "name": "LATENCY|HELP",
+    "source": "probe"
    },
    {
     "documented": [
@@ -6133,7 +6234,33 @@
   "key_step": 0,
   "last_key": 0,
   "name": "MODULE",
-  "subcommands": [],
+  "subcommands": [
+   {
+    "documented": [],
+    "name": "MODULE|HELP",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "MODULE|LIST",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "MODULE|LOAD",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "MODULE|LOADEX",
+    "source": "probe"
+   },
+   {
+    "documented": [],
+    "name": "MODULE|UNLOAD",
+    "source": "probe"
+   }
+  ],
   "tips": []
  },
  {
@@ -6891,6 +7018,11 @@
     ],
     "name": "PUBSUB|CHANNELS",
     "source": "COMMANDS.md"
+   },
+   {
+    "documented": [],
+    "name": "PUBSUB|HELP",
+    "source": "probe"
    },
    {
     "documented": [
@@ -7976,6 +8108,11 @@
     ],
     "name": "SLOWLOG|GET",
     "source": "COMMANDS.md"
+   },
+   {
+    "documented": [],
+    "name": "SLOWLOG|HELP",
+    "source": "probe"
    },
    {
     "documented": [
@@ -9964,6 +10101,11 @@
     "source": "COMMANDS.md"
    },
    {
+    "documented": [],
+    "name": "XGROUP|HELP",
+    "source": "probe"
+   },
+   {
     "documented": [
      {
       "notes": "Set the group's last-delivered ID, and optionally its entries-read counter",
@@ -10037,6 +10179,11 @@
     ],
     "name": "XINFO|GROUPS",
     "source": "COMMANDS.md"
+   },
+   {
+    "documented": [],
+    "name": "XINFO|HELP",
+    "source": "probe"
    },
    {
     "documented": [

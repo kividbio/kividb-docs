@@ -238,6 +238,19 @@ def main():
                 {"name": name, "source": "COMMANDS.md", "documented": rows}
                 for name, rows in sorted(md.items()) if name.startswith(prefix)
             ]
+    # And the subcommands `tools/probe.py` found the server to have, which
+    # COMMANDS.md may have no row for (`ACL SETUSER`).
+    probed_path = Path(out) / version / "probed.json"
+    if probed_path.exists():
+        probed = json.loads(probed_path.read_text(encoding="utf-8"))["found"]
+        for entry in commands:
+            have = {s["name"] for s in entry["subcommands"]}
+            for sub in probed.get(entry["name"], []):
+                name = f"{entry['name']}|{sub}"
+                if name not in have:
+                    entry["subcommands"].append({"name": name, "source": "probe",
+                                                 "documented": md.get(name, [])})
+            entry["subcommands"].sort(key=lambda s: s["name"])
 
     # The settings this script starts the server with report what it gave
     # them, not their defaults: those come from the field's `#[arg(...)]` in

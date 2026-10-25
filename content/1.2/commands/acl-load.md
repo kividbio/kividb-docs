@@ -1,6 +1,6 @@
 ---
 title: "ACL LOAD"
-description: "Reload users from the configured ACL file; returns ERR if no ACL file is configured"
+description: "Replaces every user with those in the ACL file, the aclfile setting."
 version: "1.2"
 command: "ACL LOAD"
 syntax: "ACL LOAD"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "ACL"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,9 @@ ACL LOAD
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Replaces every user with those in the ACL file, the `aclfile` setting.
 
-Reload users from the configured ACL file; returns `ERR` if no ACL file is configured
+## Reply
+
+- `OK`.
+- An error if no ACL file is configured, or the file is not valid; then nothing changes.

@@ -1,6 +1,6 @@
 ---
 title: "ACL DRYRUN"
-description: "Simulate running a command as the given user; returns OK if permitted or a description of the denial"
+description: "Tells whether a user could run a command, without running it."
 version: "1.1"
 command: "ACL DRYRUN"
 syntax: "ACL DRYRUN username command [arg ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "ACL"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,20 @@ ACL DRYRUN username command [arg ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Tells whether a user could run a command, without running it.
 
-Simulate running a command as the given user; returns `OK` if permitted or a description of the denial
+## Reply
+
+- `OK` if it could.
+- A description of why not, as a bulk string.
+
+## Examples
+
+```
+> ACL DRYRUN alice GET cache:1
+OK
+> ACL DRYRUN alice GET other
+"User alice has no permissions to access the 'other' key"
+> ACL DRYRUN alice DEL cache:1
+"User alice has no permissions to run the 'del' command"
+```

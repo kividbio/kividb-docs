@@ -1,0 +1,201 @@
+{
+ "found": {
+  "ACL": [
+   "CAT",
+   "DELUSER",
+   "DRYRUN",
+   "GENPASS",
+   "GETUSER",
+   "HELP",
+   "LIST",
+   "LOAD",
+   "LOG",
+   "SAVE",
+   "SETUSER",
+   "USERS",
+   "WHOAMI"
+  ],
+  "BACKUP": [
+   "ABORT",
+   "CLEANUP",
+   "HELP",
+   "LIST",
+   "SEAL",
+   "START",
+   "STATUS"
+  ],
+  "CLIENT": [
+   "CACHING",
+   "GETNAME",
+   "GETREDIR",
+   "HELP",
+   "ID",
+   "INFO",
+   "KILL",
+   "LIST",
+   "NO-EVICT",
+   "NO-TOUCH",
+   "PAUSE",
+   "REPLY",
+   "SETINFO",
+   "SETNAME",
+   "TRACKING",
+   "TRACKINGINFO",
+   "UNBLOCK",
+   "UNPAUSE"
+  ],
+  "CLUSTER": [
+   "ADDSLOTS",
+   "ADDSLOTSRANGE",
+   "BUMPEPOCH",
+   "COUNT-FAILURE-REPORTS",
+   "COUNTKEYSINSLOT",
+   "DELSLOTS",
+   "DELSLOTSRANGE",
+   "FLUSHSLOTS",
+   "FORGET",
+   "GETKEYSINSLOT",
+   "HELP",
+   "INFO",
+   "KEYSLOT",
+   "LINKS",
+   "MEET",
+   "MIGRATION",
+   "MYID",
+   "MYSHARDID",
+   "NODES",
+   "REPLICAS",
+   "REPLICATE",
+   "SAVECONFIG",
+   "SET-CONFIG-EPOCH",
+   "SETSLOT",
+   "SHARDS",
+   "SLAVES",
+   "SLOT-STATS",
+   "SLOTS"
+  ],
+  "COMMAND": [
+   "COUNT",
+   "DOCS",
+   "GETKEYS",
+   "GETKEYSANDFLAGS",
+   "HELP",
+   "INFO",
+   "LIST"
+  ],
+  "CONFIG": [
+   "GET",
+   "HELP",
+   "RESETSTAT",
+   "REWRITE",
+   "SET"
+  ],
+  "FT.CONFIG": [
+   "GET",
+   "HELP",
+   "SET"
+  ],
+  "FT.CURSOR": [
+   "DEL",
+   "READ"
+  ],
+  "FUNCTION": [
+   "DELETE",
+   "DUMP",
+   "FLUSH",
+   "HELP",
+   "KILL",
+   "LIST",
+   "LOAD",
+   "RESTORE",
+   "STATS"
+  ],
+  "HOTKEYS": [
+   "GET",
+   "HELP",
+   "RESET",
+   "START",
+   "STOP"
+  ],
+  "JSON.DEBUG": [
+   "HELP",
+   "MEMORY"
+  ],
+  "LATENCY": [
+   "DOCTOR",
+   "GRAPH",
+   "HELP",
+   "HISTOGRAM",
+   "HISTORY",
+   "LATEST",
+   "RESET"
+  ],
+  "MEMORY": [
+   "DOCTOR",
+   "HELP",
+   "MALLOC-STATS",
+   "PURGE",
+   "STATS",
+   "USAGE"
+  ],
+  "MODULE": [
+   "HELP",
+   "LIST",
+   "LOAD",
+   "LOADEX",
+   "UNLOAD"
+  ],
+  "OBJECT": [
+   "ENCODING",
+   "FREQ",
+   "HELP",
+   "IDLETIME",
+   "REFCOUNT"
+  ],
+  "PFDEBUG": [
+   "DECODE",
+   "ENCODING",
+   "GETREG",
+   "RESET",
+   "TODENSE"
+  ],
+  "PUBSUB": [
+   "CHANNELS",
+   "HELP",
+   "NUMPAT",
+   "NUMSUB",
+   "SHARDCHANNELS",
+   "SHARDNUMSUB"
+  ],
+  "SCRIPT": [
+   "DEBUG",
+   "EXISTS",
+   "FLUSH",
+   "HELP",
+   "KILL",
+   "LOAD"
+  ],
+  "SLOWLOG": [
+   "GET",
+   "HELP",
+   "LEN",
+   "RESET"
+  ],
+  "XGROUP": [
+   "CREATE",
+   "CREATECONSUMER",
+   "DELCONSUMER",
+   "DESTROY",
+   "HELP",
+   "SETID"
+  ],
+  "XINFO": [
+   "CONSUMERS",
+   "GROUPS",
+   "HELP",
+   "STREAM"
+  ]
+ },
+ "lua": false,
+ "unsure": {}
+}

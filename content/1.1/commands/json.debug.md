@@ -10,7 +10,7 @@ arity: -3
 flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
 history: []
-subcommands: ["JSON.DEBUG MEMORY"]
+subcommands: ["JSON.DEBUG HELP", "JSON.DEBUG MEMORY"]
 # generated: end
 status: "reviewed"
 ---
@@ -24,6 +24,6 @@ JSON.DEBUG
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
 
-Subcommands: [JSON.DEBUG MEMORY](json.debug-memory.md)
+Subcommands: [JSON.DEBUG HELP](json.debug-help.md), [JSON.DEBUG MEMORY](json.debug-memory.md)
 <!-- generated: end -->
 Reports on JSON documents. See its subcommand.

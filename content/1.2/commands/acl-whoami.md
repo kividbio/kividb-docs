@@ -1,6 +1,6 @@
 ---
 title: "ACL WHOAMI"
-description: "Return the username of the current authenticated connection"
+description: "Returns the name of the user this connection is logged in as."
 version: "1.2"
 command: "ACL WHOAMI"
 syntax: "ACL WHOAMI"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "ACL"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ ACL WHOAMI
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the name of the user this connection is logged in as.
 
-Return the username of the current authenticated connection
+## Examples
+
+```
+> ACL WHOAMI
+"default"
+```

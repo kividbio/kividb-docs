@@ -31,6 +31,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "ACL|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "ACL|LIST": {
    "changes": [],
    "removed": null,
@@ -47,6 +52,11 @@
    "since": "1.1.0"
   },
   "ACL|SAVE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|SETUSER": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
@@ -171,6 +181,41 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "BACKUP|ABORT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BACKUP|CLEANUP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BACKUP|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BACKUP|LIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BACKUP|SEAL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BACKUP|START": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BACKUP|STATUS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "BGREWRITEAOF": {
    "changes": [],
    "removed": null,
@@ -267,6 +312,11 @@
    "since": "1.1.0"
   },
   "CLIENT|GETREDIR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|HELP": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
@@ -427,6 +477,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "CLUSTER|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "CLUSTER|INFO": {
    "changes": [],
    "removed": null,
@@ -467,6 +522,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "CLUSTER|REPLICAS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "CLUSTER|REPLICATE": {
    "changes": [],
    "removed": null,
@@ -493,6 +553,11 @@
    "since": "1.1.0"
   },
   "CLUSTER|SHARDS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|SLAVES": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
@@ -532,6 +597,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "COMMAND|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "COMMAND|INFO": {
    "changes": [],
    "removed": null,
@@ -548,6 +618,11 @@
    "since": "1.1.0"
   },
   "CONFIG|GET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CONFIG|HELP": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
@@ -784,6 +859,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "FT.CONFIG|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "FT.CONFIG|SET": {
    "changes": [],
    "removed": null,
@@ -904,10 +984,20 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "FUNCTION|DUMP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.2"
+  },
   "FUNCTION|FLUSH": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
+  },
+  "FUNCTION|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.2"
   },
   "FUNCTION|KILL": {
    "changes": [],
@@ -920,6 +1010,11 @@
    "since": "1.1.0"
   },
   "FUNCTION|LOAD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FUNCTION|RESTORE": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
@@ -1124,6 +1219,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "HOTKEYS|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "HOTKEYS|RESET": {
    "changes": [],
    "removed": null,
@@ -1295,6 +1395,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "JSON.DEBUG|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "JSON.DEBUG|MEMORY": {
    "changes": [],
    "removed": null,
@@ -1401,6 +1506,11 @@
    "since": "1.1.0"
   },
   "LATENCY|GRAPH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LATENCY|HELP": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
@@ -1551,6 +1661,31 @@
    "since": "1.1.0"
   },
   "MODULE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MODULE|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MODULE|LIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MODULE|LOAD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MODULE|LOADEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MODULE|UNLOAD": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
@@ -1725,6 +1860,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "PUBSUB|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "PUBSUB|NUMPAT": {
    "changes": [],
    "removed": null,
@@ -1865,6 +2005,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "SCRIPT|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.2"
+  },
   "SCRIPT|KILL": {
    "changes": [],
    "removed": null,
@@ -1956,6 +2101,11 @@
    "since": "1.1.0"
   },
   "SLOWLOG|GET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SLOWLOG|HELP": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
@@ -2355,6 +2505,11 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "XGROUP|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "XGROUP|SETID": {
    "changes": [],
    "removed": null,
@@ -2376,6 +2531,11 @@
    "since": "1.1.0"
   },
   "XINFO|GROUPS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XINFO|HELP": {
    "changes": [],
    "removed": null,
    "since": "1.1.0"
@@ -2612,7 +2772,11 @@
    "settings_removed": []
   },
   {
-   "commands_added": [],
+   "commands_added": [
+    "FUNCTION|DUMP",
+    "FUNCTION|HELP",
+    "SCRIPT|HELP"
+   ],
    "commands_changed": [],
    "commands_removed": [],
    "defaults_changed": [],

@@ -1,6 +1,6 @@
 ---
 title: "ACL USERS"
-description: "Return a list of all usernames"
+description: "Returns the names of every user."
 version: "1.2"
 command: "ACL USERS"
 syntax: "ACL USERS"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "ACL"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,13 @@ ACL USERS
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the names of every user.
 
-Return a list of all usernames
+## Examples
+
+```
+> ACL USERS
+1) "alice"
+2) "bob"
+3) "default"
+```

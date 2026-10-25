@@ -1,6 +1,6 @@
 ---
 title: "ACL LIST"
-description: "Return all users in ACL file format: user <name> <on|off> <nopass|#hash> ~keys &channels +commands"
+description: "Returns every user as a line of the ACL file format: user <name> <on|off> <passwords> <key patterns> <channel patterns> <command rules>."
 version: "1.1"
 command: "ACL LIST"
 syntax: "ACL LIST"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "ACL"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,13 @@ ACL LIST
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns every user as a line of the ACL file format: `user <name> <on|off> <passwords> <key patterns> <channel patterns> <command rules>`.
 
-Return all users in ACL file format: `user <name> <on|off> <nopass|#hash> ~keys &channels +commands`
+## Examples
+
+```
+> ACL LIST
+1) "user alice on #1ec1c26b... ~cache:* &news -@all +get +set"
+2) "user bob on #30c952fa... %R~* resetchannels -@all +@read"
+3) "user default on nopass ~* &* +@all"
+```

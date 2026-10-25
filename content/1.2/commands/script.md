@@ -10,7 +10,7 @@ arity: -2
 flags: []
 acl_categories: ["scripting", "slow"]
 history: []
-subcommands: ["SCRIPT DEBUG", "SCRIPT EXISTS", "SCRIPT FLUSH", "SCRIPT KILL", "SCRIPT LOAD"]
+subcommands: ["SCRIPT DEBUG", "SCRIPT EXISTS", "SCRIPT FLUSH", "SCRIPT HELP", "SCRIPT KILL", "SCRIPT LOAD"]
 # generated: end
 status: "reviewed"
 ---
@@ -24,6 +24,6 @@ SCRIPT
 
 **Available since:** 1.1.0 · **ACL categories:** `@scripting`, `@slow`
 
-Subcommands: [SCRIPT DEBUG](script-debug.md), [SCRIPT EXISTS](script-exists.md), [SCRIPT FLUSH](script-flush.md), [SCRIPT KILL](script-kill.md), [SCRIPT LOAD](script-load.md)
+Subcommands: [SCRIPT DEBUG](script-debug.md), [SCRIPT EXISTS](script-exists.md), [SCRIPT FLUSH](script-flush.md), [SCRIPT HELP](script-help.md), [SCRIPT KILL](script-kill.md), [SCRIPT LOAD](script-load.md)
 <!-- generated: end -->
 Manages the cache of scripts [`EVAL`](eval.md) and [`SCRIPT LOAD`](script-load.md) fill, and the script running. See its subcommands.

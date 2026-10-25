@@ -1,6 +1,6 @@
 ---
 title: "ACL CAT"
-description: "Without argument: return all ACL category names; with argument: return all commands in that category"
+description: "Returns the command categories, or the commands of one category."
 version: "1.2"
 command: "ACL CAT"
 syntax: "ACL CAT [category]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "ACL"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,17 @@ ACL CAT [category]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the command categories, or the commands of one category.
 
-Without argument: return all ACL category names; with argument: return all commands in that category
+The categories are: the data types `string`, `list`, `set`, `sortedset`, `hash`, `bitmap`, `hyperloglog`, `geo`, `stream`, `array`, `json`, `search`, `timeseries` and `vector`; `keyspace` and `generic`; `read` and `write`; `fast` and `slow`; `blocking`; `pubsub`, `scripting`, `transaction`, `connection`, `cluster` and `server`; and `admin` and `dangerous`.
+
+## Examples
+
+```
+> ACL CAT hyperloglog
+1) "PFADD"
+2) "PFCOUNT"
+3) "PFDEBUG"
+4) "PFMERGE"
+5) "PFSELFTEST"
+```

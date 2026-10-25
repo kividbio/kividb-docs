@@ -1,6 +1,6 @@
 ---
 title: "ACL DELUSER"
-description: "Delete users; returns count deleted; the default user cannot be deleted"
+description: "Deletes users."
 version: "1.1"
 command: "ACL DELUSER"
 syntax: "ACL DELUSER username [username ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "ACL"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,18 @@ ACL DELUSER username [username ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Deletes users. The `default` user cannot be deleted.
 
-Delete users; returns count deleted; the `default` user cannot be deleted
+## Reply
+
+- The number of users deleted.
+- `ERR The 'default' user cannot be removed`.
+
+## Examples
+
+```
+> ACL DELUSER bob nobody
+(integer) 1
+> ACL DELUSER default
+(error) ERR The 'default' user cannot be removed
+```

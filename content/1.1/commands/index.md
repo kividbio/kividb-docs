@@ -11,8 +11,8 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`ACL`](acl.md) | ACL and its subcommands. | 1.1.0 |
-| [`AUTH`](auth.md) | Authenticate the connection; AUTH password (legacy) or AUTH username password (Redis 6 ACL form); required when --requirepass is set or when the user has a password; PING, AUTH, QUIT, HELLO, and RESE… | 1.1.0 |
+| [`ACL`](acl.md) | Manages users and what each may do: which commands it may run, which keys it may read or write, which channels it may use. | 1.1.0 |
+| [`AUTH`](auth.md) | Logs the connection in as a user: AUTH username password, or, with a password only, as the default user. | 1.1.0 |
 
 ## Array
 
@@ -224,9 +224,9 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`BACKUP`](backup.md) | The BACKUP command. | 1.1.0 |
+| [`BACKUP`](backup.md) | BACKUP and its subcommands. | 1.1.0 |
 | [`FAILOVER`](failover.md) | The FAILOVER command. | 1.1.0 |
-| [`MODULE`](module.md) | The MODULE command. | 1.1.0 |
+| [`MODULE`](module.md) | MODULE and its subcommands. | 1.1.0 |
 
 ## Pub sub
 

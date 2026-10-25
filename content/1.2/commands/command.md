@@ -10,7 +10,7 @@ arity: -1
 flags: []
 acl_categories: ["server", "slow"]
 history: []
-subcommands: ["COMMAND COUNT", "COMMAND DOCS", "COMMAND GETKEYS", "COMMAND GETKEYSANDFLAGS", "COMMAND INFO", "COMMAND LIST"]
+subcommands: ["COMMAND COUNT", "COMMAND DOCS", "COMMAND GETKEYS", "COMMAND GETKEYSANDFLAGS", "COMMAND HELP", "COMMAND INFO", "COMMAND LIST"]
 # generated: end
 status: "draft"
 ---
@@ -24,7 +24,7 @@ COMMAND
 
 **Available since:** 1.1.0 · **ACL categories:** `@server`, `@slow`
 
-Subcommands: [COMMAND COUNT](command-count.md), [COMMAND DOCS](command-docs.md), [COMMAND GETKEYS](command-getkeys.md), [COMMAND GETKEYSANDFLAGS](command-getkeysandflags.md), [COMMAND INFO](command-info.md), [COMMAND LIST](command-list.md)
+Subcommands: [COMMAND COUNT](command-count.md), [COMMAND DOCS](command-docs.md), [COMMAND GETKEYS](command-getkeys.md), [COMMAND GETKEYSANDFLAGS](command-getkeysandflags.md), [COMMAND HELP](command-help.md), [COMMAND INFO](command-info.md), [COMMAND LIST](command-list.md)
 <!-- generated: end -->
 ## Description
 
