@@ -1,6 +1,6 @@
 ---
 title: "VSETATTR"
-description: "Attach a JSON attributes string to an element; pass empty string \"\" to remove; AOF-logged"
+description: "Sets an element's JSON attributes; an empty string removes them."
 version: "1.2"
 command: "VSETATTR"
 syntax: "VSETATTR key element json"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "vector", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ VSETATTR key element json
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@vector`, `@write`
 <!-- generated: end -->
-## Description
+Sets an element's JSON attributes; an empty string removes them.
 
-Attach a JSON attributes string to an element; pass empty string `""` to remove; AOF-logged
+## Examples
+
+```
+> VSETATTR points a '{"color":"blue"}'
+OK
+> VSETATTR points a ""
+OK
+> VGETATTR points a
+(nil)
+```

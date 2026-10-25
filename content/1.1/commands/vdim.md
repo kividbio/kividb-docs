@@ -1,6 +1,6 @@
 ---
 title: "VDIM"
-description: "Return the vector dimension; nil if key does not exist"
+description: "Returns the number of dimensions of the vector set's vectors; nil if it does not exist."
 version: "1.1"
 command: "VDIM"
 syntax: "VDIM key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "vector"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ VDIM key
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-## Description
+Returns the number of dimensions of the vector set's vectors; `nil` if it does not exist.
 
-Return the vector dimension; nil if key does not exist
+## Examples
+
+```
+> VDIM points
+(integer) 3
+```

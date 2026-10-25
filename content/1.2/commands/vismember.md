@@ -1,6 +1,6 @@
 ---
 title: "VISMEMBER"
-description: "Return 1 if element exists, 0 otherwise"
+description: "Tells whether element is in the vector set at key: 1 or 0."
 version: "1.2"
 command: "VISMEMBER"
 syntax: "VISMEMBER key element"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "vector"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ VISMEMBER key element
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-## Description
+Tells whether `element` is in the vector set at `key`: `1` or `0`.
 
-Return 1 if element exists, 0 otherwise
+## Examples
+
+```
+> VISMEMBER points a
+(integer) 1
+```

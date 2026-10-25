@@ -1,6 +1,6 @@
 ---
 title: "VGETATTR"
-description: "Return the JSON attributes string attached to an element; nil if none"
+description: "Returns an element's JSON attributes; nil if it has none."
 version: "1.1"
 command: "VGETATTR"
 syntax: "VGETATTR key element"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "vector"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ VGETATTR key element
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-## Description
+Returns an element's JSON attributes; `nil` if it has none.
 
-Return the JSON attributes string attached to an element; nil if none
+## Examples
+
+```
+> VGETATTR points c
+"{\"color\":\"red\",\"size\":3}"
+```

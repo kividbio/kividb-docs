@@ -1,6 +1,6 @@
 ---
 title: "VEMB"
-description: "Return the vector as an array of float strings; with RAW, return raw little-endian FP32 bytes"
+description: "Returns an element's vector, as numbers; with RAW, as little-endian 32-bit floats."
 version: "1.2"
 command: "VEMB"
 syntax: "VEMB key element [RAW]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "vector"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,13 @@ VEMB key element [RAW]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-## Description
+Returns an element's vector, as numbers; with `RAW`, as little-endian 32-bit floats.
 
-Return the vector as an array of float strings; with `RAW`, return raw little-endian FP32 bytes
+## Examples
+
+```
+> VEMB points b
+1) "0.9"
+2) "0.1"
+3) "0"
+```

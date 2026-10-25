@@ -1,6 +1,6 @@
 ---
 title: "VCARD"
-description: "Return the number of elements in the set; 0 if key does not exist"
+description: "Returns the number of elements of the vector set at key; 0 if it does not exist."
 version: "1.2"
 command: "VCARD"
 syntax: "VCARD key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "vector"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ VCARD key
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-## Description
+Returns the number of elements of the vector set at `key`; `0` if it does not exist.
 
-Return the number of elements in the set; 0 if key does not exist
+## Examples
+
+```
+> VCARD points
+(integer) 3
+```

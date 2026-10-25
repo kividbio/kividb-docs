@@ -1,6 +1,6 @@
 ---
 title: "VREM"
-description: "Remove one or more elements; returns count removed; AOF-logged"
+description: "Removes elements from the vector set at key."
 version: "1.2"
 command: "VREM"
 syntax: "VREM key element [element ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "vector", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ VREM key element [element ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@vector`, `@write`
 <!-- generated: end -->
-## Description
+Removes elements from the vector set at `key`.
 
-Remove one or more elements; returns count removed; AOF-logged
+## Reply
+
+- The number of elements removed.
+
+## Examples
+
+```
+> VREM points b nope
+(integer) 1
+```

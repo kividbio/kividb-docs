@@ -1,6 +1,6 @@
 ---
 title: "VRANDMEMBER"
-description: "Return random elements; positive count returns distinct elements up to set size; negative count returns |count| elements with repetition allowed"
+description: "Returns elements of the vector set at key, picked at random: one, or count different ones, or, with a negative count, exactly -count that may repeat."
 version: "1.2"
 command: "VRANDMEMBER"
 syntax: "VRANDMEMBER key [count]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "vector"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,12 @@ VRANDMEMBER key [count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-## Description
+Returns elements of the vector set at `key`, picked at random: one, or `count` different ones, or, with a negative `count`, exactly `-count` that may repeat.
 
-Return random elements; positive count returns distinct elements up to set size; negative count returns `|count|` elements with repetition allowed
+## Examples
+
+```
+> VRANDMEMBER points 2
+1) "c"
+2) "a"
+```

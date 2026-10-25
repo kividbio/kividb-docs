@@ -481,16 +481,16 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`VADD`](vadd.md) | Add or update an element with its vector; FP32 accepts raw little-endian bytes, VALUES n accepts space-separated floats; returns 1 if new, 0 if updated; AOF-logged | 1.1.0 |
-| [`VCARD`](vcard.md) | Return the number of elements in the set; 0 if key does not exist | 1.1.0 |
-| [`VDIM`](vdim.md) | Return the vector dimension; nil if key does not exist | 1.1.0 |
-| [`VEMB`](vemb.md) | Return the vector as an array of float strings; with RAW, return raw little-endian FP32 bytes | 1.1.0 |
-| [`VGETATTR`](vgetattr.md) | Return the JSON attributes string attached to an element; nil if none | 1.1.0 |
-| [`VINFO`](vinfo.md) | Return metadata: vector-dim, vector-count, quant-type, index-type, max-level | 1.1.0 |
-| [`VISMEMBER`](vismember.md) | Return 1 if element exists, 0 otherwise | 1.1.0 |
-| [`VLINKS`](vlinks.md) | Return nearest neighbours of an element (up to 16) as a single-layer array; approximated via brute-force cosine similarity | 1.1.0 |
-| [`VRANDMEMBER`](vrandmember.md) | Return random elements; positive count returns distinct elements up to set size; negative count returns \|count\| elements with repetition allowed | 1.1.0 |
-| [`VRANGE`](vrange.md) | Return elements in lexicographical range of element names; bounds follow ZRANGEBYLEX syntax: [inclusive, (exclusive, - for start, + for end | 1.1.0 |
-| [`VREM`](vrem.md) | Remove one or more elements; returns count removed; AOF-logged | 1.1.0 |
-| [`VSETATTR`](vsetattr.md) | Attach a JSON attributes string to an element; pass empty string "" to remove; AOF-logged | 1.1.0 |
-| [`VSIM`](vsim.md) | Return elements ordered by cosine similarity to the query vector; ELE queries by an existing element's vector; scores are similarities computed using the set's stored distance metric (1.0 = identical… | 1.1.0 |
+| [`VADD`](vadd.md) | Adds an element with its vector to the vector set at key, or replaces an element's vector. | 1.1.0 |
+| [`VCARD`](vcard.md) | Returns the number of elements of the vector set at key; 0 if it does not exist. | 1.1.0 |
+| [`VDIM`](vdim.md) | Returns the number of dimensions of the vector set's vectors; nil if it does not exist. | 1.1.0 |
+| [`VEMB`](vemb.md) | Returns an element's vector, as numbers; with RAW, as little-endian 32-bit floats. | 1.1.0 |
+| [`VGETATTR`](vgetattr.md) | Returns an element's JSON attributes; nil if it has none. | 1.1.0 |
+| [`VINFO`](vinfo.md) | Returns the vector set's dimensions, its number of elements, its quantization, its index type and its graph's levels. | 1.1.0 |
+| [`VISMEMBER`](vismember.md) | Tells whether element is in the vector set at key: 1 or 0. | 1.1.0 |
+| [`VLINKS`](vlinks.md) | Returns an element's nearest neighbours, up to 16, as one level; WITHSCORES gives their similarity. | 1.1.0 |
+| [`VRANDMEMBER`](vrandmember.md) | Returns elements of the vector set at key, picked at random: one, or count different ones, or, with a negative count, exactly -count that may repeat. | 1.1.0 |
+| [`VRANGE`](vrange.md) | Returns the elements of the vector set at key between two names in lexicographical order, with bounds as ZRANGEBYLEX takes them, and at most count. | 1.1.0 |
+| [`VREM`](vrem.md) | Removes elements from the vector set at key. | 1.1.0 |
+| [`VSETATTR`](vsetattr.md) | Sets an element's JSON attributes; an empty string removes them. | 1.1.0 |
+| [`VSIM`](vsim.md) | Returns the elements of the vector set at key most similar to a vector, most similar first. | 1.1.0 |

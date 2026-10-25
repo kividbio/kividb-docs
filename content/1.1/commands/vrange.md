@@ -1,6 +1,6 @@
 ---
 title: "VRANGE"
-description: "Return elements in lexicographical range of element names; bounds follow ZRANGEBYLEX syntax: [inclusive, (exclusive, - for start, + for end"
+description: "Returns the elements of the vector set at key between two names in lexicographical order, with bounds as ZRANGEBYLEX takes them, and at most count."
 version: "1.1"
 command: "VRANGE"
 syntax: "VRANGE key start end [count]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "vector"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ VRANGE key start end [count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-## Description
+Returns the elements of the vector set at `key` between two names in lexicographical order, with bounds as [`ZRANGEBYLEX`](zrangebylex.md) takes them, and at most `count`.
 
-Return elements in lexicographical range of element names; bounds follow ZRANGEBYLEX syntax: `[inclusive`, `(exclusive`, `-` for start, `+` for end
+## Examples
+
+```
+> VRANGE points - +
+1) "a"
+2) "b"
+3) "c"
+> VRANGE points [b + 1
+1) "b"
+```

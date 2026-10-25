@@ -1,6 +1,6 @@
 ---
 title: "VINFO"
-description: "Return metadata: vector-dim, vector-count, quant-type, index-type, max-level"
+description: "Returns the vector set's dimensions, its number of elements, its quantization, its index type and its graph's levels."
 version: "1.1"
 command: "VINFO"
 syntax: "VINFO key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "vector"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ VINFO key
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-## Description
+Returns the vector set's dimensions, its number of elements, its quantization, its index type and its graph's levels.
 
-Return metadata: `vector-dim`, `vector-count`, `quant-type`, `index-type`, `max-level`
+## Examples
+
+```
+> VINFO points
+ 1) "vector-dim"
+ 2) (integer) 3
+ 3) "vector-count"
+ 4) (integer) 3
+ 5) "quant-type"
+ 6) "NOQUANT"
+ 7) "index-type"
+ 8) "FLAT"
+ 9) "max-level"
+10) (integer) 0
+```
