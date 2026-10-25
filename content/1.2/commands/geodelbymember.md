@@ -1,6 +1,6 @@
 ---
 title: "GEODELBYMEMBER"
-description: "COMMAND lists GEODELBYMEMBER, but KiviDB 1.1 does not have it: calling it replies ERR unknown command 'GEODELBYMEMBER'."
+description: "COMMAND lists GEODELBYMEMBER, but KiviDB does not have it: calling it replies ERR unknown command 'GEODELBYMEMBER'."
 version: "1.2"
 command: "GEODELBYMEMBER"
 syntax: "GEODELBYMEMBER"
@@ -23,7 +23,7 @@ GEODELBYMEMBER
 
 **Available since:** 1.1.0 · **ACL categories:** `@geo`, `@slow`, `@write`
 <!-- generated: end -->
-`COMMAND` lists `GEODELBYMEMBER`, but KiviDB 1.1 does not have it: calling it replies `ERR unknown command 'GEODELBYMEMBER'`. To remove a member from a geospatial index, use [`ZREM`](zrem.md), as in Redis. Filed as [kividb#126](https://github.com/kividbio/kividb/issues/126).
+`COMMAND` lists `GEODELBYMEMBER`, but KiviDB does not have it: calling it replies `ERR unknown command 'GEODELBYMEMBER'`. To remove a member from a geospatial index, use [`ZREM`](zrem.md), as in Redis. Filed as [kividb#126](https://github.com/kividbio/kividb/issues/126).
 
 ## Examples
 

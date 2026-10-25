@@ -225,7 +225,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 |---|---|---|
 | [`BACKUP`](backup.md) | The BACKUP command. | 1.1.0 |
 | [`FAILOVER`](failover.md) | The FAILOVER command. | 1.1.0 |
-| [`GEODELBYMEMBER`](geodelbymember.md) | COMMAND lists GEODELBYMEMBER, but KiviDB 1.1 does not have it: calling it replies ERR unknown command 'GEODELBYMEMBER'. | 1.1.0 |
+| [`GEODELBYMEMBER`](geodelbymember.md) | COMMAND lists GEODELBYMEMBER, but KiviDB does not have it: calling it replies ERR unknown command 'GEODELBYMEMBER'. | 1.1.0 |
 | [`MODULE`](module.md) | The MODULE command. | 1.1.0 |
 | [`XIDMPRECORD`](xidmprecord.md) | The XIDMPRECORD command. | 1.1.1 |
 
