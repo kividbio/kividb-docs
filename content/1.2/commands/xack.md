@@ -1,6 +1,6 @@
 ---
 title: "XACK"
-description: "Acknowledge processed entries; removes from PEL"
+description: "Acknowledges entries the group delivered: they are no longer pending."
 version: "1.2"
 command: "XACK"
 syntax: "XACK key group id [id ...]"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "stream", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ XACK key group id [id ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@stream`, `@write`
 <!-- generated: end -->
-## Description
+Acknowledges entries the group delivered: they are no longer pending.
 
-Acknowledge processed entries; removes from PEL
+## Reply
+
+- The number of entries acknowledged; IDs that were not pending are not counted.
+
+## Examples
+
+```
+> XACK jobs workers 1-0 9-0
+(integer) 1
+```

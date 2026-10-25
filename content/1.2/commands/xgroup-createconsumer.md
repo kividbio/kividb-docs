@@ -1,6 +1,6 @@
 ---
 title: "XGROUP CREATECONSUMER"
-description: "Explicitly create a consumer"
+description: "Creates the consumer consumer in the group."
 version: "1.2"
 command: "XGROUP CREATECONSUMER"
 syntax: "XGROUP CREATECONSUMER key group consumer"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "XGROUP"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,15 @@ XGROUP CREATECONSUMER key group consumer
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Creates the consumer `consumer` in the group. Consumers are also created the first time they read.
 
-Explicitly create a consumer
+## Reply
+
+- `1` if created, `0` if it existed.
+
+## Examples
+
+```
+> XGROUP CREATECONSUMER jobs workers dave
+(integer) 1
+```

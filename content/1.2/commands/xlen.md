@@ -1,6 +1,6 @@
 ---
 title: "XLEN"
-description: "Return the number of entries"
+description: "Returns the number of entries in the stream at key."
 version: "1.2"
 command: "XLEN"
 syntax: "XLEN key"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "read", "stream"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ XLEN key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@read`, `@stream`
 <!-- generated: end -->
-## Description
+Returns the number of entries in the stream at `key`.
 
-Return the number of entries
+## Reply
+
+- The count; `0` if the key does not exist.
+
+## Examples
+
+```
+> XADD s 1-0 a 1
+"1-0"
+> XLEN s
+(integer) 1
+```

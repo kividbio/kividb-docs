@@ -1,6 +1,6 @@
 ---
 title: "XGROUP"
-description: "XGROUP and its subcommands."
+description: "Creates and manages consumer groups: named readers of a stream that share its entries among their consumers, and track what each consumer has been given and not yet acknowledged."
 version: "1.1"
 command: "XGROUP"
 syntax: "XGROUP"
@@ -12,7 +12,7 @@ acl_categories: ["slow", "stream", "write"]
 history: []
 subcommands: ["XGROUP CREATE", "XGROUP CREATECONSUMER", "XGROUP DELCONSUMER", "XGROUP DESTROY", "XGROUP SETID"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ XGROUP
 
 Subcommands: [XGROUP CREATE](xgroup-create.md), [XGROUP CREATECONSUMER](xgroup-createconsumer.md), [XGROUP DELCONSUMER](xgroup-delconsumer.md), [XGROUP DESTROY](xgroup-destroy.md), [XGROUP SETID](xgroup-setid.md)
 <!-- generated: end -->
+Creates and manages consumer groups: named readers of a stream that share its entries among their consumers, and track what each consumer has been given and not yet acknowledged. See its subcommands.

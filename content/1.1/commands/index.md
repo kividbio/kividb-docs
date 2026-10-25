@@ -227,7 +227,7 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 | [`BACKUP`](backup.md) | The BACKUP command. | 1.1.0 |
 | [`FAILOVER`](failover.md) | The FAILOVER command. | 1.1.0 |
 | [`MODULE`](module.md) | The MODULE command. | 1.1.0 |
-| [`XIDMPRECORD`](xidmprecord.md) | The XIDMPRECORD command. | 1.1.1 |
+| [`XIDMPRECORD`](xidmprecord.md) | Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ... | 1.1.1 |
 
 ## Pub sub
 
@@ -360,25 +360,25 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`XACK`](xack.md) | Acknowledge processed entries; removes from PEL | 1.1.0 |
-| [`XACKDEL`](xackdel.md) | Acknowledge and delete entries in one step (Redis 8.2). | 1.1.0 |
-| [`XADD`](xadd.md) | Append an entry; * auto-generates ID as ms-seq; NOMKSTREAM skips creation if key absent; MAXLEN/MINID trim the stream after insert, and KEEPREF / DELREF / ACKED say what trimming does with entries co… | 1.1.0 |
-| [`XAUTOCLAIM`](xautoclaim.md) | Scan and claim idle pending entries starting from start | 1.1.0 |
-| [`XCFGSET`](xcfgset.md) | Set per-stream configuration; supported fields: MAX-ENTRIES n (persistent trim policy applied on every XADD, 0 clears the policy), MAX-DELETED-ENTRY-ID id (advance the tracked max deleted ID, never m… | 1.1.0 |
-| [`XCLAIM`](xclaim.md) | Claim ownership of pending entries idle longer than min-idle-time | 1.1.0 |
-| [`XDEL`](xdel.md) | Delete entries by ID; returns count deleted | 1.1.0 |
-| [`XDELEX`](xdelex.md) | Delete entries with control over consumer-group references (Redis 8.2). | 1.1.0 |
-| [`XGROUP`](xgroup.md) | XGROUP and its subcommands. | 1.1.0 |
-| [`XINFO`](xinfo.md) | XINFO and its subcommands. | 1.1.0 |
-| [`XLEN`](xlen.md) | Return the number of entries | 1.1.0 |
-| [`XNACK`](xnack.md) | Release pending entries back to the group PEL without acknowledging, for immediate re-delivery. | 1.1.0 |
-| [`XPENDING`](xpending.md) | Return pending entry summary or detail list | 1.1.0 |
-| [`XRANGE`](xrange.md) | Return entries with IDs in [start, end]; - and + are open bounds; bare ms expands to ms-0 / ms-MAXSEQ | 1.1.0 |
-| [`XREAD`](xread.md) | Read new entries across multiple streams; $ means entries added after this call and + the last entry; BLOCK suspends until new data arrives or timeout. | 1.1.0 |
-| [`XREADGROUP`](xreadgroup.md) | Read new (>) or pending (specific ID) entries for a consumer; NOACK skips PEL tracking. | 1.1.0 |
-| [`XREVRANGE`](xrevrange.md) | Same as XRANGE but in reverse order | 1.1.0 |
-| [`XSETID`](xsetid.md) | Set the stream's last-generated ID and metadata | 1.1.0 |
-| [`XTRIM`](xtrim.md) | Trim stream by length or minimum ID. | 1.1.0 |
+| [`XACK`](xack.md) | Acknowledges entries the group delivered: they are no longer pending. | 1.1.0 |
+| [`XACKDEL`](xackdel.md) | Acknowledges entries for the group and deletes them from the stream, in one step (Redis 8.2). | 1.1.0 |
+| [`XADD`](xadd.md) | Appends an entry, a set of field-value pairs, to the stream at key. | 1.1.0 |
+| [`XAUTOCLAIM`](xautoclaim.md) | Goes through the group's pending entries from start and gives consumer those idle at least min-idle-time milliseconds, COUNT count at a time (100 by default). | 1.1.0 |
+| [`XCFGSET`](xcfgset.md) | Sets the configuration of the stream at key. | 1.1.0 |
+| [`XCLAIM`](xclaim.md) | Gives pending entries to consumer, if they have been idle at least min-idle-time milliseconds: for when the consumer that had them stopped. | 1.1.0 |
+| [`XDEL`](xdel.md) | Deletes entries from the stream at key by ID. | 1.1.0 |
+| [`XDELEX`](xdelex.md) | Deletes entries from the stream at key, with control over the references consumer groups hold to them (Redis 8.2). | 1.1.0 |
+| [`XGROUP`](xgroup.md) | Creates and manages consumer groups: named readers of a stream that share its entries among their consumers, and track what each consumer has been given and not yet acknowledged. | 1.1.0 |
+| [`XINFO`](xinfo.md) | Reports on a stream, its consumer groups and their consumers. | 1.1.0 |
+| [`XLEN`](xlen.md) | Returns the number of entries in the stream at key. | 1.1.0 |
+| [`XNACK`](xnack.md) | Releases pending entries back to the group without acknowledging them, so that another consumer can take them at once, with XREADGROUP ... | 1.1.0 |
+| [`XPENDING`](xpending.md) | Returns the entries the group has delivered and that are not yet acknowledged. | 1.1.0 |
+| [`XRANGE`](xrange.md) | Returns the entries of the stream at key with IDs from start to end, both included, oldest first. | 1.1.0 |
+| [`XREAD`](xread.md) | Reads entries with IDs greater than the ones given, from one or more streams. | 1.1.0 |
+| [`XREADGROUP`](xreadgroup.md) | Reads entries for consumer of consumer group group. | 1.1.0 |
+| [`XREVRANGE`](xrevrange.md) | XRANGE, newest first; end comes first. | 1.1.0 |
+| [`XSETID`](xsetid.md) | Sets the last ID of the stream at key, so that new entries get greater IDs. | 1.1.0 |
+| [`XTRIM`](xtrim.md) | Removes the oldest entries of the stream at key. | 1.1.0 |
 
 ## String
 

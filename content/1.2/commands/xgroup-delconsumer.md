@@ -1,6 +1,6 @@
 ---
 title: "XGROUP DELCONSUMER"
-description: "Delete a consumer and remove its pending entries"
+description: "Deletes the consumer consumer from the group, with its pending entries: they are no longer pending for anyone."
 version: "1.2"
 command: "XGROUP DELCONSUMER"
 syntax: "XGROUP DELCONSUMER key group consumer"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "XGROUP"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,15 @@ XGROUP DELCONSUMER key group consumer
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Deletes the consumer `consumer` from the group, with its pending entries: they are no longer pending for anyone.
 
-Delete a consumer and remove its pending entries
+## Reply
+
+- The number of pending entries it had.
+
+## Examples
+
+```
+> XGROUP DELCONSUMER jobs workers carol
+(integer) 2
+```

@@ -1,6 +1,6 @@
 ---
 title: "XINFO"
-description: "XINFO and its subcommands."
+description: "Reports on a stream, its consumer groups and their consumers."
 version: "1.2"
 command: "XINFO"
 syntax: "XINFO"
@@ -12,7 +12,7 @@ acl_categories: ["read", "slow", "stream"]
 history: []
 subcommands: ["XINFO CONSUMERS", "XINFO GROUPS", "XINFO STREAM"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ XINFO
 
 Subcommands: [XINFO CONSUMERS](xinfo-consumers.md), [XINFO GROUPS](xinfo-groups.md), [XINFO STREAM](xinfo-stream.md)
 <!-- generated: end -->
+Reports on a stream, its consumer groups and their consumers. See its subcommands.

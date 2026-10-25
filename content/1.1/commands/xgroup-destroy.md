@@ -1,6 +1,6 @@
 ---
 title: "XGROUP DESTROY"
-description: "Delete a consumer group and its PEL"
+description: "Deletes the group, its consumers and its pending entries."
 version: "1.1"
 command: "XGROUP DESTROY"
 syntax: "XGROUP DESTROY key group"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "XGROUP"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,15 @@ XGROUP DESTROY key group
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Deletes the group, its consumers and its pending entries.
 
-Delete a consumer group and its PEL
+## Reply
+
+- `1` if the group existed, `0` if not.
+
+## Examples
+
+```
+> XGROUP DESTROY jobs workers
+(integer) 1
+```
