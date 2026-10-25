@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT FLUSH"
-description: "Clear the script cache"
+description: "Empties the script cache."
 version: "1.2"
 command: "SCRIPT FLUSH"
 syntax: "SCRIPT FLUSH [ASYNC | SYNC]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "SCRIPT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ SCRIPT FLUSH [ASYNC | SYNC]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Empties the script cache. `ASYNC` and `SYNC` are accepted.
 
-Clear the script cache
+## Examples
+
+```
+> SCRIPT FLUSH
+OK
+```

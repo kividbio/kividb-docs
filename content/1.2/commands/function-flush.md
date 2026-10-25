@@ -1,6 +1,6 @@
 ---
 title: "FUNCTION FLUSH"
-description: "Delete every library"
+description: "Deletes every library."
 version: "1.2"
 command: "FUNCTION FLUSH"
 syntax: "FUNCTION FLUSH [ASYNC | SYNC]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "FUNCTION"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ FUNCTION FLUSH [ASYNC | SYNC]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Delete every library
+Deletes every library. `ASYNC` and `SYNC` are accepted.

@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT LOAD"
-description: "Load script body; returns SHA1"
+description: "Compiles a script and caches it, without running it, and returns its SHA1 digest for EVALSHA."
 version: "1.1"
 command: "SCRIPT LOAD"
 syntax: "SCRIPT LOAD script"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "SCRIPT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ SCRIPT LOAD script
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Compiles a script and caches it, without running it, and returns its SHA1 digest for [`EVALSHA`](evalsha.md).
 
-Load script body; returns SHA1
+## Examples
+
+```
+> SCRIPT LOAD "return ARGV[1]"
+"098e0f0d1448c0a81dafe820f66d460eb09263da"
+```

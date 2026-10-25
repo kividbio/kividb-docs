@@ -1,6 +1,6 @@
 ---
 title: "FUNCTION KILL"
-description: "Stop the running function, if it has not written; refused while a script started with EVAL is running (SCRIPT KILL stops that)"
+description: "Stops the function running, if it has not written."
 version: "1.1"
 command: "FUNCTION KILL"
 syntax: "FUNCTION KILL"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "FUNCTION"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ FUNCTION KILL
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Stop the running function, if it has not written; refused while a script started with `EVAL` is running (`SCRIPT KILL` stops that)
+Stops the function running, if it has not written. It is refused while a script started with `EVAL` is running: [`SCRIPT KILL`](script-kill.md) stops that.

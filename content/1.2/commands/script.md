@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT"
-description: "SCRIPT and its subcommands."
+description: "Manages the cache of scripts EVAL and SCRIPT LOAD fill, and the script running."
 version: "1.2"
 command: "SCRIPT"
 syntax: "SCRIPT"
@@ -12,7 +12,7 @@ acl_categories: ["scripting", "slow"]
 history: []
 subcommands: ["SCRIPT DEBUG", "SCRIPT EXISTS", "SCRIPT FLUSH", "SCRIPT KILL", "SCRIPT LOAD"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ SCRIPT
 
 Subcommands: [SCRIPT DEBUG](script-debug.md), [SCRIPT EXISTS](script-exists.md), [SCRIPT FLUSH](script-flush.md), [SCRIPT KILL](script-kill.md), [SCRIPT LOAD](script-load.md)
 <!-- generated: end -->
+Manages the cache of scripts [`EVAL`](eval.md) and [`SCRIPT LOAD`](script-load.md) fill, and the script running. See its subcommands.

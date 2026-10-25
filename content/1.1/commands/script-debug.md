@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT DEBUG"
-description: "Accepted; there is no Lua debugger, and scripts run as usual"
+description: "Accepted for compatibility with Redis, with YES, SYNC or NO."
 version: "1.1"
 command: "SCRIPT DEBUG"
 syntax: "SCRIPT DEBUG YES | SYNC | NO"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "SCRIPT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ SCRIPT DEBUG YES | SYNC | NO
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Accepted; there is no Lua debugger, and scripts run as usual
+Accepted for compatibility with Redis, with `YES`, `SYNC` or `NO`. There is no Lua debugger: scripts run as usual.

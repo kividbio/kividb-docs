@@ -1,6 +1,6 @@
 ---
 title: "FUNCTION DELETE"
-description: "Delete a library and its functions"
+description: "Deletes a library and its functions."
 version: "1.2"
 command: "FUNCTION DELETE"
 syntax: "FUNCTION DELETE library-name"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "FUNCTION"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,9 @@ FUNCTION DELETE library-name
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Deletes a library and its functions.
 
-Delete a library and its functions
+## Reply
+
+- `OK`.
+- `ERR Library not found`.

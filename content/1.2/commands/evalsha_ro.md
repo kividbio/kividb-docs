@@ -1,6 +1,6 @@
 ---
 title: "EVALSHA_RO"
-description: "Read-only EVALSHA"
+description: "EVALSHA for a script that only reads, as EVAL_RO is."
 version: "1.2"
 command: "EVALSHA_RO"
 syntax: "EVALSHA_RO sha1 numkeys key [key ...] arg [arg ...]"
@@ -11,7 +11,7 @@ flags: ["movablekeys", "readonly"]
 acl_categories: ["scripting", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,4 @@ EVALSHA_RO sha1 numkeys key [key ...] arg [arg ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@scripting`, `@slow`
 <!-- generated: end -->
-## Description
-
-Read-only `EVALSHA`
+[`EVALSHA`](evalsha.md) for a script that only reads, as [`EVAL_RO`](eval_ro.md) is.

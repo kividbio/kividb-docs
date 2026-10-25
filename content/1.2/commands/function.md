@@ -1,6 +1,6 @@
 ---
 title: "FUNCTION"
-description: "Serialise every library, and load such a payload."
+description: "Manages libraries of functions, which FCALL calls."
 version: "1.2"
 command: "FUNCTION"
 syntax: "FUNCTION DUMP` / `FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]"
@@ -12,7 +12,7 @@ acl_categories: ["scripting", "slow"]
 history: []
 subcommands: ["FUNCTION DELETE", "FUNCTION FLUSH", "FUNCTION KILL", "FUNCTION LIST", "FUNCTION LOAD", "FUNCTION STATS"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,6 +26,13 @@ FUNCTION DUMP` / `FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]
 
 Subcommands: [FUNCTION DELETE](function-delete.md), [FUNCTION FLUSH](function-flush.md), [FUNCTION KILL](function-kill.md), [FUNCTION LIST](function-list.md), [FUNCTION LOAD](function-load.md), [FUNCTION STATS](function-stats.md)
 <!-- generated: end -->
-## Description
+Manages libraries of functions, which [`FCALL`](fcall.md) calls. Unlike scripts, libraries are kept with the data, in snapshots and the AOF, and replicated, so they survive restarts. See its subcommands.
 
-Serialise every library, and load such a payload. The format is KiviDB's own
+`FUNCTION DUMP` serializes every library into a payload, and `FUNCTION RESTORE payload [FLUSH | APPEND | REPLACE]` loads one. The format is KiviDB's own. By default, `RESTORE` fails if a library in the payload exists; `REPLACE` replaces those, `FLUSH` deletes every library first.
+
+```
+> FUNCTION DUMP
+"\xf5\xc3@X..."
+> FUNCTION RESTORE "\xf5\xc3@X..." REPLACE
+OK
+```

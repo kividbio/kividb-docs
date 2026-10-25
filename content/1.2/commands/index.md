@@ -250,14 +250,14 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`EVAL`](eval.md) | Execute a Lua script | 1.1.0 |
-| [`EVALSHA`](evalsha.md) | Execute a script already in the cache by SHA1 | 1.1.0 |
-| [`EVALSHA_RO`](evalsha_ro.md) | Read-only EVALSHA | 1.1.0 |
-| [`EVAL_RO`](eval_ro.md) | Read-only script; mutating commands fail | 1.1.0 |
-| [`FCALL`](fcall.md) | Call a registered library function. | 1.1.0 |
-| [`FCALL_RO`](fcall_ro.md) | Read-only FCALL: refused for a function not registered with the no-writes flag | 1.1.0 |
-| [`FUNCTION`](function.md) | Serialise every library, and load such a payload. | 1.1.0 |
-| [`SCRIPT`](script.md) | SCRIPT and its subcommands. | 1.1.0 |
+| [`EVAL`](eval.md) | Runs a Lua script on the server, as one step: no other client's command starts while it runs. | 1.1.0 |
+| [`EVALSHA`](evalsha.md) | Runs a script the server already has, named by its SHA1 digest, as SCRIPT LOAD returns it, or as a previous EVAL cached it. | 1.1.0 |
+| [`EVALSHA_RO`](evalsha_ro.md) | EVALSHA for a script that only reads, as EVAL_RO is. | 1.1.0 |
+| [`EVAL_RO`](eval_ro.md) | EVAL for a script that only reads: a command in it that writes fails. | 1.1.0 |
+| [`FCALL`](fcall.md) | Calls a function of a library loaded with FUNCTION LOAD. | 1.1.0 |
+| [`FCALL_RO`](fcall_ro.md) | FCALL for a function registered with the no-writes flag; any other is refused. | 1.1.0 |
+| [`FUNCTION`](function.md) | Manages libraries of functions, which FCALL calls. | 1.1.0 |
+| [`SCRIPT`](script.md) | Manages the cache of scripts EVAL and SCRIPT LOAD fill, and the script running. | 1.1.0 |
 
 ## Server
 
