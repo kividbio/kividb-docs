@@ -1,6 +1,6 @@
 ---
 title: "HVALS"
-description: "Return all field values"
+description: "Returns the values of the hash at key."
 version: "1.1"
 command: "HVALS"
 syntax: "HVALS key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["hash", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,18 @@ HVALS key
 
 **Available since:** 1.1.0 · **ACL categories:** `@hash`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the values of the hash at `key`.
 
-Return all field values
+## Reply
+
+- An array of values; empty if the key does not exist.
+
+## Examples
+
+```
+> HSET u name Ada lang Rust
+(integer) 2
+> HVALS u
+1) "Ada"
+2) "Rust"
+```

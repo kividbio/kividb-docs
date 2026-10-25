@@ -1,6 +1,6 @@
 ---
 title: "HSETNX"
-description: "Set a field only if it does not already exist; returns 1 if set"
+description: "Sets field in the hash at key only if the field does not exist."
 version: "1.1"
 command: "HSETNX"
 syntax: "HSETNX key field value"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "hash", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ HSETNX key field value
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@hash`, `@write`
 <!-- generated: end -->
-## Description
+Sets `field` in the hash at `key` only if the field does not exist.
 
-Set a field only if it does not already exist; returns 1 if set
+## Reply
+
+- `1` if the field was set.
+- `0` if it existed; nothing changes.
+
+## Examples
+
+```
+> HSET u name Ada
+(integer) 1
+> HSETNX u name x
+(integer) 0
+> HSETNX u age 36
+(integer) 1
+```

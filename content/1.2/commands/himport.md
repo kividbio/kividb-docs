@@ -1,6 +1,6 @@
 ---
 title: "HIMPORT"
-description: "HIMPORT and its subcommands."
+description: "Loads many hashes that have the same fields, without sending the field names for each: a command of Redis 8.10."
 version: "1.2"
 command: "HIMPORT"
 syntax: "HIMPORT"
@@ -12,7 +12,7 @@ acl_categories: ["hash", "slow", "write"]
 history: []
 subcommands: ["HIMPORT DISCARD", "HIMPORT PREPARE", "HIMPORT SET"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,6 @@ HIMPORT
 
 Subcommands: [HIMPORT DISCARD](himport-discard.md), [HIMPORT PREPARE](himport-prepare.md), [HIMPORT SET](himport-set.md)
 <!-- generated: end -->
+Loads many hashes that have the same fields, without sending the field names for each: a command of Redis 8.10. A client first names a list of fields, a fieldset, with [`HIMPORT PREPARE`](himport-prepare.md), then creates hashes from it with [`HIMPORT SET`](himport-set.md), giving only the values.
+
+Fieldsets belong to the connection that made them, and go when it closes.

@@ -1,6 +1,6 @@
 ---
 title: "HMSET"
-description: "Deprecated alias for HSET; always returns OK"
+description: "Another name for HSET, kept for old clients."
 version: "1.1"
 command: "HMSET"
 syntax: "HMSET key field value [field value ...]"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "hash", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ HMSET key field value [field value ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@hash`, `@write`
 <!-- generated: end -->
-## Description
+Another name for [`HSET`](hset.md), kept for old clients. It replies `OK` instead of a count.
 
-Deprecated alias for `HSET`; always returns OK
+## Examples
+
+```
+> HMSET u a 1 b 2
+OK
+```

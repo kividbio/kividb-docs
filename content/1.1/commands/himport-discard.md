@@ -1,6 +1,6 @@
 ---
 title: "HIMPORT DISCARD"
-description: "Forget one fieldset; HIMPORT DISCARDALL forgets all of this connection's"
+description: "Forgets the fieldset named fieldset on this connection."
 version: "1.1"
 command: "HIMPORT DISCARD"
 syntax: "HIMPORT DISCARD fieldset"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "HIMPORT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,21 @@ HIMPORT DISCARD fieldset
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Forgets the fieldset named `fieldset` on this connection. `HIMPORT DISCARDALL` forgets all of them.
 
-Forget one fieldset; `HIMPORT DISCARDALL` forgets all of this connection's
+## Reply
+
+- The number of fieldsets forgotten.
+
+## Examples
+
+```
+> HIMPORT PREPARE a x
+OK
+> HIMPORT PREPARE b y
+OK
+> HIMPORT DISCARD a
+(integer) 1
+> HIMPORT DISCARDALL
+(integer) 1
+```

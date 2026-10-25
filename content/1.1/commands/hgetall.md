@@ -1,6 +1,6 @@
 ---
 title: "HGETALL"
-description: "Return all fields and values as alternating field, value, field, value..."
+description: "Returns every field of the hash at key with its value."
 version: "1.1"
 command: "HGETALL"
 syntax: "HGETALL key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["hash", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ HGETALL key
 
 **Available since:** 1.1.0 · **ACL categories:** `@hash`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns every field of the hash at `key` with its value.
 
-Return all fields and values as alternating field, value, field, value...
+## Reply
+
+- A flat array: field, value, field, value, and so on. Empty if the key does not exist.
+
+## Examples
+
+```
+> HSET u name Ada lang Rust
+(integer) 2
+> HGETALL u
+1) "name"
+2) "Ada"
+3) "lang"
+4) "Rust"
+```

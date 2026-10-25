@@ -1,6 +1,6 @@
 ---
 title: "HGET"
-description: "Return the value of a field; nil if field or key missing"
+description: "Returns the value of field in the hash at key."
 version: "1.1"
 command: "HGET"
 syntax: "HGET key field"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "hash", "read"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ HGET key field
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@hash`, `@read`
 <!-- generated: end -->
-## Description
+Returns the value of `field` in the hash at `key`.
 
-Return the value of a field; nil if field or key missing
+## Reply
+
+- The value.
+- `nil` if the field or the key does not exist.
+
+## Examples
+
+```
+> HSET u name Ada
+(integer) 1
+> HGET u name
+"Ada"
+> HGET u nope
+(nil)
+```

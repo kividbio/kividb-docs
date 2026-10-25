@@ -1,6 +1,6 @@
 ---
 title: "HLEN"
-description: "Return the number of fields"
+description: "Returns the number of fields in the hash at key."
 version: "1.1"
 command: "HLEN"
 syntax: "HLEN key"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "hash", "read"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ HLEN key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@hash`, `@read`
 <!-- generated: end -->
-## Description
+Returns the number of fields in the hash at `key`.
 
-Return the number of fields
+## Reply
+
+- The count; `0` if the key does not exist.
+
+## Examples
+
+```
+> HSET u name Ada lang Rust
+(integer) 2
+> HLEN u
+(integer) 2
+```

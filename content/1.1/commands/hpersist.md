@@ -1,6 +1,6 @@
 ---
 title: "HPERSIST"
-description: "Remove per-field TTLs; per-field returns: -2=no such field, -1=field has no TTL, 1=TTL removed"
+description: "Removes the expiry of fields of the hash at key."
 version: "1.1"
 command: "HPERSIST"
 syntax: "HPERSIST key FIELDS numfields field [field ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["hash", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,25 @@ HPERSIST key FIELDS numfields field [field ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@hash`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Removes the expiry of fields of the hash at `key`.
 
-Remove per-field TTLs; per-field returns: `-2`=no such field, `-1`=field has no TTL, `1`=TTL removed
+## Reply
+
+An array with one element per field:
+- `1`: the expiry was removed;
+- `-1`: the field had none;
+- `-2`: no such field, or no such key.
+
+## Examples
+
+```
+> HSET s token abc user ada
+(integer) 2
+> HEXPIRE s 100 FIELDS 2 token user
+1) (integer) 1
+2) (integer) 1
+> HPERSIST s FIELDS 3 token user nope
+1) (integer) 1
+2) (integer) 1
+3) (integer) -2
+```

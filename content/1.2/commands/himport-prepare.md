@@ -1,6 +1,6 @@
 ---
 title: "HIMPORT PREPARE"
-description: "Define a named list of field names for this connection (Redis 8.10)."
+description: "Defines a fieldset named fieldset on this connection: the field names that HIMPORT SET gives values for, in order."
 version: "1.2"
 command: "HIMPORT PREPARE"
 syntax: "HIMPORT PREPARE fieldset field [field ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "HIMPORT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,15 @@ HIMPORT PREPARE fieldset field [field ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Defines a fieldset named `fieldset` on this connection: the field names that [`HIMPORT SET`](himport-set.md) gives values for, in order. Defining it again replaces it.
 
-Define a named list of field names for this connection (Redis 8.10). Fieldsets are private to the connection and go when it closes
+## Reply
+
+- `OK`.
+
+## Examples
+
+```
+> HIMPORT PREPARE person name lang
+OK
+```

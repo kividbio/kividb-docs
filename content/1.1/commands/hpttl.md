@@ -1,6 +1,6 @@
 ---
 title: "HPTTL"
-description: "Same as HTTL but in milliseconds"
+description: "HTTL in milliseconds."
 version: "1.1"
 command: "HPTTL"
 syntax: "HPTTL key FIELDS numfields field [field ...]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["hash", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ HPTTL key FIELDS numfields field [field ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@hash`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+[`HTTL`](httl.md) in milliseconds.
 
-Same as `HTTL` but in milliseconds
+## Examples
+
+```
+> HSET s user ada
+(integer) 1
+> HPEXPIRE s 5000 FIELDS 1 user
+1) (integer) 1
+> HPTTL s FIELDS 1 user
+1) (integer) 5000
+```

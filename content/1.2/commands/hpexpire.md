@@ -1,6 +1,6 @@
 ---
 title: "HPEXPIRE"
-description: "Same as HEXPIRE but TTL in milliseconds"
+description: "HEXPIRE with the time in milliseconds."
 version: "1.2"
 command: "HPEXPIRE"
 syntax: "HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS numfields field [field ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["hash", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS numfields field [field ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@hash`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+[`HEXPIRE`](hexpire.md) with the time in milliseconds.
 
-Same as `HEXPIRE` but TTL in milliseconds
+## Examples
+
+```
+> HSET s user ada
+(integer) 1
+> HPEXPIRE s 5000 FIELDS 1 user
+1) (integer) 1
+> HPTTL s FIELDS 1 user
+1) (integer) 5000
+```

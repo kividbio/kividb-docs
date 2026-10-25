@@ -110,35 +110,35 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`HDEL`](hdel.md) | Delete one or more fields; returns count removed | 1.1.0 |
-| [`HEXISTS`](hexists.md) | Returns 1 if field exists, 0 otherwise | 1.1.0 |
-| [`HEXPIRE`](hexpire.md) | Set per-field TTLs in seconds; per-field returns: -2=no such field, 0=condition not met, 1=TTL set, 2=field deleted (past time) | 1.1.0 |
-| [`HEXPIREAT`](hexpireat.md) | Set per-field expiry as an absolute Unix timestamp in seconds; a past timestamp deletes the field immediately and returns 2 | 1.1.0 |
-| [`HEXPIRETIME`](hexpiretime.md) | Per-field absolute Unix expiry in seconds; per-field returns: -2=no such field, -1=field has no TTL, otherwise Unix seconds | 1.1.0 |
-| [`HGET`](hget.md) | Return the value of a field; nil if field or key missing | 1.1.0 |
-| [`HGETALL`](hgetall.md) | Return all fields and values as alternating field, value, field, value... | 1.1.0 |
-| [`HGETDEL`](hgetdel.md) | Atomically read and delete fields; returns array of values, nil for missing fields | 1.1.0 |
-| [`HGETEX`](hgetex.md) | Atomically read fields and optionally manipulate per-field TTLs; returns array of values, nil for missing fields | 1.1.0 |
-| [`HIMPORT`](himport.md) | HIMPORT and its subcommands. | 1.1.0 |
-| [`HINCRBY`](hincrby.md) | Increment an integer field; initialises to 0 if absent | 1.1.0 |
-| [`HINCRBYFLOAT`](hincrbyfloat.md) | Increment a float field; initialises to 0 if absent | 1.1.0 |
-| [`HKEYS`](hkeys.md) | Return all field names | 1.1.0 |
-| [`HLEN`](hlen.md) | Return the number of fields | 1.1.0 |
-| [`HMGET`](hmget.md) | Return values for multiple fields; nil for missing fields | 1.1.0 |
-| [`HMSET`](hmset.md) | Deprecated alias for HSET; always returns OK | 1.1.0 |
-| [`HPERSIST`](hpersist.md) | Remove per-field TTLs; per-field returns: -2=no such field, -1=field has no TTL, 1=TTL removed | 1.1.0 |
-| [`HPEXPIRE`](hpexpire.md) | Same as HEXPIRE but TTL in milliseconds | 1.1.0 |
-| [`HPEXPIREAT`](hpexpireat.md) | Same as HEXPIREAT but the timestamp is in milliseconds | 1.1.0 |
-| [`HPEXPIRETIME`](hpexpiretime.md) | Same as HEXPIRETIME but the timestamp is in milliseconds | 1.1.0 |
-| [`HPTTL`](hpttl.md) | Same as HTTL but in milliseconds | 1.1.0 |
-| [`HRANDFIELD`](hrandfield.md) | Return random field(s); negative count allows repeats | 1.1.0 |
-| [`HSCAN`](hscan.md) | Incrementally iterate fields and values; NOVALUES returns field names only. | 1.1.0 |
-| [`HSET`](hset.md) | Set one or more fields; returns count of fields added | 1.1.0 |
-| [`HSETEX`](hsetex.md) | Atomically set fields, with one TTL for all of them if one is given; FNX=only if none of the fields exist, FXX=only if all of them do, KEEPTTL=leave each field's TTL as it is; with no TTL option the… | 1.1.0 |
-| [`HSETNX`](hsetnx.md) | Set a field only if it does not already exist; returns 1 if set | 1.1.0 |
-| [`HSTRLEN`](hstrlen.md) | Length in bytes of the value at field; returns 0 if field or key is missing | 1.1.0 |
-| [`HTTL`](httl.md) | Per-field remaining TTL in seconds; per-field returns: -2=no such field, -1=field has no TTL, otherwise remaining seconds | 1.1.0 |
-| [`HVALS`](hvals.md) | Return all field values | 1.1.0 |
+| [`HDEL`](hdel.md) | Deletes fields from the hash at key. | 1.1.0 |
+| [`HEXISTS`](hexists.md) | Tells whether field exists in the hash at key. | 1.1.0 |
+| [`HEXPIRE`](hexpire.md) | Makes fields of the hash at key expire after seconds. | 1.1.0 |
+| [`HEXPIREAT`](hexpireat.md) | Makes fields of the hash at key expire at a Unix time, in seconds. | 1.1.0 |
+| [`HEXPIRETIME`](hexpiretime.md) | Returns the Unix time, in seconds, at which fields of the hash at key expire. | 1.1.0 |
+| [`HGET`](hget.md) | Returns the value of field in the hash at key. | 1.1.0 |
+| [`HGETALL`](hgetall.md) | Returns every field of the hash at key with its value. | 1.1.0 |
+| [`HGETDEL`](hgetdel.md) | Returns the values of fields of the hash at key and deletes those fields, in one step. | 1.1.0 |
+| [`HGETEX`](hgetex.md) | Returns the values of fields of the hash at key and, optionally, changes their expiry, in one step. | 1.1.0 |
+| [`HIMPORT`](himport.md) | Loads many hashes that have the same fields, without sending the field names for each: a command of Redis 8.10. | 1.1.0 |
+| [`HINCRBY`](hincrby.md) | Adds increment, a 64-bit integer, to the integer value of field in the hash at key. | 1.1.0 |
+| [`HINCRBYFLOAT`](hincrbyfloat.md) | Adds increment, a floating-point number, to the value of field in the hash at key. | 1.1.0 |
+| [`HKEYS`](hkeys.md) | Returns the field names of the hash at key. | 1.1.0 |
+| [`HLEN`](hlen.md) | Returns the number of fields in the hash at key. | 1.1.0 |
+| [`HMGET`](hmget.md) | Returns the values of several fields of the hash at key. | 1.1.0 |
+| [`HMSET`](hmset.md) | Another name for HSET, kept for old clients. | 1.1.0 |
+| [`HPERSIST`](hpersist.md) | Removes the expiry of fields of the hash at key. | 1.1.0 |
+| [`HPEXPIRE`](hpexpire.md) | HEXPIRE with the time in milliseconds. | 1.1.0 |
+| [`HPEXPIREAT`](hpexpireat.md) | HEXPIREAT with the time in milliseconds. | 1.1.0 |
+| [`HPEXPIRETIME`](hpexpiretime.md) | HEXPIRETIME in milliseconds. | 1.1.0 |
+| [`HPTTL`](hpttl.md) | HTTL in milliseconds. | 1.1.0 |
+| [`HRANDFIELD`](hrandfield.md) | Returns fields of the hash at key, picked at random. | 1.1.0 |
+| [`HSCAN`](hscan.md) | Goes through the fields of the hash at key a page at a time, as SCAN goes through keys. | 1.1.0 |
+| [`HSET`](hset.md) | Sets fields of the hash at key, each to its value. | 1.1.0 |
+| [`HSETEX`](hsetex.md) | Sets fields of the hash at key, with one expiry for all of them, in one step. | 1.1.0 |
+| [`HSETNX`](hsetnx.md) | Sets field in the hash at key only if the field does not exist. | 1.1.0 |
+| [`HSTRLEN`](hstrlen.md) | Returns the length, in bytes, of the value of field in the hash at key. | 1.1.0 |
+| [`HTTL`](httl.md) | Returns how long fields of the hash at key have before they expire, in seconds. | 1.1.0 |
+| [`HVALS`](hvals.md) | Returns the values of the hash at key. | 1.1.0 |
 
 ## Hyperloglog
 

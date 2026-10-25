@@ -1,6 +1,6 @@
 ---
 title: "HKEYS"
-description: "Return all field names"
+description: "Returns the field names of the hash at key."
 version: "1.2"
 command: "HKEYS"
 syntax: "HKEYS key"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["hash", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,18 @@ HKEYS key
 
 **Available since:** 1.1.0 · **ACL categories:** `@hash`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the field names of the hash at `key`.
 
-Return all field names
+## Reply
+
+- An array of field names; empty if the key does not exist.
+
+## Examples
+
+```
+> HSET u name Ada lang Rust
+(integer) 2
+> HKEYS u
+1) "name"
+2) "lang"
+```

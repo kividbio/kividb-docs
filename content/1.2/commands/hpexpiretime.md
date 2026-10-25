@@ -1,6 +1,6 @@
 ---
 title: "HPEXPIRETIME"
-description: "Same as HEXPIRETIME but the timestamp is in milliseconds"
+description: "HEXPIRETIME in milliseconds."
 version: "1.2"
 command: "HPEXPIRETIME"
 syntax: "HPEXPIRETIME key FIELDS numfields field [field ...]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["hash", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ HPEXPIRETIME key FIELDS numfields field [field ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@hash`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+[`HEXPIRETIME`](hexpiretime.md) in milliseconds.
 
-Same as `HEXPIRETIME` but the timestamp is in milliseconds
+## Examples
+
+```
+> HSET s token abc
+(integer) 1
+> HEXPIREAT s 4102444800 FIELDS 1 token
+1) (integer) 1
+> HPEXPIRETIME s FIELDS 1 token
+1) (integer) 4102444800000
+```
