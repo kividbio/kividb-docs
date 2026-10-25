@@ -140,7 +140,6 @@ def normalise_specs(specs):
 
 # ── COMMANDS.md ──────────────────────────────────────────────────────────────
 
-ROW = re.compile(r"^\|\s*`([^`]+)`\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*$")
 
 
 def command_name(cell):
@@ -167,20 +166,20 @@ def commands_md(path):
         if line.startswith("### "):
             subsection = line[4:].strip()
             continue
-        m = ROW.match(line)
-        if not m:
+        # Cells split on `|`, but not on `\|`: a `|` inside a cell.
+        if not line.startswith("|"):
             continue
-        name = command_name(m.group(1))
-        if not name or name in ("COMMAND",) and section is None:
+        cells = [c.strip() for c in re.split(r"(?<!\\)\|", line.strip())[1:-1]]
+        if len(cells) < 3 or not cells[0].startswith("`"):
             continue
-        syntax = m.group(2).strip("`").strip()
-        if syntax.startswith("`") or syntax.endswith("`"):
-            syntax = syntax.strip("`")
+        name = command_name(cells[0].strip("`"))
+        if not name:
+            continue
         rows.setdefault(name, []).append({
             "section": section,
             "subsection": subsection,
-            "syntax": re.sub(r"^`|`$", "", m.group(2)).replace("\\|", "|"),
-            "notes": m.group(3).replace("\\|", "|"),
+            "syntax": re.sub(r"^`|`$", "", cells[1]).replace("\\|", "|"),
+            "notes": " | ".join(cells[2:]).replace("\\|", "|"),
         })
     return rows
 

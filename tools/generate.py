@@ -133,7 +133,12 @@ def command_pages(version, release, releases, history):
     for name, (entry, parent) in sorted(flat.items()):
         rows = entry.get("documented") or []
         row = rows[0] if rows else {}
-        group = group_of(row.get("section") or (parent and (parent.get("documented") or [{}])[0].get("section")))
+        section = row.get("section") or (parent and (parent.get("documented") or [{}])[0].get("section"))
+        if not section:
+            # A container is in the group of its subcommands' rows.
+            section = next((s["documented"][0]["section"] for s in entry.get("subcommands", [])
+                            if s.get("documented")), None)
+        group = group_of(section)
         h = hist.get(name, {})
         fm = {
             "title": display(name),
@@ -166,7 +171,11 @@ def command_pages(version, release, releases, history):
             gen += ["", "**History:**", ""] + [f"- {c['release']}: {c['change']}" for c in fm["history"]]
 
         notes = "\n\n".join(r["notes"] for r in rows if r.get("notes"))
-        seed_fm = [fm_line("status", "draft" if notes else "needs-text")]
+        # A container (CLIENT, CONFIG, ...) has no row of its own: its
+        # subcommands do.
+        if not rows and subs:
+            fm["description"] = f"{display(name)} and its subcommands."
+        seed_fm = [fm_line("status", "draft" if notes or subs else "needs-text")]
         seed = ("## Description\n\n" + notes + "\n") if notes else ""
         write_page(CONTENT / version / "commands" / f"{slug(name)}.md", fm, "\n".join(gen), seed, seed_fm)
         if not parent:

@@ -1,0 +1,28 @@
+---
+title: "ZREVRANGEBYLEX"
+description: "Return members in reverse lexicographical range"
+version: "1.2"
+command: "ZREVRANGEBYLEX"
+syntax: "ZREVRANGEBYLEX key max min [LIMIT offset count]"
+group: "sorted-set"
+since: "1.1.0"
+arity: -4
+flags: ["readonly"]
+acl_categories: ["read", "slow", "sortedset"]
+history: []
+# generated: end
+status: "draft"
+---
+
+<!-- generated: start -->
+## Syntax
+
+```
+ZREVRANGEBYLEX key max min [LIMIT offset count]
+```
+
+**Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@sortedset`
+<!-- generated: end -->
+## Description
+
+Return members in reverse lexicographical range

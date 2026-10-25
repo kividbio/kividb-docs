@@ -1,0 +1,3722 @@
+{
+ "baseline": "1.1.0",
+ "commands": {
+  "ACL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|CAT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|DELUSER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|DRYRUN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|GENPASS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|GETUSER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|LIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|LOAD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|LOG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|SAVE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|USERS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ACL|WHOAMI": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "APPEND": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARCOUNT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARDEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARDELRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARGET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARGETRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARGREP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARINFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARINSERT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARLASTITEMS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARLEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARMGET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARMSET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARNEXT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "AROP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARRING": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARSCAN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARSEEK": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ARSET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ASKING": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "AUTH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BACKUP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BGREWRITEAOF": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BGSAVE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BITCOUNT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BITFIELD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BITFIELD_RO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BITOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BITPOS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BLMOVE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BLMOVEM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BLMPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BLPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BRPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BRPOPLPUSH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BZMPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BZPOPMAX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "BZPOPMIN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|CACHING": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|GETNAME": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|GETREDIR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|ID": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|INFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|KILL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|LIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|NO-EVICT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|NO-TOUCH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|PAUSE": {
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Pause clients for `timeout` milliseconds, until it expires or `CLIENT UNPAUSE`. `ALL` (the default) holds every command but `CLIENT UNPAUSE`; `WRITE` holds anything that may write \u2014 writes, `PFCOUNT`, `PUBLISH`, scripts not declared `no-writes`, and an `EXEC` containing any of them. A pause given during another keeps the more restrictive of the two",
+         "section": "Server commands",
+         "subsection": "CLIENT subcommands",
+         "syntax": "CLIENT PAUSE timeout [WRITE | ALL]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Pause clients for `timeout` milliseconds, until it expires or `CLIENT UNPAUSE`. `ALL` (the default) holds every command but `CLIENT UNPAUSE`; `WRITE` holds anything that may write \u2014 writes, `PFCOUNT`, `PUBLISH`, scripts not declared `no-writes`, and an `EXEC` containing any of them. A pause given during another keeps the more restrictive of the two. While writes are paused nothing expires, as in Redis: a read takes a key whose time has passed as gone, but it is deleted, counted in `expired_keys` and announced only once the pause is over, and `RANDOMKEY` may name it rather than answer nil. The same holds during a slot handoff and a manual failover",
+         "section": "Server commands",
+         "subsection": "CLIENT subcommands",
+         "syntax": "CLIENT PAUSE timeout [WRITE | ALL]"
+        }
+       ]
+      }
+     ],
+     "release": "1.1.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|REPLY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|SETINFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|SETNAME": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|TRACKING": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|TRACKINGINFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|UNBLOCK": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLIENT|UNPAUSE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|ADDSLOTS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|ADDSLOTSRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|BUMPEPOCH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|COUNT-FAILURE-REPORTS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|COUNTKEYSINSLOT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|DELSLOTS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|DELSLOTSRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|FAILOVER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|FLUSHSLOTS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|FORGET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|GETKEYSINSLOT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|INFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|KEYSLOT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|LINKS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|MEET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|MIGRATION": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|MYID": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|MYSHARDID": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|NODES": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|REPLICATE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|RESET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|SAVECONFIG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|SET-CONFIG-EPOCH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|SETSLOT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|SHARDS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|SLOT-STATS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CLUSTER|SLOTS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "COMMAND": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "COMMAND|COUNT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "COMMAND|DOCS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "COMMAND|GETKEYS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "COMMAND|GETKEYSANDFLAGS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "COMMAND|INFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "COMMAND|LIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CONFIG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CONFIG|GET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CONFIG|RESETSTAT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CONFIG|REWRITE": {
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Persist the current runtime config to the file the server was started with (default `/etc/kividb/kividb.conf`). Creates the file and parent directories if they don't exist. Atomic write via tmpfile-rename",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "CONFIG REWRITE"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Persist the current runtime config to the file the server was started with (default `/etc/kividb/kividb.conf`). Creates the file and parent directories if they don't exist. Atomic write via tmpfile-rename. Keeps the file's mode, and its owner when run as root; a new file is `0600`. Redis resets the mode to `0644` less the umask instead",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "CONFIG REWRITE"
+        }
+       ]
+      }
+     ],
+     "release": "1.1.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "CONFIG|SET": {
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "All or nothing: an unknown parameter, a value out of range, a parameter that cannot change at run time or one named twice is an error naming it, and none of the pairs is applied. `requirepass`, `slowlog-log-slower-than`, `slowlog-max-len`, `maxmemory`, `maxmemory-policy`, `maxmemory-samples`, `lfu-log-factor`, `lfu-decay-time`, `appendonly`, `loglevel`, `repl-backlog-size`, `repl-backlog-ttl`, `repl-diskless-load` all apply immediately at runtime without restart",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "CONFIG SET param value [param value ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "All or nothing: an unknown parameter, a value out of range, a parameter that cannot change at run time or one named twice is an error naming it, and none of the pairs is applied. `requirepass`, `slowlog-log-slower-than`, `slowlog-max-len`, `maxmemory`, `maxmemory-policy`, `maxmemory-samples`, `lfu-log-factor`, `lfu-decay-time`, `activedefrag`, `active-defrag-ignore-bytes`, `active-defrag-threshold-lower`, `active-defrag-cycle-max`, `appendonly`, `loglevel`, `repl-backlog-size`, `repl-backlog-ttl`, `repl-diskless-load` all apply immediately at runtime without restart",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "CONFIG SET param value [param value ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "COPY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "DBSIZE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "DEBUG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "DECR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "DECRBY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "DEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "DELEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "DIGEST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "DISCARD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "DUMP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ECHO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "EVAL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "EVALSHA": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "EVALSHA_RO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "EVAL_RO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "EXEC": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "EXISTS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "EXPIRE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "EXPIREAT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "EXPIRETIME": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FAILOVER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FCALL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FCALL_RO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FLUSHALL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FLUSHDB": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.AGGREGATE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.ALIASADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.ALIASDEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.ALIASLIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.ALIASUPDATE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.ALTER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.CONFIG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.CONFIG|GET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.CONFIG|SET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.CREATE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.CURSOR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.CURSOR|DEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.CURSOR|READ": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.DEBUG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.DEBUG|COMPACT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.DICTADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.DICTDEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.DICTDUMP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.DROPINDEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.EXPLAIN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.EXPLAINCLI": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.HYBRID": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.INFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.PROFILE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.SEARCH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.SPELLCHECK": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.SYNDUMP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.SYNUPDATE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT.TAGVALS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FT._LIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FUNCTION": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FUNCTION|DELETE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FUNCTION|FLUSH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FUNCTION|KILL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FUNCTION|LIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FUNCTION|LOAD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "FUNCTION|STATS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEOADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEODELBYMEMBER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEODIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEOHASH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEOPOS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEORADIUS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEORADIUSBYMEMBER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEORADIUSBYMEMBER_RO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEORADIUS_RO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEOSEARCH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GEOSEARCHSTORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GETBIT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GETDEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GETEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GETRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "GETSET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HDEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HELLO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HEXISTS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HEXPIRE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HEXPIREAT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HEXPIRETIME": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HGET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HGETALL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HGETDEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HGETEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HIMPORT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HIMPORT|DISCARD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HIMPORT|PREPARE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HIMPORT|SET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HINCRBY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HINCRBYFLOAT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HKEYS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HLEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HMGET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HMSET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HOTKEYS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HOTKEYS|GET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HOTKEYS|RESET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HOTKEYS|START": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HOTKEYS|STOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HPERSIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HPEXPIRE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HPEXPIREAT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HPEXPIRETIME": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HPTTL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HRANDFIELD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HSCAN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HSET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HSETEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HSETNX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HSTRLEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HTTL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "HVALS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "INCR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "INCRBY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "INCRBYFLOAT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "INCREX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "INFO": {
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return server info; sections include `server`, `keyspace`, `replication`, `errorstats` (per-error reply counters), `all`, etc. `INFO commandstats` has, for each command that has been called, `calls`, `usec`, `usec_per_call`, `rejected_calls` and `failed_calls`, and the Redis 8.8 slowlog fields `slowlog_count`, `slowlog_time_ms_sum` and `slowlog_time_ms_max`. `INFO memory` reports `used_memory` (allocated bytes \u2014 what `maxmemory` is compared with), `used_memory_rss` and `maxmemory_policy`; `INFO stats` reports `evicted_keys`",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "INFO [section [section ...]]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return server info; sections include `server`, `keyspace`, `replication`, `errorstats` (per-error reply counters), `all`, etc. `INFO commandstats` has, for each command that has been called, `calls`, `usec`, `usec_per_call`, `rejected_calls` and `failed_calls`, and the Redis 8.8 slowlog fields `slowlog_count`, `slowlog_time_ms_sum` and `slowlog_time_ms_max`. `INFO memory` reports `used_memory` (allocated bytes \u2014 what `maxmemory` is compared with), `used_memory_rss`, `maxmemory_policy`, the slabs of string values (`value_slab_bytes`, and `value_slab_live_bytes` in them) and active defrag's `active_defrag_running`, `active_defrag_hits` (values moved) and `active_defrag_misses` (left, being held); `INFO stats` reports `evicted_keys`",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "INFO [section [section ...]]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.ARRAPPEND": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.ARRINDEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.ARRINSERT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.ARRLEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.ARRPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.ARRTRIM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.CLEAR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.DEBUG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.DEBUG|MEMORY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.DEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.FORGET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.GET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.MERGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.MGET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.MSET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.NUMINCRBY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.NUMMULTBY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.OBJKEYS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.OBJLEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.RESP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.SET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.STRAPPEND": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.STRLEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.TOGGLE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "JSON.TYPE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "KEYS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LASTSAVE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LATENCY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LATENCY|DOCTOR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LATENCY|GRAPH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LATENCY|HISTOGRAM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LATENCY|HISTORY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LATENCY|LATEST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LATENCY|RESET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LCS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LINDEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LINSERT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LLEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LMOVE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LMOVEM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LMPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LOLWUT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LPOS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LPUSH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LPUSHX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LREM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LSET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "LTRIM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MEMORY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MEMORY|DOCTOR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MEMORY|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MEMORY|MALLOC-STATS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MEMORY|PURGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MEMORY|STATS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MEMORY|USAGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MGET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MIGRATE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MODULE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MONITOR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MOVE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MSET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MSETEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MSETNX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "MULTI": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "OBJECT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "OBJECT|ENCODING": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "OBJECT|FREQ": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "OBJECT|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "OBJECT|IDLETIME": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "OBJECT|REFCOUNT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PERSIST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PEXPIRE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PEXPIREAT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PEXPIRETIME": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFCOUNT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFDEBUG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFDEBUG|DECODE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFDEBUG|ENCODING": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFDEBUG|GETREG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFDEBUG|RESET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFDEBUG|TODENSE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFMERGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PFSELFTEST": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PING": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PSETEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PSUBSCRIBE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PSYNC": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PTTL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PUBLISH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PUBSUB": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PUBSUB|CHANNELS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PUBSUB|NUMPAT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PUBSUB|NUMSUB": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PUBSUB|SHARDCHANNELS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PUBSUB|SHARDNUMSUB": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "PUNSUBSCRIBE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "QUIT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "RANDOMKEY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "READONLY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "READWRITE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "RENAME": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "RENAMENX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "REPLCONF": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "REPLICAOF": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "RESET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "RESTORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ROLE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "RPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "RPOPLPUSH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "RPUSH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "RPUSHX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SAVE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SCAN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SCARD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SCRIPT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SCRIPT|DEBUG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SCRIPT|EXISTS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SCRIPT|FLUSH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SCRIPT|KILL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SCRIPT|LOAD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SDIFF": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SDIFFCARD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SDIFFSTORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SELECT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SETBIT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SETEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SETNX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SETRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SHUTDOWN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SINTER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SINTERCARD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SINTERSTORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SISMEMBER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SLAVEOF": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SLOWLOG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SLOWLOG|GET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SLOWLOG|LEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SLOWLOG|RESET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SMEMBERS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SMISMEMBER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SMOVE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SORT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SORT_RO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SPUBLISH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SRANDMEMBER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SREM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SSCAN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SSUBSCRIBE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "STRLEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SUBSCRIBE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SUBSTR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SUNION": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SUNIONCARD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SUNIONSTORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SUNSUBSCRIBE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SWAPDB": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "SYNC": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TIME": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TOUCH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.ADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.ALTER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.CREATE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.CREATERULE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.DECRBY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.DEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.DELETERULE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.GET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.INCRBY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.INFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.MADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.MGET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.MRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.MREVRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.NRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.NREVRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.QUERYINDEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.QUERYLABELS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.RANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.READ": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TS.REVRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TTL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "TYPE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "UNLINK": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "UNSUBSCRIBE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "UNWATCH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VCARD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VDIM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VEMB": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VGETATTR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VINFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VISMEMBER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VLINKS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VRANDMEMBER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VREM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VSETATTR": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "VSIM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "WAIT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "WAITAOF": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "WATCH": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XACK": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XACKDEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XAUTOCLAIM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XCFGSET": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XCLAIM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XDEL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XDELEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XGROUP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XGROUP|CREATE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XGROUP|CREATECONSUMER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XGROUP|DELCONSUMER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XGROUP|DESTROY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XGROUP|SETID": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XIDMPRECORD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.1"
+  },
+  "XINFO": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XINFO|CONSUMERS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XINFO|GROUPS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XINFO|STREAM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XLEN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XNACK": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XPENDING": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XREAD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XREADGROUP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XREVRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XSETID": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "XTRIM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZADD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZCARD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZCOUNT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZDIFF": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZDIFFSTORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZINCRBY": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZINTER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZINTERCARD": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZINTERSTORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZLEXCOUNT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZMPOP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZMSCORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZPOPMAX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZPOPMIN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZRANDMEMBER": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZRANGEBYLEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZRANGEBYSCORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZRANGESTORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZRANK": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZREM": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZREMRANGEBYLEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZREMRANGEBYRANK": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZREMRANGEBYSCORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZREVRANGE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZREVRANGEBYLEX": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZREVRANGEBYSCORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZREVRANK": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZSCAN": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZSCORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZUNION": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "ZUNIONSTORE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.1.0"
+  }
+ },
+ "releases": [
+  {
+   "commands_added": [
+    "XIDMPRECORD"
+   ],
+   "commands_changed": [
+    "CLIENT|PAUSE",
+    "CONFIG|REWRITE"
+   ],
+   "commands_removed": [],
+   "defaults_changed": [],
+   "release": "1.1.1",
+   "settings_added": [
+    "array-slice-size",
+    "array-sparse-kmax",
+    "array-sparse-kmin",
+    "key-access-tracking"
+   ],
+   "settings_removed": []
+  },
+  {
+   "commands_added": [],
+   "commands_changed": [],
+   "commands_removed": [],
+   "defaults_changed": [],
+   "release": "1.1.2",
+   "settings_added": [],
+   "settings_removed": []
+  },
+  {
+   "commands_added": [],
+   "commands_changed": [
+    "CONFIG|SET",
+    "INFO"
+   ],
+   "commands_removed": [],
+   "defaults_changed": [
+    "activedefrag"
+   ],
+   "release": "1.2",
+   "settings_added": [
+    "active-defrag-cycle-max",
+    "active-defrag-ignore-bytes",
+    "active-defrag-threshold-lower",
+    "cluster-announce-client-port",
+    "cluster-replica-validity-factor",
+    "cluster-slot-migration-handoff-max-lag-bytes",
+    "cluster-slot-migration-write-pause-timeout"
+   ],
+   "settings_removed": []
+  }
+ ],
+ "settings": {
+  "aclfile": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "active-defrag-cycle-max": {
+   "defaults": [
+    {
+     "default": "10",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
+  },
+  "active-defrag-ignore-bytes": {
+   "defaults": [
+    {
+     "default": "67108864",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
+  },
+  "active-defrag-threshold-lower": {
+   "defaults": [
+    {
+     "default": "20",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
+  },
+  "activedefrag": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    },
+    {
+     "default": "yes",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "activerehashing": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "appendfsync": {
+   "defaults": [
+    {
+     "default": "everysec",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "appendonly": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "array-slice-size": {
+   "defaults": [
+    {
+     "default": "4096",
+     "release": "1.1.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.1"
+  },
+  "array-sparse-kmax": {
+   "defaults": [
+    {
+     "default": "10",
+     "release": "1.1.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.1"
+  },
+  "array-sparse-kmin": {
+   "defaults": [
+    {
+     "default": "5",
+     "release": "1.1.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.1"
+  },
+  "auto-aof-rewrite-min-size": {
+   "defaults": [
+    {
+     "default": "67108864",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "auto-aof-rewrite-percentage": {
+   "defaults": [
+    {
+     "default": "100",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "backup-sealed-ttl": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "backupdirname": {
+   "defaults": [
+    {
+     "default": "backupdir",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "bind": {
+   "defaults": [
+    {
+     "default": "0.0.0.0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "busy-reply-threshold": {
+   "defaults": [
+    {
+     "default": "5000",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "client-query-buffer-limit": {
+   "defaults": [
+    {
+     "default": "1073741824",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "close-on-replica-write": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-announce-bus-port": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-announce-client-port": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
+  },
+  "cluster-announce-hostname": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-announce-ip": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-announce-port": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-bus-port-protected-mode": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-bus-secret": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-config-file": {
+   "defaults": [
+    {
+     "default": "nodes.conf",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-enabled": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-node-timeout": {
+   "defaults": [
+    {
+     "default": "15000",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-preferred-endpoint-type": {
+   "defaults": [
+    {
+     "default": "ip",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-replica-validity-factor": {
+   "defaults": [
+    {
+     "default": "10",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
+  },
+  "cluster-require-full-coverage": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "cluster-slot-migration-handoff-max-lag-bytes": {
+   "defaults": [
+    {
+     "default": "1048576",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
+  },
+  "cluster-slot-migration-write-pause-timeout": {
+   "defaults": [
+    {
+     "default": "10000",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
+  },
+  "databases": {
+   "defaults": [
+    {
+     "default": "16",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "dir": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "hash-max-listpack-entries": {
+   "defaults": [
+    {
+     "default": "512",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "hash-max-listpack-value": {
+   "defaults": [
+    {
+     "default": "64",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "hash-max-ziplist-entries": {
+   "defaults": [
+    {
+     "default": "512",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "hash-max-ziplist-value": {
+   "defaults": [
+    {
+     "default": "64",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "hll-sparse-max-bytes": {
+   "defaults": [
+    {
+     "default": "3000",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "hz": {
+   "defaults": [
+    {
+     "default": "10",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "key-access-tracking": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.1"
+  },
+  "latency-tracking": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "latency-tracking-info-percentiles": {
+   "defaults": [
+    {
+     "default": "50 99 99.9",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "lazyfree-lazy-eviction": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "lazyfree-lazy-expire": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "lazyfree-lazy-server-del": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "lazyfree-lazy-user-del": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "lazyfree-lazy-user-flush": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "lfu-decay-time": {
+   "defaults": [
+    {
+     "default": "1",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "lfu-log-factor": {
+   "defaults": [
+    {
+     "default": "10",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "list-compress-depth": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "list-max-listpack-size": {
+   "defaults": [
+    {
+     "default": "-2",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "list-max-ziplist-size": {
+   "defaults": [
+    {
+     "default": "-2",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "log-format": {
+   "defaults": [
+    {
+     "default": "text",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "logfile": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "loglevel": {
+   "defaults": [
+    {
+     "default": "info",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "lua-parallel-scripts": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "lua-time-limit": {
+   "defaults": [
+    {
+     "default": "5000",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "masterauth": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "masteruser": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "maxclients": {
+   "defaults": [
+    {
+     "default": "10000",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "maxmemory": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "maxmemory-clients": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "maxmemory-policy": {
+   "defaults": [
+    {
+     "default": "noeviction",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "maxmemory-samples": {
+   "defaults": [
+    {
+     "default": "5",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "min-replicas-max-lag": {
+   "defaults": [
+    {
+     "default": "10",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "min-replicas-to-write": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "notify-keyspace-events": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "port": {
+   "defaults": [
+    {
+     "default": "6380",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "preload-file": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "protected-mode": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "proto-max-bulk-len": {
+   "defaults": [
+    {
+     "default": "536870912",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "repl-backlog-size": {
+   "defaults": [
+    {
+     "default": "1048576",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "repl-backlog-ttl": {
+   "defaults": [
+    {
+     "default": "3600",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "repl-diskless-load": {
+   "defaults": [
+    {
+     "default": "disabled",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "repl-ping-replica-period": {
+   "defaults": [
+    {
+     "default": "10",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "repl-replica-max-backlog-bytes": {
+   "defaults": [
+    {
+     "default": "268435456",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "repl-timeout": {
+   "defaults": [
+    {
+     "default": "60",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "replica-full-sync-guard": {
+   "defaults": [
+    {
+     "default": "empty",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "replica-full-sync-guard-ratio": {
+   "defaults": [
+    {
+     "default": "50",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "replicaof": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "requirepass": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "save": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "set-max-intset-entries": {
+   "defaults": [
+    {
+     "default": "512",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "set-max-listpack-entries": {
+   "defaults": [
+    {
+     "default": "128",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "set-max-listpack-value": {
+   "defaults": [
+    {
+     "default": "64",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "slaveof": {
+   "defaults": [
+    {
+     "default": "",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "slowlog-entry-max-argc": {
+   "defaults": [
+    {
+     "default": "32",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "slowlog-entry-max-string-len": {
+   "defaults": [
+    {
+     "default": "128",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "slowlog-log-slower-than": {
+   "defaults": [
+    {
+     "default": "-1",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "slowlog-max-len": {
+   "defaults": [
+    {
+     "default": "128",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "stream-idmp-duration": {
+   "defaults": [
+    {
+     "default": "100",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "stream-idmp-maxsize": {
+   "defaults": [
+    {
+     "default": "100",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "stream-node-max-bytes": {
+   "defaults": [
+    {
+     "default": "4096",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "stream-node-max-entries": {
+   "defaults": [
+    {
+     "default": "100",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tcp-backlog": {
+   "defaults": [
+    {
+     "default": "511",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tcp-keepalive": {
+   "defaults": [
+    {
+     "default": "300",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "timeout": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tls-cluster": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tls-replication": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tracking-table-max-keys": {
+   "defaults": [
+    {
+     "default": "1000000",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "zset-max-listpack-entries": {
+   "defaults": [
+    {
+     "default": "128",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "zset-max-listpack-value": {
+   "defaults": [
+    {
+     "default": "64",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "zset-max-ziplist-entries": {
+   "defaults": [
+    {
+     "default": "128",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "zset-max-ziplist-value": {
+   "defaults": [
+    {
+     "default": "64",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  }
+ }
+}

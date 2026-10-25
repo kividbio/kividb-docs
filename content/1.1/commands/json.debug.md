@@ -1,0 +1,28 @@
+---
+title: "JSON.DEBUG"
+description: "JSON.DEBUG and its subcommands."
+version: "1.1"
+command: "JSON.DEBUG"
+syntax: "JSON.DEBUG"
+group: "json"
+since: "1.1.0"
+arity: -3
+flags: ["readonly"]
+acl_categories: ["json", "read", "slow"]
+history: []
+subcommands: ["JSON.DEBUG MEMORY"]
+# generated: end
+status: "draft"
+---
+
+<!-- generated: start -->
+## Syntax
+
+```
+JSON.DEBUG
+```
+
+**Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
+
+Subcommands: [JSON.DEBUG MEMORY](json.debug-memory.md)
+<!-- generated: end -->
