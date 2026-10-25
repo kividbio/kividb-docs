@@ -1,6 +1,6 @@
 ---
 title: "JSON.OBJKEYS"
-description: "The member names of each matched object, in the order they were added"
+description: "Returns the member names of each object path matches, in the order they were added."
 version: "1.1"
 command: "JSON.OBJKEYS"
 syntax: "JSON.OBJKEYS key [path]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,14 @@ JSON.OBJKEYS key [path]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the member names of each object `path` matches, in the order they were added.
 
-The member names of each matched object, in the order they were added
+## Examples
+
+```
+> JSON.SET d $ '{"name":"Ada","age":36}'
+OK
+> JSON.OBJKEYS d
+1) "name"
+2) "age"
+```

@@ -1,6 +1,6 @@
 ---
 title: "JSON.STRAPPEND"
-description: "Append a JSON string to each matched string; returns the new lengths"
+description: "Appends a JSON string to each string path matches."
 version: "1.2"
 command: "JSON.STRAPPEND"
 syntax: "JSON.STRAPPEND key [path] value"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ JSON.STRAPPEND key [path] value
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Appends a JSON string to each string `path` matches. `value` is JSON text, so it is quoted: `'" L."'`.
 
-Append a JSON string to each matched string; returns the new lengths
+## Reply
+
+- A JSONPath: the new lengths, `nil` where a match is not a string. A legacy path: the one new length.
+
+## Examples
+
+```
+> JSON.SET d $ '{"name":"Ada"}'
+OK
+> JSON.STRAPPEND d $.name '" L."'
+1) (integer) 6
+```

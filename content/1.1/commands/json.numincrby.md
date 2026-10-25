@@ -1,6 +1,6 @@
 ---
 title: "JSON.NUMINCRBY"
-description: "Add to each matched number."
+description: "Adds number to each number path matches."
 version: "1.1"
 command: "JSON.NUMINCRBY"
 syntax: "JSON.NUMINCRBY key path number"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,22 @@ JSON.NUMINCRBY key path number
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Adds `number` to each number `path` matches. A result that is not a finite number fails the command, and nothing changes.
 
-Add to each matched number. Returns the new values as one JSON array in a bulk string, `null` where the match is not a number — `"[1820,1972,null]"` (RESP3: an array of numbers). A legacy path returns the one new value. A result that is not a finite number fails the command and changes nothing
+## Reply
+
+- A JSONPath: the new values, as one JSON array in a bulk string, with `null` where a match is not a number. In RESP3, an array of numbers.
+- A legacy path: the one new value.
+
+## Examples
+
+```
+> JSON.SET d $ '{"name":"Ada","age":36}'
+OK
+> JSON.NUMINCRBY d $.age 2
+"[38]"
+> JSON.NUMINCRBY d .age 1
+"39"
+> JSON.NUMINCRBY d $.name 1
+"[null]"
+```

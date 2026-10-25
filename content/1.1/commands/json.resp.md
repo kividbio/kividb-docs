@@ -1,6 +1,6 @@
 ---
 title: "JSON.RESP"
-description: "Each match in RESP: null as nil, booleans as true/false, integers as integers, other numbers and strings as bulk strings, an array as [ followed by its elements, an object as { followed by alternatin…"
+description: "Returns each value path matches in RESP rather than JSON text: null as nil, booleans as true and false, integers as integers, other numbers and strings as bulk strings, an array as [ followed by its…"
 version: "1.1"
 command: "JSON.RESP"
 syntax: "JSON.RESP key [path]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ JSON.RESP key [path]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns each value `path` matches in RESP rather than JSON text: `null` as `nil`, booleans as `true` and `false`, integers as integers, other numbers and strings as bulk strings, an array as `[` followed by its elements, an object as `{` followed by its names and values.
 
-Each match in RESP: null as nil, booleans as `true`/`false`, integers as integers, other numbers and strings as bulk strings, an array as `[` followed by its elements, an object as `{` followed by alternating names and values
+## Examples
+
+```
+> JSON.SET d $ '{"name":"Ada","tags":[],"active":true}'
+OK
+> JSON.RESP d
+1) {
+2) "name"
+3) "Ada"
+4) "tags"
+5) 1) [
+6) "active"
+7) true
+```

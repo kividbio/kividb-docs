@@ -1,6 +1,6 @@
 ---
 title: "JSON.MSET"
-description: "JSON.SET for several key-path-value triples; every argument is checked before any key is touched"
+description: "JSON.SET for several key-path-value triples at once."
 version: "1.1"
 command: "JSON.MSET"
 syntax: "JSON.MSET key path value [key path value ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ JSON.MSET key path value [key path value ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+[`JSON.SET`](json.set.md) for several key-path-value triples at once. Every argument is checked before any key is changed.
 
-`JSON.SET` for several key-path-value triples; every argument is checked before any key is touched
+## Reply
+
+- `OK`.
+
+## Examples
+
+```
+> JSON.MSET a $ 1 b $ 2
+OK
+```

@@ -1,6 +1,6 @@
 ---
 title: "JSON.ARRAPPEND"
-description: "Append to each matched array; returns the new lengths"
+description: "Appends values, each JSON text, to each array path matches."
 version: "1.1"
 command: "JSON.ARRAPPEND"
 syntax: "JSON.ARRAPPEND key path value [value ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ JSON.ARRAPPEND key path value [value ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Appends values, each JSON text, to each array `path` matches.
 
-Append to each matched array; returns the new lengths
+## Reply
+
+- The new lengths; `nil` where a match is not an array.
+
+## Examples
+
+```
+> JSON.SET d $ '{"tags":["math","code"]}'
+OK
+> JSON.ARRAPPEND d $.tags '"art"' '"chess"'
+1) (integer) 4
+```

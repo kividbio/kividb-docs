@@ -1,6 +1,6 @@
 ---
 title: "JSON.ARRTRIM"
-description: "Keep the inclusive range in each matched array; returns the new lengths"
+description: "Keeps only the elements from start to stop, both included, in each array path matches."
 version: "1.2"
 command: "JSON.ARRTRIM"
 syntax: "JSON.ARRTRIM key path start stop"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ JSON.ARRTRIM key path start stop
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Keeps only the elements from `start` to `stop`, both included, in each array `path` matches.
 
-Keep the inclusive range in each matched array; returns the new lengths
+## Reply
+
+- The new lengths.
+
+## Examples
+
+```
+> JSON.SET d $ '{"tags":["a","b","c","d"]}'
+OK
+> JSON.ARRTRIM d $.tags 0 1
+1) (integer) 2
+> JSON.GET d $.tags
+"[[\"a\",\"b\"]]"
+```

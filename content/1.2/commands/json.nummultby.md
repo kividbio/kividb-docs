@@ -1,6 +1,6 @@
 ---
 title: "JSON.NUMMULTBY"
-description: "The same, multiplying"
+description: "Multiplies each number path matches by number, with the same replies as JSON.NUMINCRBY."
 version: "1.2"
 command: "JSON.NUMMULTBY"
 syntax: "JSON.NUMMULTBY key path number"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,13 @@ JSON.NUMMULTBY key path number
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Multiplies each number `path` matches by `number`, with the same replies as [`JSON.NUMINCRBY`](json.numincrby.md).
 
-The same, multiplying
+## Examples
+
+```
+> JSON.SET d $ '{"age":40}'
+OK
+> JSON.NUMMULTBY d $.age 2
+"[80]"
+```

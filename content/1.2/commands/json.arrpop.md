@@ -1,6 +1,6 @@
 ---
 title: "JSON.ARRPOP"
-description: "Remove and return an element (default -1, the last) from each matched array; an index out of range means the nearest end"
+description: "Removes and returns an element from each array path matches: the last one, or the one at index."
 version: "1.2"
 command: "JSON.ARRPOP"
 syntax: "JSON.ARRPOP key [path [index]]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ JSON.ARRPOP key [path [index]]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Removes and returns an element from each array `path` matches: the last one, or the one at `index`. An index out of range takes the nearest end.
 
-Remove and return an element (default -1, the last) from each matched array; an index out of range means the nearest end
+## Reply
+
+- The elements removed, as JSON text.
+
+## Examples
+
+```
+> JSON.SET d $ '{"tags":["first","math","code"]}'
+OK
+> JSON.ARRPOP d $.tags
+1) "\"code\""
+> JSON.ARRPOP d $.tags 0
+1) "\"first\""
+```

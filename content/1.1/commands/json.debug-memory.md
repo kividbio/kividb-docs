@@ -1,6 +1,6 @@
 ---
 title: "JSON.DEBUG MEMORY"
-description: "The approximate size of each match in bytes"
+description: "Returns the approximate size, in bytes, of each value path matches in the JSON document at key; of the whole document with no path."
 version: "1.1"
 command: "JSON.DEBUG MEMORY"
 syntax: "JSON.DEBUG MEMORY key [path]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "JSON.DEBUG"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ JSON.DEBUG MEMORY key [path]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the approximate size, in bytes, of each value `path` matches in the JSON document at `key`; of the whole document with no path.
 
-The approximate size of each match in bytes
+## Examples
+
+```
+> JSON.DEBUG MEMORY d
+(integer) 66
+```

@@ -1,6 +1,6 @@
 ---
 title: "JSON.GET"
-description: "No path: the whole document."
+description: "Returns values from the JSON document at key, as JSON text."
 version: "1.2"
 command: "JSON.GET"
 syntax: "JSON.GET key [INDENT indent] [NEWLINE newline] [SPACE space] [path ...]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,30 @@ JSON.GET key [INDENT indent] [NEWLINE newline] [SPACE space] [path ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns values from the JSON document at `key`, as JSON text.
 
-No path: the whole document. One path: a JSON array of its matches. Several: an object with one member per path. The three options format the output
+- No path: the whole document.
+- One path: a JSONPath gives a JSON array of its matches; a legacy path gives the first match.
+- Several paths: a JSON object with one member per path.
+
+`INDENT`, `NEWLINE` and `SPACE` set the strings used to lay out the text.
+
+## Reply
+
+- JSON text, as a bulk string.
+- `nil` if the key does not exist.
+
+## Examples
+
+```
+> JSON.SET d $ '{"name":"Ada","age":36,"addr":{"city":"London"}}'
+OK
+> JSON.GET d $.name
+"[\"Ada\"]"
+> JSON.GET d .name
+"\"Ada\""
+> JSON.GET d $.name $.age
+"{\"$.name\":[\"Ada\"],\"$.age\":[36]}"
+> JSON.GET d $..city
+"[\"London\"]"
+```

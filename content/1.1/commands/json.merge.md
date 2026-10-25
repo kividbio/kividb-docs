@@ -1,6 +1,6 @@
 ---
 title: "JSON.MERGE"
-description: "RFC 7396 merge patch at each match — members are merged, a null deletes, anything else replaces"
+description: "Merges value into each value path matches, as an RFC 7396 merge patch: members are merged into objects, null deletes a member, and anything else replaces."
 version: "1.1"
 command: "JSON.MERGE"
 syntax: "JSON.MERGE key path value"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ JSON.MERGE key path value
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Merges `value` into each value `path` matches, as an RFC 7396 merge patch: members are merged into objects, `null` deletes a member, and anything else replaces.
 
-RFC 7396 merge patch at each match — members are merged, a null deletes, anything else replaces
+## Reply
+
+- `OK`.
+
+## Examples
+
+```
+> JSON.SET d $ '{"addr":{"city":"London"},"email":"ada@x"}'
+OK
+> JSON.MERGE d $ '{"addr":{"zip":"N1"},"email":null}'
+OK
+> JSON.GET d
+"{\"addr\":{\"city\":\"London\",\"zip\":\"N1\"}}"
+```

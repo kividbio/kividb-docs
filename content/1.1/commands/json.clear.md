@@ -1,6 +1,6 @@
 ---
 title: "JSON.CLEAR"
-description: "Empty each matched array and object and set each matched number to 0; returns how many values changed"
+description: "Empties each array and object path matches, and sets each number it matches to 0."
 version: "1.1"
 command: "JSON.CLEAR"
 syntax: "JSON.CLEAR key [path]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ JSON.CLEAR key [path]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Empties each array and object `path` matches, and sets each number it matches to `0`.
 
-Empty each matched array and object and set each matched number to 0; returns how many values changed
+## Reply
+
+- The number of values changed.
+
+## Examples
+
+```
+> JSON.SET d $ '{"tags":["a","b"]}'
+OK
+> JSON.CLEAR d $.tags
+(integer) 1
+> JSON.GET d $.tags
+"[[]]"
+```

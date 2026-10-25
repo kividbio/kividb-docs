@@ -1,6 +1,6 @@
 ---
 title: "JSON.FORGET"
-description: "Alias for JSON.DEL"
+description: "Another name for JSON.DEL."
 version: "1.1"
 command: "JSON.FORGET"
 syntax: "JSON.FORGET key [path]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,4 @@ JSON.FORGET key [path]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
-
-Alias for `JSON.DEL`
+Another name for [`JSON.DEL`](json.del.md).

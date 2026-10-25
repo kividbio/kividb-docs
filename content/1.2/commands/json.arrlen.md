@@ -1,6 +1,6 @@
 ---
 title: "JSON.ARRLEN"
-description: "The length of each matched array"
+description: "Returns the length of each array path matches."
 version: "1.2"
 command: "JSON.ARRLEN"
 syntax: "JSON.ARRLEN key [path]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,13 @@ JSON.ARRLEN key [path]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the length of each array `path` matches.
 
-The length of each matched array
+## Examples
+
+```
+> JSON.SET d $ '{"tags":["math","code"]}'
+OK
+> JSON.ARRLEN d $.tags
+1) (integer) 2
+```

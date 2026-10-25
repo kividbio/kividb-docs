@@ -154,30 +154,30 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`JSON.ARRAPPEND`](json.arrappend.md) | Append to each matched array; returns the new lengths | 1.1.0 |
-| [`JSON.ARRINDEX`](json.arrindex.md) | The index of the first element equal to value in each matched array, or -1; stop is exclusive and 0 means the end | 1.1.0 |
-| [`JSON.ARRINSERT`](json.arrinsert.md) | Insert before index in each matched array; returns the new lengths | 1.1.0 |
-| [`JSON.ARRLEN`](json.arrlen.md) | The length of each matched array | 1.1.0 |
-| [`JSON.ARRPOP`](json.arrpop.md) | Remove and return an element (default -1, the last) from each matched array; an index out of range means the nearest end | 1.1.0 |
-| [`JSON.ARRTRIM`](json.arrtrim.md) | Keep the inclusive range in each matched array; returns the new lengths | 1.1.0 |
-| [`JSON.CLEAR`](json.clear.md) | Empty each matched array and object and set each matched number to 0; returns how many values changed | 1.1.0 |
-| [`JSON.DEBUG`](json.debug.md) | JSON.DEBUG and its subcommands. | 1.1.0 |
-| [`JSON.DEL`](json.del.md) | Delete every value the path matches; returns how many. | 1.1.0 |
-| [`JSON.FORGET`](json.forget.md) | Alias for JSON.DEL | 1.1.0 |
-| [`JSON.GET`](json.get.md) | No path: the whole document. | 1.1.0 |
-| [`JSON.MERGE`](json.merge.md) | RFC 7396 merge patch at each match — members are merged, a null deletes, anything else replaces | 1.1.0 |
-| [`JSON.MGET`](json.mget.md) | The path evaluated against each key, as JSON text; nil for a missing key or one of another type | 1.1.0 |
-| [`JSON.MSET`](json.mset.md) | JSON.SET for several key-path-value triples; every argument is checked before any key is touched | 1.1.0 |
-| [`JSON.NUMINCRBY`](json.numincrby.md) | Add to each matched number. | 1.1.0 |
-| [`JSON.NUMMULTBY`](json.nummultby.md) | The same, multiplying | 1.1.0 |
-| [`JSON.OBJKEYS`](json.objkeys.md) | The member names of each matched object, in the order they were added | 1.1.0 |
-| [`JSON.OBJLEN`](json.objlen.md) | The number of members of each matched object | 1.1.0 |
-| [`JSON.RESP`](json.resp.md) | Each match in RESP: null as nil, booleans as true/false, integers as integers, other numbers and strings as bulk strings, an array as [ followed by its elements, an object as { followed by alternatin… | 1.1.0 |
-| [`JSON.SET`](json.set.md) | Set every value the path matches; if it matches nothing and ends in a member name under a single existing object, add that member. | 1.1.0 |
-| [`JSON.STRAPPEND`](json.strappend.md) | Append a JSON string to each matched string; returns the new lengths | 1.1.0 |
-| [`JSON.STRLEN`](json.strlen.md) | The length of each matched string; nil for other types | 1.1.0 |
-| [`JSON.TOGGLE`](json.toggle.md) | Flip each matched boolean; returns the new values as 1 and 0 (a legacy path: "true" or "false") | 1.1.0 |
-| [`JSON.TYPE`](json.type.md) | The type of each match: object, array, string, integer, number, boolean, null | 1.1.0 |
+| [`JSON.ARRAPPEND`](json.arrappend.md) | Appends values, each JSON text, to each array path matches. | 1.1.0 |
+| [`JSON.ARRINDEX`](json.arrindex.md) | Returns the index of the first element equal to value, JSON text, in each array path matches, from start to stop. | 1.1.0 |
+| [`JSON.ARRINSERT`](json.arrinsert.md) | Inserts values, each JSON text, before index in each array path matches. | 1.1.0 |
+| [`JSON.ARRLEN`](json.arrlen.md) | Returns the length of each array path matches. | 1.1.0 |
+| [`JSON.ARRPOP`](json.arrpop.md) | Removes and returns an element from each array path matches: the last one, or the one at index. | 1.1.0 |
+| [`JSON.ARRTRIM`](json.arrtrim.md) | Keeps only the elements from start to stop, both included, in each array path matches. | 1.1.0 |
+| [`JSON.CLEAR`](json.clear.md) | Empties each array and object path matches, and sets each number it matches to 0. | 1.1.0 |
+| [`JSON.DEBUG`](json.debug.md) | Reports on JSON documents. | 1.1.0 |
+| [`JSON.DEL`](json.del.md) | Deletes the values path matches in the JSON document at key. | 1.1.0 |
+| [`JSON.FORGET`](json.forget.md) | Another name for JSON.DEL. | 1.1.0 |
+| [`JSON.GET`](json.get.md) | Returns values from the JSON document at key, as JSON text. | 1.1.0 |
+| [`JSON.MERGE`](json.merge.md) | Merges value into each value path matches, as an RFC 7396 merge patch: members are merged into objects, null deletes a member, and anything else replaces. | 1.1.0 |
+| [`JSON.MGET`](json.mget.md) | Evaluates path in the JSON documents at several keys. | 1.1.0 |
+| [`JSON.MSET`](json.mset.md) | JSON.SET for several key-path-value triples at once. | 1.1.0 |
+| [`JSON.NUMINCRBY`](json.numincrby.md) | Adds number to each number path matches. | 1.1.0 |
+| [`JSON.NUMMULTBY`](json.nummultby.md) | Multiplies each number path matches by number, with the same replies as JSON.NUMINCRBY. | 1.1.0 |
+| [`JSON.OBJKEYS`](json.objkeys.md) | Returns the member names of each object path matches, in the order they were added. | 1.1.0 |
+| [`JSON.OBJLEN`](json.objlen.md) | Returns the number of members of each object path matches. | 1.1.0 |
+| [`JSON.RESP`](json.resp.md) | Returns each value path matches in RESP rather than JSON text: null as nil, booleans as true and false, integers as integers, other numbers and strings as bulk strings, an array as [ followed by its… | 1.1.0 |
+| [`JSON.SET`](json.set.md) | Sets the value at path in the JSON document at key to value, which is JSON text. | 1.1.0 |
+| [`JSON.STRAPPEND`](json.strappend.md) | Appends a JSON string to each string path matches. | 1.1.0 |
+| [`JSON.STRLEN`](json.strlen.md) | Returns the length of each string path matches; nil for a match that is not a string. | 1.1.0 |
+| [`JSON.TOGGLE`](json.toggle.md) | Flips each boolean path matches. | 1.1.0 |
+| [`JSON.TYPE`](json.type.md) | Returns the type of each value path matches: object, array, string, integer, number, boolean or null. | 1.1.0 |
 
 ## List
 

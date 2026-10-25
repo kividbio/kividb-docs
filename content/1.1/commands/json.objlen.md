@@ -1,6 +1,6 @@
 ---
 title: "JSON.OBJLEN"
-description: "The number of members of each matched object"
+description: "Returns the number of members of each object path matches."
 version: "1.1"
 command: "JSON.OBJLEN"
 syntax: "JSON.OBJLEN key [path]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ JSON.OBJLEN key [path]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the number of members of each object `path` matches.
 
-The number of members of each matched object
+## Examples
+
+```
+> JSON.SET d $ '{"name":"Ada","addr":{"city":"London"}}'
+OK
+> JSON.OBJLEN d
+(integer) 2
+> JSON.OBJLEN d $.addr
+1) (integer) 1
+```

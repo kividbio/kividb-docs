@@ -1,6 +1,6 @@
 ---
 title: "JSON.MGET"
-description: "The path evaluated against each key, as JSON text; nil for a missing key or one of another type"
+description: "Evaluates path in the JSON documents at several keys."
 version: "1.2"
 command: "JSON.MGET"
 syntax: "JSON.MGET key [key ...] path"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ JSON.MGET key [key ...] path
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Evaluates `path` in the JSON documents at several keys.
 
-The path evaluated against each key, as JSON text; nil for a missing key or one of another type
+## Reply
+
+- An array with one element per key: the JSON text the path gives, or `nil` for a key that does not exist or is not a JSON document.
+
+## Examples
+
+```
+> JSON.MSET a $ 1 b $ 2
+OK
+> JSON.MGET a b missing $
+1) "[1]"
+2) "[2]"
+3) (nil)
+```

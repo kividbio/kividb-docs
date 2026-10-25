@@ -1,6 +1,6 @@
 ---
 title: "JSON.ARRINSERT"
-description: "Insert before index in each matched array; returns the new lengths"
+description: "Inserts values, each JSON text, before index in each array path matches."
 version: "1.2"
 command: "JSON.ARRINSERT"
 syntax: "JSON.ARRINSERT key path index value [value ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["json", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ JSON.ARRINSERT key path index value [value ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Inserts values, each JSON text, before `index` in each array `path` matches. Negative indexes count from the end.
 
-Insert before `index` in each matched array; returns the new lengths
+## Reply
+
+- The new lengths.
+
+## Examples
+
+```
+> JSON.SET d $ '{"tags":["math","code"]}'
+OK
+> JSON.ARRINSERT d $.tags 0 '"first"'
+1) (integer) 3
+```

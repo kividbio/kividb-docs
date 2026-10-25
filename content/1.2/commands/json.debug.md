@@ -1,6 +1,6 @@
 ---
 title: "JSON.DEBUG"
-description: "JSON.DEBUG and its subcommands."
+description: "Reports on JSON documents."
 version: "1.2"
 command: "JSON.DEBUG"
 syntax: "JSON.DEBUG"
@@ -12,7 +12,7 @@ acl_categories: ["json", "read", "slow"]
 history: []
 subcommands: ["JSON.DEBUG MEMORY"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ JSON.DEBUG
 
 Subcommands: [JSON.DEBUG MEMORY](json.debug-memory.md)
 <!-- generated: end -->
+Reports on JSON documents. See its subcommand.

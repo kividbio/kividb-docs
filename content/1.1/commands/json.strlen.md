@@ -1,6 +1,6 @@
 ---
 title: "JSON.STRLEN"
-description: "The length of each matched string; nil for other types"
+description: "Returns the length of each string path matches; nil for a match that is not a string."
 version: "1.1"
 command: "JSON.STRLEN"
 syntax: "JSON.STRLEN key [path]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,13 @@ JSON.STRLEN key [path]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the length of each string `path` matches; `nil` for a match that is not a string.
 
-The length of each matched string; nil for other types
+## Examples
+
+```
+> JSON.SET d $ '{"name":"Ada L."}'
+OK
+> JSON.STRLEN d $.name
+1) (integer) 6
+```

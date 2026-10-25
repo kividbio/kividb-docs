@@ -1,6 +1,6 @@
 ---
 title: "JSON.ARRINDEX"
-description: "The index of the first element equal to value in each matched array, or -1; stop is exclusive and 0 means the end"
+description: "Returns the index of the first element equal to value, JSON text, in each array path matches, from start to stop."
 version: "1.2"
 command: "JSON.ARRINDEX"
 syntax: "JSON.ARRINDEX key path value [start [stop]]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ JSON.ARRINDEX key path value [start [stop]]
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Returns the index of the first element equal to `value`, JSON text, in each array `path` matches, from `start` to `stop`. `stop` is excluded, and `0` means the end.
 
-The index of the first element equal to `value` in each matched array, or -1; `stop` is exclusive and 0 means the end
+## Reply
+
+- The indexes; `-1` where there is no such element.
+
+## Examples
+
+```
+> JSON.SET d $ '{"tags":["math","code"]}'
+OK
+> JSON.ARRINDEX d $.tags '"code"'
+1) (integer) 1
+> JSON.ARRINDEX d $.tags '"none"'
+1) (integer) -1
+```
