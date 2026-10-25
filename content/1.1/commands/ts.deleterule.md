@@ -1,6 +1,6 @@
 ---
 title: "TS.DELETERULE"
-description: "Delete a compaction rule"
+description: "Deletes the compaction rule from sourceKey to destKey."
 version: "1.1"
 command: "TS.DELETERULE"
 syntax: "TS.DELETERULE sourceKey destKey"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "timeseries", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,8 @@ TS.DELETERULE sourceKey destKey
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@timeseries`, `@write`
 <!-- generated: end -->
-## Description
+Deletes the compaction rule from `sourceKey` to `destKey`. Both series stay.
 
-Delete a compaction rule
+## Reply
+
+- `OK`.

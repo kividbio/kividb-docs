@@ -1,6 +1,6 @@
 ---
 title: "TS.ALTER"
-description: "Update retention, chunk size, duplicate policy, or labels."
+description: "Changes a time series' retention, chunk size, duplicate policy or labels."
 version: "1.1"
 command: "TS.ALTER"
 syntax: "TS.ALTER key [RETENTION ms] [CHUNK SIZE size] [DUPLICATE_POLICY policy] [LABELS label value ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "timeseries", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ TS.ALTER key [RETENTION ms] [CHUNK SIZE size] [DUPLICATE_POLICY policy] [LABELS 
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@timeseries`, `@write`
 <!-- generated: end -->
-## Description
+Changes a time series' retention, chunk size, duplicate policy or labels. Labels given replace all of them, and the label index follows at once.
 
-Update retention, chunk size, duplicate policy, or labels. Updating labels atomically rebuilds the label index
+## Reply
+
+- `OK`.
+
+## Examples
+
+```
+> TS.ALTER temp:1 RETENTION 60000 LABELS room kitchen kind temp floor 1
+OK
+```

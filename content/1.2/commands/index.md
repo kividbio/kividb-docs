@@ -415,27 +415,27 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`TS.ADD`](ts.add.md) | Append a sample. | 1.1.0 |
-| [`TS.ALTER`](ts.alter.md) | Update retention, chunk size, duplicate policy, or labels. | 1.1.0 |
-| [`TS.CREATE`](ts.create.md) | Create a new time series. | 1.1.0 |
-| [`TS.CREATERULE`](ts.createrule.md) | Create a compaction rule from source to destination. | 1.1.0 |
-| [`TS.DECRBY`](ts.decrby.md) | Add a new sample equal to the last sample's value minus the given decrement | 1.1.0 |
-| [`TS.DEL`](ts.del.md) | Delete all samples in the inclusive timestamp range. | 1.1.0 |
-| [`TS.DELETERULE`](ts.deleterule.md) | Delete a compaction rule | 1.1.0 |
-| [`TS.GET`](ts.get.md) | Return the sample with the highest timestamp. | 1.1.0 |
-| [`TS.INCRBY`](ts.incrby.md) | Add a new sample equal to the last sample's value plus the given increment. | 1.1.0 |
-| [`TS.INFO`](ts.info.md) | Return metadata for a series: totalSamples, firstTimestamp, lastTimestamp, retentionTime, chunkSize, duplicatePolicy, labels, rules | 1.1.0 |
-| [`TS.MADD`](ts.madd.md) | Append samples to one or more series in a single call. | 1.1.0 |
-| [`TS.MGET`](ts.mget.md) | Return the latest sample from each series matching the label filters | 1.1.0 |
-| [`TS.MRANGE`](ts.mrange.md) | Query a range across multiple series matching label filters, in forward order. | 1.1.0 |
-| [`TS.MREVRANGE`](ts.mrevrange.md) | Query a range across multiple series in reverse order. | 1.1.0 |
-| [`TS.NRANGE`](ts.nrange.md) | Query the same range over several named series and join the results by timestamp (Redis 8.10): one row per timestamp any of them reports, with a value — or NaN — for each key, in the order given | 1.1.0 |
-| [`TS.NREVRANGE`](ts.nrevrange.md) | TS.NRANGE in reverse order | 1.1.0 |
-| [`TS.QUERYINDEX`](ts.queryindex.md) | Return all time series keys matching the given label filters. | 1.1.0 |
-| [`TS.QUERYLABELS`](ts.querylabels.md) | The label names in use, or the values of one label, across the series matching the filters (Redis 8.10) | 1.1.0 |
-| [`TS.RANGE`](ts.range.md) | Query a range in forward (ascending) order. | 1.1.0 |
-| [`TS.READ`](ts.read.md) | The samples at or after a timestamp, oldest first (Redis 8.10) — for following a series. | 1.1.0 |
-| [`TS.REVRANGE`](ts.revrange.md) | Query a range in reverse (descending) order. | 1.1.0 |
+| [`TS.ADD`](ts.add.md) | Adds a sample to the time series at key: timestamp in milliseconds, or * for the server's clock, and value, a floating-point number or NaN. | 1.1.0 |
+| [`TS.ALTER`](ts.alter.md) | Changes a time series' retention, chunk size, duplicate policy or labels. | 1.1.0 |
+| [`TS.CREATE`](ts.create.md) | Creates a time series at key: samples, each a timestamp in milliseconds and a floating-point value, kept in timestamp order. | 1.1.0 |
+| [`TS.CREATERULE`](ts.createrule.md) | Creates a compaction rule: every sample added to sourceKey is aggregated, by agg over buckets of bucketDuration milliseconds, into the existing series destKey. | 1.1.0 |
+| [`TS.DECRBY`](ts.decrby.md) | TS.INCRBY, subtracting. | 1.1.0 |
+| [`TS.DEL`](ts.del.md) | Deletes the samples of the time series at key from fromTimestamp to toTimestamp, both included. | 1.1.0 |
+| [`TS.DELETERULE`](ts.deleterule.md) | Deletes the compaction rule from sourceKey to destKey. | 1.1.0 |
+| [`TS.GET`](ts.get.md) | Returns the newest sample of the time series at key. | 1.1.0 |
+| [`TS.INCRBY`](ts.incrby.md) | Adds a sample whose value is the series' last value plus value; a missing series starts at 0. | 1.1.0 |
+| [`TS.INFO`](ts.info.md) | Returns a time series' metadata: its number of samples, memory use, first and last timestamps, retention, chunk size, duplicate policy, labels, and compaction rules. | 1.1.0 |
+| [`TS.MADD`](ts.madd.md) | Adds samples to one or more time series in one call, creating series that do not exist. | 1.1.0 |
+| [`TS.MGET`](ts.mget.md) | Returns the newest sample of every time series whose labels match the FILTER (see TS.MRANGE for conditions). | 1.1.0 |
+| [`TS.MRANGE`](ts.mrange.md) | Runs TS.RANGE over every time series whose labels match the FILTER, and returns each with its samples. | 1.1.0 |
+| [`TS.MREVRANGE`](ts.mrevrange.md) | TS.MRANGE, newest first, with the same options. | 1.1.0 |
+| [`TS.NRANGE`](ts.nrange.md) | Runs the same range over several named time series and joins the results by timestamp, a command of Redis 8.10. | 1.1.0 |
+| [`TS.NREVRANGE`](ts.nrevrange.md) | TS.NRANGE, newest first. | 1.1.0 |
+| [`TS.QUERYINDEX`](ts.queryindex.md) | Returns the keys of every time series whose labels match the given conditions (see TS.MRANGE), sorted. | 1.1.0 |
+| [`TS.QUERYLABELS`](ts.querylabels.md) | Returns the label names in use, with LABELS, or the values of one label, with VALUES label, across the time series that match the FILTER conditions, or all of them (Redis 8.10). | 1.1.0 |
+| [`TS.RANGE`](ts.range.md) | Returns the samples of the time series at key from fromTimestamp to toTimestamp, both included, oldest first. | 1.1.0 |
+| [`TS.READ`](ts.read.md) | Returns the samples of the time series at key at or after timestamp, oldest first, for following a series as it grows (Redis 8.10). | 1.1.0 |
+| [`TS.REVRANGE`](ts.revrange.md) | TS.RANGE, newest first, with the same options. | 1.1.0 |
 
 ## Transaction
 

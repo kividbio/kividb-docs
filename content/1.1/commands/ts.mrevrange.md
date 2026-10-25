@@ -1,6 +1,6 @@
 ---
 title: "TS.MREVRANGE"
-description: "Query a range across multiple series in reverse order."
+description: "TS.MRANGE, newest first, with the same options."
 version: "1.1"
 command: "TS.MREVRANGE"
 syntax: "TS.MREVRANGE fromTimestamp toTimestamp [...]"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "slow", "timeseries"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,4 @@ TS.MREVRANGE fromTimestamp toTimestamp [...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@timeseries`
 <!-- generated: end -->
-## Description
-
-Query a range across multiple series in reverse order. Accepts the same options as `TS.MRANGE`
+[`TS.MRANGE`](ts.mrange.md), newest first, with the same options.

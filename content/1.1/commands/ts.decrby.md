@@ -1,6 +1,6 @@
 ---
 title: "TS.DECRBY"
-description: "Add a new sample equal to the last sample's value minus the given decrement"
+description: "TS.INCRBY, subtracting."
 version: "1.1"
 command: "TS.DECRBY"
 syntax: "TS.DECRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK SIZE size] [LABELS label value ...]"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "timeseries", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ TS.DECRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK SIZE size] [LABE
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@timeseries`, `@write`
 <!-- generated: end -->
-## Description
+[`TS.INCRBY`](ts.incrby.md), subtracting.
 
-Add a new sample equal to the last sample's value minus the given decrement
+## Examples
+
+```
+> TS.DECRBY ctr 1 TIMESTAMP 3000
+(integer) 3000
+```

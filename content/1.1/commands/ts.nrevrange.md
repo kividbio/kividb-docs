@@ -1,6 +1,6 @@
 ---
 title: "TS.NREVRANGE"
-description: "TS.NRANGE in reverse order"
+description: "TS.NRANGE, newest first."
 version: "1.1"
 command: "TS.NREVRANGE"
 syntax: "TS.NREVRANGE numkeys key [key ...] fromTimestamp toTimestamp [...]"
@@ -11,7 +11,7 @@ flags: ["movablekeys", "readonly"]
 acl_categories: ["read", "slow", "timeseries"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,4 @@ TS.NREVRANGE numkeys key [key ...] fromTimestamp toTimestamp [...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@timeseries`
 <!-- generated: end -->
-## Description
-
-`TS.NRANGE` in reverse order
+[`TS.NRANGE`](ts.nrange.md), newest first.

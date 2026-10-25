@@ -1,6 +1,6 @@
 ---
 title: "TS.REVRANGE"
-description: "Query a range in reverse (descending) order."
+description: "TS.RANGE, newest first, with the same options."
 version: "1.2"
 command: "TS.REVRANGE"
 syntax: "TS.REVRANGE key fromTimestamp toTimestamp [...]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "timeseries"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,14 @@ TS.REVRANGE key fromTimestamp toTimestamp [...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@timeseries`
 <!-- generated: end -->
-## Description
+[`TS.RANGE`](ts.range.md), newest first, with the same options.
 
-Query a range in reverse (descending) order. Accepts the same options as `TS.RANGE`
+## Examples
+
+```
+> TS.REVRANGE temp:1 - + COUNT 2
+1) 1) (integer) 4000
+   2) "23"
+2) 1) (integer) 3000
+   2) "22.5"
+```

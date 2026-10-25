@@ -1,6 +1,6 @@
 ---
 title: "TS.GET"
-description: "Return the sample with the highest timestamp."
+description: "Returns the newest sample of the time series at key."
 version: "1.1"
 command: "TS.GET"
 syntax: "TS.GET key [LATEST]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "timeseries"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,17 @@ TS.GET key [LATEST]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@timeseries`
 <!-- generated: end -->
-## Description
+Returns the newest sample of the time series at `key`.
 
-Return the sample with the highest timestamp. Returns empty array for an empty series, nil for a missing key
+## Reply
+
+- An array of the timestamp and the value.
+- An empty array for a series with no samples; `nil` if the key does not exist.
+
+## Examples
+
+```
+> TS.GET temp:1
+1) (integer) 4000
+2) "23"
+```

@@ -1,6 +1,6 @@
 ---
 title: "TS.INFO"
-description: "Return metadata for a series: totalSamples, firstTimestamp, lastTimestamp, retentionTime, chunkSize, duplicatePolicy, labels, rules"
+description: "Returns a time series' metadata: its number of samples, memory use, first and last timestamps, retention, chunk size, duplicate policy, labels, and compaction rules."
 version: "1.1"
 command: "TS.INFO"
 syntax: "TS.INFO key [DEBUG]"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "timeseries"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,18 @@ TS.INFO key [DEBUG]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@timeseries`
 <!-- generated: end -->
-## Description
+Returns a time series' metadata: its number of samples, memory use, first and last timestamps, retention, chunk size, duplicate policy, labels, and compaction rules.
 
-Return metadata for a series: totalSamples, firstTimestamp, lastTimestamp, retentionTime, chunkSize, duplicatePolicy, labels, rules
+## Examples
+
+```
+> TS.CREATE a
+OK
+> TS.INFO a
+ 1) totalSamples
+ 2) "0"
+ ...
+13) duplicatePolicy
+14) last
+ ...
+```

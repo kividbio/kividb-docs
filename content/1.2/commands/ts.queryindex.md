@@ -1,6 +1,6 @@
 ---
 title: "TS.QUERYINDEX"
-description: "Return all time series keys matching the given label filters."
+description: "Returns the keys of every time series whose labels match the given conditions (see TS.MRANGE), sorted."
 version: "1.2"
 command: "TS.QUERYINDEX"
 syntax: "TS.QUERYINDEX <filters>"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "slow", "timeseries"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ TS.QUERYINDEX <filters>
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@timeseries`
 <!-- generated: end -->
-## Description
+Returns the keys of every time series whose labels match the given conditions (see [`TS.MRANGE`](ts.mrange.md)), sorted.
 
-Return all time series keys matching the given label filters. Results are sorted
+## Examples
+
+```
+> TS.QUERYINDEX kind=temp
+1) "temp:1"
+2) "temp:2"
+> TS.QUERYINDEX room=(kitchen,hall) kind!=hum
+1) "temp:1"
+2) "temp:2"
+```

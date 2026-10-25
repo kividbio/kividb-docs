@@ -1,6 +1,6 @@
 ---
 title: "TS.READ"
-description: "The samples at or after a timestamp, oldest first (Redis 8.10) — for following a series."
+description: "Returns the samples of the time series at key at or after timestamp, oldest first, for following a series as it grows (Redis 8.10)."
 version: "1.1"
 command: "TS.READ"
 syntax: "TS.READ key timestamp [BLOCK milliseconds min_count] [MAX_COUNT max_count]"
@@ -11,7 +11,7 @@ flags: ["blocking", "readonly"]
 acl_categories: ["blocking", "read", "slow", "timeseries"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ TS.READ key timestamp [BLOCK milliseconds min_count] [MAX_COUNT max_count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@blocking`, `@read`, `@slow`, `@timeseries`
 <!-- generated: end -->
-## Description
+Returns the samples of the time series at `key` at or after `timestamp`, oldest first, for following a series as it grows (Redis 8.10). In place of a timestamp, `-` is the first sample, `+` the newest (included), and `$` only samples added from now on.
 
-The samples at or after a timestamp, oldest first (Redis 8.10) — for following a series. In place of a timestamp: `-` the earliest sample, `+` the latest (included), `$` only samples added from now on. With `BLOCK` it waits until `min_count` of them exist or the timeout passes
+`BLOCK milliseconds min_count` waits until `min_count` such samples exist, or the time passes. `MAX_COUNT max_count` returns at most that many.
+
+## Reply
+
+- An array of `[timestamp, value]` samples; empty if `BLOCK` timed out.
+
+## Examples
+
+```
+> TS.READ temp:2 +
+1) 1) (integer) 25000
+   2) "1"
+> TS.READ temp:2 $ BLOCK 100 1
+(empty array)
+```

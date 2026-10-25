@@ -1,6 +1,6 @@
 ---
 title: "TS.DEL"
-description: "Delete all samples in the inclusive timestamp range."
+description: "Deletes the samples of the time series at key from fromTimestamp to toTimestamp, both included."
 version: "1.1"
 command: "TS.DEL"
 syntax: "TS.DEL key fromTimestamp toTimestamp"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "timeseries", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ TS.DEL key fromTimestamp toTimestamp
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@timeseries`, `@write`
 <!-- generated: end -->
-## Description
+Deletes the samples of the time series at `key` from `fromTimestamp` to `toTimestamp`, both included.
 
-Delete all samples in the inclusive timestamp range. Returns the count of deleted samples
+## Reply
+
+- The number of samples deleted.
+
+## Examples
+
+```
+> TS.DEL temp:1 1000 2000
+(integer) 2
+```

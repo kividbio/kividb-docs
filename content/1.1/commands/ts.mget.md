@@ -1,6 +1,6 @@
 ---
 title: "TS.MGET"
-description: "Return the latest sample from each series matching the label filters"
+description: "Returns the newest sample of every time series whose labels match the FILTER (see TS.MRANGE for conditions)."
 version: "1.1"
 command: "TS.MGET"
 syntax: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label ...] FILTER <filters>"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "slow", "timeseries"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,22 @@ TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label ...] FILTER <filters>
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@timeseries`
 <!-- generated: end -->
-## Description
+Returns the newest sample of every time series whose labels match the `FILTER` (see [`TS.MRANGE`](ts.mrange.md) for conditions). `WITHLABELS` or `SELECTED_LABELS` adds the labels.
 
-Return the latest sample from each series matching the label filters
+## Reply
+
+- An array with, per series: its key, its labels (empty unless asked for), and its newest sample.
+
+## Examples
+
+```
+> TS.MGET FILTER kind=temp
+1) 1) "temp:1"
+   2) (empty array)
+   3) 1) (integer) 5000
+      2) "24"
+2) 1) "temp:2"
+   2) (empty array)
+   3) 1) (integer) 5000
+      2) "17"
+```

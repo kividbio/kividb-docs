@@ -1,6 +1,6 @@
 ---
 title: "TS.QUERYLABELS"
-description: "The label names in use, or the values of one label, across the series matching the filters (Redis 8.10)"
+description: "Returns the label names in use, with LABELS, or the values of one label, with VALUES label, across the time series that match the FILTER conditions, or all of them (Redis 8.10)."
 version: "1.2"
 command: "TS.QUERYLABELS"
 syntax: "TS.QUERYLABELS <LABELS | VALUES label> [FILTER filter ...]"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["read", "slow", "timeseries"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ TS.QUERYLABELS <LABELS | VALUES label> [FILTER filter ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@timeseries`
 <!-- generated: end -->
-## Description
+Returns the label names in use, with `LABELS`, or the values of one label, with `VALUES label`, across the time series that match the `FILTER` conditions, or all of them (Redis 8.10).
 
-The label names in use, or the values of one label, across the series matching the filters (Redis 8.10)
+## Examples
+
+```
+> TS.QUERYLABELS LABELS
+1) "kind"
+2) "room"
+> TS.QUERYLABELS VALUES room
+1) "hall"
+2) "kitchen"
+```
