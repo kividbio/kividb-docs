@@ -1,0 +1,18 @@
+{
+ "comment": "Documentation versions, newest first. A version is a minor release (x.y); its patch releases (x.y.Z) are listed in `releases`, oldest first, and are documented inside it. `source` is the kividb git ref the newest release of the version is built from.",
+ "latest": "1.1",
+ "versions": [
+  {
+   "version": "1.2",
+   "status": "unreleased",
+   "releases": ["1.2"],
+   "source": "master"
+  },
+  {
+   "version": "1.1",
+   "status": "current",
+   "releases": ["1.1.0", "1.1.1", "1.1.2"],
+   "source": "v1.1.2"
+  }
+ ]
+}
