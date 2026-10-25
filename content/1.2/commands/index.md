@@ -381,32 +381,32 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 
 | Command | Summary | Since |
 |---|---|---|
-| [`APPEND`](append.md) | Append bytes to an existing value; creates the key if absent; returns new length | 1.1.0 |
-| [`DECR`](decr.md) | Decrement an integer value by 1 | 1.1.0 |
-| [`DECRBY`](decrby.md) | Decrement by an integer delta | 1.1.0 |
-| [`DELEX`](delex.md) | Delete a key, optionally only if its string value (or digest) matches; the comparison and the deletion are one atomic step. | 1.1.0 |
-| [`DIGEST`](digest.md) | Return the digest that IFDEQ / IFDNE compare against: the XXH3 64-bit hash of the string value, as 16 hex digits (the same value Redis returns); nil for a missing key | 1.1.0 |
-| [`GET`](get.md) | Get the value of a key | 1.1.0 |
-| [`GETDEL`](getdel.md) | Return the value and delete the key atomically | 1.1.0 |
-| [`GETEX`](getex.md) | Return the value and optionally modify its expiry | 1.1.0 |
-| [`GETRANGE`](getrange.md) | Return a byte substring using inclusive indices; negative indices count from the end | 1.1.0 |
-| [`GETSET`](getset.md) | Return the old value and set a new one atomically | 1.1.0 |
-| [`INCR`](incr.md) | Increment an integer value by 1; starts from 0 if key is absent | 1.1.0 |
-| [`INCRBY`](incrby.md) | Increment by an integer delta; negative delta decrements | 1.1.0 |
-| [`INCRBYFLOAT`](incrbyfloat.md) | Increment by a float; result stored as string with trailing zeros trimmed | 1.1.0 |
-| [`INCREX`](increx.md) | Atomic increment with bounds and expiry. | 1.1.0 |
-| [`LCS`](lcs.md) | Find the longest common subsequence; LEN=return length only, IDX=return match positions, MINMATCHLEN=filter short matches, WITHMATCHLEN=include match lengths in IDX output | 1.1.0 |
-| [`MGET`](mget.md) | Return values for multiple keys; nil for missing or wrong-type keys | 1.1.0 |
-| [`MSET`](mset.md) | Set multiple key-value pairs; always succeeds | 1.1.0 |
-| [`MSETEX`](msetex.md) | Atomically set multiple key-value pairs with a shared expiry; NX/XX guard whether keys must be absent or present | 1.1.0 |
-| [`MSETNX`](msetnx.md) | Set multiple pairs only if none of the keys exist; returns 1 or 0 | 1.1.0 |
-| [`PSETEX`](psetex.md) | Set a key with a TTL in milliseconds | 1.1.0 |
-| [`SET`](set.md) | Set a key to a string value; NX=only if absent, XX=only if present, IFEQ/IFNE=conditional on value match, IFDEQ/IFDNE=conditional on digest match, GET=return old value, EX/PX/EXAT/PXAT=set expiry, KE… | 1.1.0 |
-| [`SETEX`](setex.md) | Set a key with a TTL in seconds | 1.1.0 |
-| [`SETNX`](setnx.md) | Set only if the key does not exist; returns 1 if set, 0 if skipped | 1.1.0 |
-| [`SETRANGE`](setrange.md) | Overwrite bytes at offset; zero-pads if key is shorter than offset | 1.1.0 |
-| [`STRLEN`](strlen.md) | Return the byte length of a string value; 0 for missing keys | 1.1.0 |
-| [`SUBSTR`](substr.md) | Alias for GETRANGE | 1.1.0 |
+| [`APPEND`](append.md) | Appends value to the string at key. | 1.1.0 |
+| [`DECR`](decr.md) | Subtracts 1 from the integer stored at key. | 1.1.0 |
+| [`DECRBY`](decrby.md) | Subtracts decrement, a signed 64-bit integer, from the integer stored at key. | 1.1.0 |
+| [`DELEX`](delex.md) | Deletes key, optionally only if its string value, or the value's digest, matches. | 1.1.0 |
+| [`DIGEST`](digest.md) | Returns a digest of the string at key: the XXH3 64-bit hash of the value, as 16 hexadecimal digits. | 1.1.0 |
+| [`GET`](get.md) | Returns the string stored at key. | 1.1.0 |
+| [`GETDEL`](getdel.md) | Returns the string at key and deletes the key, in one step. | 1.1.0 |
+| [`GETEX`](getex.md) | Returns the string at key and, optionally, changes its expiry. | 1.1.0 |
+| [`GETRANGE`](getrange.md) | Returns the bytes of the string at key from offset start to offset end, both included. | 1.1.0 |
+| [`GETSET`](getset.md) | Sets key to value and returns the value it held before, in one step. | 1.1.0 |
+| [`INCR`](incr.md) | Adds 1 to the integer stored at key. | 1.1.0 |
+| [`INCRBY`](incrby.md) | Adds increment, a signed 64-bit integer, to the integer stored at key. | 1.1.0 |
+| [`INCRBYFLOAT`](incrbyfloat.md) | Adds increment, a floating-point number, to the number stored at key. | 1.1.0 |
+| [`INCREX`](increx.md) | Increments the number at key with bounds, and optionally sets its expiry, in one step. | 1.1.0 |
+| [`LCS`](lcs.md) | Finds the longest common subsequence of the strings at key1 and key2: the longest run of characters found in both, in the same order, not necessarily next to each other. | 1.1.0 |
+| [`MGET`](mget.md) | Returns the values of several keys. | 1.1.0 |
+| [`MSET`](mset.md) | Sets several keys to string values in one step. | 1.1.0 |
+| [`MSETEX`](msetex.md) | Sets several keys in one step, with one expiry for all of them, and optionally only if they all exist or none does. | 1.1.0 |
+| [`MSETNX`](msetnx.md) | Sets several keys to string values only if none of them exists. | 1.1.0 |
+| [`PSETEX`](psetex.md) | Sets key to value and makes it expire after milliseconds. | 1.1.0 |
+| [`SET`](set.md) | Stores a string at key, replacing whatever the key held, of any type. | 1.1.0 |
+| [`SETEX`](setex.md) | Sets key to value and makes it expire after seconds. | 1.1.0 |
+| [`SETNX`](setnx.md) | Sets key to value only if the key does not exist. | 1.1.0 |
+| [`SETRANGE`](setrange.md) | Overwrites the string at key from byte offset on with value. | 1.1.0 |
+| [`STRLEN`](strlen.md) | Returns the length, in bytes, of the string at key. | 1.1.0 |
+| [`SUBSTR`](substr.md) | Another name for GETRANGE, kept for old clients. | 1.1.0 |
 
 ## Time series
 

@@ -177,7 +177,13 @@ def command_pages(version, release, releases, history):
             fm["description"] = f"{display(name)} and its subcommands."
         seed_fm = [fm_line("status", "draft" if notes or subs else "needs-text")]
         seed = ("## Description\n\n" + notes + "\n") if notes else ""
-        write_page(CONTENT / version / "commands" / f"{slug(name)}.md", fm, "\n".join(gen), seed, seed_fm)
+        page = CONTENT / version / "commands" / f"{slug(name)}.md"
+        # A reviewed page is described by its own first sentence.
+        if page.exists():
+            kept_fm, kept_body = split_page(page.read_text(encoding="utf-8"))
+            if any(l.strip() == 'status: "reviewed"' for l in kept_fm) and kept_body.strip():
+                fm["description"] = first_sentence(kept_body.strip().split("\n\n", 1)[0])
+        write_page(page, fm, "\n".join(gen), seed, seed_fm)
         if not parent:
             index.setdefault(group, []).append((name, fm["description"], fm["since"]))
 

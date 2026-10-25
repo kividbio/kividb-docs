@@ -1,6 +1,6 @@
 ---
 title: "STRLEN"
-description: "Return the byte length of a string value; 0 for missing keys"
+description: "Returns the length, in bytes, of the string at key."
 version: "1.2"
 command: "STRLEN"
 syntax: "STRLEN key"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "read", "string"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,21 @@ STRLEN key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@read`, `@string`
 <!-- generated: end -->
-## Description
+Returns the length, in bytes, of the string at `key`.
 
-Return the byte length of a string value; 0 for missing keys
+## Reply
+
+- The length.
+- `0` if the key does not exist.
+- A `WRONGTYPE` error if the key is not a string.
+
+## Examples
+
+```
+> SET k "hello world"
+OK
+> STRLEN k
+(integer) 11
+> STRLEN missing
+(integer) 0
+```

@@ -1,6 +1,6 @@
 ---
 title: "GETSET"
-description: "Return the old value and set a new one atomically"
+description: "Sets key to value and returns the value it held before, in one step."
 version: "1.2"
 command: "GETSET"
 syntax: "GETSET key value"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "string", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ GETSET key value
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@string`, `@write`
 <!-- generated: end -->
-## Description
+Sets `key` to `value` and returns the value it held before, in one step. The key's expiry is removed. `SET key value GET` does the same.
 
-Return the old value and set a new one atomically
+## Reply
+
+- The old value, or `nil` if the key did not exist.
+
+## Examples
+
+```
+> SET a 1
+OK
+> GETSET a new
+"1"
+> GET a
+"new"
+```

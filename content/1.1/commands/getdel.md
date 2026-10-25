@@ -1,6 +1,6 @@
 ---
 title: "GETDEL"
-description: "Return the value and delete the key atomically"
+description: "Returns the string at key and deletes the key, in one step."
 version: "1.1"
 command: "GETDEL"
 syntax: "GETDEL key"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "string", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,20 @@ GETDEL key
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@string`, `@write`
 <!-- generated: end -->
-## Description
+Returns the string at `key` and deletes the key, in one step.
 
-Return the value and delete the key atomically
+## Reply
+
+- The value, or `nil` if the key did not exist.
+- A `WRONGTYPE` error, and nothing deleted, if the key is not a string.
+
+## Examples
+
+```
+> SET a v
+OK
+> GETDEL a
+"v"
+> GET a
+(nil)
+```

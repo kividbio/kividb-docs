@@ -1,6 +1,6 @@
 ---
 title: "MGET"
-description: "Return values for multiple keys; nil for missing or wrong-type keys"
+description: "Returns the values of several keys."
 version: "1.1"
 command: "MGET"
 syntax: "MGET key [key ...]"
@@ -11,7 +11,7 @@ flags: ["fast", "readonly"]
 acl_categories: ["fast", "read", "string"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,23 @@ MGET key [key ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@read`, `@string`
 <!-- generated: end -->
-## Description
+Returns the values of several keys.
 
-Return values for multiple keys; nil for missing or wrong-type keys
+## Reply
+
+An array with one element per key, in the order given:
+- the value, for a string;
+- `nil`, for a missing key or one that does not hold a string. `MGET` does not fail on another type.
+
+## Examples
+
+```
+> SET k v1
+OK
+> LPUSH lst a
+(integer) 1
+> MGET k lst missing
+1) "v1"
+2) (nil)
+3) (nil)
+```

@@ -1,6 +1,6 @@
 ---
 title: "SUBSTR"
-description: "Alias for GETRANGE"
+description: "Another name for GETRANGE, kept for old clients."
 version: "1.1"
 command: "SUBSTR"
 syntax: "SUBSTR key start stop"
@@ -11,7 +11,7 @@ flags: ["readonly"]
 acl_categories: ["read", "slow", "string"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,13 @@ SUBSTR key start stop
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@string`
 <!-- generated: end -->
-## Description
+Another name for [`GETRANGE`](getrange.md), kept for old clients.
 
-Alias for `GETRANGE`
+## Examples
+
+```
+> SET k "hello world"
+OK
+> SUBSTR k 0 4
+"hello"
+```

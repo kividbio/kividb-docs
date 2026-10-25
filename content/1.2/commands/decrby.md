@@ -1,6 +1,6 @@
 ---
 title: "DECRBY"
-description: "Decrement by an integer delta"
+description: "Subtracts decrement, a signed 64-bit integer, from the integer stored at key."
 version: "1.2"
 command: "DECRBY"
 syntax: "DECRBY key decrement"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "string", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ DECRBY key decrement
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@string`, `@write`
 <!-- generated: end -->
-## Description
+Subtracts `decrement`, a signed 64-bit integer, from the integer stored at `key`. A missing key counts as `0`.
 
-Decrement by an integer delta
+## Reply
+
+- The value after the decrement.
+- `ERR increment or decrement would overflow` if the result does not fit in 64 bits.
+- `ERR value is not an integer or out of range` if the value is not an integer.
+
+## Examples
+
+```
+> SET n 12
+OK
+> DECRBY n 3
+(integer) 9
+```

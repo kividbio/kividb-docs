@@ -1,6 +1,6 @@
 ---
 title: "SETRANGE"
-description: "Overwrite bytes at offset; zero-pads if key is shorter than offset"
+description: "Overwrites the string at key from byte offset on with value."
 version: "1.1"
 command: "SETRANGE"
 syntax: "SETRANGE key offset value"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["slow", "string", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,23 @@ SETRANGE key offset value
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@string`, `@write`
 <!-- generated: end -->
-## Description
+Overwrites the string at `key` from byte `offset` on with `value`. If the string is shorter than `offset`, it is padded with zero bytes first. A missing key is created.
 
-Overwrite bytes at offset; zero-pads if key is shorter than offset
+## Reply
+
+- The length of the string afterwards.
+
+## Examples
+
+```
+> SET k "hello world"
+OK
+> SETRANGE k 6 there
+(integer) 11
+> GET k
+"hello there"
+> SETRANGE pad 5 x
+(integer) 6
+> GET pad
+"\x00\x00\x00\x00\x00x"
+```
