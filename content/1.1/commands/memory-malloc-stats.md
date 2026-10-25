@@ -1,6 +1,6 @@
 ---
 title: "MEMORY MALLOC-STATS"
-description: "Allocator statistics (minimal)"
+description: "Returns the allocator's statistics."
 version: "1.1"
 command: "MEMORY MALLOC-STATS"
 syntax: "MEMORY MALLOC-STATS"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "MEMORY"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ MEMORY MALLOC-STATS
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Allocator statistics (minimal)
+Returns the allocator's statistics. KiviDB's report is minimal.

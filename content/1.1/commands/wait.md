@@ -1,6 +1,6 @@
 ---
 title: "WAIT"
-description: "Block until numreplicas replicas have acknowledged all preceding writes, or timeout milliseconds elapse; returns the number of replicas that acked"
+description: "Waits until numreplicas replicas have acknowledged every write this connection made before it, or timeout milliseconds pass; 0 waits for ever."
 version: "1.1"
 command: "WAIT"
 syntax: "WAIT numreplicas timeout"
@@ -11,7 +11,7 @@ flags: ["blocking"]
 acl_categories: ["blocking", "generic", "keyspace", "read", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,15 @@ WAIT numreplicas timeout
 
 **Available since:** 1.1.0 · **ACL categories:** `@blocking`, `@generic`, `@keyspace`, `@read`, `@slow`
 <!-- generated: end -->
-## Description
+Waits until `numreplicas` replicas have acknowledged every write this connection made before it, or `timeout` milliseconds pass; `0` waits for ever.
 
-Block until `numreplicas` replicas have acknowledged all preceding writes, or `timeout` milliseconds elapse; returns the number of replicas that acked
+## Reply
+
+- The number of replicas that acknowledged.
+
+## Examples
+
+```
+> WAIT 0 100
+(integer) 0
+```

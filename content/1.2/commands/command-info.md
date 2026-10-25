@@ -1,6 +1,6 @@
 ---
 title: "COMMAND INFO"
-description: "The same entries for the named commands (nil for a name that is not a command), or for all of them"
+description: "COMMAND's entries for the commands named, nil for a name that is not a command, or for every command."
 version: "1.2"
 command: "COMMAND INFO"
 syntax: "COMMAND INFO [command ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "COMMAND"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,13 @@ COMMAND INFO [command ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+[`COMMAND`](command.md)'s entries for the commands named, `nil` for a name that is not a command, or for every command.
 
-The same entries for the named commands (nil for a name that is not a command), or for all of them
+## Examples
+
+```
+> COMMAND INFO GET NOPE
+1) 1) "get"
+   ...
+2) (nil)
+```

@@ -1,6 +1,6 @@
 ---
 title: "MEMORY"
-description: "MEMORY and its subcommands."
+description: "Reports on memory use."
 version: "1.1"
 command: "MEMORY"
 syntax: "MEMORY"
@@ -12,7 +12,7 @@ acl_categories: ["server", "slow"]
 history: []
 subcommands: ["MEMORY DOCTOR", "MEMORY HELP", "MEMORY MALLOC-STATS", "MEMORY PURGE", "MEMORY STATS", "MEMORY USAGE"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ MEMORY
 
 Subcommands: [MEMORY DOCTOR](memory-doctor.md), [MEMORY HELP](memory-help.md), [MEMORY MALLOC-STATS](memory-malloc-stats.md), [MEMORY PURGE](memory-purge.md), [MEMORY STATS](memory-stats.md), [MEMORY USAGE](memory-usage.md)
 <!-- generated: end -->
+Reports on memory use. See its subcommands.

@@ -1,6 +1,6 @@
 ---
 title: "CONFIG RESETSTAT"
-description: "Returns OK"
+description: "Resets the statistics INFO reports: commands' counts and times, error counts, and connection and network totals."
 version: "1.1"
 command: "CONFIG RESETSTAT"
 syntax: "CONFIG RESETSTAT"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CONFIG"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CONFIG RESETSTAT
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Resets the statistics `INFO` reports: commands' counts and times, error counts, and connection and network totals.
 
-Returns OK
+## Examples
+
+```
+> CONFIG RESETSTAT
+OK
+```

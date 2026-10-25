@@ -1,6 +1,6 @@
 ---
 title: "PSYNC"
-description: "Internal replication sync command"
+description: "Sent by a replica to its master to start or resume replication: PSYNC replication-id offset."
 version: "1.2"
 command: "PSYNC"
 syntax: "PSYNC repl_id offset"
@@ -11,7 +11,7 @@ flags: ["admin"]
 acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,4 @@ PSYNC repl_id offset
 
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-## Description
-
-Internal replication sync command
+Sent by a replica to its master to start or resume replication: `PSYNC replication-id offset`. The master either continues from that offset, or sends a full copy of the dataset first. Not for applications.

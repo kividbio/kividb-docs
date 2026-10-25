@@ -1,6 +1,6 @@
 ---
 title: "CLIENT NO-EVICT"
-description: "Mark or unmark the connection as non-evictable"
+description: "Marks the connection, ON, as one that is not closed to free memory, or, OFF, as one that may be."
 version: "1.2"
 command: "CLIENT NO-EVICT"
 syntax: "CLIENT NO-EVICT ON|OFF"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ CLIENT NO-EVICT ON|OFF
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Mark or unmark the connection as non-evictable
+Marks the connection, `ON`, as one that is not closed to free memory, or, `OFF`, as one that may be.

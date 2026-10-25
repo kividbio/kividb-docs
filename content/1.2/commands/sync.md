@@ -1,6 +1,6 @@
 ---
 title: "SYNC"
-description: "Old-style full synchronisation for a replica: the snapshot, then the command stream"
+description: "The original replication handshake: a replica sends it to get a snapshot, then every write."
 version: "1.2"
 command: "SYNC"
 syntax: "SYNC"
@@ -11,7 +11,7 @@ flags: ["admin"]
 acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,4 @@ SYNC
 
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-## Description
-
-Old-style full synchronisation for a replica: the snapshot, then the command stream
+The original replication handshake: a replica sends it to get a snapshot, then every write. Replicas use [`PSYNC`](psync.md) instead.

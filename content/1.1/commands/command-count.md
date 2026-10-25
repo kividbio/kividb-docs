@@ -1,6 +1,6 @@
 ---
 title: "COMMAND COUNT"
-description: "Return the number of supported commands"
+description: "Returns the number of commands."
 version: "1.1"
 command: "COMMAND COUNT"
 syntax: "COMMAND COUNT"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "COMMAND"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ COMMAND COUNT
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the number of commands.
 
-Return the number of supported commands
+## Examples
+
+```
+> COMMAND COUNT
+(integer) 370
+```

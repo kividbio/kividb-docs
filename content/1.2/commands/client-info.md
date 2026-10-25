@@ -1,6 +1,6 @@
 ---
 title: "CLIENT INFO"
-description: "Return info about the current connection"
+description: "Returns this connection's line of CLIENT LIST."
 version: "1.2"
 command: "CLIENT INFO"
 syntax: "CLIENT INFO"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLIENT INFO
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns this connection's line of [`CLIENT LIST`](client-list.md).
 
-Return info about the current connection
+## Examples
+
+```
+> CLIENT INFO
+"id=1 addr=127.0.0.1:51999 laddr=127.0.0.1:6380 fd=0 name=worker-1 age=0 idle=0 flags=N db=0 ... user=default redir=-1 resp=2 lib-name=redis-py lib-ver=5.0 ...\n"
+```

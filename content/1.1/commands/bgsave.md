@@ -1,6 +1,6 @@
 ---
 title: "BGSAVE"
-description: "Save a snapshot in the background"
+description: "Writes a snapshot of the dataset to dump.kdb in the background, and replies at once."
 version: "1.1"
 command: "BGSAVE"
 syntax: "BGSAVE"
@@ -11,7 +11,7 @@ flags: ["admin"]
 acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ BGSAVE
 
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-## Description
+Writes a snapshot of the dataset to `dump.kdb` in the background, and replies at once.
 
-Save a snapshot in the background
+## Examples
+
+```
+> BGSAVE
+Background saving started
+```

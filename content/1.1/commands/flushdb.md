@@ -1,6 +1,6 @@
 ---
 title: "FLUSHDB"
-description: "Delete all keys in the current database"
+description: "Deletes every key of the current database."
 version: "1.1"
 command: "FLUSHDB"
 syntax: "FLUSHDB"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["dangerous", "server", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ FLUSHDB
 
 **Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@server`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Deletes every key of the current database. `ASYNC` frees them in the background, `SYNC` at once.
 
-Delete all keys in the current database
+## Examples
+
+```
+> FLUSHDB ASYNC
+OK
+```

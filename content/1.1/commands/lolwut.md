@@ -1,6 +1,6 @@
 ---
 title: "LOLWUT"
-description: "Return ASCII art and the server version"
+description: "Returns a small drawing and the server's version."
 version: "1.1"
 command: "LOLWUT"
 syntax: "LOLWUT [VERSION version]"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,4 @@ LOLWUT [VERSION version]
 
 **Available since:** 1.1.0 · **ACL categories:** `@server`, `@slow`
 <!-- generated: end -->
-## Description
-
-Return ASCII art and the server version
+Returns a small drawing and the server's version.

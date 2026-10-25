@@ -1,6 +1,6 @@
 ---
 title: "CLIENT GETREDIR"
-description: "Return the client ID this connection redirects invalidations to, or -1 if no redirect is set"
+description: "Returns the connection this one sends its invalidations to; -1 if tracking is off or it does not redirect."
 version: "1.1"
 command: "CLIENT GETREDIR"
 syntax: "CLIENT GETREDIR"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLIENT GETREDIR
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the connection this one sends its invalidations to; `-1` if tracking is off or it does not redirect.
 
-Return the client ID this connection redirects invalidations to, or -1 if no redirect is set
+## Examples
+
+```
+> CLIENT GETREDIR
+(integer) -1
+```

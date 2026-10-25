@@ -1,6 +1,6 @@
 ---
 title: "TIME"
-description: "Return [unix_seconds, microseconds_within_second] as two bulk strings; uses real wall clock"
+description: "Returns the server's clock: Unix seconds, and the microseconds within that second, as two bulk strings."
 version: "1.2"
 command: "TIME"
 syntax: "TIME"
@@ -11,7 +11,7 @@ flags: ["fast"]
 acl_categories: ["fast", "server"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,12 @@ TIME
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@server`
 <!-- generated: end -->
-## Description
+Returns the server's clock: Unix seconds, and the microseconds within that second, as two bulk strings.
 
-Return `[unix_seconds, microseconds_within_second]` as two bulk strings; uses real wall clock
+## Examples
+
+```
+> TIME
+1) "1792968400"
+2) "89815"
+```

@@ -1,6 +1,6 @@
 ---
 title: "CONFIG"
-description: "CONFIG and its subcommands."
+description: "Reads and changes the server's settings at runtime."
 version: "1.2"
 command: "CONFIG"
 syntax: "CONFIG"
@@ -12,7 +12,7 @@ acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 subcommands: ["CONFIG GET", "CONFIG HELP", "CONFIG RESETSTAT", "CONFIG REWRITE", "CONFIG SET"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,3 +26,4 @@ CONFIG
 
 Subcommands: [CONFIG GET](config-get.md), [CONFIG HELP](config-help.md), [CONFIG RESETSTAT](config-resetstat.md), [CONFIG REWRITE](config-rewrite.md), [CONFIG SET](config-set.md)
 <!-- generated: end -->
+Reads and changes the server's settings at runtime. See its subcommands, and [Configuration](../reference/configuration.md) for every setting.

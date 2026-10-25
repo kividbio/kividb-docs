@@ -1,6 +1,6 @@
 ---
 title: "ROLE"
-description: "Return the replication role: master or slave, with offset and replica list"
+description: "Returns the server's replication role: master with its offset and replicas, or slave with its master and state."
 version: "1.2"
 command: "ROLE"
 syntax: "ROLE"
@@ -11,7 +11,7 @@ flags: ["fast"]
 acl_categories: ["dangerous", "fast", "server"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,13 @@ ROLE
 
 **Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@fast`, `@server`
 <!-- generated: end -->
-## Description
+Returns the server's replication role: `master` with its offset and replicas, or `slave` with its master and state.
 
-Return the replication role: `master` or `slave`, with offset and replica list
+## Examples
+
+```
+> ROLE
+1) "master"
+2) (integer) 0
+3) (empty array)
+```

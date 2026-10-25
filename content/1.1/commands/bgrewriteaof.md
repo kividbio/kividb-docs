@@ -1,6 +1,6 @@
 ---
 title: "BGREWRITEAOF"
-description: "Trigger a background AOF rewrite; returns ERR if AOF is not enabled"
+description: "Rewrites the append-only file in the background, as the shortest file that rebuilds the dataset."
 version: "1.1"
 command: "BGREWRITEAOF"
 syntax: "BGREWRITEAOF"
@@ -11,7 +11,7 @@ flags: ["admin"]
 acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,9 @@ BGREWRITEAOF
 
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-## Description
+Rewrites the append-only file in the background, as the shortest file that rebuilds the dataset.
 
-Trigger a background AOF rewrite; returns `ERR` if AOF is not enabled
+## Reply
+
+- A status reply.
+- `ERR AOF is not enabled`.

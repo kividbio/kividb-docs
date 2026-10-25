@@ -1,6 +1,6 @@
 ---
 title: "CLIENT UNPAUSE"
-description: "Release all connections blocked by CLIENT PAUSE immediately"
+description: "Ends a CLIENT PAUSE at once, releasing the clients it held."
 version: "1.1"
 command: "CLIENT UNPAUSE"
 syntax: "CLIENT UNPAUSE"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ CLIENT UNPAUSE
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Release all connections blocked by `CLIENT PAUSE` immediately
+Ends a [`CLIENT PAUSE`](client-pause.md) at once, releasing the clients it held.

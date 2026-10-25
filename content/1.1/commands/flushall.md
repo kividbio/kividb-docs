@@ -1,6 +1,6 @@
 ---
 title: "FLUSHALL"
-description: "Delete all keys in all databases"
+description: "Deletes every key of every database."
 version: "1.1"
 command: "FLUSHALL"
 syntax: "FLUSHALL"
@@ -11,7 +11,7 @@ flags: ["write"]
 acl_categories: ["dangerous", "server", "slow", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ FLUSHALL
 
 **Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@server`, `@slow`, `@write`
 <!-- generated: end -->
-## Description
+Deletes every key of every database. `ASYNC` frees them in the background, `SYNC` at once.
 
-Delete all keys in all databases
+## Examples
+
+```
+> FLUSHALL SYNC
+OK
+```

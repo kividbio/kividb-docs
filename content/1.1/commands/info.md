@@ -1,6 +1,6 @@
 ---
 title: "INFO"
-description: "Return server info; sections include server, keyspace, replication, errorstats (per-error reply counters), all, etc."
+description: "Returns information and statistics about the server, as field:value lines in sections."
 version: "1.1"
 command: "INFO"
 syntax: "INFO [section [section ...]]"
@@ -11,7 +11,7 @@ flags: []
 acl_categories: ["dangerous", "server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,19 @@ INFO [section [section ...]]
 
 **Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-## Description
+Returns information and statistics about the server, as `field:value` lines in sections. With no section, the default ones; with `all` or `everything`, all of them.
 
-Return server info; sections include `server`, `keyspace`, `replication`, `errorstats` (per-error reply counters), `all`, etc. `INFO commandstats` has, for each command that has been called, `calls`, `usec`, `usec_per_call`, `rejected_calls` and `failed_calls`, and the Redis 8.8 slowlog fields `slowlog_count`, `slowlog_time_ms_sum` and `slowlog_time_ms_max`. `INFO memory` reports `used_memory` (allocated bytes — what `maxmemory` is compared with), `used_memory_rss` and `maxmemory_policy`; `INFO stats` reports `evicted_keys`
+Sections include `server`, `clients`, `memory`, `persistence`, `stats`, `replication`, `cpu`, `modules`, `commandstats`, `latencystats`, `errorstats`, `cluster` and `keyspace`. `commandstats` gives each command's calls, time and failures, with Redis 8.8's slow-log fields. `memory` gives `used_memory`, which `maxmemory` is compared with, and `used_memory_rss`.
+
+## Known issue
+
+`total_commands_processed`, `total_reads_processed`, `keyspace_hits` and `keyspace_misses` in `INFO stats` stay `0`, while `INFO commandstats` counts commands. Filed as [kividb#136](https://github.com/kividbio/kividb/issues/136).
+
+## Examples
+
+```
+> INFO commandstats
+# Commandstats
+cmdstat_get:calls=3,usec=59,usec_per_call=19.67,rejected_calls=0,failed_calls=0
+...
+```

@@ -1,6 +1,6 @@
 ---
 title: "COMMAND GETKEYS"
-description: "Return the key names from a command invocation"
+description: "Returns the keys a command would use, given its arguments."
 version: "1.2"
 command: "COMMAND GETKEYS"
 syntax: "COMMAND GETKEYS command [arg ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "COMMAND"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,12 @@ COMMAND GETKEYS command [arg ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the keys a command would use, given its arguments.
 
-Return the key names from a command invocation
+## Examples
+
+```
+> COMMAND GETKEYS MSET a 1 b 2
+1) "a"
+2) "b"
+```

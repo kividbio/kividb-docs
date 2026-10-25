@@ -1,6 +1,6 @@
 ---
 title: "REPLICAOF"
-description: "Configure this instance as a replica, or promote to master."
+description: "Makes the server a replica of the master at host port, or, with NO ONE, a master."
 version: "1.1"
 command: "REPLICAOF"
 syntax: "REPLICAOF host port | NO ONE"
@@ -11,7 +11,7 @@ flags: ["admin"]
 acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ REPLICAOF host port | NO ONE
 
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-## Description
+Makes the server a replica of the master at `host port`, or, with `NO ONE`, a master. It is refused in cluster mode, where [`CLUSTER REPLICATE`](cluster-replicate.md) does it.
 
-Configure this instance as a replica, or promote to master. Refused in cluster mode, where `CLUSTER REPLICATE` does it
+## Examples
+
+```
+> REPLICAOF NO ONE
+OK
+```

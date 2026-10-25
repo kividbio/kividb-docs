@@ -1,6 +1,6 @@
 ---
 title: "REPLCONF"
-description: "Internal replication configuration command"
+description: "Sent between a master and its replicas during replication: the replica's port, its acknowledged offset, and its capabilities."
 version: "1.1"
 command: "REPLCONF"
 syntax: "REPLCONF ..."
@@ -11,7 +11,7 @@ flags: ["admin"]
 acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,4 @@ REPLCONF ...
 
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-## Description
-
-Internal replication configuration command
+Sent between a master and its replicas during replication: the replica's port, its acknowledged offset, and its capabilities. Not for applications.

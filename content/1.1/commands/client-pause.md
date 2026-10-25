@@ -1,6 +1,6 @@
 ---
 title: "CLIENT PAUSE"
-description: "Pause clients for timeout milliseconds, until it expires or CLIENT UNPAUSE."
+description: "Holds clients' commands for timeout milliseconds, or until CLIENT UNPAUSE."
 version: "1.1"
 command: "CLIENT PAUSE"
 syntax: "CLIENT PAUSE timeout [WRITE | ALL]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,20 @@ CLIENT PAUSE timeout [WRITE | ALL]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Holds clients' commands for `timeout` milliseconds, or until [`CLIENT UNPAUSE`](client-unpause.md).
 
-Pause clients for `timeout` milliseconds, until it expires or `CLIENT UNPAUSE`. `ALL` (the default) holds every command but `CLIENT UNPAUSE`; `WRITE` holds anything that may write — writes, `PFCOUNT`, `PUBLISH`, scripts not declared `no-writes`, and an `EXEC` containing any of them. A pause given during another keeps the more restrictive of the two. While writes are paused nothing expires, as in Redis: a read takes a key whose time has passed as gone, but it is deleted, counted in `expired_keys` and announced only once the pause is over, and `RANDOMKEY` may name it rather than answer nil. The same holds during a slot handoff and a manual failover
+- `ALL`, the default: every command but `CLIENT UNPAUSE`.
+- `WRITE`: anything that may write, including `PFCOUNT`, `PUBLISH`, scripts not declared `no-writes`, and an `EXEC` that contains any of these. Reads go on.
+
+A pause given during another keeps the more restrictive of the two. While writes are paused, nothing expires, as in Redis: a read takes a key whose time has passed as gone, but it is deleted and counted only once the pause is over. The same holds during a cluster slot handoff and a manual failover.
+
+## Examples
+
+```
+client 1> CLIENT PAUSE 300 WRITE
+OK
+client 2> GET user:1
+"Grace"
+client 2> SET p 1          (waits about 300 ms)
+OK
+```

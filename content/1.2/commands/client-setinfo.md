@@ -1,6 +1,6 @@
 ---
 title: "CLIENT SETINFO"
-description: "Store the client library name and version on this connection; shown by CLIENT LIST and CLIENT INFO as lib-name and lib-ver"
+description: "Records the client library's name, LIB-NAME, or version, LIB-VER, on the connection; CLIENT LIST shows them as lib-name and lib-ver."
 version: "1.2"
 command: "CLIENT SETINFO"
 syntax: "CLIENT SETINFO LIB-NAME name | LIB-VER ver"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,13 @@ CLIENT SETINFO LIB-NAME name | LIB-VER ver
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Records the client library's name, `LIB-NAME`, or version, `LIB-VER`, on the connection; [`CLIENT LIST`](client-list.md) shows them as `lib-name` and `lib-ver`. Client libraries send it when they connect.
 
-Store the client library name and version on this connection; shown by `CLIENT LIST` and `CLIENT INFO` as `lib-name` and `lib-ver`
+## Examples
+
+```
+> CLIENT SETINFO LIB-NAME redis-py
+OK
+> CLIENT SETINFO LIB-VER 5.0
+OK
+```

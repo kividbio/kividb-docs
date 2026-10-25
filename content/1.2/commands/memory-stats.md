@@ -1,6 +1,6 @@
 ---
 title: "MEMORY STATS"
-description: "Memory figures as name–value pairs (used_memory, used_memory_rss, used_memory_peak, …)"
+description: "Returns memory figures as name-value pairs: used_memory, used_memory_rss, used_memory_peak and others."
 version: "1.2"
 command: "MEMORY STATS"
 syntax: "MEMORY STATS"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "MEMORY"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,17 @@ MEMORY STATS
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns memory figures as name-value pairs: `used_memory`, `used_memory_rss`, `used_memory_peak` and others.
 
-Memory figures as name–value pairs (`used_memory`, `used_memory_rss`, `used_memory_peak`, …)
+## Examples
+
+```
+> MEMORY STATS
+1) "used_memory"
+2) "1653856"
+3) "used_memory_human"
+4) "1.58M"
+5) "used_memory_rss"
+6) "16867328"
+...
+```

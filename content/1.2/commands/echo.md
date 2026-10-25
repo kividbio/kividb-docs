@@ -1,6 +1,6 @@
 ---
 title: "ECHO"
-description: "Returns the message back"
+description: "Returns message."
 version: "1.2"
 command: "ECHO"
 syntax: "ECHO message"
@@ -11,7 +11,7 @@ flags: ["fast"]
 acl_categories: ["connection", "fast"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ ECHO message
 
 **Available since:** 1.1.0 · **ACL categories:** `@connection`, `@fast`
 <!-- generated: end -->
-## Description
+Returns `message`.
 
-Returns the message back
+## Examples
+
+```
+> ECHO hello
+"hello"
+```

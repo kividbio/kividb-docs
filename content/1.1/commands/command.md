@@ -1,6 +1,6 @@
 ---
 title: "COMMAND"
-description: "Every command, each as [name, arity, [flags], first-key, last-key, key-step, [@categories], [], [], []]."
+description: "Returns every command, each as an array: its name, its arity (a negative number is a minimum), its flags, the positions of its first and last key and the step between them, and its ACL categories."
 version: "1.1"
 command: "COMMAND"
 syntax: "COMMAND"
@@ -12,7 +12,7 @@ acl_categories: ["server", "slow"]
 history: []
 subcommands: ["COMMAND COUNT", "COMMAND DOCS", "COMMAND GETKEYS", "COMMAND GETKEYSANDFLAGS", "COMMAND HELP", "COMMAND INFO", "COMMAND LIST"]
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -26,6 +26,21 @@ COMMAND
 
 Subcommands: [COMMAND COUNT](command-count.md), [COMMAND DOCS](command-docs.md), [COMMAND GETKEYS](command-getkeys.md), [COMMAND GETKEYSANDFLAGS](command-getkeysandflags.md), [COMMAND HELP](command-help.md), [COMMAND INFO](command-info.md), [COMMAND LIST](command-list.md)
 <!-- generated: end -->
-## Description
+Returns every command, each as an array: its name, its arity (a negative number is a minimum), its flags, the positions of its first and last key and the step between them, and its ACL categories. A command whose keys depend on its arguments has the `movablekeys` flag. Cluster clients route by this.
 
-Every command, each as `[name, arity, [flags], first-key, last-key, key-step, [@categories], [], [], []]`. The three key numbers say where a command's keys are (a negative `last-key` counts from the end); a command whose keys depend on its arguments has the `movablekeys` flag, and `COMMAND GETKEYS` answers for it. This is what redis-py's cluster client routes by. The arity is a lower bound
+## Examples
+
+```
+> COMMAND INFO GET
+1) 1) "get"
+   2) (integer) 2
+   3) 1) readonly
+      2) fast
+   4) (integer) 1
+   5) (integer) 1
+   6) (integer) 1
+   7) 1) "@fast"
+      2) "@read"
+      3) "@string"
+   ...
+```

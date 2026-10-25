@@ -1,6 +1,6 @@
 ---
 title: "DBSIZE"
-description: "Return the number of keys in the current database"
+description: "Returns the number of keys in the current database."
 version: "1.2"
 command: "DBSIZE"
 syntax: "DBSIZE"
@@ -11,7 +11,7 @@ flags: ["fast"]
 acl_categories: ["fast", "server"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ DBSIZE
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@server`
 <!-- generated: end -->
-## Description
+Returns the number of keys in the current database.
 
-Return the number of keys in the current database
+## Examples
+
+```
+> DBSIZE
+(integer) 0
+```

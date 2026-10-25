@@ -1,6 +1,6 @@
 ---
 title: "CLIENT LIST"
-description: "Return one line per connection, in Redis's layout (id, addr, laddr, name, age, idle, flags, db, sub, psub, ssub, multi, watch, cmd, user, redir, resp, lib-name, lib-ver, …), filtered as asked"
+description: "Returns a line per connection, with Redis's fields: id, addr, laddr, name, age, idle, flags, db, sub, psub, ssub, multi, watch, cmd, user, redir, resp, lib-name, lib-ver and others."
 version: "1.2"
 command: "CLIENT LIST"
 syntax: "CLIENT LIST [TYPE normal|master|replica|pubsub] [ID id [id ...]] [USER username] [ADDR ip:port] [LADDR ip:port] [SKIPME yes|no] [MAXAGE seconds]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,13 @@ CLIENT LIST [TYPE normal|master|replica|pubsub] [ID id [id ...]] [USER username]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns a line per connection, with Redis's fields: `id`, `addr`, `laddr`, `name`, `age`, `idle`, `flags`, `db`, `sub`, `psub`, `ssub`, `multi`, `watch`, `cmd`, `user`, `redir`, `resp`, `lib-name`, `lib-ver` and others. The options keep only the connections that match.
 
-Return one line per connection, in Redis's layout (`id`, `addr`, `laddr`, `name`, `age`, `idle`, `flags`, `db`, `sub`, `psub`, `ssub`, `multi`, `watch`, `cmd`, `user`, `redir`, `resp`, `lib-name`, `lib-ver`, …), filtered as asked
+| Option | Keeps |
+|---|---|
+| `TYPE normal \| master \| replica \| pubsub` | connections of this kind |
+| `ID id ...` | these IDs |
+| `USER username` | connections logged in as this user |
+| `ADDR ip:port`, `LADDR ip:port` | the client's address, or the server's |
+| `SKIPME yes \| no` | whether to leave this connection out |
+| `MAXAGE seconds` | connections at most this old |

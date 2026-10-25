@@ -1,6 +1,6 @@
 ---
 title: "CLIENT TRACKINGINFO"
-description: "Return tracking state for the current connection: flags (off, on, bcast, optin, optout, noloop), redirect client ID (-1 if none), and prefix list"
+description: "Returns this connection's tracking state: its flags (off, on, bcast, optin, optout, noloop), the connection it redirects to, and its prefixes."
 version: "1.2"
 command: "CLIENT TRACKINGINFO"
 syntax: "CLIENT TRACKINGINFO"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,16 @@ CLIENT TRACKINGINFO
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns this connection's tracking state: its flags (`off`, `on`, `bcast`, `optin`, `optout`, `noloop`), the connection it redirects to, and its prefixes.
 
-Return tracking state for the current connection: flags (off, on, bcast, optin, optout, noloop), redirect client ID (-1 if none), and prefix list
+## Examples
+
+```
+> CLIENT TRACKINGINFO
+1) "flags"
+2) 1) "on"
+3) "redirect"
+4) (integer) 0
+5) "prefixes"
+6) (empty array)
+```

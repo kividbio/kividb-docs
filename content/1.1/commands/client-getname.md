@@ -1,6 +1,6 @@
 ---
 title: "CLIENT GETNAME"
-description: "Get the connection name"
+description: "Returns the connection's name, or nil."
 version: "1.1"
 command: "CLIENT GETNAME"
 syntax: "CLIENT GETNAME"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLIENT GETNAME
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the connection's name, or `nil`.
 
-Get the connection name
+## Examples
+
+```
+> CLIENT GETNAME
+"worker-1"
+```

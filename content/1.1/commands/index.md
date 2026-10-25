@@ -255,36 +255,36 @@ Every command KiviDB 1.1 has, by group. A command's page gives its syntax, what 
 | Command | Summary | Since |
 |---|---|---|
 | [`BACKUP`](backup.md) | Takes a consistent backup of the dataset while the server keeps serving: a snapshot as of the start, then the writes that follow, up to the moment it is sealed. | 1.1.0 |
-| [`BGREWRITEAOF`](bgrewriteaof.md) | Trigger a background AOF rewrite; returns ERR if AOF is not enabled | 1.1.0 |
-| [`BGSAVE`](bgsave.md) | Save a snapshot in the background | 1.1.0 |
-| [`CLIENT`](client.md) | CLIENT and its subcommands. | 1.1.0 |
-| [`COMMAND`](command.md) | Every command, each as [name, arity, [flags], first-key, last-key, key-step, [@categories], [], [], []]. | 1.1.0 |
-| [`CONFIG`](config.md) | CONFIG and its subcommands. | 1.1.0 |
-| [`DBSIZE`](dbsize.md) | Return the number of keys in the current database | 1.1.0 |
-| [`DEBUG`](debug.md) | Accepted and ignored for redis-cli compatibility | 1.1.0 |
-| [`ECHO`](echo.md) | Returns the message back | 1.1.0 |
+| [`BGREWRITEAOF`](bgrewriteaof.md) | Rewrites the append-only file in the background, as the shortest file that rebuilds the dataset. | 1.1.0 |
+| [`BGSAVE`](bgsave.md) | Writes a snapshot of the dataset to dump.kdb in the background, and replies at once. | 1.1.0 |
+| [`CLIENT`](client.md) | Inspects and manages client connections. | 1.1.0 |
+| [`COMMAND`](command.md) | Returns every command, each as an array: its name, its arity (a negative number is a minimum), its flags, the positions of its first and last key and the step between them, and its ACL categories. | 1.1.0 |
+| [`CONFIG`](config.md) | Reads and changes the server's settings at runtime. | 1.1.0 |
+| [`DBSIZE`](dbsize.md) | Returns the number of keys in the current database. | 1.1.0 |
+| [`DEBUG`](debug.md) | Accepted for compatibility with Redis tools. | 1.1.0 |
+| [`ECHO`](echo.md) | Returns message. | 1.1.0 |
 | [`FAILOVER`](failover.md) | Refused. | 1.1.0 |
-| [`FLUSHALL`](flushall.md) | Delete all keys in all databases | 1.1.0 |
-| [`FLUSHDB`](flushdb.md) | Delete all keys in the current database | 1.1.0 |
-| [`HELLO`](hello.md) | Switch the connection to RESP2 or RESP3 and return the server's details (server, version, proto, id, mode, role, modules) — a map under RESP3. | 1.1.0 |
-| [`INFO`](info.md) | Return server info; sections include server, keyspace, replication, errorstats (per-error reply counters), all, etc. | 1.1.0 |
-| [`LASTSAVE`](lastsave.md) | Return the Unix timestamp of the last successful save | 1.1.0 |
-| [`LOLWUT`](lolwut.md) | Return ASCII art and the server version | 1.1.0 |
-| [`MEMORY`](memory.md) | MEMORY and its subcommands. | 1.1.0 |
+| [`FLUSHALL`](flushall.md) | Deletes every key of every database. | 1.1.0 |
+| [`FLUSHDB`](flushdb.md) | Deletes every key of the current database. | 1.1.0 |
+| [`HELLO`](hello.md) | Switches the connection to RESP2 or RESP3, and returns the server's details: its name, version, protocol, connection ID, mode, role and modules, as a map under RESP3. | 1.1.0 |
+| [`INFO`](info.md) | Returns information and statistics about the server, as field:value lines in sections. | 1.1.0 |
+| [`LASTSAVE`](lastsave.md) | Returns the Unix time of the last snapshot saved, 0 if none. | 1.1.0 |
+| [`LOLWUT`](lolwut.md) | Returns a small drawing and the server's version. | 1.1.0 |
+| [`MEMORY`](memory.md) | Reports on memory use. | 1.1.0 |
 | [`MODULE`](module.md) | KiviDB does not load modules. | 1.1.0 |
-| [`MONITOR`](monitor.md) | Stream every command executed on the server to this connection in real time. | 1.1.0 |
-| [`PSYNC`](psync.md) | Internal replication sync command | 1.1.0 |
-| [`REPLCONF`](replconf.md) | Internal replication configuration command | 1.1.0 |
-| [`REPLICAOF`](replicaof.md) | Configure this instance as a replica, or promote to master. | 1.1.0 |
-| [`ROLE`](role.md) | Return the replication role: master or slave, with offset and replica list | 1.1.0 |
-| [`SAVE`](save.md) | Synchronously save a snapshot to dump.kdb | 1.1.0 |
-| [`SELECT`](select.md) | Switch to a database (0–15) | 1.1.0 |
-| [`SHUTDOWN`](shutdown.md) | Gracefully stop the server. | 1.1.0 |
-| [`SLAVEOF`](slaveof.md) | Alias for REPLICAOF | 1.1.0 |
-| [`SYNC`](sync.md) | Old-style full synchronisation for a replica: the snapshot, then the command stream | 1.1.0 |
-| [`TIME`](time.md) | Return [unix_seconds, microseconds_within_second] as two bulk strings; uses real wall clock | 1.1.0 |
-| [`WAIT`](wait.md) | Block until numreplicas replicas have acknowledged all preceding writes, or timeout milliseconds elapse; returns the number of replicas that acked | 1.1.0 |
-| [`WAITAOF`](waitaof.md) | Block until the local AOF has fsynced all preceding writes, or timeout milliseconds elapse; returns [local_fsynced, replica_fsynced] | 1.1.0 |
+| [`MONITOR`](monitor.md) | Streams every command the server runs, from any client, to this connection, each as a line: the time, the database and client address, and the command and its arguments. | 1.1.0 |
+| [`PSYNC`](psync.md) | Sent by a replica to its master to start or resume replication: PSYNC replication-id offset. | 1.1.0 |
+| [`REPLCONF`](replconf.md) | Sent between a master and its replicas during replication: the replica's port, its acknowledged offset, and its capabilities. | 1.1.0 |
+| [`REPLICAOF`](replicaof.md) | Makes the server a replica of the master at host port, or, with NO ONE, a master. | 1.1.0 |
+| [`ROLE`](role.md) | Returns the server's replication role: master with its offset and replicas, or slave with its master and state. | 1.1.0 |
+| [`SAVE`](save.md) | Writes a snapshot of the dataset to dump.kdb, in the working directory, before replying. | 1.1.0 |
+| [`SELECT`](select.md) | Makes database index the connection's current one. | 1.1.0 |
+| [`SHUTDOWN`](shutdown.md) | Stops the server, by default after saving a snapshot. | 1.1.0 |
+| [`SLAVEOF`](slaveof.md) | Another name for REPLICAOF. | 1.1.0 |
+| [`SYNC`](sync.md) | The original replication handshake: a replica sends it to get a snapshot, then every write. | 1.1.0 |
+| [`TIME`](time.md) | Returns the server's clock: Unix seconds, and the microseconds within that second, as two bulk strings. | 1.1.0 |
+| [`WAIT`](wait.md) | Waits until numreplicas replicas have acknowledged every write this connection made before it, or timeout milliseconds pass; 0 waits for ever. | 1.1.0 |
+| [`WAITAOF`](waitaof.md) | Waits until every write this connection made before it is in the local AOF and fsynced (numlocal), and in numreplicas replicas' AOFs, or timeout milliseconds pass. | 1.1.0 |
 
 ## Set
 

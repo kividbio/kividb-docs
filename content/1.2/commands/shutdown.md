@@ -1,6 +1,6 @@
 ---
 title: "SHUTDOWN"
-description: "Gracefully stop the server."
+description: "Stops the server, by default after saving a snapshot."
 version: "1.2"
 command: "SHUTDOWN"
 syntax: "SHUTDOWN [NOSAVE | SAVE | NOW | FORCE | ABORT]"
@@ -11,7 +11,7 @@ flags: ["admin"]
 acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,12 @@ SHUTDOWN [NOSAVE | SAVE | NOW | FORCE | ABORT]
 
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-## Description
+Stops the server, by default after saving a snapshot.
 
-Gracefully stop the server. `NOSAVE` skips the final snapshot. `NOW` skips the AOF flush wait. `FORCE` ignores replica/AOF state. `ABORT` cancels a pending shutdown. Default (no modifier) writes a snapshot then exits
+| Option | Effect |
+|---|---|
+| `NOSAVE` | Do not save a snapshot. |
+| `SAVE` | Save one. |
+| `NOW` | Do not wait for replicas, or the AOF, to catch up. |
+| `FORCE` | Stop even if saving fails. |
+| `ABORT` | Cancel a shutdown under way. |

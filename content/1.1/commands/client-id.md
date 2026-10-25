@@ -1,6 +1,6 @@
 ---
 title: "CLIENT ID"
-description: "Return the client ID"
+description: "Returns the connection's ID, unique for the server's lifetime."
 version: "1.1"
 command: "CLIENT ID"
 syntax: "CLIENT ID"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,11 @@ CLIENT ID
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the connection's ID, unique for the server's lifetime.
 
-Return the client ID
+## Examples
+
+```
+> CLIENT ID
+(integer) 1
+```

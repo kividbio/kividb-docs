@@ -1,6 +1,6 @@
 ---
 title: "CLIENT REPLY"
-description: "OFF stops replies on this connection until ON; SKIP drops the reply to the next command."
+description: "OFF stops the replies to this connection's commands until ON; SKIP drops the reply to the next command alone."
 version: "1.1"
 command: "CLIENT REPLY"
 syntax: "CLIENT REPLY ON|OFF|SKIP"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ CLIENT REPLY ON|OFF|SKIP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-`OFF` stops replies on this connection until `ON`; `SKIP` drops the reply to the next command. Messages — Pub/Sub, RESP3 pushes — are still sent
+`OFF` stops the replies to this connection's commands until `ON`; `SKIP` drops the reply to the next command alone. Pub/sub messages and RESP3 push messages are still sent.

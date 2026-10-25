@@ -1,6 +1,6 @@
 ---
 title: "CONFIG SET"
-description: "All or nothing: an unknown parameter, a value out of range, a parameter that cannot change at run time or one named twice is an error naming it, and none of the pairs is applied."
+description: "Changes settings, all or none of them: a value out of range, a setting that cannot change at runtime, or one named twice makes it an error that names it, and nothing changes."
 version: "1.1"
 command: "CONFIG SET"
 syntax: "CONFIG SET param value [param value ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CONFIG"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,16 @@ CONFIG SET param value [param value ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Changes settings, all or none of them: a value out of range, a setting that cannot change at runtime, or one named twice makes it an error that names it, and nothing changes.
 
-All or nothing: an unknown parameter, a value out of range, a parameter that cannot change at run time or one named twice is an error naming it, and none of the pairs is applied. `requirepass`, `slowlog-log-slower-than`, `slowlog-max-len`, `maxmemory`, `maxmemory-policy`, `maxmemory-samples`, `lfu-log-factor`, `lfu-decay-time`, `appendonly`, `loglevel`, `repl-backlog-size`, `repl-backlog-ttl`, `repl-diskless-load` all apply immediately at runtime without restart
+A name KiviDB does not have is accepted and remembered, so that tools that set Redis's settings do not fail; [`CONFIG GET`](config-get.md) returns what was set. [Configuration](../reference/configuration.md) lists the settings and which change at runtime.
+
+## Examples
+
+```
+> CONFIG SET maxmemory 100mb maxmemory-policy allkeys-lru
+OK
+> CONFIG GET maxmemory
+1) "maxmemory"
+2) "104857600"
+```

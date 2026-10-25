@@ -1,6 +1,6 @@
 ---
 title: "CLIENT UNBLOCK"
-description: "Returns 0; accepted for compatibility, not functional"
+description: "Accepted for compatibility, and replies 0: KiviDB does not unblock a client waiting in a blocking command this way."
 version: "1.2"
 command: "CLIENT UNBLOCK"
 syntax: "CLIENT UNBLOCK id"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ CLIENT UNBLOCK id
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Returns 0; accepted for compatibility, not functional
+Accepted for compatibility, and replies `0`: KiviDB does not unblock a client waiting in a blocking command this way.

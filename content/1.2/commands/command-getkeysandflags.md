@@ -1,6 +1,6 @@
 ---
 title: "COMMAND GETKEYSANDFLAGS"
-description: "Return key names with read/write flags per key"
+description: "Returns the keys a command would use, each with how it uses it."
 version: "1.2"
 command: "COMMAND GETKEYSANDFLAGS"
 syntax: "COMMAND GETKEYSANDFLAGS command [arg ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "COMMAND"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,17 @@ COMMAND GETKEYSANDFLAGS command [arg ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns the keys a command would use, each with how it uses it.
 
-Return key names with read/write flags per key
+## Examples
+
+```
+> COMMAND GETKEYSANDFLAGS LMOVE a b LEFT RIGHT
+1) 1) "a"
+   2) 1) "RW"
+      2) "access"
+      3) "delete"
+2) 1) "b"
+   2) 1) "RW"
+      2) "insert"
+```

@@ -1,6 +1,6 @@
 ---
 title: "SELECT"
-description: "Switch to a database (0–15)"
+description: "Makes database index the connection's current one."
 version: "1.1"
 command: "SELECT"
 syntax: "SELECT index"
@@ -11,7 +11,7 @@ flags: ["fast", "write"]
 acl_categories: ["fast", "server", "write"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,18 @@ SELECT index
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@server`, `@write`
 <!-- generated: end -->
-## Description
+Makes database `index` the connection's current one. There are 16, `0` to `15`, unless `databases` says otherwise; new connections start on `0`. In a cluster only database `0` exists.
 
-Switch to a database (0–15)
+## Reply
+
+- `OK`.
+- `ERR DB index is out of range`.
+
+## Examples
+
+```
+> SELECT 1
+OK
+> SELECT 16
+(error) ERR DB index is out of range
+```

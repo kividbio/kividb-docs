@@ -1,6 +1,6 @@
 ---
 title: "MEMORY USAGE"
-description: "Estimated bytes used by the key and its value; nil for a missing key"
+description: "Returns an estimate of the bytes key and its value take; nil if the key does not exist."
 version: "1.2"
 command: "MEMORY USAGE"
 syntax: "MEMORY USAGE key [SAMPLES count]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "MEMORY"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,13 @@ MEMORY USAGE key [SAMPLES count]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
+Returns an estimate of the bytes `key` and its value take; `nil` if the key does not exist. For a large collection, the estimate is from `SAMPLES count` of its elements, 5 by default, or all of them with `0`.
 
-Estimated bytes used by the key and its value; nil for a missing key
+## Examples
+
+```
+> SET user:1 Grace
+OK
+> MEMORY USAGE user:1
+(integer) 32
+```

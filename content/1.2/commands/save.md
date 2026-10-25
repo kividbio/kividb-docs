@@ -1,6 +1,6 @@
 ---
 title: "SAVE"
-description: "Synchronously save a snapshot to dump.kdb"
+description: "Writes a snapshot of the dataset to dump.kdb, in the working directory, before replying."
 version: "1.2"
 command: "SAVE"
 syntax: "SAVE"
@@ -11,7 +11,7 @@ flags: ["admin"]
 acl_categories: ["admin", "dangerous", "server", "slow"]
 history: []
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -23,6 +23,11 @@ SAVE
 
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-## Description
+Writes a snapshot of the dataset to `dump.kdb`, in the working directory, before replying. Clients wait meanwhile; [`BGSAVE`](bgsave.md) does not make them.
 
-Synchronously save a snapshot to `dump.kdb`
+## Examples
+
+```
+> SAVE
+OK
+```

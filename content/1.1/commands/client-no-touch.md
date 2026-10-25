@@ -1,6 +1,6 @@
 ---
 title: "CLIENT NO-TOUCH"
-description: "Accepted; has no effect — key access times are recorded only while an LRU/LFU maxmemory-policy is selected, and not per client"
+description: "Accepted."
 version: "1.1"
 command: "CLIENT NO-TOUCH"
 syntax: "CLIENT NO-TOUCH ON|OFF"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "CLIENT"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ CLIENT NO-TOUCH ON|OFF
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Accepted; has no effect — key access times are recorded only while an LRU/LFU `maxmemory-policy` is selected, and not per client
+Accepted. In Redis it stops this connection's commands updating keys' last access time. KiviDB records access times only while an LRU or LFU `maxmemory-policy` is selected, and not per client, so it changes nothing.

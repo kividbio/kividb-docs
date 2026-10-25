@@ -1,6 +1,6 @@
 ---
 title: "COMMAND DOCS"
-description: "Returns empty array; accepted for client compatibility"
+description: "Returns an empty array, so that clients that ask, such as redis-cli, still connect."
 version: "1.2"
 command: "COMMAND DOCS"
 syntax: "COMMAND DOCS [command ...]"
@@ -9,7 +9,7 @@ since: "1.1.0"
 history: []
 container: "COMMAND"
 # generated: end
-status: "draft"
+status: "reviewed"
 ---
 
 <!-- generated: start -->
@@ -21,6 +21,4 @@ COMMAND DOCS [command ...]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-## Description
-
-Returns empty array; accepted for client compatibility
+Returns an empty array, so that clients that ask, such as `redis-cli`, still connect. These pages are the commands' documentation.
