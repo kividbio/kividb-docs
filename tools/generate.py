@@ -209,31 +209,125 @@ def command_pages(version, release, releases, history):
     return len(flat)
 
 
+def settings_text(version):
+    """The hand-written description of each setting, and its group, from
+    `text/<version>/settings.md`: `=== name` lines, each followed by an
+    optional `@group Name` line, optional `@file` and `@runtime` lines, and
+    the text."""
+    path = ROOT / "text" / version / "settings.md"
+    text, group, order, overrides = {}, {}, [], {}
+    if not path.exists():
+        return text, group, order, overrides
+    current = None
+    for line in path.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^=== (\S+)$", line)
+        if m:
+            current = m.group(1)
+            text[current] = []
+            continue
+        if current is None:
+            continue
+        if line.startswith("@group ") and not text[current]:
+            group[current] = line[7:].strip()
+            if group[current] not in order:
+                order.append(group[current])
+            continue
+        # `@file ...` and `@runtime ...` say how the setting is given where
+        # the probe cannot tell: in builds it was not run on.
+        m = re.match(r"^@(file|runtime) (.+)$", line)
+        if m and not text[current]:
+            overrides.setdefault(current, {})[m.group(1)] = m.group(2).strip()
+            continue
+        text[current].append(line)
+    return {k: "\n".join(v).strip() for k, v in text.items()}, group, order, overrides
+
+
+def how_file(value):
+    if value in ("applied", "accepted"):
+        return "yes"
+    if value == "ignored":
+        return "accepted, but has no effect"
+    if value == "not tried":
+        return None
+    return "no: the server does not start"
+
+
+def how_runtime(value):
+    if value in ("applied", "accepted"):
+        return "yes"
+    if value == "ignored":
+        return "replies `OK`, but has no effect"
+    if value == "not a CONFIG setting":
+        return "no: not a `CONFIG` setting"
+    if value == "not tried":
+        return None
+    if "immutable" in value:
+        return "no: at startup only"
+    return "yes"
+
+
+def shown(value):
+    return f"`{value}`" if value not in ("", None) else "(empty)"
+
+
 def config_page(version, release, releases, history):
     config = load(DATA / release / "config.json")
     docs = load(DATA / release / "config_docs.json")
     remembered = set(load(DATA / release / "config_remembered.json"))
+    how_path = DATA / release / "config_how.json"
+    how = load(how_path) if how_path.exists() else {}
+    text, groups, order, overrides = settings_text(version)
     hist = history["settings"]
-    body = ["Every setting of KiviDB " + version + ", with its default. Each can be given in the configuration file (`name value`), on the command line (`--name value`), and read with `CONFIG GET`; which ones `CONFIG SET` changes at runtime is said for each.", "",
-            "| Setting | Default | Since | What it does |", "|---|---|---|---|"]
-    later = []
-    for name, default in config.items():
-        h = hist.get(name, {})
-        since = h.get("since", releases[0])
-        if name in remembered:
-            later.append((name, default, since))
+    names = sorted(set(config) | {n for n, h in how.items() if h.get("flag")})
+
+    def default_of(name):
+        if name in config:
+            return config[name]
+        flag = how.get(name, {}).get("flag") or {}
+        return flag.get("default") if flag.get("default") is not None else "no"
+
+    def section(name):
+        h = how.get(name, {})
+        flag = h.get("flag")
+        facts = [f"**Default:** {shown(default_of(name))}",
+                 f"**Since:** {hist.get(name, {}).get('since', releases[0])}"]
+        facts.append("**Command line:** " + (f"`--{name}{(' ' + flag['arg']) if flag['arg'] else ''}`" if flag else "no"))
+        f = overrides.get(name, {}).get("file") or how_file(h.get("file"))
+        if f:
+            facts.append(f"**Config file:** {f}")
+        r = overrides.get(name, {}).get("runtime") or how_runtime(h.get("runtime"))
+        if r:
+            facts.append(f"**`CONFIG SET`:** {r}")
+        changed = [d for d in hist.get(name, {}).get("defaults", [])[1:] if d["release"] in releases]
+        lines = [f"### `{name}`", "", " · ".join(facts), ""]
+        for d in changed:
+            lines += [f"The default became {shown(d['default'])} in {d['release']}.", ""]
+        description = text.get(name)
+        if description is None:
+            description = docs.get(name) or (flag or {}).get("help") or "*To be written.*"
+        lines += [description, ""]
+        return lines
+
+    body = ["Every setting of KiviDB " + version + ". A setting is given when the server starts, on the command line (`--name value`) or in the configuration file (`name value`, a setting a line; the file is the one `--configfile` names). Most can also be read with `CONFIG GET` and changed with `CONFIG SET` while the server runs. Each setting says which of these it takes.", "",
+            "A configuration file with a line the server does not know stops it from starting, with the line's number. A setting given both on the command line and in the file takes the command line's value.", ""]
+    real = [n for n in names if n not in remembered]
+    by_group = {}
+    for n in real:
+        by_group.setdefault(groups.get(n, "Other"), []).append(n)
+    for g in order + (["Other"] if "Other" in by_group and "Other" not in order else []):
+        if g not in by_group:
             continue
-        what = (docs.get(name) or "*To be written.*").replace("|", "\\|")
-        shown = f"`{default}`" if default != "" else "(empty)"
-        body.append(f"| `{name}` | {shown} | {since} | {what} |")
-    body += ["", "## Accepted for compatibility with Redis", "",
+        body += [f"## {g}", ""]
+        for n in by_group[g]:
+            body += section(n)
+    body += ["## Accepted for compatibility with Redis", "",
              "These are Redis settings that mean nothing in KiviDB: how Redis encodes small values, sizes its buffers, and the like. `CONFIG SET` accepts them, so that clients and tools that set them do not fail, and `CONFIG GET` answers with what was set, but they change nothing.", "",
-             "| Setting | Default | Since |", "|---|---|---|"]
-    for name, default, since in later:
-        shown = f"`{default}`" if default != "" else "(empty)"
-        body.append(f"| `{name}` | {shown} | {since} |")
+             "| Setting | Default | Since | Config file |", "|---|---|---|---|"]
+    for n in sorted(remembered & set(names)):
+        f = how_file(how.get(n, {}).get("file")) or ""
+        body.append(f"| `{n}` | {shown(config.get(n))} | {hist.get(n, {}).get('since', releases[0])} | {f} |")
     write_generated(CONTENT / version / "reference" / "configuration.md",
-                    {"title": "Configuration", "description": f"Every setting of KiviDB {version} and its default.",
+                    {"title": "Configuration", "description": f"Every setting of KiviDB {version}: its default, how it is given, and what it does.",
                      "version": version, "weight": 20}, "\n".join(body))
 
 

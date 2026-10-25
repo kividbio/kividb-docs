@@ -9,6 +9,6 @@ What each release added, removed and changed in the commands and settings, as ea
 
 ## 1.2
 
-**New settings:** `active-defrag-cycle-max`, `active-defrag-ignore-bytes`, `active-defrag-threshold-lower`, `cluster-announce-client-port`, `cluster-replica-validity-factor`, `cluster-slot-migration-handoff-max-lag-bytes`, `cluster-slot-migration-write-pause-timeout`
+**New settings:** `active-defrag-cycle-max`, `active-defrag-ignore-bytes`, `active-defrag-threshold-lower`, `cluster-announce-client-port`, `cluster-replica-validity-factor`
 
 **Defaults changed:** `activedefrag`

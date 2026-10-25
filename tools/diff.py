@@ -3,7 +3,7 @@
 usage: python -I tools/diff.py <data dir>
 
 Reads `versions.json` beside the data dir for the order of releases, and
-`<data dir>/<release>/commands.json` and `config.json` for each, and writes
+`<data dir>/<release>/commands.json`, `config.json` and `config_how.json` for each, and writes
 `<data dir>/history.json`:
 
 - for every command, subcommand and setting: the release it first appeared
@@ -58,6 +58,14 @@ def main():
         rel = data / release
         cmds = flatten(json.loads((rel / "commands.json").read_text(encoding="utf-8")))
         cfg = json.loads((rel / "config.json").read_text(encoding="utf-8"))
+        # And the flags `--help` lists that CONFIG GET * does not report
+        # (`threads`, `tls-port`): settings too, given at startup.
+        how_path = rel / "config_how.json"
+        if how_path.exists():
+            for name, how in json.loads(how_path.read_text(encoding="utf-8")).items():
+                if name not in cfg and how.get("flag"):
+                    cfg[name] = how["flag"]["default"] if how["flag"]["default"] is not None else "no"
+            cfg = dict(sorted(cfg.items()))
         entry = {"release": release, "commands_added": [], "commands_removed": [],
                  "commands_changed": [], "settings_added": [], "settings_removed": [],
                  "defaults_changed": []}

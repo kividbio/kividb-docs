@@ -14,6 +14,8 @@ What each release has is not written from memory. [`tools/extract.py`](tools/ext
 - every command, with its arity, flags, key positions and ACL categories (`COMMAND`);
 - every setting and its default (`CONFIG GET *`).
 
+[`tools/probe.py`](tools/probe.py) finds the subcommands a release has that `COMMAND` does not list. [`tools/probe_config.py`](tools/probe_config.py) starts the server again for each setting, and records how it can be given and whether it takes effect: on the command line (`--help`), in the configuration file, and with `CONFIG SET`.
+
 That goes into `data/<release>/`. [`tools/diff.py`](tools/diff.py) compares the releases in order and writes `data/history.json`: what each command and setting was added in, and what changed in it since. The "since" and "changed in" notes on each page come from there.
 
 1.1.0 is the baseline: everything it had is "since 1.1.0".
@@ -25,6 +27,8 @@ versions.json            versions, newest first, and their releases
 data/<release>/          what a release reports (generated)
   commands.json            COMMAND, with each command's COMMANDS.md notes
   config.json              CONFIG GET *
+  config_how.json          how each setting is given, and whether it takes effect
+  probed.json              subcommands found by trying them
   release.json             counts
 data/history.json        since / removed / changes, per command and setting (generated)
 content/<version>/       the pages of a version
@@ -33,7 +37,8 @@ content/<version>/       the pages of a version
   commands/<command>.md  one page a command (front matter generated, text written)
   reference/
   guides/
-tools/                   extract.py, diff.py, generate.py
+text/<version>/settings.md   what each setting does (written; the configuration page is generated from it)
+tools/                   extract.py, probe.py, probe_config.py, diff.py, generate.py
 ```
 
 ## Pages

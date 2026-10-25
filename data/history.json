@@ -2796,9 +2796,7 @@
     "active-defrag-ignore-bytes",
     "active-defrag-threshold-lower",
     "cluster-announce-client-port",
-    "cluster-replica-validity-factor",
-    "cluster-slot-migration-handoff-max-lag-bytes",
-    "cluster-slot-migration-write-pause-timeout"
+    "cluster-replica-validity-factor"
    ],
    "settings_removed": []
   }
@@ -2862,6 +2860,46 @@
    "defaults": [
     {
      "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "aof": {
+   "defaults": [
+    {
+     "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "aof-preamble": {
+   "defaults": [
+    {
+     "default": "true",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "aof-rewrite-min-size": {
+   "defaults": [
+    {
+     "default": "67108864",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "aof-rewrite-percentage": {
+   "defaults": [
+    {
+     "default": "100",
      "release": "1.1.0"
     }
    ],
@@ -3132,21 +3170,31 @@
    "defaults": [
     {
      "default": "1048576",
-     "release": "1.2"
+     "release": "1.1.0"
     }
    ],
    "removed": null,
-   "since": "1.2"
+   "since": "1.1.0"
   },
   "cluster-slot-migration-write-pause-timeout": {
    "defaults": [
     {
      "default": "10000",
-     "release": "1.2"
+     "release": "1.1.0"
     }
    ],
    "removed": null,
-   "since": "1.2"
+   "since": "1.1.0"
+  },
+  "configfile": {
+   "defaults": [
+    {
+     "default": "/etc/kividb/kividb.conf",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
   },
   "databases": {
    "defaults": [
@@ -3222,6 +3270,16 @@
    "defaults": [
     {
      "default": "10",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "io-model": {
+   "defaults": [
+    {
+     "default": "auto",
      "release": "1.1.0"
     }
    ],
@@ -3608,6 +3666,16 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "replica-announced-port": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "replica-full-sync-guard": {
    "defaults": [
     {
@@ -3798,6 +3866,16 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "threads": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "timeout": {
    "defaults": [
     {
@@ -3808,10 +3886,80 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "tls-auth-clients": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tls-ca-cert-file": {
+   "defaults": [
+    {
+     "default": "\"\"",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tls-cert-file": {
+   "defaults": [
+    {
+     "default": "\"\"",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tls-client-cert-file": {
+   "defaults": [
+    {
+     "default": "\"\"",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tls-client-key-file": {
+   "defaults": [
+    {
+     "default": "\"\"",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
   "tls-cluster": {
    "defaults": [
     {
      "default": "no",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tls-key-file": {
+   "defaults": [
+    {
+     "default": "\"\"",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "tls-port": {
+   "defaults": [
+    {
+     "default": "0",
      "release": "1.1.0"
     }
    ],
@@ -3832,6 +3980,26 @@
    "defaults": [
     {
      "default": "1000000",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "update-check": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.1.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.1.0"
+  },
+  "update-check-url": {
+   "defaults": [
+    {
+     "default": "https://github.com/kividbio/kividb/releases/latest",
      "release": "1.1.0"
     }
    ],

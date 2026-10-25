@@ -25,6 +25,10 @@ Changes settings, all or none of them: a value out of range, a setting that cann
 
 A name KiviDB does not have is accepted and remembered, so that tools that set Redis's settings do not fail; [`CONFIG GET`](config-get.md) returns what was set. [Configuration](../reference/configuration.md) lists the settings and which change at runtime.
 
+## Known issue
+
+Some settings that `CONFIG GET` reports reply `OK` and do not change: `repl-replica-max-backlog-bytes` and `backupdirname` among them, which should be refused or applied. A misspelt name is accepted like any other the server does not have. Filed as [kividb#143](https://github.com/kividbio/kividb/issues/143).
+
 ## Examples
 
 ```
