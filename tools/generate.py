@@ -91,13 +91,13 @@ def write_page(path, fm, generated_body, seed_body, seed_fm=()):
     lines = ["---"] + [fm_line(k, v) for k, v in fm.items()] + [GEN_FM_END] + kept_fm + ["---", ""]
     lines += [GEN_BODY_START, generated_body.rstrip(), GEN_BODY_END, ""]
     text = "\n".join(lines) + (kept_body.rstrip() + "\n" if kept_body.strip() else "")
-    path.write_text(text, encoding="utf-8")
+    path.write_text(text, encoding="utf-8", newline="\n")
 
 
 def write_generated(path, fm, body):
     path.parent.mkdir(parents=True, exist_ok=True)
     lines = ["---"] + [fm_line(k, v) for k, v in fm.items()] + ["---", "", body.rstrip(), ""]
-    path.write_text("\n".join(lines), encoding="utf-8")
+    path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
 
 def flatten(commands):

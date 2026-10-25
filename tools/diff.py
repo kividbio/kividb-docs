@@ -103,7 +103,7 @@ def main():
     out = {"baseline": releases[0], "releases": report,
            "commands": dict(sorted(commands.items())),
            "settings": dict(sorted(settings.items()))}
-    (data / "history.json").write_text(json.dumps(out, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    (data / "history.json").write_text(json.dumps(out, indent=1, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     for r in report:
         print(r["release"], {k: len(v) for k, v in r.items() if isinstance(v, list)})
 

@@ -275,18 +275,18 @@ def main():
     block = server_rs.split("static REMEMBERED_CONFIG", 1)[-1].split(".into_iter()", 1)[0]
     remembered = sorted(set(re.findall(r'\(\s*"([a-z0-9-]+)"\s*,\s*"[^"]*"\s*\)', block)) & set(config))
     (Path(out) / version).mkdir(parents=True, exist_ok=True)
-    (Path(out) / version / "config_remembered.json").write_text(json.dumps(remembered, indent=1) + "\n", encoding="utf-8")
+    (Path(out) / version / "config_remembered.json").write_text(json.dumps(remembered, indent=1) + "\n", encoding="utf-8", newline="\n")
 
     dest = Path(out) / version
     dest.mkdir(parents=True, exist_ok=True)
-    (dest / "config_docs.json").write_text(json.dumps(config_docs, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    (dest / "config_docs.json").write_text(json.dumps(config_docs, indent=1, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     meta = {"version": version, "server_reports": reported.group(1) if reported else None,
             "commands": len(commands),
             "subcommands": sum(len(e["subcommands"]) for e in commands),
             "settings": len(config)}
-    (dest / "commands.json").write_text(json.dumps(commands, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    (dest / "config.json").write_text(json.dumps(config, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    (dest / "release.json").write_text(json.dumps(meta, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    (dest / "commands.json").write_text(json.dumps(commands, indent=1, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+    (dest / "config.json").write_text(json.dumps(config, indent=1, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+    (dest / "release.json").write_text(json.dumps(meta, indent=1, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps(meta))
 
 
