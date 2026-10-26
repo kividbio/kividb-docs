@@ -13,7 +13,7 @@ Lua is in the `lua` and `full` builds only; see [Choose a build](../get-started/
 
 ```
 > EVAL "return 1" 0
-(error) ERR Lua scripting is not supported by KiviDB. See COMMANDS.md for the design rationale.
+(error) ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.1.2-lua, or a kividb-lua release file)
 ```
 
 Job queues that run on scripts, BullMQ and Sidekiq among them, need a build with Lua.

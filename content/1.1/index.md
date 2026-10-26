@@ -16,6 +16,7 @@ These pages document KiviDB 1.1, which covers releases 1.1.0, 1.1.1 and 1.1.2. A
 - [Choose a build](get-started/builds.md): the default build, or one with Lua scripting, TLS, or both.
 - [Commands](commands/index.md): every command, by group.
 - [Configuration](reference/configuration.md): every setting, its default, how it is given, and what it does.
+- Reference: [Errors and warnings](reference/errors.md), [JSON paths](reference/json-paths.md), [Search queries](reference/search-queries.md).
 - [What changed](changes.md): what each 1.1 release added and changed.
 
 ## Guides

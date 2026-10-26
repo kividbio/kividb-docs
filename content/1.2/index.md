@@ -10,6 +10,7 @@ KiviDB 1.2 has not been released. These pages are built from the development ver
 - [What changed](changes.md) since 1.1.2: the commands and settings 1.2 adds and changes.
 - [Commands](commands/index.md): every command, by group.
 - [Configuration](reference/configuration.md): every setting, its default, how it is given, and what it does.
+- Reference: [Errors and warnings](reference/errors.md), [JSON paths](reference/json-paths.md), [Search queries](reference/search-queries.md).
 
 Installation and Get started pages are added when 1.2 is released, with its download links and image tags.
 
