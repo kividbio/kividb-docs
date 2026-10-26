@@ -2,7 +2,7 @@
 title: "Cluster"
 description: "Spread a KiviDB dataset over several servers: creating a cluster, how keys are placed and found, moving slots, and failover."
 version: "1.1"
-weight: 30
+weight: 130
 ---
 
 A cluster spreads the keyspace over several masters, each with replicas of its own. It holds more than one server can, takes writes on every master, and replaces a master that fails with one of its replicas, on its own.

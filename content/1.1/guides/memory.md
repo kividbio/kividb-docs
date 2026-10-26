@@ -2,7 +2,7 @@
 title: "Memory"
 description: "How KiviDB counts and limits memory, what it does at the limit, how keys are evicted, and what deleting data gives back."
 version: "1.1"
-weight: 40
+weight: 140
 ---
 
 KiviDB keeps every key in memory. This page is about how much it uses, how to cap it, what happens at the cap, and what comes back when data is deleted.

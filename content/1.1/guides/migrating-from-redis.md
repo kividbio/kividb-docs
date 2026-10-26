@@ -2,7 +2,7 @@
 title: "Migrating from Redis"
 description: "Move an application and its data from Redis to KiviDB: the build, the port, the configuration, the three ways to move the data, and what to check."
 version: "1.1"
-weight: 5
+weight: 100
 ---
 
 KiviDB speaks Redis's protocol, RESP2 and RESP3, so Redis clients connect to it unchanged. What does change, in the order you will meet it:

@@ -2,7 +2,7 @@
 title: "Persistence"
 description: "How KiviDB keeps data across restarts: snapshots, the append-only file, and backups, and what each can lose."
 version: "1.2"
-weight: 10
+weight: 110
 ---
 
 KiviDB keeps the dataset in memory. What survives a restart is what has been written to disk, in one of three ways:

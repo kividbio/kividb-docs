@@ -16,8 +16,30 @@ These pages document KiviDB 1.1, which covers releases 1.1.0, 1.1.1 and 1.1.2. A
 - [Choose a build](get-started/builds.md): the default build, or one with Lua scripting, TLS, or both.
 - [Commands](commands/index.md): every command, by group.
 - [Configuration](reference/configuration.md): every setting, its default, how it is given, and what it does.
-- Guides: [Data types](guides/data-types.md), [Migrating from Redis](guides/migrating-from-redis.md), [Keys and expiry](guides/expiration.md), [Persistence](guides/persistence.md), [Replication](guides/replication.md), [Cluster](guides/cluster.md), [Memory](guides/memory.md), [Security](guides/security.md), [Scripting](guides/scripting.md), [Transactions](guides/transactions.md), [Pub/Sub and keyspace notifications](guides/pub-sub.md), [Client-side caching](guides/client-side-caching.md), [Search](guides/search.md), [Monitoring](guides/monitoring.md), [Docker and Kubernetes](guides/containers.md).
 - [What changed](changes.md): what each 1.1 release added and changed.
+
+## Guides
+
+Using KiviDB:
+
+- [Data types](guides/data-types.md): what a key can hold.
+- [Keys and expiry](guides/expiration.md): times to live, and when expired keys go.
+- [Transactions](guides/transactions.md): `MULTI`, `EXEC`, `WATCH`, and what is atomic.
+- [Pub/Sub and keyspace notifications](guides/pub-sub.md).
+- [Client-side caching](guides/client-side-caching.md).
+- [Search](guides/search.md): text, tags, numbers and vectors.
+- [Scripting](guides/scripting.md): Lua scripts and functions.
+
+Running KiviDB:
+
+- [Migrating from Redis](guides/migrating-from-redis.md).
+- [Persistence](guides/persistence.md): snapshots, the append-only file, backups.
+- [Replication](guides/replication.md).
+- [Cluster](guides/cluster.md).
+- [Memory](guides/memory.md): limits, eviction, what deletes give back.
+- [Security](guides/security.md).
+- [Monitoring](guides/monitoring.md).
+- [Docker and Kubernetes](guides/containers.md).
 
 ## How KiviDB differs from Redis
 

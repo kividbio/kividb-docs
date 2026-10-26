@@ -2,7 +2,7 @@
 title: "Scripting"
 description: "Run Lua on the server with EVAL and functions: which builds have it, how scripts run alongside each other, and how they differ from Redis's."
 version: "1.1"
-weight: 60
+weight: 70
 ---
 
 A script is Lua code the server runs as one step: it reads and writes keys with `redis.call`, and no other client's command runs in the middle of it. KiviDB has Redis's two kinds: scripts sent with [`EVAL`](../commands/eval.md), and libraries of functions loaded with [`FUNCTION LOAD`](../commands/function-load.md) and called with [`FCALL`](../commands/fcall.md).

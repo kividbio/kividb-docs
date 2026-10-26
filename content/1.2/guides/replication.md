@@ -2,7 +2,7 @@
 title: "Replication"
 description: "Keep copies of a KiviDB server on others: setting up replicas, how they catch up, what they serve, and promoting one."
 version: "1.2"
-weight: 20
+weight: 120
 ---
 
 A replica is a server that keeps a copy of another, its master: it copies the master's dataset, and then applies every write the master makes, as the master makes it. Replicas serve reads, take over when the master is lost, and keep the data on more than one machine.

@@ -2,7 +2,7 @@
 title: "Docker and Kubernetes"
 description: "Run KiviDB in containers: the image, keeping data, memory, stopping cleanly, health checks, io_uring, and Kubernetes."
 version: "1.2"
-weight: 70
+weight: 170
 ---
 
 The image is `kividb/kividb` on Docker Hub, or `ghcr.io/kividbio/kividb`, for `amd64` and `arm64`; [Install](../get-started/install.md#docker) lists its tags. Pin a version tag, `v1.1.2`, not `latest`.

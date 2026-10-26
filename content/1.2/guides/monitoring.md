@@ -2,7 +2,7 @@
 title: "Monitoring"
 description: "Watch a KiviDB server: INFO, command statistics, the slow log and latency monitor, clients, hot keys, logs, and health checks."
 version: "1.2"
-weight: 80
+weight: 160
 ---
 
 KiviDB reports on itself as Redis does: `INFO`, the slow log, the latency monitor, `CLIENT LIST`, `MONITOR`. Most of it means what it means in Redis. Where it does not, this page says so.

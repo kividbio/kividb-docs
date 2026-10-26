@@ -2,7 +2,7 @@
 title: "Transactions"
 description: "Run several commands as one step with MULTI and EXEC, make them conditional with WATCH, and what is atomic on a multi-threaded server."
 version: "1.1"
-weight: 90
+weight: 30
 ---
 
 KiviDB runs commands on every core at once. A command, or a group of them, that must not be seen half done by other clients is made one step with a transaction, or a [script](scripting.md).

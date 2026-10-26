@@ -2,7 +2,7 @@
 title: "Client-side caching"
 description: "Let clients keep values in their own memory, and be told by the server when one changes: CLIENT TRACKING, its modes, and its limits."
 version: "1.2"
-weight: 110
+weight: 50
 ---
 
 A client that keeps the values it read in its own memory answers the next read without a round trip. The server tells it when a value it holds changes, so that it drops it: that is [`CLIENT TRACKING`](../commands/client-tracking.md), as in Redis 6 and later. Client libraries do it for you (`redis-py`'s client-side cache, Lettuce's `ClientSideCaching`, `rueidis`).

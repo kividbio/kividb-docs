@@ -2,7 +2,7 @@
 title: "Search"
 description: "Index hashes and JSON documents, and query them by words, tags, numbers and vector similarity, with KiviDB's built-in FT commands."
 version: "1.2"
-weight: 120
+weight: 60
 ---
 
 KiviDB has the Redis Query Engine's commands built in, with no module to load: [`FT.CREATE`](../commands/ft.create.md) indexes hashes or JSON documents under some key prefixes, and [`FT.SEARCH`](../commands/ft.search.md) and [`FT.AGGREGATE`](../commands/ft.aggregate.md) query them by words, tags, numeric ranges and vector similarity. Clients that speak the Redis Query Engine, `redis-py`'s `search()`, RedisVL, NRedisStack, LangChain's and LlamaIndex's Redis stores, use them unchanged.

@@ -2,7 +2,7 @@
 title: "Keys and expiry"
 description: "Give keys and hash fields a time to live, how and when expired keys are deleted, and how expiry works on replicas, in snapshots and in a cluster."
 version: "1.1"
-weight: 15
+weight: 20
 ---
 
 A key with a time to live is deleted once that time has passed. It is how caches, sessions, locks and rate limits clean up after themselves.

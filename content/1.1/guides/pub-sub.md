@@ -2,7 +2,7 @@
 title: "Pub/Sub and keyspace notifications"
 description: "Send messages to subscribers with PUBLISH and SUBSCRIBE, in a cluster with sharded channels, and be told of changes to keys."
 version: "1.1"
-weight: 100
+weight: 40
 ---
 
 ## Pub/Sub

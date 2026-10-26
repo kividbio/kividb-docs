@@ -2,7 +2,7 @@
 title: "Data types"
 description: "The kinds of value a KiviDB key can hold, what each is for, and where its commands are."
 version: "1.1"
-weight: 8
+weight: 10
 ---
 
 Every key holds one value, of one type; [`TYPE`](../commands/type.md) says which. A command for another type than the key holds answers `WRONGTYPE`. KiviDB has Redis's types, and those of the Redis 8 modules, built in.

@@ -2,7 +2,7 @@
 title: "Security"
 description: "Protect a KiviDB server: protected mode, passwords, users and ACL rules, TLS, the cluster bus, and the commands to keep from clients."
 version: "1.2"
-weight: 50
+weight: 150
 ---
 
 A KiviDB server holds whatever its clients put in it, and does whatever any client that can connect and log in asks: read every key, delete them all, change its settings. Protect it by who can reach it, who can log in, and what each one may do.
