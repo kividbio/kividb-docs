@@ -9,7 +9,7 @@ A script is Lua code the server runs as one step: it reads and writes keys with 
 
 ## Builds with Lua
 
-Lua is in the `lua` and `full` builds only; see [Choose a build](../get-started/builds.md). The default build, which carries the highest throughput, has none, and answers:
+Lua is in the `lua` and `full` builds only; see [Choose a build](../../1.1/get-started/builds.md). The default build, which carries the highest throughput, has none, and answers:
 
 ```
 > EVAL "return 1" 0

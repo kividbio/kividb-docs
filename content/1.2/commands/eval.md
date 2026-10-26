@@ -25,7 +25,7 @@ EVAL script numkeys key [key ...] arg [arg ...]
 <!-- generated: end -->
 Runs a Lua script on the server, as one step: no other client's command starts while it runs. `numkeys` is how many of the arguments that follow are key names, which the script reads as `KEYS[1]`, `KEYS[2]`, ...; the rest are `ARGV[1]`, `ARGV[2]`, ....
 
-Only the `lua` and `full` builds run scripts. In the default build, every scripting command replies `ERR Lua scripting is not supported by KiviDB`; see [Choose a build](../get-started/builds.md).
+Only the `lua` and `full` builds run scripts. In the default build, every scripting command replies `ERR Lua scripting is not supported by KiviDB`; see [Choose a build](../../1.1/get-started/builds.md).
 
 Inside a script, `redis.call(command, ...)` runs a command and raises its error, if it fails; `redis.pcall` returns the error instead. `redis.error_reply(text)` and `redis.status_reply(text)` make replies.
 

@@ -9,7 +9,7 @@ KiviDB speaks Redis's protocol, RESP2 and RESP3, so Redis clients connect to it 
 
 ## 1. Choose the build
 
-The default build has no Lua. If the application runs scripts, as most job queues do (BullMQ and Sidekiq among them), use the `lua` build, or `full` for Lua and TLS: see [Choose a build](../get-started/builds.md). To find out whether it does, look on Redis for `cmdstat_eval`, `cmdstat_evalsha` and `cmdstat_fcall` in `INFO commandstats`.
+The default build has no Lua. If the application runs scripts, as most job queues do (BullMQ and Sidekiq among them), use the `lua` build, or `full` for Lua and TLS: see [Choose a build](../../1.1/get-started/builds.md). To find out whether it does, look on Redis for `cmdstat_eval`, `cmdstat_evalsha` and `cmdstat_fcall` in `INFO commandstats`.
 
 A build without Lua answers the scripting commands with an error, rather than ignoring them. One without TLS does not start with `--tls-port`.
 
