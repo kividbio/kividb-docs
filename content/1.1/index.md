@@ -16,7 +16,7 @@ These pages document KiviDB 1.1, which covers releases 1.1.0, 1.1.1 and 1.1.2. A
 - [Choose a build](get-started/builds.md): the default build, or one with Lua scripting, TLS, or both.
 - [Commands](commands/index.md): every command, by group.
 - [Configuration](reference/configuration.md): every setting, its default, how it is given, and what it does.
-- Guides: [Migrating from Redis](guides/migrating-from-redis.md), [Persistence](guides/persistence.md), [Replication](guides/replication.md), [Cluster](guides/cluster.md), [Memory](guides/memory.md), [Security](guides/security.md), [Scripting](guides/scripting.md), [Docker and Kubernetes](guides/containers.md).
+- Guides: [Migrating from Redis](guides/migrating-from-redis.md), [Persistence](guides/persistence.md), [Replication](guides/replication.md), [Cluster](guides/cluster.md), [Memory](guides/memory.md), [Security](guides/security.md), [Scripting](guides/scripting.md), [Monitoring](guides/monitoring.md), [Docker and Kubernetes](guides/containers.md).
 - [What changed](changes.md): what each 1.1 release added and changed.
 
 ## How KiviDB differs from Redis
