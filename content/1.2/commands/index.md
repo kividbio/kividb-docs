@@ -7,14 +7,14 @@ weight: 10
 
 Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what it does, and what changed in it since 1.1.0.
 
-## Acl
+## ACL
 
 | Command | Summary | Since |
 |---|---|---|
 | [`ACL`](acl.md) | Manages users and what each may do: which commands it may run, which keys it may read or write, which channels it may use. | 1.1.0 |
 | [`AUTH`](auth.md) | Logs the connection in as a user: AUTH username password, or, with a password only, as the default user. | 1.1.0 |
 
-## Array
+## Arrays
 
 | Command | Summary | Since |
 |---|---|---|
@@ -37,7 +37,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`ARSEEK`](arseek.md) | Moves the insert cursor to index. | 1.1.0 |
 | [`ARSET`](arset.md) | Sets values in the array at key from index on, one slot each. | 1.1.0 |
 
-## Bitmap
+## Bitmaps
 
 | Command | Summary | Since |
 |---|---|---|
@@ -59,38 +59,6 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`READONLY`](readonly.md) | Lets the connection read from this replica: read commands for the slots of its master are served here, instead of being answered with MOVED. | 1.1.0 |
 | [`READWRITE`](readwrite.md) | Turns off READONLY for the connection: reads on a replica are redirected to the master again. | 1.1.0 |
 
-## Generic
-
-| Command | Summary | Since |
-|---|---|---|
-| [`COPY`](copy.md) | Copies the value at source to destination, with its expiry. | 1.1.0 |
-| [`DEL`](del.md) | Deletes the given keys, of any type. | 1.1.0 |
-| [`DUMP`](dump.md) | Serializes the value at key into a payload that RESTORE turns back into the value. | 1.1.0 |
-| [`EXISTS`](exists.md) | Counts how many of the given keys exist. | 1.1.0 |
-| [`EXPIRE`](expire.md) | Makes key expire after seconds. | 1.1.0 |
-| [`EXPIREAT`](expireat.md) | Makes key expire at a Unix time, in seconds. | 1.1.0 |
-| [`EXPIRETIME`](expiretime.md) | Returns the Unix time, in seconds, at which key expires. | 1.1.0 |
-| [`KEYS`](keys.md) | Returns every key of the current database that matches a glob-style pattern. | 1.1.0 |
-| [`MOVE`](move.md) | Moves key to database db. | 1.1.0 |
-| [`OBJECT`](object.md) | Inspects how a key's value is stored and used. | 1.1.0 |
-| [`PERSIST`](persist.md) | Removes the expiry of key, so that it is kept until deleted. | 1.1.0 |
-| [`PEXPIRE`](pexpire.md) | Makes key expire after milliseconds. | 1.1.0 |
-| [`PEXPIREAT`](pexpireat.md) | Makes key expire at a Unix time, in milliseconds. | 1.1.0 |
-| [`PEXPIRETIME`](pexpiretime.md) | Returns the Unix time, in milliseconds, at which key expires. | 1.1.0 |
-| [`PTTL`](pttl.md) | Returns how long key has before it expires, in milliseconds. | 1.1.0 |
-| [`RANDOMKEY`](randomkey.md) | Returns a key of the current database, picked at random. | 1.1.0 |
-| [`RENAME`](rename.md) | Renames source to destination, with its expiry. | 1.1.0 |
-| [`RENAMENX`](renamenx.md) | Renames source to destination only if destination does not exist. | 1.1.0 |
-| [`RESTORE`](restore.md) | Creates key from a DUMP payload. | 1.1.0 |
-| [`SCAN`](scan.md) | Goes through the keys of the current database a page at a time. | 1.1.0 |
-| [`SORT`](sort.md) | Sorts the elements of a list, set or sorted set, as numbers unless ALPHA is given. | 1.1.0 |
-| [`SORT_RO`](sort_ro.md) | SORT without STORE: it only reads, so it can be sent to a read-only replica. | 1.1.0 |
-| [`SWAPDB`](swapdb.md) | Swaps the contents of two databases in one step, keys and expiries together. | 1.1.0 |
-| [`TOUCH`](touch.md) | Counts how many of the given keys exist. | 1.1.0 |
-| [`TTL`](ttl.md) | Returns how long key has before it expires, in seconds. | 1.1.0 |
-| [`TYPE`](type.md) | Returns the type of the value at key. | 1.1.0 |
-| [`UNLINK`](unlink.md) | Deletes the given keys, like DEL, but frees large values in the background. | 1.1.0 |
-
 ## Geospatial
 
 | Command | Summary | Since |
@@ -106,7 +74,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`GEOSEARCH`](geosearch.md) | Returns the members of the geospatial index at key within a circle or a box. | 1.1.0 |
 | [`GEOSEARCHSTORE`](geosearchstore.md) | Stores the members GEOSEARCH would return at destination. | 1.1.0 |
 
-## Hash
+## Hashes
 
 | Command | Summary | Since |
 |---|---|---|
@@ -140,7 +108,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`HTTL`](httl.md) | Returns how long fields of the hash at key have before they expire, in seconds. | 1.1.0 |
 | [`HVALS`](hvals.md) | Returns the values of the hash at key. | 1.1.0 |
 
-## Hyperloglog
+## HyperLogLog
 
 | Command | Summary | Since |
 |---|---|---|
@@ -150,7 +118,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`PFMERGE`](pfmerge.md) | Merges the HyperLogLogs at the source keys into destkey, so that it estimates their union. | 1.1.0 |
 | [`PFSELFTEST`](pfselftest.md) | Runs KiviDB's checks of its HyperLogLog code: an empty one counts 0, 10,000 elements are estimated within 2%, and registers read back as written. | 1.1.0 |
 
-## Json
+## JSON
 
 | Command | Summary | Since |
 |---|---|---|
@@ -179,7 +147,39 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`JSON.TOGGLE`](json.toggle.md) | Flips each boolean path matches. | 1.1.0 |
 | [`JSON.TYPE`](json.type.md) | Returns the type of each value path matches: object, array, string, integer, number, boolean or null. | 1.1.0 |
 
-## List
+## Keys
+
+| Command | Summary | Since |
+|---|---|---|
+| [`COPY`](copy.md) | Copies the value at source to destination, with its expiry. | 1.1.0 |
+| [`DEL`](del.md) | Deletes the given keys, of any type. | 1.1.0 |
+| [`DUMP`](dump.md) | Serializes the value at key into a payload that RESTORE turns back into the value. | 1.1.0 |
+| [`EXISTS`](exists.md) | Counts how many of the given keys exist. | 1.1.0 |
+| [`EXPIRE`](expire.md) | Makes key expire after seconds. | 1.1.0 |
+| [`EXPIREAT`](expireat.md) | Makes key expire at a Unix time, in seconds. | 1.1.0 |
+| [`EXPIRETIME`](expiretime.md) | Returns the Unix time, in seconds, at which key expires. | 1.1.0 |
+| [`KEYS`](keys.md) | Returns every key of the current database that matches a glob-style pattern. | 1.1.0 |
+| [`MOVE`](move.md) | Moves key to database db. | 1.1.0 |
+| [`OBJECT`](object.md) | Inspects how a key's value is stored and used. | 1.1.0 |
+| [`PERSIST`](persist.md) | Removes the expiry of key, so that it is kept until deleted. | 1.1.0 |
+| [`PEXPIRE`](pexpire.md) | Makes key expire after milliseconds. | 1.1.0 |
+| [`PEXPIREAT`](pexpireat.md) | Makes key expire at a Unix time, in milliseconds. | 1.1.0 |
+| [`PEXPIRETIME`](pexpiretime.md) | Returns the Unix time, in milliseconds, at which key expires. | 1.1.0 |
+| [`PTTL`](pttl.md) | Returns how long key has before it expires, in milliseconds. | 1.1.0 |
+| [`RANDOMKEY`](randomkey.md) | Returns a key of the current database, picked at random. | 1.1.0 |
+| [`RENAME`](rename.md) | Renames source to destination, with its expiry. | 1.1.0 |
+| [`RENAMENX`](renamenx.md) | Renames source to destination only if destination does not exist. | 1.1.0 |
+| [`RESTORE`](restore.md) | Creates key from a DUMP payload. | 1.1.0 |
+| [`SCAN`](scan.md) | Goes through the keys of the current database a page at a time. | 1.1.0 |
+| [`SORT`](sort.md) | Sorts the elements of a list, set or sorted set, as numbers unless ALPHA is given. | 1.1.0 |
+| [`SORT_RO`](sort_ro.md) | SORT without STORE: it only reads, so it can be sent to a read-only replica. | 1.1.0 |
+| [`SWAPDB`](swapdb.md) | Swaps the contents of two databases in one step, keys and expiries together. | 1.1.0 |
+| [`TOUCH`](touch.md) | Counts how many of the given keys exist. | 1.1.0 |
+| [`TTL`](ttl.md) | Returns how long key has before it expires, in seconds. | 1.1.0 |
+| [`TYPE`](type.md) | Returns the type of the value at key. | 1.1.0 |
+| [`UNLINK`](unlink.md) | Deletes the given keys, like DEL, but frees large values in the background. | 1.1.0 |
+
+## Lists
 
 | Command | Summary | Since |
 |---|---|---|
@@ -229,7 +229,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`MODULE`](module.md) | KiviDB does not load modules. | 1.1.0 |
 | [`XIDMPRECORD`](xidmprecord.md) | Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ... IDMP would have (Redis 8.10). | 1.1.1 |
 
-## Pub sub
+## Pub/Sub
 
 | Command | Summary | Since |
 |---|---|---|
@@ -258,6 +258,36 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`FCALL_RO`](fcall_ro.md) | FCALL for a function registered with the no-writes flag; any other is refused. | 1.1.0 |
 | [`FUNCTION`](function.md) | Manages libraries of functions, which FCALL calls. | 1.1.0 |
 | [`SCRIPT`](script.md) | Manages the cache of scripts EVAL and SCRIPT LOAD fill, and the script running. | 1.1.0 |
+
+## Search
+
+| Command | Summary | Since |
+|---|---|---|
+| [`FT.AGGREGATE`](ft.aggregate.md) | Runs a query and transforms its results: groups them, reduces each group, computes new fields, filters and sorts. | 1.1.0 |
+| [`FT.ALIASADD`](ft.aliasadd.md) | Creates an alias for an index: a second name, usable wherever the index's name is. | 1.1.0 |
+| [`FT.ALIASDEL`](ft.aliasdel.md) | Deletes an alias. | 1.1.0 |
+| [`FT.ALIASLIST`](ft.aliaslist.md) | Returns the aliases that point to an index (Redis 8.10). | 1.1.0 |
+| [`FT.ALIASUPDATE`](ft.aliasupdate.md) | Points an alias at an index, creating it if needed, or moving it from another index. | 1.1.0 |
+| [`FT.ALTER`](ft.alter.md) | Adds fields to an index. | 1.1.0 |
+| [`FT.CONFIG`](ft.config.md) | Reads and sets the search engine's settings, by RediSearch's names. | 1.1.0 |
+| [`FT.CREATE`](ft.create.md) | Creates a search index over the hashes, or JSON documents, whose keys start with the given prefixes. | 1.1.0 |
+| [`FT.CURSOR`](ft.cursor.md) | Reads and closes the cursors FT.AGGREGATE ... WITHCURSOR returns. | 1.1.0 |
+| [`FT.DEBUG`](ft.debug.md) | Maintenance of search indexes. | 1.1.0 |
+| [`FT.DICTADD`](ft.dictadd.md) | Adds words to a dictionary: a named list of words, which FT.SPELLCHECK can include or exclude. | 1.1.0 |
+| [`FT.DICTDEL`](ft.dictdel.md) | Removes words from a dictionary. | 1.1.0 |
+| [`FT.DICTDUMP`](ft.dictdump.md) | Returns the words of a dictionary, sorted. | 1.1.0 |
+| [`FT.DROPINDEX`](ft.dropindex.md) | Deletes an index. | 1.1.0 |
+| [`FT.EXPLAIN`](ft.explain.md) | Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... }, UNION { ... }, NOT, OPTIONAL, TAG:@field { ... }, NUMERIC {lo <= @field <= hi}, VECTOR { ... }, a clause to a line. | 1.1.0 |
+| [`FT.EXPLAINCLI`](ft.explaincli.md) | FT.EXPLAIN, as an array of its lines. | 1.1.0 |
+| [`FT.HYBRID`](ft.hybrid.md) | Searches an index by text and by vector together, and fuses the two rankings into one. | 1.1.0 |
+| [`FT.INFO`](ft.info.md) | Returns an index's definition and state: its key type and prefixes, its fields with their options, how many documents and terms it holds, and whether it is still indexing. | 1.1.0 |
+| [`FT.PROFILE`](ft.profile.md) | Runs a query, SEARCH, AGGREGATE or HYBRID, and returns its result with a profile: total, parsing and lock-wait times, warnings, and the tree of iterators and result processors the query used. | 1.1.0 |
+| [`FT.SEARCH`](ft.search.md) | Searches an index and returns the matching documents. | 1.1.0 |
+| [`FT.SPELLCHECK`](ft.spellcheck.md) | Suggests spellings for the words of a query that are not in the index. | 1.1.0 |
+| [`FT.SYNDUMP`](ft.syndump.md) | Returns an index's synonym groups, as each word followed by the groups it is in. | 1.1.0 |
+| [`FT.SYNUPDATE`](ft.synupdate.md) | Creates or updates a synonym group of an index: words to be treated as the same. | 1.1.0 |
+| [`FT.TAGVALS`](ft.tagvals.md) | Returns the distinct values of a TAG field across the indexed documents, sorted. | 1.1.0 |
+| [`FT._LIST`](ft._list.md) | Returns the names of every index. | 1.1.0 |
 
 ## Server
 
@@ -292,7 +322,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`WAIT`](wait.md) | Waits until numreplicas replicas have acknowledged every write this connection made before it, or timeout milliseconds pass; 0 waits for ever. | 1.1.0 |
 | [`WAITAOF`](waitaof.md) | Waits until every write this connection made before it is in the local AOF and fsynced (numlocal), and in numreplicas replicas' AOFs, or timeout milliseconds pass. | 1.1.0 |
 
-## Set
+## Sets
 
 | Command | Summary | Since |
 |---|---|---|
@@ -316,7 +346,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`SUNIONCARD`](sunioncard.md) | Returns how many members the union of the given sets has, without returning them: a command of Redis 8.10. | 1.1.0 |
 | [`SUNIONSTORE`](sunionstore.md) | Stores the union of the given sets at destination, replacing whatever was there, and its expiry. | 1.1.0 |
 
-## Sorted set
+## Sorted sets
 
 | Command | Summary | Since |
 |---|---|---|
@@ -356,7 +386,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`ZUNION`](zunion.md) | Returns the members in any of the given sorted sets, with scores combined. | 1.1.0 |
 | [`ZUNIONSTORE`](zunionstore.md) | Stores what ZUNION would return at destination, replacing whatever was there. | 1.1.0 |
 
-## Stream
+## Streams
 
 | Command | Summary | Since |
 |---|---|---|
@@ -380,7 +410,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`XSETID`](xsetid.md) | Sets the last ID of the stream at key, so that new entries get greater IDs. | 1.1.0 |
 | [`XTRIM`](xtrim.md) | Removes the oldest entries of the stream at key. | 1.1.0 |
 
-## String
+## Strings
 
 | Command | Summary | Since |
 |---|---|---|
@@ -437,7 +467,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`TS.READ`](ts.read.md) | Returns the samples of the time series at key at or after timestamp, oldest first, for following a series as it grows (Redis 8.10). | 1.1.0 |
 | [`TS.REVRANGE`](ts.revrange.md) | TS.RANGE, newest first, with the same options. | 1.1.0 |
 
-## Transaction
+## Transactions
 
 | Command | Summary | Since |
 |---|---|---|
@@ -447,37 +477,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`UNWATCH`](unwatch.md) | Stops watching every key this connection watches. | 1.1.0 |
 | [`WATCH`](watch.md) | Watches keys for the next transaction on this connection: if any of them is changed, by any client, before EXEC, the transaction runs nothing and EXEC replies nil. | 1.1.0 |
 
-## Vector search
-
-| Command | Summary | Since |
-|---|---|---|
-| [`FT.AGGREGATE`](ft.aggregate.md) | Runs a query and transforms its results: groups them, reduces each group, computes new fields, filters and sorts. | 1.1.0 |
-| [`FT.ALIASADD`](ft.aliasadd.md) | Creates an alias for an index: a second name, usable wherever the index's name is. | 1.1.0 |
-| [`FT.ALIASDEL`](ft.aliasdel.md) | Deletes an alias. | 1.1.0 |
-| [`FT.ALIASLIST`](ft.aliaslist.md) | Returns the aliases that point to an index (Redis 8.10). | 1.1.0 |
-| [`FT.ALIASUPDATE`](ft.aliasupdate.md) | Points an alias at an index, creating it if needed, or moving it from another index. | 1.1.0 |
-| [`FT.ALTER`](ft.alter.md) | Adds fields to an index. | 1.1.0 |
-| [`FT.CONFIG`](ft.config.md) | Reads and sets the search engine's settings, by RediSearch's names. | 1.1.0 |
-| [`FT.CREATE`](ft.create.md) | Creates a search index over the hashes, or JSON documents, whose keys start with the given prefixes. | 1.1.0 |
-| [`FT.CURSOR`](ft.cursor.md) | Reads and closes the cursors FT.AGGREGATE ... WITHCURSOR returns. | 1.1.0 |
-| [`FT.DEBUG`](ft.debug.md) | Maintenance of search indexes. | 1.1.0 |
-| [`FT.DICTADD`](ft.dictadd.md) | Adds words to a dictionary: a named list of words, which FT.SPELLCHECK can include or exclude. | 1.1.0 |
-| [`FT.DICTDEL`](ft.dictdel.md) | Removes words from a dictionary. | 1.1.0 |
-| [`FT.DICTDUMP`](ft.dictdump.md) | Returns the words of a dictionary, sorted. | 1.1.0 |
-| [`FT.DROPINDEX`](ft.dropindex.md) | Deletes an index. | 1.1.0 |
-| [`FT.EXPLAIN`](ft.explain.md) | Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... }, UNION { ... }, NOT, OPTIONAL, TAG:@field { ... }, NUMERIC {lo <= @field <= hi}, VECTOR { ... }, a clause to a line. | 1.1.0 |
-| [`FT.EXPLAINCLI`](ft.explaincli.md) | FT.EXPLAIN, as an array of its lines. | 1.1.0 |
-| [`FT.HYBRID`](ft.hybrid.md) | Searches an index by text and by vector together, and fuses the two rankings into one. | 1.1.0 |
-| [`FT.INFO`](ft.info.md) | Returns an index's definition and state: its key type and prefixes, its fields with their options, how many documents and terms it holds, and whether it is still indexing. | 1.1.0 |
-| [`FT.PROFILE`](ft.profile.md) | Runs a query, SEARCH, AGGREGATE or HYBRID, and returns its result with a profile: total, parsing and lock-wait times, warnings, and the tree of iterators and result processors the query used. | 1.1.0 |
-| [`FT.SEARCH`](ft.search.md) | Searches an index and returns the matching documents. | 1.1.0 |
-| [`FT.SPELLCHECK`](ft.spellcheck.md) | Suggests spellings for the words of a query that are not in the index. | 1.1.0 |
-| [`FT.SYNDUMP`](ft.syndump.md) | Returns an index's synonym groups, as each word followed by the groups it is in. | 1.1.0 |
-| [`FT.SYNUPDATE`](ft.synupdate.md) | Creates or updates a synonym group of an index: words to be treated as the same. | 1.1.0 |
-| [`FT.TAGVALS`](ft.tagvals.md) | Returns the distinct values of a TAG field across the indexed documents, sorted. | 1.1.0 |
-| [`FT._LIST`](ft._list.md) | Returns the names of every index. | 1.1.0 |
-
-## Vector set
+## Vector sets
 
 | Command | Summary | Since |
 |---|---|---|

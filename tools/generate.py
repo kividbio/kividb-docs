@@ -64,6 +64,20 @@ def first_sentence(text, limit=200):
     return sentence if len(sentence) <= limit else sentence[: limit - 1].rstrip() + "…"
 
 
+GROUP_TITLES = {
+    "acl": "ACL", "json": "JSON", "hyperloglog": "HyperLogLog", "pub-sub": "Pub/Sub",
+    "geospatial": "Geospatial", "vector-search": "Search", "vector-set": "Vector sets",
+    "time-series": "Time series", "sorted-set": "Sorted sets", "bitmap": "Bitmaps",
+    "hash": "Hashes", "list": "Lists", "set": "Sets", "stream": "Streams", "string": "Strings",
+    "array": "Arrays", "transaction": "Transactions", "generic": "Keys",
+}
+
+
+def group_title(group):
+    """The heading of a group in the commands index."""
+    return GROUP_TITLES.get(group, group.replace("-", " ").capitalize())
+
+
 def fm_line(key, value):
     return f"{key}: {json.dumps(value, ensure_ascii=False)}"
 
@@ -198,8 +212,8 @@ def command_pages(version, release, releases, history):
             index.setdefault(group, []).append((name, fm["description"], fm["since"]))
 
     body = ["Every command KiviDB " + version + " has, by group. A command's page gives its syntax, what it does, and what changed in it since 1.1.0.", ""]
-    for group in sorted(index):
-        body += [f"## {group.replace('-', ' ').capitalize()}", "", "| Command | Summary | Since |", "|---|---|---|"]
+    for group in sorted(index, key=group_title):
+        body += [f"## {group_title(group)}", "", "| Command | Summary | Since |", "|---|---|---|"]
         for name, desc, since in index[group]:
             body.append(f"| [`{display(name)}`]({slug(name)}.md) | {desc.replace('|', '\\|')} | {since} |")
         body.append("")
