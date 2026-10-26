@@ -14,6 +14,7 @@ These pages document KiviDB 1.1, which covers releases 1.1.0, 1.1.1 and 1.1.2. A
 - [Install KiviDB](get-started/install.md): Docker, release binaries, Linux packages, or from source.
 - [Quick start](get-started/quick-start.md): connect, store and read data, and what is different from Redis out of the box.
 - [Choose a build](get-started/builds.md): the default build, or one with Lua scripting, TLS, or both.
+- [Client libraries](get-started/clients.md): connect from Python, Node.js, Go and others.
 - [Commands](commands/index.md): every command, by group.
 - [Configuration](reference/configuration.md): every setting, its default, how it is given, and what it does.
 - Reference: [Errors and warnings](reference/errors.md), [JSON paths](reference/json-paths.md), [Search queries](reference/search-queries.md).
