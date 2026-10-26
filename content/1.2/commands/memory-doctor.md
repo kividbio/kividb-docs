@@ -23,6 +23,10 @@ MEMORY DOCTOR
 <!-- generated: end -->
 Returns a short report on memory health, in Redis's words.
 
+## Known issue
+
+On Linux it always reports high fragmentation: the ratio it reads, `mem_fragmentation_ratio`, is the process's virtual size over its resident size, not Redis's. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152).
+
 ## Examples
 
 ```
