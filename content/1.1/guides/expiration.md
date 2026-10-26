@@ -57,7 +57,7 @@ Expired keys are not deleted while writes are paused, by `CLIENT PAUSE WRITE` or
 
 Times to live are kept as the time the key expires, not the time left: in snapshots, in the append-only file, and in what a master sends its replicas. A key that expired while the server was stopped is gone when it starts.
 
-A replica expires keys by its own clock, rather than waiting for its master to delete them, as Redis replicas do. A replica whose clock is ahead of its master's drops keys early; keep the machines' clocks in step, with NTP.
+A replica expires keys by its own clock; a Redis replica instead waits for its master to delete them. A replica whose clock is ahead of its master's drops keys early; keep the machines' clocks in step, with NTP.
 
 ## In a cluster
 
