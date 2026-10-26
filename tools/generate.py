@@ -58,9 +58,24 @@ def first_sentence(text, limit=200):
     plain = re.sub(r"`([^`]*)`", r"\1", text or "")
     plain = re.sub(r"\*\*|__", "", plain)
     plain = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", plain)
-    m = re.match(r"(.+?[.!?])(\s|$)", plain)
+    # A sentence ends at `.`, `!` or `?` and a space, but not at `...`.
+    m = re.match(r"(.+?(?<!\.\.)(?<!\.\.\.)[.!?])(\s|$)", plain)
     sentence = (m.group(1) if m else plain).strip()
     return sentence if len(sentence) <= limit else sentence[: limit - 1].rstrip() + "…"
+
+
+GROUP_TITLES = {
+    "acl": "ACL", "json": "JSON", "hyperloglog": "HyperLogLog", "pub-sub": "Pub/Sub",
+    "geospatial": "Geospatial", "vector-search": "Search", "vector-set": "Vector sets",
+    "time-series": "Time series", "sorted-set": "Sorted sets", "bitmap": "Bitmaps",
+    "hash": "Hashes", "list": "Lists", "set": "Sets", "stream": "Streams", "string": "Strings",
+    "array": "Arrays", "transaction": "Transactions", "generic": "Keys",
+}
+
+
+def group_title(group):
+    """The heading of a group in the commands index."""
+    return GROUP_TITLES.get(group, group.replace("-", " ").capitalize())
 
 
 def fm_line(key, value):
@@ -91,13 +106,13 @@ def write_page(path, fm, generated_body, seed_body, seed_fm=()):
     lines = ["---"] + [fm_line(k, v) for k, v in fm.items()] + [GEN_FM_END] + kept_fm + ["---", ""]
     lines += [GEN_BODY_START, generated_body.rstrip(), GEN_BODY_END, ""]
     text = "\n".join(lines) + (kept_body.rstrip() + "\n" if kept_body.strip() else "")
-    path.write_text(text, encoding="utf-8")
+    path.write_text(text, encoding="utf-8", newline="\n")
 
 
 def write_generated(path, fm, body):
     path.parent.mkdir(parents=True, exist_ok=True)
     lines = ["---"] + [fm_line(k, v) for k, v in fm.items()] + ["---", "", body.rstrip(), ""]
-    path.write_text("\n".join(lines), encoding="utf-8")
+    path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
 
 def flatten(commands):
@@ -133,14 +148,23 @@ def command_pages(version, release, releases, history):
     for name, (entry, parent) in sorted(flat.items()):
         rows = entry.get("documented") or []
         row = rows[0] if rows else {}
-        group = group_of(row.get("section") or (parent and (parent.get("documented") or [{}])[0].get("section")))
+        section = row.get("section") or (parent and (parent.get("documented") or [{}])[0].get("section"))
+        if not section:
+            # A container is in the group of its subcommands' rows.
+            section = next((s["documented"][0]["section"] for s in entry.get("subcommands", [])
+                            if s.get("documented")), None)
+        if not section and parent:
+            # So is a subcommand with no row: CLUSTER HELP.
+            section = next((s["documented"][0]["section"] for s in parent.get("subcommands", [])
+                            if s.get("documented")), None)
+        group = group_of(section)
         h = hist.get(name, {})
         fm = {
             "title": display(name),
             "description": first_sentence(row.get("notes")) or f"The {display(name)} command.",
             "version": version,
             "command": display(name),
-            "syntax": row.get("syntax") or display(name),
+            "syntax": "\n".join(dict.fromkeys(r["syntax"] for r in rows if r.get("syntax"))) or display(name),
             "group": group,
             "since": h.get("since", releases[0]),
         }
@@ -166,15 +190,30 @@ def command_pages(version, release, releases, history):
             gen += ["", "**History:**", ""] + [f"- {c['release']}: {c['change']}" for c in fm["history"]]
 
         notes = "\n\n".join(r["notes"] for r in rows if r.get("notes"))
-        seed_fm = [fm_line("status", "draft" if notes else "needs-text")]
+        # A container (CLIENT, CONFIG, ...) has no row of its own: its
+        # subcommands do.
+        if not rows and subs:
+            fm["description"] = f"{display(name)} and its subcommands."
+        seed_fm = [fm_line("status", "draft" if notes or subs else "needs-text")]
         seed = ("## Description\n\n" + notes + "\n") if notes else ""
-        write_page(CONTENT / version / "commands" / f"{slug(name)}.md", fm, "\n".join(gen), seed, seed_fm)
+        page = CONTENT / version / "commands" / f"{slug(name)}.md"
+        # A reviewed page is described by its own first sentence. A page can
+        # name its group (`group_override`), for a command COMMANDS.md has no
+        # row for.
+        if page.exists():
+            kept_fm, kept_body = split_page(page.read_text(encoding="utf-8"))
+            if any(l.strip() == 'status: "reviewed"' for l in kept_fm) and kept_body.strip():
+                fm["description"] = first_sentence(kept_body.strip().split("\n\n", 1)[0])
+            for line in kept_fm:
+                if line.startswith("group_override:"):
+                    fm["group"] = group = json.loads(line.split(":", 1)[1])
+        write_page(page, fm, "\n".join(gen), seed, seed_fm)
         if not parent:
             index.setdefault(group, []).append((name, fm["description"], fm["since"]))
 
     body = ["Every command KiviDB " + version + " has, by group. A command's page gives its syntax, what it does, and what changed in it since 1.1.0.", ""]
-    for group in sorted(index):
-        body += [f"## {group.replace('-', ' ').capitalize()}", "", "| Command | Summary | Since |", "|---|---|---|"]
+    for group in sorted(index, key=group_title):
+        body += [f"## {group_title(group)}", "", "| Command | Summary | Since |", "|---|---|---|"]
         for name, desc, since in index[group]:
             body.append(f"| [`{display(name)}`]({slug(name)}.md) | {desc.replace('|', '\\|')} | {since} |")
         body.append("")
@@ -184,31 +223,125 @@ def command_pages(version, release, releases, history):
     return len(flat)
 
 
+def settings_text(version):
+    """The hand-written description of each setting, and its group, from
+    `text/<version>/settings.md`: `=== name` lines, each followed by an
+    optional `@group Name` line, optional `@file` and `@runtime` lines, and
+    the text."""
+    path = ROOT / "text" / version / "settings.md"
+    text, group, order, overrides = {}, {}, [], {}
+    if not path.exists():
+        return text, group, order, overrides
+    current = None
+    for line in path.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^=== (\S+)$", line)
+        if m:
+            current = m.group(1)
+            text[current] = []
+            continue
+        if current is None:
+            continue
+        if line.startswith("@group ") and not text[current]:
+            group[current] = line[7:].strip()
+            if group[current] not in order:
+                order.append(group[current])
+            continue
+        # `@file ...` and `@runtime ...` say how the setting is given where
+        # the probe cannot tell: in builds it was not run on.
+        m = re.match(r"^@(file|runtime) (.+)$", line)
+        if m and not text[current]:
+            overrides.setdefault(current, {})[m.group(1)] = m.group(2).strip()
+            continue
+        text[current].append(line)
+    return {k: "\n".join(v).strip() for k, v in text.items()}, group, order, overrides
+
+
+def how_file(value):
+    if value in ("applied", "accepted"):
+        return "yes"
+    if value == "ignored":
+        return "accepted, but has no effect"
+    if value == "not tried":
+        return None
+    return "no: the server does not start"
+
+
+def how_runtime(value):
+    if value in ("applied", "accepted"):
+        return "yes"
+    if value == "ignored":
+        return "replies `OK`, but has no effect"
+    if value == "not a CONFIG setting":
+        return "no: not a `CONFIG` setting"
+    if value == "not tried":
+        return None
+    if "immutable" in value:
+        return "no: at startup only"
+    return "yes"
+
+
+def shown(value):
+    return f"`{value}`" if value not in ("", None) else "(empty)"
+
+
 def config_page(version, release, releases, history):
     config = load(DATA / release / "config.json")
     docs = load(DATA / release / "config_docs.json")
     remembered = set(load(DATA / release / "config_remembered.json"))
+    how_path = DATA / release / "config_how.json"
+    how = load(how_path) if how_path.exists() else {}
+    text, groups, order, overrides = settings_text(version)
     hist = history["settings"]
-    body = ["Every setting of KiviDB " + version + ", with its default. Each can be given in the configuration file (`name value`), on the command line (`--name value`), and read with `CONFIG GET`; which ones `CONFIG SET` changes at runtime is said for each.", "",
-            "| Setting | Default | Since | What it does |", "|---|---|---|---|"]
-    later = []
-    for name, default in config.items():
-        h = hist.get(name, {})
-        since = h.get("since", releases[0])
-        if name in remembered:
-            later.append((name, default, since))
+    names = sorted(set(config) | {n for n, h in how.items() if h.get("flag")})
+
+    def default_of(name):
+        if name in config:
+            return config[name]
+        flag = how.get(name, {}).get("flag") or {}
+        return flag.get("default") if flag.get("default") is not None else "no"
+
+    def section(name):
+        h = how.get(name, {})
+        flag = h.get("flag")
+        facts = [f"**Default:** {shown(default_of(name))}",
+                 f"**Since:** {hist.get(name, {}).get('since', releases[0])}"]
+        facts.append("**Command line:** " + (f"`--{name}{(' ' + flag['arg']) if flag['arg'] else ''}`" if flag else "no"))
+        f = overrides.get(name, {}).get("file") or how_file(h.get("file"))
+        if f:
+            facts.append(f"**Config file:** {f}")
+        r = overrides.get(name, {}).get("runtime") or how_runtime(h.get("runtime"))
+        if r:
+            facts.append(f"**`CONFIG SET`:** {r}")
+        changed = [d for d in hist.get(name, {}).get("defaults", [])[1:] if d["release"] in releases]
+        lines = [f"### `{name}`", "", " · ".join(facts), ""]
+        for d in changed:
+            lines += [f"The default became {shown(d['default'])} in {d['release']}.", ""]
+        description = text.get(name)
+        if description is None:
+            description = docs.get(name) or (flag or {}).get("help") or "*To be written.*"
+        lines += [description, ""]
+        return lines
+
+    body = ["Every setting of KiviDB " + version + ". A setting is given when the server starts, on the command line (`--name value`) or in the configuration file (`name value`, a setting a line; the file is the one `--configfile` names). Most can also be read with `CONFIG GET` and changed with `CONFIG SET` while the server runs. Each setting says which of these it takes.", "",
+            "A configuration file with a line the server does not know stops it from starting, with the line's number. A setting given both on the command line and in the file takes the command line's value.", ""]
+    real = [n for n in names if n not in remembered]
+    by_group = {}
+    for n in real:
+        by_group.setdefault(groups.get(n, "Other"), []).append(n)
+    for g in order + (["Other"] if "Other" in by_group and "Other" not in order else []):
+        if g not in by_group:
             continue
-        what = (docs.get(name) or "*To be written.*").replace("|", "\\|")
-        shown = f"`{default}`" if default != "" else "(empty)"
-        body.append(f"| `{name}` | {shown} | {since} | {what} |")
-    body += ["", "## Accepted for compatibility with Redis", "",
+        body += [f"## {g}", ""]
+        for n in by_group[g]:
+            body += section(n)
+    body += ["## Accepted for compatibility with Redis", "",
              "These are Redis settings that mean nothing in KiviDB: how Redis encodes small values, sizes its buffers, and the like. `CONFIG SET` accepts them, so that clients and tools that set them do not fail, and `CONFIG GET` answers with what was set, but they change nothing.", "",
-             "| Setting | Default | Since |", "|---|---|---|"]
-    for name, default, since in later:
-        shown = f"`{default}`" if default != "" else "(empty)"
-        body.append(f"| `{name}` | {shown} | {since} |")
+             "| Setting | Default | Since | Config file |", "|---|---|---|---|"]
+    for n in sorted(remembered & set(names)):
+        f = how_file(how.get(n, {}).get("file")) or ""
+        body.append(f"| `{n}` | {shown(config.get(n))} | {hist.get(n, {}).get('since', releases[0])} | {f} |")
     write_generated(CONTENT / version / "reference" / "configuration.md",
-                    {"title": "Configuration", "description": f"Every setting of KiviDB {version} and its default.",
+                    {"title": "Configuration", "description": f"Every setting of KiviDB {version}: its default, how it is given, and what it does.",
                      "version": version, "weight": 20}, "\n".join(body))
 
 

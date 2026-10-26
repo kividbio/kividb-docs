@@ -1,0 +1,945 @@
+{
+ "aclfile": {
+  "flag": {
+   "arg": "<ACLFILE>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Path to ACL file (empty = no ACL file, use inline SETUSER rules only)"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "activedefrag": {
+  "flag": null,
+  "file": "unknown directive 'activedefrag' (in: activedefrag yes)",
+  "runtime": "applied"
+ },
+ "activerehashing": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "ignored"
+ },
+ "aof": {
+  "flag": {
+   "arg": "",
+   "default": null,
+   "values": null,
+   "help": "Enable append-only file persistence"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "aof-preamble": {
+  "flag": {
+   "arg": "<AOF_PREAMBLE>",
+   "default": "true",
+   "values": [
+    "true",
+    "false"
+   ],
+   "help": "Start a rewritten AOF with a KDB image of the dataset, so recovery loads the bulk at snapshot speed and replays only what came after it. Disable to emit the plain command log older builds produce"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "aof-rewrite-min-size": {
+  "flag": {
+   "arg": "<AOF_REWRITE_MIN_SIZE>",
+   "default": "67108864",
+   "values": null,
+   "help": "Never rewrite automatically below this size, in bytes. Keeps a small log from rewriting constantly just because it doubled"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "aof-rewrite-percentage": {
+  "flag": {
+   "arg": "<AOF_REWRITE_PERCENTAGE>",
+   "default": "100",
+   "values": null,
+   "help": "Rewrite the AOF once it has grown this much past its post-rewrite size, as a percentage (0 = never rewrite automatically)"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "appendfsync": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "applied"
+ },
+ "appendonly": {
+  "flag": null,
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "auto-aof-rewrite-min-size": {
+  "flag": null,
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "auto-aof-rewrite-percentage": {
+  "flag": null,
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "backup-sealed-ttl": {
+  "flag": {
+   "arg": "<BACKUP_SEALED_TTL>",
+   "default": "0",
+   "values": null,
+   "help": "Seconds a sealed backup is kept before it is cleaned up automatically; `0` keeps it until `BACKUP CLEANUP` (Redis 8.10 `backup-sealed-ttl`)"
+  },
+  "file": "applied",
+  "runtime": "ignored"
+ },
+ "backupdirname": {
+  "flag": {
+   "arg": "<BACKUPDIRNAME>",
+   "default": "backupdir",
+   "values": null,
+   "help": "Directory `BACKUP START` writes a backup into, under the working directory (Redis 8.10 `backupdirname`). Startup-only"
+  },
+  "file": "applied",
+  "runtime": "ignored"
+ },
+ "bind": {
+  "flag": {
+   "arg": "<BIND>",
+   "default": "0.0.0.0",
+   "values": null,
+   "help": "Address to listen"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "busy-reply-threshold": {
+  "flag": null,
+  "file": "unknown directive 'busy-reply-threshold' (in: busy-reply-threshold 5001)",
+  "runtime": "ignored"
+ },
+ "client-query-buffer-limit": {
+  "flag": null,
+  "file": "unknown directive 'client-query-buffer-limit' (in: client-query-buffer-limit 1073741825)",
+  "runtime": "applied"
+ },
+ "close-on-replica-write": {
+  "flag": null,
+  "file": "unknown directive 'close-on-replica-write' (in: close-on-replica-write no)",
+  "runtime": "applied"
+ },
+ "cluster-announce-bus-port": {
+  "flag": {
+   "arg": "<CLUSTER_ANNOUNCE_BUS_PORT>",
+   "default": "0",
+   "values": null,
+   "help": "Bus port announced to the cluster. 0 = `port` + 10000"
+  },
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'cluster-announce-bus-port') - can't set immutable config"
+ },
+ "cluster-announce-hostname": {
+  "flag": {
+   "arg": "<CLUSTER_ANNOUNCE_HOSTNAME>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Hostname this node announces to the cluster (Redis `cluster-announce-hostname`): letters, digits, `-` and `.`. Shown in CLUSTER NODES, SLOTS and SHARDS, and given to clients in place of the address when `cluster-preferred-endpoint-type` is `hostname`"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "cluster-announce-ip": {
+  "flag": {
+   "arg": "<CLUSTER_ANNOUNCE_IP>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Address this node tells the rest of the cluster to reach it on (Redis `cluster-announce-ip`). Empty = let peers use the address they observe"
+  },
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'cluster-announce-ip') - can't set immutable config"
+ },
+ "cluster-announce-port": {
+  "flag": {
+   "arg": "<CLUSTER_ANNOUNCE_PORT>",
+   "default": "0",
+   "values": null,
+   "help": "Client port announced to the cluster. 0 = `port`"
+  },
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'cluster-announce-port') - can't set immutable config"
+ },
+ "cluster-bus-port-protected-mode": {
+  "flag": {
+   "arg": "<CLUSTER_BUS_PORT_PROTECTED_MODE>",
+   "default": "no",
+   "values": null,
+   "help": "Refuse to run as a cluster node while the bus port is unauthenticated (Redis `cluster-bus-port-protected-mode`): with this `yes`, a cluster node needs `cluster-bus-secret`. The default `no` starts without one and logs a warning"
+  },
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'cluster-bus-port-protected-mode') - can't set immutable config"
+ },
+ "cluster-bus-secret": {
+  "flag": {
+   "arg": "<CLUSTER_BUS_SECRET>",
+   "default": "\"\"",
+   "values": null,
+   "help": "A secret every node of the cluster shares. A node connecting to another's bus port must prove it knows it (a challenge and an HMAC-SHA256 answer; the secret itself is never sent) before anything it says is read. Empty: the bus is open to anything that can reach it. Set it on every node or none"
+  },
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'cluster-bus-secret') - can't set immutable config"
+ },
+ "cluster-config-file": {
+  "flag": {
+   "arg": "<CLUSTER_CONFIG_FILE>",
+   "default": "nodes.conf",
+   "values": null,
+   "help": "Where cluster topology is persisted (Redis `cluster-config-file`)"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "cluster-enabled": {
+  "flag": {
+   "arg": "<CLUSTER_ENABLED>",
+   "default": "no",
+   "values": null,
+   "help": "True iff the server should run as a cluster node. Activated by `--cluster-enabled yes`. Defaults to false (standalone)"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "cluster-node-timeout": {
+  "flag": {
+   "arg": "<CLUSTER_NODE_TIMEOUT>",
+   "default": "15000",
+   "values": null,
+   "help": "Milliseconds without a PONG before a peer is marked PFAIL. Default 15000 matches Redis. Lower values detect failures faster but increase false positives under network jitter"
+  },
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'cluster-node-timeout') - can't set immutable config"
+ },
+ "cluster-preferred-endpoint-type": {
+  "flag": {
+   "arg": "<CLUSTER_PREFERRED_ENDPOINT_TYPE>",
+   "default": "ip",
+   "values": null,
+   "help": "What clients are told to connect to, in MOVED, ASK and the topology replies: `ip`, `hostname` or `unknown-endpoint` (Redis `cluster-preferred-endpoint-type`)"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "cluster-require-full-coverage": {
+  "flag": {
+   "arg": "<CLUSTER_REQUIRE_FULL_COVERAGE>",
+   "default": "yes",
+   "values": null,
+   "help": "Stop serving keyed commands while any hash slot is unassigned or owned by a failed node (Redis `cluster-require-full-coverage`)"
+  },
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'cluster-require-full-coverage') - can't set immutable config"
+ },
+ "cluster-slot-migration-handoff-max-lag-bytes": {
+  "flag": {
+   "arg": "<CLUSTER_SLOT_MIGRATION_HANDOFF_MAX_LAG_BYTES>",
+   "default": "1048576",
+   "values": null,
+   "help": "Atomic slot migration: once the source has less than this many bytes of the write stream left to send, it pauses writes and hands the slots over (Redis 8.4 `cluster-slot-migration-handoff-max-lag-bytes`)"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "cluster-slot-migration-write-pause-timeout": {
+  "flag": {
+   "arg": "<CLUSTER_SLOT_MIGRATION_WRITE_PAUSE_TIMEOUT>",
+   "default": "10000",
+   "values": null,
+   "help": "Atomic slot migration: the longest the source keeps writes paused for a handoff, in milliseconds, before giving the migration up (Redis 8.4 `cluster-slot-migration-write-pause-timeout`)"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "configfile": {
+  "flag": {
+   "arg": "<CONFIGFILE>",
+   "default": "/etc/kividb/kividb.conf",
+   "values": null,
+   "help": "Path to a config file to load settings from. Equivalent to passing redis-server /etc/redis.conf"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "databases": {
+  "flag": {
+   "arg": "<DATABASES>",
+   "default": "16",
+   "values": null,
+   "help": "Number of databases"
+  },
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'databases') - can't set immutable config"
+ },
+ "dir": {
+  "flag": {
+   "arg": "<DIR>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Working directory: where `dump.kdb`, `appendonly.aof`, backups and `nodes.conf` live (Redis `dir`). Empty = the directory the server was started in"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "hash-max-listpack-entries": {
+  "flag": null,
+  "file": "unknown directive 'hash-max-listpack-entries' (in: hash-max-listpack-entries 513)",
+  "runtime": "applied"
+ },
+ "hash-max-listpack-value": {
+  "flag": null,
+  "file": "unknown directive 'hash-max-listpack-value' (in: hash-max-listpack-value 65)",
+  "runtime": "applied"
+ },
+ "hash-max-ziplist-entries": {
+  "flag": null,
+  "file": "unknown directive 'hash-max-ziplist-entries' (in: hash-max-ziplist-entries 513)",
+  "runtime": "applied"
+ },
+ "hash-max-ziplist-value": {
+  "flag": null,
+  "file": "unknown directive 'hash-max-ziplist-value' (in: hash-max-ziplist-value 65)",
+  "runtime": "applied"
+ },
+ "hll-sparse-max-bytes": {
+  "flag": null,
+  "file": "unknown directive 'hll-sparse-max-bytes' (in: hll-sparse-max-bytes 3001)",
+  "runtime": "applied"
+ },
+ "hz": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "ignored"
+ },
+ "io-model": {
+  "flag": {
+   "arg": "<IO_MODEL>",
+   "default": "auto",
+   "values": [
+    "auto",
+    "uring",
+    "tokio"
+   ],
+   "help": "I/O model: auto, uring, tokio"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "latency-tracking": {
+  "flag": null,
+  "file": "unknown directive 'latency-tracking' (in: latency-tracking no)",
+  "runtime": "applied"
+ },
+ "latency-tracking-info-percentiles": {
+  "flag": null,
+  "file": "unknown directive 'latency-tracking-info-percentiles' (in: latency-tracking-info-percentiles \"50 99\")",
+  "runtime": "applied"
+ },
+ "lazyfree-lazy-eviction": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "ignored"
+ },
+ "lazyfree-lazy-expire": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "applied"
+ },
+ "lazyfree-lazy-server-del": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "applied"
+ },
+ "lazyfree-lazy-user-del": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "applied"
+ },
+ "lazyfree-lazy-user-flush": {
+  "flag": null,
+  "file": "unknown directive 'lazyfree-lazy-user-flush' (in: lazyfree-lazy-user-flush yes)",
+  "runtime": "applied"
+ },
+ "lfu-decay-time": {
+  "flag": {
+   "arg": "<LFU_DECAY_TIME>",
+   "default": "1",
+   "values": null,
+   "help": "Minutes for a key's use count to fall by one, for the LFU policies (Redis `lfu-decay-time`). 0 = it never falls"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "lfu-log-factor": {
+  "flag": {
+   "arg": "<LFU_LOG_FACTOR>",
+   "default": "10",
+   "values": null,
+   "help": "How slowly a key's use count grows, for the LFU policies (Redis `lfu-log-factor`)"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "list-compress-depth": {
+  "flag": null,
+  "file": "unknown directive 'list-compress-depth' (in: list-compress-depth 1)",
+  "runtime": "applied"
+ },
+ "list-max-listpack-size": {
+  "flag": null,
+  "file": "unknown directive 'list-max-listpack-size' (in: list-max-listpack-size 5)",
+  "runtime": "applied"
+ },
+ "list-max-ziplist-size": {
+  "flag": null,
+  "file": "unknown directive 'list-max-ziplist-size' (in: list-max-ziplist-size 5)",
+  "runtime": "applied"
+ },
+ "log-format": {
+  "flag": {
+   "arg": "<LOG_FORMAT>",
+   "default": "text",
+   "values": [
+    "text",
+    "json"
+   ],
+   "help": "Log line format: `text`, or `json` — one object per line, for log pipelines"
+  },
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'log-format') - can't set immutable config"
+ },
+ "logfile": {
+  "flag": {
+   "arg": "<LOGFILE>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Write the log to this file, appending, instead of standard error"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "loglevel": {
+  "flag": {
+   "arg": "<LOGLEVEL>",
+   "default": "info",
+   "values": null,
+   "help": "Log level: debug, verbose, notice (or info), warning, nothing. docs/LOGGING.md says what each shows"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "lua-parallel-scripts": {
+  "flag": {
+   "arg": "<LUA_PARALLEL_SCRIPTS>",
+   "default": "true",
+   "values": [
+    "true",
+    "false"
+   ],
+   "help": "Run scripts whose KEYS share a hash tag beside each other, each under its tag's lock, instead of one at a time for the whole server. A script run that way may not touch a key outside the tag. On unless switched off; it means something only in a build with Lua. See docs/SCRIPTS.md"
+  },
+  "file": "ignored",
+  "runtime": "applied"
+ },
+ "lua-time-limit": {
+  "flag": null,
+  "file": "unknown directive 'lua-time-limit' (in: lua-time-limit 5001)",
+  "runtime": "ignored"
+ },
+ "masterauth": {
+  "flag": {
+   "arg": "<MASTERAUTH>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Password this node presents when connecting to its master as a replica (Redis `masterauth`). Required when the master has `requirepass` or ACLs; without it the handshake is refused"
+  },
+  "file": "accepted",
+  "runtime": "accepted"
+ },
+ "masteruser": {
+  "flag": {
+   "arg": "<MASTERUSER>",
+   "default": "\"\"",
+   "values": null,
+   "help": "ACL user to authenticate as on the master (Redis `masteruser`). Empty = the `default` user"
+  },
+  "file": "accepted",
+  "runtime": "accepted"
+ },
+ "maxclients": {
+  "flag": null,
+  "file": "unknown directive 'maxclients' (in: maxclients 10001)",
+  "runtime": "applied"
+ },
+ "maxmemory": {
+  "flag": {
+   "arg": "<MAXMEMORY>",
+   "default": "0",
+   "values": null,
+   "help": "Max memory (0 = unlimited): bytes, or with a unit as in Redis (`3gb`, `512mb`). Once the process uses more, writes are refused with an OOM error"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "maxmemory-clients": {
+  "flag": null,
+  "file": "unknown directive 'maxmemory-clients' (in: maxmemory-clients 1)",
+  "runtime": "applied"
+ },
+ "maxmemory-policy": {
+  "flag": {
+   "arg": "<MAXMEMORY_POLICY>",
+   "default": "noeviction",
+   "values": null,
+   "help": "What to do when `maxmemory` is reached (Redis `maxmemory-policy`): noeviction — refuse the write allkeys-lru | allkeys-lfu | allkeys-lrm | allkeys-random — delete keys to make room: the least recently used, least frequently used, least recently modified, or any volatile-lru | volatile-lfu | volatile-lrm | volatile-random | volatile-ttl — the same, among keys with a TTL only; or the one nearest to expiring"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "maxmemory-samples": {
+  "flag": {
+   "arg": "<MAXMEMORY_SAMPLES>",
+   "default": "5",
+   "values": null,
+   "help": "How many keys are looked at to choose the one to evict (Redis `maxmemory-samples`)"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "min-replicas-max-lag": {
+  "flag": {
+   "arg": "<MIN_REPLICAS_MAX_LAG>",
+   "default": "10",
+   "values": null,
+   "help": "How recently, in seconds, a replica must have acknowledged to count as good for `min-replicas-to-write` (Redis `min-replicas-max-lag`). 0 turns `min-replicas-to-write` off"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "min-replicas-to-write": {
+  "flag": {
+   "arg": "<MIN_REPLICAS_TO_WRITE>",
+   "default": "0",
+   "values": null,
+   "help": "Refuse writes while fewer than this many replicas are good: online, and heard from within `min-replicas-max-lag` seconds (Redis `min-replicas-to-write`). 0 is off. A master cut off from its replicas then refuses writes with NOREPLICAS instead of accepting ones that are lost when the partition heals"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "notify-keyspace-events": {
+  "flag": {
+   "arg": "<NOTIFY_KEYSPACE_EVENTS>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Keyspace notification events to publish (empty = disabled)"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "port": {
+  "flag": {
+   "arg": "<PORT>",
+   "default": "6380",
+   "values": null,
+   "help": "Port to listen"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "preload-file": {
+  "flag": {
+   "arg": "<PRELOAD_FILE>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Load this file at startup instead of the usual `dump.kdb` and `appendonly.aof`: `aof:<manifest>` restores a sealed backup, `rdb:<file>` a single snapshot (Redis 8.10 `preload-file`). Startup-only; startup fails if the target cannot be loaded"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "protected-mode": {
+  "flag": {
+   "arg": "<PROTECTED_MODE>",
+   "default": "yes",
+   "values": null,
+   "help": "While the default user has no password, accept clients from this machine only (Redis `protected-mode`). See `src/protected_mode.rs`"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "proto-max-bulk-len": {
+  "flag": null,
+  "file": "unknown directive 'proto-max-bulk-len' (in: proto-max-bulk-len 536870913)",
+  "runtime": "applied"
+ },
+ "repl-backlog-size": {
+  "flag": {
+   "arg": "<REPL_BACKLOG_SIZE>",
+   "default": "1048576",
+   "values": null,
+   "help": "Bytes of the write stream a master keeps for replicas that reconnect (Redis `repl-backlog-size`). A replica that was away for less than this much writing is brought up to date without a full resync"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "repl-backlog-ttl": {
+  "flag": {
+   "arg": "<REPL_BACKLOG_TTL>",
+   "default": "3600",
+   "values": null,
+   "help": "Seconds a master with no replicas keeps that backlog before releasing it (Redis `repl-backlog-ttl`). 0 = never release it"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "repl-diskless-load": {
+  "flag": {
+   "arg": "<REPL_DISKLESS_LOAD>",
+   "default": "disabled",
+   "values": null,
+   "help": "How a replica loads a full resync (Redis `repl-diskless-load`): disabled | flushdb | on-empty-db — drop the local dataset first, then load: memory for one dataset swapdb — keep serving the local dataset until the new one is loaded, then swap: memory for two"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "repl-ping-replica-period": {
+  "flag": {
+   "arg": "<REPL_PING_REPLICA_PERIOD>",
+   "default": "10",
+   "values": null,
+   "help": "Seconds between the PINGs a master writes into the replication stream (Redis `repl-ping-replica-period`). They give an idle link traffic, so a replica can tell \"nothing to replicate\" apart from \"master is gone\""
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "repl-replica-max-backlog-bytes": {
+  "flag": {
+   "arg": "<REPL_REPLICA_MAX_BACKLOG_BYTES>",
+   "default": "268435456",
+   "values": null,
+   "help": "Max bytes a master will queue for a single replica that isn't keeping up (analogous to Redis's `client-output-buffer-limit slave <hard-limit>`). Once exceeded the replica is disconnected — it must full-resync to catch back up — rather than letting the queue grow without bound"
+  },
+  "file": "applied",
+  "runtime": "ignored"
+ },
+ "repl-timeout": {
+  "flag": {
+   "arg": "<REPL_TIMEOUT>",
+   "default": "60",
+   "values": null,
+   "help": "Seconds without a byte from the master before a replica declares the link dead and reconnects (Redis `repl-timeout`). Also bounds each step of the handshake. This is what notices a master that was powered off or partitioned away: such a peer never refuses or resets the connection, so without a deadline the replica waits on the kernel's own TCP retransmission limit (~15 minutes) while reporting a healthy link"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "replica-announced-port": {
+  "flag": {
+   "arg": "<REPLICA_ANNOUNCED_PORT>",
+   "default": "0",
+   "values": null,
+   "help": "This replica's announced port (for REPLCONF listening-port) Defaults to the server's own port"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "replica-full-sync-guard": {
+  "flag": {
+   "arg": "<REPLICA_FULL_SYNC_GUARD>",
+   "default": "empty",
+   "values": null,
+   "help": "What a replica does when a full resync would replace its dataset with a smaller one: off    — always accept (Redis behaviour) empty  — refuse a master that has no keys while we hold some shrink — additionally refuse a master holding fewer than `replica-full-sync-guard-ratio` percent of our key count A refused sync keeps the local dataset, leaves the link down, and is retried; the operator overrides with `CONFIG SET replica-full-sync-guard off`"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "replica-full-sync-guard-ratio": {
+  "flag": {
+   "arg": "<REPLICA_FULL_SYNC_GUARD_RATIO>",
+   "default": "50",
+   "values": null,
+   "help": "Percentage used by `replica-full-sync-guard shrink`"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "replicaof": {
+  "flag": {
+   "arg": "<HOST> <PORT>",
+   "default": null,
+   "values": null,
+   "help": "Replicate from master: \"host port\" (e.g. \"127.0.0.1 6379\") Pass as two args: --replicaof 127.0.0.1 6379"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "requirepass": {
+  "flag": {
+   "arg": "<REQUIREPASS>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Password required for AUTH (empty = no authentication required)"
+  },
+  "file": "accepted",
+  "runtime": "accepted"
+ },
+ "save": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "applied"
+ },
+ "set-max-intset-entries": {
+  "flag": null,
+  "file": "unknown directive 'set-max-intset-entries' (in: set-max-intset-entries 513)",
+  "runtime": "applied"
+ },
+ "set-max-listpack-entries": {
+  "flag": null,
+  "file": "unknown directive 'set-max-listpack-entries' (in: set-max-listpack-entries 129)",
+  "runtime": "applied"
+ },
+ "set-max-listpack-value": {
+  "flag": null,
+  "file": "unknown directive 'set-max-listpack-value' (in: set-max-listpack-value 65)",
+  "runtime": "applied"
+ },
+ "slaveof": {
+  "flag": null,
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "slowlog-entry-max-argc": {
+  "flag": {
+   "arg": "<SLOWLOG_ENTRY_MAX_ARGC>",
+   "default": "32",
+   "values": null,
+   "help": "Arguments kept per slowlog entry (Redis 8.8 `slowlog-entry-max-argc`)"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "slowlog-entry-max-string-len": {
+  "flag": {
+   "arg": "<SLOWLOG_ENTRY_MAX_STRING_LEN>",
+   "default": "128",
+   "values": null,
+   "help": "Bytes kept per argument in a slowlog entry (Redis 8.8 `slowlog-entry-max-string-len`)"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "slowlog-log-slower-than": {
+  "flag": {
+   "arg": "<SLOWLOG_LOG_SLOWER_THAN>",
+   "default": "18446744073709551615",
+   "values": null,
+   "help": "Slowlog threshold in microseconds (0 = log everything)"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "slowlog-max-len": {
+  "flag": {
+   "arg": "<SLOWLOG_MAX_LEN>",
+   "default": "128",
+   "values": null,
+   "help": "Maximum number of slowlog entries to keep"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "stream-idmp-duration": {
+  "flag": {
+   "arg": "<STREAM_IDMP_DURATION>",
+   "default": "100",
+   "values": null,
+   "help": "Default seconds an `XADD ... IDMP` producer/id pair is remembered (Redis 8.6 `stream-idmp-duration`)"
+  },
+  "file": "applied",
+  "runtime": "ignored"
+ },
+ "stream-idmp-maxsize": {
+  "flag": {
+   "arg": "<STREAM_IDMP_MAXSIZE>",
+   "default": "100",
+   "values": null,
+   "help": "Default idempotency ids remembered per producer (Redis 8.6 `stream-idmp-maxsize`)"
+  },
+  "file": "applied",
+  "runtime": "ignored"
+ },
+ "stream-node-max-bytes": {
+  "flag": null,
+  "file": "unknown directive 'stream-node-max-bytes' (in: stream-node-max-bytes 4097)",
+  "runtime": "applied"
+ },
+ "stream-node-max-entries": {
+  "flag": null,
+  "file": "unknown directive 'stream-node-max-entries' (in: stream-node-max-entries 101)",
+  "runtime": "applied"
+ },
+ "tcp-backlog": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'tcp-backlog') - can't set immutable config"
+ },
+ "tcp-keepalive": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "ignored"
+ },
+ "threads": {
+  "flag": {
+   "arg": "<THREADS>",
+   "default": "0",
+   "values": null,
+   "help": "Number of worker threads (0 = auto)"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "timeout": {
+  "flag": null,
+  "file": "ignored",
+  "runtime": "ignored"
+ },
+ "tls-auth-clients": {
+  "flag": {
+   "arg": "<TLS_AUTH_CLIENTS>",
+   "default": "yes",
+   "values": null,
+   "help": "Whether TLS clients must present a certificate signed by `tls-ca-cert-file` (Redis `tls-auth-clients`): yes      — required; a client without a valid one is refused optional — not required, but one that is presented must be valid no       — not asked for Has no effect while `tls-ca-cert-file` is empty"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "tls-ca-cert-file": {
+  "flag": {
+   "arg": "<TLS_CA_CERT_FILE>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Path to the CA certificate file (PEM) that client certificates are verified against; see `tls-auth-clients`. Leave empty to not ask clients for a certificate"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "tls-cert-file": {
+  "flag": {
+   "arg": "<TLS_CERT_FILE>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Path to the TLS certificate file (PEM format)"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "tls-client-cert-file": {
+  "flag": {
+   "arg": "<TLS_CLIENT_CERT_FILE>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Certificate this node presents when it connects to another node (Redis `tls-client-cert-file`); `tls-cert-file` when empty"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "tls-client-key-file": {
+  "flag": {
+   "arg": "<TLS_CLIENT_KEY_FILE>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Key for `tls-client-cert-file`"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "tls-cluster": {
+  "flag": {
+   "arg": "<TLS_CLUSTER>",
+   "default": "no",
+   "values": null,
+   "help": "The cluster bus over TLS, and the TLS port announced as this node's port, so that what nodes open to each other is TLS (Redis `tls-cluster`). Needs `tls-port`, the certificate, key and CA files"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "tls-key-file": {
+  "flag": {
+   "arg": "<TLS_KEY_FILE>",
+   "default": "\"\"",
+   "values": null,
+   "help": "Path to the TLS private key file (PEM format)"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "tls-port": {
+  "flag": {
+   "arg": "<TLS_PORT>",
+   "default": "0",
+   "values": null,
+   "help": "Port to accept TLS connections on. 0 = TLS disabled. Separate from `port` so the uring hot-path on `port` is untouched"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "tls-replication": {
+  "flag": {
+   "arg": "<TLS_REPLICATION>",
+   "default": "no",
+   "values": null,
+   "help": "A replica connects to its master over TLS (Redis `tls-replication`). Implied by `tls-cluster` in a cluster"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "tracking-table-max-keys": {
+  "flag": null,
+  "file": "unknown directive 'tracking-table-max-keys' (in: tracking-table-max-keys 1000001)",
+  "runtime": "applied"
+ },
+ "update-check": {
+  "flag": {
+   "arg": "<UPDATE_CHECK>",
+   "default": "yes",
+   "values": null,
+   "help": "Whether to ask GitHub at startup for the latest release, and say so when it is newer than this build (see docs/UPDATE_CHECK.md). `--update-check no` turns it off, as does KIVIDB_NO_UPDATE_CHECK=1"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "update-check-url": {
+  "flag": {
+   "arg": "<UPDATE_CHECK_URL>",
+   "default": "https://github.com/kividbio/kividb/releases/latest",
+   "values": null,
+   "help": "Where the update check asks: a releases/latest page that redirects to the newest release's tag (https:// only)"
+  },
+  "file": "not tried",
+  "runtime": "not tried"
+ },
+ "zset-max-listpack-entries": {
+  "flag": null,
+  "file": "unknown directive 'zset-max-listpack-entries' (in: zset-max-listpack-entries 129)",
+  "runtime": "applied"
+ },
+ "zset-max-listpack-value": {
+  "flag": null,
+  "file": "unknown directive 'zset-max-listpack-value' (in: zset-max-listpack-value 65)",
+  "runtime": "applied"
+ },
+ "zset-max-ziplist-entries": {
+  "flag": null,
+  "file": "unknown directive 'zset-max-ziplist-entries' (in: zset-max-ziplist-entries 129)",
+  "runtime": "applied"
+ },
+ "zset-max-ziplist-value": {
+  "flag": null,
+  "file": "unknown directive 'zset-max-ziplist-value' (in: zset-max-ziplist-value 65)",
+  "runtime": "applied"
+ }
+}

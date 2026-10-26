@@ -140,7 +140,6 @@ def normalise_specs(specs):
 
 # ── COMMANDS.md ──────────────────────────────────────────────────────────────
 
-ROW = re.compile(r"^\|\s*`([^`]+)`\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*$")
 
 
 def command_name(cell):
@@ -167,22 +166,39 @@ def commands_md(path):
         if line.startswith("### "):
             subsection = line[4:].strip()
             continue
-        m = ROW.match(line)
-        if not m:
+        # Cells split on `|`, but not on `\|`: a `|` inside a cell.
+        if not line.startswith("|"):
             continue
-        name = command_name(m.group(1))
-        if not name or name in ("COMMAND",) and section is None:
+        cells = [c.strip() for c in re.split(r"(?<!\\)\|", line.strip())[1:-1]]
+        if len(cells) < 3 or not cells[0].startswith("`"):
             continue
-        syntax = m.group(2).strip("`").strip()
-        if syntax.startswith("`") or syntax.endswith("`"):
-            syntax = syntax.strip("`")
-        rows.setdefault(name, []).append({
-            "section": section,
-            "subsection": subsection,
-            "syntax": re.sub(r"^`|`$", "", m.group(2)).replace("\\|", "|"),
-            "notes": m.group(3).replace("\\|", "|"),
-        })
+        # A cell can hold several code spans: two names for one row
+        # (`CLUSTER REPLICAS` / `CLUSTER SLAVES`), or two syntax forms
+        # (`... node-id` or `... STABLE`). Each name gets the forms that start
+        # with it; a name none starts with, an alias, gets the first form
+        # with its own name in it.
+        names = spans(cells[0])
+        forms = [f.replace("\\|", "|") for f in spans(cells[1])]
+        for shown in names:
+            name = command_name(shown)
+            if not name:
+                continue
+            own = [f for f in forms if f.upper().startswith(shown.upper())]
+            if not own and len(names) > 1 and forms and forms[0].upper().startswith(names[0].upper()):
+                own = [shown + forms[0][len(names[0]):]]
+            rows.setdefault(name, []).append({
+                "section": section,
+                "subsection": subsection,
+                "syntax": "\n".join(own or forms),
+                "notes": " | ".join(cells[2:]).replace("\\|", "|"),
+            })
     return rows
+
+
+def spans(cell):
+    """The code spans of a table cell, or the whole cell if it has none."""
+    found = re.findall(r"`([^`]+)`", cell)
+    return [s.strip() for s in found] if found else [cell.strip()]
 
 
 # ── main ─────────────────────────────────────────────────────────────────────
@@ -239,6 +255,19 @@ def main():
                 {"name": name, "source": "COMMANDS.md", "documented": rows}
                 for name, rows in sorted(md.items()) if name.startswith(prefix)
             ]
+    # And the subcommands `tools/probe.py` found the server to have, which
+    # COMMANDS.md may have no row for (`ACL SETUSER`).
+    probed_path = Path(out) / version / "probed.json"
+    if probed_path.exists():
+        probed = json.loads(probed_path.read_text(encoding="utf-8"))["found"]
+        for entry in commands:
+            have = {s["name"] for s in entry["subcommands"]}
+            for sub in probed.get(entry["name"], []):
+                name = f"{entry['name']}|{sub}"
+                if name not in have:
+                    entry["subcommands"].append({"name": name, "source": "probe",
+                                                 "documented": md.get(name, [])})
+            entry["subcommands"].sort(key=lambda s: s["name"])
 
     # The settings this script starts the server with report what it gave
     # them, not their defaults: those come from the field's `#[arg(...)]` in
@@ -276,18 +305,18 @@ def main():
     block = server_rs.split("static REMEMBERED_CONFIG", 1)[-1].split(".into_iter()", 1)[0]
     remembered = sorted(set(re.findall(r'\(\s*"([a-z0-9-]+)"\s*,\s*"[^"]*"\s*\)', block)) & set(config))
     (Path(out) / version).mkdir(parents=True, exist_ok=True)
-    (Path(out) / version / "config_remembered.json").write_text(json.dumps(remembered, indent=1) + "\n", encoding="utf-8")
+    (Path(out) / version / "config_remembered.json").write_text(json.dumps(remembered, indent=1) + "\n", encoding="utf-8", newline="\n")
 
     dest = Path(out) / version
     dest.mkdir(parents=True, exist_ok=True)
-    (dest / "config_docs.json").write_text(json.dumps(config_docs, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    (dest / "config_docs.json").write_text(json.dumps(config_docs, indent=1, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     meta = {"version": version, "server_reports": reported.group(1) if reported else None,
             "commands": len(commands),
             "subcommands": sum(len(e["subcommands"]) for e in commands),
             "settings": len(config)}
-    (dest / "commands.json").write_text(json.dumps(commands, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    (dest / "config.json").write_text(json.dumps(config, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    (dest / "release.json").write_text(json.dumps(meta, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    (dest / "commands.json").write_text(json.dumps(commands, indent=1, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+    (dest / "config.json").write_text(json.dumps(config, indent=1, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+    (dest / "release.json").write_text(json.dumps(meta, indent=1, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps(meta))
 
 
