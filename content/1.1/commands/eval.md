@@ -33,6 +33,8 @@ Inside a script, `redis.call(command, ...)` runs a command and raises its error,
 
 Refused on a replica with `READONLY`, even for a script that only reads; use [`EVAL_RO`](eval_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145).
 
+In a cluster, a `redis.call` on a key in a slot another node owns is not refused: the key is written on this node, where clients will not find it. Filed as [kividb#153](https://github.com/kividbio/kividb/issues/153). Every distinct script is kept in the script cache, with no limit. Filed as [kividb#155](https://github.com/kividbio/kividb/issues/155).
+
 ## Reply
 
 What the script returns, converted to RESP:
