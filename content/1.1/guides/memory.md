@@ -92,5 +92,5 @@ KiviDB has no compact encodings: a small hash and a large one are kept the same 
 
 ## Known issues
 
-- `mem_fragmentation_ratio` in `INFO memory` is not Redis's `used_memory_rss / used_memory`: on Linux it is the process's virtual size over its resident size, much higher. [`MEMORY DOCTOR`](../commands/memory-doctor.md) warns of fragmentation because of it. Divide `used_memory_rss` by `used_memory` instead. Several other `INFO memory` fields are fixed. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152).
-- `MEMORY USAGE key SAMPLES 0` on a hash, set or sorted set closes the connection, with an error in the server's log. Filed as [kividb#151](https://github.com/kividbio/kividb/issues/151).
+- `mem_fragmentation_ratio` in `INFO memory` is not Redis's `used_memory_rss / used_memory`: on Linux it is the process's virtual size over its resident size, much higher. [`MEMORY DOCTOR`](../commands/memory-doctor.md) warns of fragmentation because of it. Divide `used_memory_rss` by `used_memory` instead. Several other `INFO memory` fields are fixed. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152), fixed in 1.2.
+- `MEMORY USAGE key SAMPLES 0` on a hash, set or sorted set closes the connection, with an error in the server's log. Filed as [kividb#151](https://github.com/kividbio/kividb/issues/151), fixed in 1.2.

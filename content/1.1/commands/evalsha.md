@@ -27,7 +27,7 @@ Runs a script the server already has, named by its SHA1 digest, as [`SCRIPT LOAD
 
 ## Known issue
 
-Refused on a replica with `READONLY`, even for a script that only reads; use [`EVALSHA_RO`](evalsha_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145).
+Refused on a replica with `READONLY`, even for a script that only reads; use [`EVALSHA_RO`](evalsha_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145), fixed in 1.2.
 
 ## Reply
 

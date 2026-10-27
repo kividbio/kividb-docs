@@ -27,10 +27,7 @@ Stops the script running, if it has not written anything. While a script has run
 
 - `OK`; the script's client gets `ERR Script killed by user`.
 - `ERR No scripts in execution.` if none is running.
-
-## Known issue
-
-`SCRIPT KILL` on a script that has already written replies `OK`, but the script goes on running, and the server stays busy until `SHUTDOWN NOSAVE`. Redis replies `UNKILLABLE` instead. Filed as [kividb#129](https://github.com/kividbio/kividb/issues/129).
+- `UNKILLABLE Sorry the script already executed write commands against the dataset.` if the script has written. It runs on, and the server stays busy until it ends or `SHUTDOWN NOSAVE`. Before 1.2, this was answered `OK`, and the script ran on all the same.
 
 ## Examples
 

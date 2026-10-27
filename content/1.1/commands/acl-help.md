@@ -25,4 +25,4 @@ In Redis, lists the `ACL` subcommands.
 
 ## Known issue
 
-KiviDB does not have `ACL HELP`: it replies `ERR unknown subcommand 'HELP'. Try ACL HELP.` Filed as [kividb#134](https://github.com/kividbio/kividb/issues/134).
+KiviDB does not have `ACL HELP`: it replies `ERR unknown subcommand 'HELP'. Try ACL HELP.` Filed as [kividb#134](https://github.com/kividbio/kividb/issues/134), fixed in 1.2.

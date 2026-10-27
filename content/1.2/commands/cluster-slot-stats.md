@@ -26,9 +26,7 @@ Returns statistics for each slot this node owns: for slots `start` to `end`, or 
 
 Each slot has `key-count`, `cpu-usec`, `network-bytes-in` and `network-bytes-out`. Only `key-count` is measured; the other three are `0`, and `ORDERBY` takes only `key-count`.
 
-## Known issue
-
-`ORDERBY` with neither `ASC` nor `DESC` sorts ascending, where Redis sorts descending, so it returns the emptiest slots. Give `DESC` for the busiest. Filed as [kividb#139](https://github.com/kividbio/kividb/issues/139).
+`ORDERBY` sorts descending, the busiest slots first, unless given `ASC`. Before 1.2, it sorted ascending unless given `DESC`, so `ORDERBY key-count LIMIT n` returned empty slots.
 
 ## Reply
 
@@ -38,8 +36,8 @@ Each slot has `key-count`, `cpu-usec`, `network-bytes-in` and `network-bytes-out
 ## Examples
 
 ```
-> CLUSTER SLOT-STATS SLOTSRANGE 15495 15496
-1) 1) (integer) 15495
+> CLUSTER SLOT-STATS SLOTSRANGE 10778 10779
+1) 1) (integer) 10778
    2) 1) "key-count"
       2) (integer) 2
       3) "cpu-usec"
@@ -48,12 +46,16 @@ Each slot has `key-count`, `cpu-usec`, `network-bytes-in` and `network-bytes-out
       6) (integer) 0
       7) "network-bytes-out"
       8) (integer) 0
-2) 1) (integer) 15496
+2) 1) (integer) 10779
    2) 1) "key-count"
       2) (integer) 0
       ...
-> CLUSTER SLOT-STATS ORDERBY key-count LIMIT 1 DESC
-1) 1) (integer) 325
+> CLUSTER SLOT-STATS ORDERBY key-count LIMIT 2
+1) 1) (integer) 10778
+   2) 1) "key-count"
+      2) (integer) 2
+      ...
+2) 1) (integer) 12182
    2) 1) "key-count"
       2) (integer) 1
       ...

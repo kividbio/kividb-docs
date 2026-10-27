@@ -23,13 +23,11 @@ CLUSTER REPLICAS master-id
 <!-- generated: end -->
 Returns the replicas of the master `master-id`, each as a [`CLUSTER NODES`](cluster-nodes.md) line.
 
-## Known issue
-
-The reply is one bulk string, the lines joined by newlines, where Redis replies with an array of lines. Filed as [kividb#138](https://github.com/kividbio/kividb/issues/138).
+The reply is an array, one string a replica, and an empty array for a master without replicas. `CLUSTER SLAVES` is the same. Before 1.2, both replied with one string, the lines joined by newlines.
 
 ## Examples
 
 ```
-> CLUSTER REPLICAS c8f25b1cf916df71e53ef00653f105b04e6c66aa
-"0eacc11dc2a8cdbeca2028d952a58ae4485dcd27 127.0.0.1:17633@27633 slave c8f25b1cf916df71e53ef00653f105b04e6c66aa 1792968858779 1792968858799 1 connected\n"
+> CLUSTER REPLICAS 5c41f1bfc4f9d9f6d69358bb34269e9f98279c72
+1) "60f37104e07b4024b37f335d52188a29cecf46dd 127.0.0.1:7311@17311 slave 5c41f1bfc4f9d9f6d69358bb34269e9f98279c72 1793114623408 1793114623413 2 connected"
 ```

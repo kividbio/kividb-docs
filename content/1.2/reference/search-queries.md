@@ -148,4 +148,14 @@ OK
 
 ## Synonyms
 
-Synonym groups made with [`FT.SYNUPDATE`](../commands/ft.synupdate.md) are stored, but do not change what a query matches. Filed as [kividb#130](https://github.com/kividbio/kividb/issues/130).
+A query word matches every word of the synonym groups, made with [`FT.SYNUPDATE`](../commands/ft.synupdate.md), that it is in, alone or in a field (`@name:light`), in documents written before the group as well as after. Only the word's own groups count: a word in a group with `lamp` does not reach the other groups `lamp` is in. A quoted phrase, and a word with `*` or `%`, is matched as written. Before 1.2, synonym groups did not change what a query matched.
+
+```
+> FT.SYNUPDATE products g1 lamp light
+OK
+> FT.SEARCH products "desk light" NOCONTENT
+1) (integer) 1
+2) "product:4"
+> FT.SEARCH products "\"desk light\"" NOCONTENT
+1) (integer) 0
+```

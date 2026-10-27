@@ -23,11 +23,9 @@ CONFIG SET param value [param value ...]
 <!-- generated: end -->
 Changes settings, all or none of them: a value out of range, a setting that cannot change at runtime, or one named twice makes it an error that names it, and nothing changes.
 
-A name KiviDB does not have is accepted and remembered, so that tools that set Redis's settings do not fail; [`CONFIG GET`](config-get.md) returns what was set. A `cluster-*` name it does not have is refused, with Redis's `Unknown option` error; before 1.2, it was accepted and remembered too. [Configuration](../reference/configuration.md) lists the settings and which change at runtime.
+A setting of Redis's that means nothing in KiviDB (`maxclients`, `hz`, `timeout`, the encodings, ...) is accepted and remembered, so that tools that set Redis's settings do not fail; [`CONFIG GET`](config-get.md) returns what was set. A name that is neither KiviDB's nor Redis's, a misspelt one among them, is refused, as in Redis, and so is a `cluster-*` name KiviDB does not have. A setting read only at startup (`threads`, `io-model`, `bind`, `dir`, `backupdirname`, `repl-replica-max-backlog-bytes`, ...) is refused, unless set to what it already is. [Configuration](../reference/configuration.md) lists the settings and which change at runtime.
 
-## Known issue
-
-Some settings that `CONFIG GET` reports reply `OK` and do not change: `repl-replica-max-backlog-bytes` and `backupdirname` among them, which should be refused or applied. A misspelt name is accepted like any other the server does not have. Filed as [kividb#143](https://github.com/kividbio/kividb/issues/143).
+Before 1.2, any unknown name was accepted and remembered, and a setting read only at startup replied `OK` and did not change.
 
 ## Examples
 
@@ -37,4 +35,8 @@ OK
 > CONFIG GET maxmemory
 1) "maxmemory"
 2) "104857600"
+> CONFIG SET bogus-name 1
+(error) ERR Unknown option or number of arguments for CONFIG SET - 'bogus-name'
+> CONFIG SET backupdirname x
+(error) ERR CONFIG SET failed (possibly related to argument 'backupdirname') - can't set immutable config
 ```

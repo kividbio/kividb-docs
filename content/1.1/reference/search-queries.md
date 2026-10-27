@@ -148,4 +148,4 @@ OK
 
 ## Synonyms
 
-In KiviDB 1.1, synonym groups made with [`FT.SYNUPDATE`](../commands/ft.synupdate.md) are stored, but do not change what a query matches. Filed as [kividb#130](https://github.com/kividbio/kividb/issues/130).
+In KiviDB 1.1, synonym groups made with [`FT.SYNUPDATE`](../commands/ft.synupdate.md) are stored, but do not change what a query matches. Filed as [kividb#130](https://github.com/kividbio/kividb/issues/130), fixed in 1.2.

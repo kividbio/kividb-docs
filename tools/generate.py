@@ -324,7 +324,12 @@ def config_page(version, release, releases, history):
 
     body = ["Every setting of KiviDB " + version + ". A setting is given when the server starts, on the command line (`--name value`) or in the configuration file (`name value`, a setting a line; the file is the one `--configfile` names). Most can also be read with `CONFIG GET` and changed with `CONFIG SET` while the server runs. Each setting says which of these it takes.", "",
             "A configuration file with a line the server does not know stops it from starting, with the line's number. A setting given both on the command line and in the file takes the command line's value.", ""]
-    real = [n for n in names if n not in remembered]
+    # A setting the server only remembers is listed as accepted for
+    # compatibility, unless settings.md says what it does: the engine
+    # remembers some that do take effect (`aof-ack-after-write`), so that
+    # CONFIG GET answers with what was set.
+    compat = {n for n in remembered if n not in text}
+    real = [n for n in names if n not in compat]
     by_group = {}
     for n in real:
         by_group.setdefault(groups.get(n, "Other"), []).append(n)
@@ -337,7 +342,7 @@ def config_page(version, release, releases, history):
     body += ["## Accepted for compatibility with Redis", "",
              "These are Redis settings that mean nothing in KiviDB: how Redis encodes small values, sizes its buffers, and the like. `CONFIG SET` accepts them, so that clients and tools that set them do not fail, and `CONFIG GET` answers with what was set, but they change nothing.", "",
              "| Setting | Default | Since | Config file |", "|---|---|---|---|"]
-    for n in sorted(remembered & set(names)):
+    for n in sorted(compat & set(names)):
         f = how_file(how.get(n, {}).get("file")) or ""
         body.append(f"| `{n}` | {shown(config.get(n))} | {hist.get(n, {}).get('since', releases[0])} | {f} |")
     write_generated(CONTENT / version / "reference" / "configuration.md",

@@ -25,15 +25,15 @@ EVAL script numkeys key [key ...] arg [arg ...]
 <!-- generated: end -->
 Runs a Lua script on the server, as one step: no other client's command starts while it runs. `numkeys` is how many of the arguments that follow are key names, which the script reads as `KEYS[1]`, `KEYS[2]`, ...; the rest are `ARGV[1]`, `ARGV[2]`, ....
 
-Only the `lua` and `full` builds run scripts. In the default build, every scripting command replies `ERR Lua scripting is not supported by KiviDB`; see [Choose a build](../../1.1/get-started/builds.md).
+Only the `lua` and `full` builds run scripts. In the default build, every scripting command replies with an error that names the `lua` and `full` builds; see [Choose a build](../../1.1/get-started/builds.md).
 
 Inside a script, `redis.call(command, ...)` runs a command and raises its error, if it fails; `redis.pcall` returns the error instead. `redis.error_reply(text)` and `redis.status_reply(text)` make replies.
 
-## Known issue
+On a replica, a script runs as long as it only reads; a write it makes gets `READONLY`, and a script whose first line declares flags without `no-writes` is refused before it runs. Before 1.2, `EVAL` was refused on a replica even for a script that only read.
 
-Refused on a replica with `READONLY`, even for a script that only reads; use [`EVAL_RO`](eval_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145).
+In a cluster, a script uses only keys of its own slot, on this node; with the `allow-cross-slot-keys` flag, keys of any slot this node serves. See [Scripting](../guides/scripting.md#in-a-cluster). Before 1.2, a script could write a key of a slot another node owns, and the key was stored on this node.
 
-In a cluster, a `redis.call` on a key in a slot another node owns is not refused: the key is written on this node, where clients will not find it. Filed as [kividb#153](https://github.com/kividbio/kividb/issues/153). Every distinct script is kept in the script cache, with no limit. Filed as [kividb#155](https://github.com/kividbio/kividb/issues/155).
+The server keeps the 500 scripts sent only with `EVAL` that were used most recently, and lets the others go. Before 1.2, it kept every one.
 
 ## Reply
 

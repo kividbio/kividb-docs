@@ -28,6 +28,7 @@ Adds 1 to the integer stored at `key`. A missing key counts as `0`. The value mu
 ## Reply
 
 - The value after the increment.
+- `ERR increment or decrement would overflow` if the value is already the largest 64-bit integer, `9223372036854775807`; the value is unchanged.
 - `ERR value is not an integer or out of range` if the value is not an integer.
 - A `WRONGTYPE` error if the key is not a string.
 
@@ -40,8 +41,10 @@ OK
 (integer) 11
 > INCR missing
 (integer) 1
+> SET big 9223372036854775807
+OK
+> INCR big
+(error) ERR increment or decrement would overflow
 ```
 
-## Known issue
-
-`INCR` on a key holding the largest 64-bit integer, `9223372036854775807`, does not return an overflow error: the value wraps around to `-9223372036854775808`. [`INCRBY`](incrby.md)` key 1` returns `ERR increment or decrement would overflow` instead, as Redis does, and so does `DECR` at the other end. Filed as [kividb#124](https://github.com/kividbio/kividb/issues/124).
+Before 1.2, `INCR` at the largest integer wrapped around to `-9223372036854775808`.

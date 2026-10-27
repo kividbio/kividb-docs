@@ -27,7 +27,7 @@ A name KiviDB does not have is accepted and remembered, so that tools that set R
 
 ## Known issue
 
-Some settings that `CONFIG GET` reports reply `OK` and do not change: `repl-replica-max-backlog-bytes` and `backupdirname` among them, which should be refused or applied. A misspelt name is accepted like any other the server does not have. Filed as [kividb#143](https://github.com/kividbio/kividb/issues/143).
+Some settings that `CONFIG GET` reports reply `OK` and do not change: `repl-replica-max-backlog-bytes` and `backupdirname` among them, which should be refused or applied. A misspelt name is accepted like any other the server does not have. Filed as [kividb#143](https://github.com/kividbio/kividb/issues/143), fixed in 1.2.
 
 ## Examples
 

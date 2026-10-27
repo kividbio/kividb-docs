@@ -35,7 +35,7 @@ Returns the elements of the vector set at `key` most similar to a vector, most s
 | `WITHSCORES` | Give each element's similarity: `1` is identical. |
 | `WITHATTRIBS` | Give each element's attributes. |
 | `EF n`, `NOTHREAD`, `TRUTH` | Accepted. Every search compares every vector, so results are exact. |
-| `FILTER expr` | Accepted, and ignored in KiviDB 1.1: every element is returned. See [kividb#132](https://github.com/kividbio/kividb/issues/132). |
+| `FILTER expr` | Accepted, and ignored in KiviDB 1.1: every element is returned. See [kividb#132](https://github.com/kividbio/kividb/issues/132), fixed in 1.2. |
 
 ## Reply
 
@@ -54,3 +54,7 @@ Returns the elements of the vector set at `key` most similar to a vector, most s
 1) "c"
 2) "{\"color\":\"red\",\"size\":3}"
 ```
+
+## Known issue
+
+`WITHSCORES` gives the cosine similarity itself, from `-1` to `1`. Redis gives it on a scale from `0` to `1`, as `(1 + cosine) / 2`. Identical vectors score `1` in both, but vectors at right angles score `0` here and `0.5` in Redis, and opposite vectors `-1` here and `0` in Redis. The order of the results is the same. Filed as [kividb#171](https://github.com/kividbio/kividb/issues/171).

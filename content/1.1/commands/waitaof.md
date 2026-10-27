@@ -31,4 +31,4 @@ Waits until every write this connection made before it is in the local AOF and f
 
 ## Known issue
 
-With the AOF off, `WAITAOF` replies that the local fsync happened, `[1, 0]`; Redis refuses `numlocal` without an AOF. Do not rely on `WAITAOF` for durability unless `appendonly` is `yes`. Filed as [kividb#137](https://github.com/kividbio/kividb/issues/137).
+With the AOF off, `WAITAOF` replies that the local fsync happened, `[1, 0]`; Redis refuses `numlocal` without an AOF. Do not rely on `WAITAOF` for durability unless `appendonly` is `yes`. Filed as [kividb#137](https://github.com/kividbio/kividb/issues/137), fixed in 1.2.

@@ -42,7 +42,7 @@ Sharded channels, [`SSUBSCRIBE`](../commands/ssubscribe.md) and [`SPUBLISH`](../
 
 ### Known issues
 
-Filed as [kividb#161](https://github.com/kividbio/kividb/issues/161):
+Filed as [kividb#161](https://github.com/kividbio/kividb/issues/161), fixed in 1.2:
 
 - A channel name must be valid UTF-8: `PUBLISH` refuses one that is not.
 - `SSUBSCRIBE` is not redirected: on a node that does not own the channel's slot, it succeeds and receives nothing. Subscribe on the owner, or a replica of it.
@@ -79,7 +79,7 @@ OK
 
 ### Known issues
 
-Filed as [kividb#160](https://github.com/kividbio/kividb/issues/160):
+Filed as [kividb#160](https://github.com/kividbio/kividb/issues/160), fixed in 1.2:
 
 - Some events have other names than Redis's: `INCR`, `DECR` and `DECRBY` publish `incr`, `decr`, `decrby` (Redis: `incrby`); `GETDEL` publishes `getdel` (Redis: `del`); `GETSET` and `SETNX` publish `getset` and `setnx` (Redis: `set`); `GETEX` publishes `getex`; `LMOVE` publishes `lmove` on both keys.
 - `SETRANGE`, `SETBIT`, `BITOP`, `BITFIELD`, `PFADD`, `PFMERGE`, `GEOADD`, `MOVE`, `SWAPDB` and the JSON, time series and vector set commands publish nothing.

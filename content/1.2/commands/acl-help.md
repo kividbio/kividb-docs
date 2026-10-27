@@ -1,6 +1,6 @@
 ---
 title: "ACL HELP"
-description: "In Redis, lists the ACL subcommands."
+description: "Lists the ACL subcommands and what each does."
 version: "1.2"
 command: "ACL HELP"
 syntax: "ACL HELP"
@@ -21,8 +21,4 @@ ACL HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-In Redis, lists the `ACL` subcommands.
-
-## Known issue
-
-KiviDB does not have `ACL HELP`: it replies `ERR unknown subcommand 'HELP'. Try ACL HELP.` Filed as [kividb#134](https://github.com/kividbio/kividb/issues/134).
+Lists the `ACL` subcommands and what each does. Before 1.2, KiviDB did not have `ACL HELP`, and replied `ERR unknown subcommand 'HELP'. Try ACL HELP.`

@@ -51,8 +51,8 @@
  },
  "activerehashing": {
   "flag": null,
-  "file": "ignored",
-  "runtime": "ignored"
+  "file": "applied",
+  "runtime": "applied"
  },
  "aof": {
   "flag": {
@@ -63,6 +63,11 @@
   },
   "file": "accepted",
   "runtime": "not a CONFIG setting"
+ },
+ "aof-ack-after-write": {
+  "flag": null,
+  "file": "applied",
+  "runtime": "applied"
  },
  "aof-preamble": {
   "flag": {
@@ -109,17 +114,17 @@
  },
  "array-slice-size": {
   "flag": null,
-  "file": "unknown directive 'array-slice-size' (in: array-slice-size 4097)",
+  "file": "invalid value '4097' for 'array-slice-size': CONFIG SET failed (possibly related to argument 'array-slice-size') - array-slice-size must be a power of two (in: array-slice-size 4097)",
   "runtime": "ERR CONFIG SET failed (possibly related to argument 'array-slice-size') - array-slice-size must be a power of two"
  },
  "array-sparse-kmax": {
   "flag": null,
-  "file": "unknown directive 'array-sparse-kmax' (in: array-sparse-kmax 11)",
+  "file": "applied",
   "runtime": "applied"
  },
  "array-sparse-kmin": {
   "flag": null,
-  "file": "unknown directive 'array-sparse-kmin' (in: array-sparse-kmin 6)",
+  "file": "applied",
   "runtime": "applied"
  },
  "auto-aof-rewrite-min-size": {
@@ -150,7 +155,7 @@
    "help": "Directory `BACKUP START` writes a backup into, under the working directory (Redis 8.10 `backupdirname`). Startup-only"
   },
   "file": "applied",
-  "runtime": "ignored"
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'backupdirname') - can't set immutable config"
  },
  "bind": {
   "flag": {
@@ -164,17 +169,17 @@
  },
  "busy-reply-threshold": {
   "flag": null,
-  "file": "unknown directive 'busy-reply-threshold' (in: busy-reply-threshold 5001)",
-  "runtime": "ignored"
+  "file": "applied",
+  "runtime": "applied"
  },
  "client-query-buffer-limit": {
   "flag": null,
-  "file": "unknown directive 'client-query-buffer-limit' (in: client-query-buffer-limit 1073741825)",
+  "file": "applied",
   "runtime": "applied"
  },
  "close-on-replica-write": {
   "flag": null,
-  "file": "unknown directive 'close-on-replica-write' (in: close-on-replica-write no)",
+  "file": "applied",
   "runtime": "applied"
  },
  "cluster-announce-bus-port": {
@@ -359,33 +364,33 @@
  },
  "hash-max-listpack-entries": {
   "flag": null,
-  "file": "unknown directive 'hash-max-listpack-entries' (in: hash-max-listpack-entries 513)",
+  "file": "applied",
   "runtime": "applied"
  },
  "hash-max-listpack-value": {
   "flag": null,
-  "file": "unknown directive 'hash-max-listpack-value' (in: hash-max-listpack-value 65)",
+  "file": "applied",
   "runtime": "applied"
  },
  "hash-max-ziplist-entries": {
   "flag": null,
-  "file": "unknown directive 'hash-max-ziplist-entries' (in: hash-max-ziplist-entries 513)",
+  "file": "applied",
   "runtime": "applied"
  },
  "hash-max-ziplist-value": {
   "flag": null,
-  "file": "unknown directive 'hash-max-ziplist-value' (in: hash-max-ziplist-value 65)",
+  "file": "applied",
   "runtime": "applied"
  },
  "hll-sparse-max-bytes": {
   "flag": null,
-  "file": "unknown directive 'hll-sparse-max-bytes' (in: hll-sparse-max-bytes 3001)",
+  "file": "applied",
   "runtime": "applied"
  },
  "hz": {
   "flag": null,
-  "file": "ignored",
-  "runtime": "ignored"
+  "file": "applied",
+  "runtime": "applied"
  },
  "io-model": {
   "flag": {
@@ -411,39 +416,44 @@
   "file": "applied",
   "runtime": "applied"
  },
+ "latency-monitor-threshold": {
+  "flag": null,
+  "file": "applied",
+  "runtime": "applied"
+ },
  "latency-tracking": {
   "flag": null,
-  "file": "unknown directive 'latency-tracking' (in: latency-tracking no)",
+  "file": "applied",
   "runtime": "applied"
  },
  "latency-tracking-info-percentiles": {
   "flag": null,
-  "file": "unknown directive 'latency-tracking-info-percentiles' (in: latency-tracking-info-percentiles \"50 99\")",
+  "file": "applied",
   "runtime": "applied"
  },
  "lazyfree-lazy-eviction": {
   "flag": null,
-  "file": "ignored",
-  "runtime": "ignored"
+  "file": "applied",
+  "runtime": "applied"
  },
  "lazyfree-lazy-expire": {
   "flag": null,
-  "file": "ignored",
+  "file": "applied",
   "runtime": "applied"
  },
  "lazyfree-lazy-server-del": {
   "flag": null,
-  "file": "ignored",
+  "file": "applied",
   "runtime": "applied"
  },
  "lazyfree-lazy-user-del": {
   "flag": null,
-  "file": "ignored",
+  "file": "applied",
   "runtime": "applied"
  },
  "lazyfree-lazy-user-flush": {
   "flag": null,
-  "file": "unknown directive 'lazyfree-lazy-user-flush' (in: lazyfree-lazy-user-flush yes)",
+  "file": "applied",
   "runtime": "applied"
  },
  "lfu-decay-time": {
@@ -468,17 +478,17 @@
  },
  "list-compress-depth": {
   "flag": null,
-  "file": "unknown directive 'list-compress-depth' (in: list-compress-depth 1)",
+  "file": "applied",
   "runtime": "applied"
  },
  "list-max-listpack-size": {
   "flag": null,
-  "file": "unknown directive 'list-max-listpack-size' (in: list-max-listpack-size 5)",
+  "file": "applied",
   "runtime": "applied"
  },
  "list-max-ziplist-size": {
   "flag": null,
-  "file": "unknown directive 'list-max-ziplist-size' (in: list-max-ziplist-size 5)",
+  "file": "applied",
   "runtime": "applied"
  },
  "log-format": {
@@ -529,8 +539,8 @@
  },
  "lua-time-limit": {
   "flag": null,
-  "file": "unknown directive 'lua-time-limit' (in: lua-time-limit 5001)",
-  "runtime": "ignored"
+  "file": "applied",
+  "runtime": "applied"
  },
  "masterauth": {
   "flag": {
@@ -554,7 +564,7 @@
  },
  "maxclients": {
   "flag": null,
-  "file": "unknown directive 'maxclients' (in: maxclients 10001)",
+  "file": "applied",
   "runtime": "applied"
  },
  "maxmemory": {
@@ -569,7 +579,7 @@
  },
  "maxmemory-clients": {
   "flag": null,
-  "file": "unknown directive 'maxmemory-clients' (in: maxmemory-clients 1)",
+  "file": "applied",
   "runtime": "applied"
  },
  "maxmemory-policy": {
@@ -654,7 +664,7 @@
  },
  "proto-max-bulk-len": {
   "flag": null,
-  "file": "unknown directive 'proto-max-bulk-len' (in: proto-max-bulk-len 536870913)",
+  "file": "applied",
   "runtime": "applied"
  },
  "repl-backlog-size": {
@@ -705,7 +715,7 @@
    "help": "Max bytes a master will queue for a single replica that isn't keeping up (analogous to Redis's `client-output-buffer-limit slave <hard-limit>`). Once exceeded the replica is disconnected — it must full-resync to catch back up — rather than letting the queue grow without bound"
   },
   "file": "applied",
-  "runtime": "ignored"
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'repl-replica-max-backlog-bytes') - can't set immutable config"
  },
  "repl-timeout": {
   "flag": {
@@ -774,17 +784,17 @@
  },
  "set-max-intset-entries": {
   "flag": null,
-  "file": "unknown directive 'set-max-intset-entries' (in: set-max-intset-entries 513)",
+  "file": "applied",
   "runtime": "applied"
  },
  "set-max-listpack-entries": {
   "flag": null,
-  "file": "unknown directive 'set-max-listpack-entries' (in: set-max-listpack-entries 129)",
+  "file": "applied",
   "runtime": "applied"
  },
  "set-max-listpack-value": {
   "flag": null,
-  "file": "unknown directive 'set-max-listpack-value' (in: set-max-listpack-value 65)",
+  "file": "applied",
   "runtime": "applied"
  },
  "slaveof": {
@@ -854,12 +864,12 @@
  },
  "stream-node-max-bytes": {
   "flag": null,
-  "file": "unknown directive 'stream-node-max-bytes' (in: stream-node-max-bytes 4097)",
+  "file": "applied",
   "runtime": "applied"
  },
  "stream-node-max-entries": {
   "flag": null,
-  "file": "unknown directive 'stream-node-max-entries' (in: stream-node-max-entries 101)",
+  "file": "applied",
   "runtime": "applied"
  },
  "tcp-backlog": {
@@ -869,8 +879,8 @@
  },
  "tcp-keepalive": {
   "flag": null,
-  "file": "ignored",
-  "runtime": "ignored"
+  "file": "applied",
+  "runtime": "applied"
  },
  "threads": {
   "flag": {
@@ -884,8 +894,8 @@
  },
  "timeout": {
   "flag": null,
-  "file": "ignored",
-  "runtime": "ignored"
+  "file": "applied",
+  "runtime": "applied"
  },
  "tls-auth-clients": {
   "flag": {
@@ -979,8 +989,13 @@
  },
  "tracking-table-max-keys": {
   "flag": null,
-  "file": "unknown directive 'tracking-table-max-keys' (in: tracking-table-max-keys 1000001)",
+  "file": "applied",
   "runtime": "applied"
+ },
+ "ts-duplicate-policy": {
+  "flag": null,
+  "file": "accepted",
+  "runtime": "accepted"
  },
  "update-check": {
   "flag": {
@@ -1004,22 +1019,22 @@
  },
  "zset-max-listpack-entries": {
   "flag": null,
-  "file": "unknown directive 'zset-max-listpack-entries' (in: zset-max-listpack-entries 129)",
+  "file": "applied",
   "runtime": "applied"
  },
  "zset-max-listpack-value": {
   "flag": null,
-  "file": "unknown directive 'zset-max-listpack-value' (in: zset-max-listpack-value 65)",
+  "file": "applied",
   "runtime": "applied"
  },
  "zset-max-ziplist-entries": {
   "flag": null,
-  "file": "unknown directive 'zset-max-ziplist-entries' (in: zset-max-ziplist-entries 129)",
+  "file": "applied",
   "runtime": "applied"
  },
  "zset-max-ziplist-value": {
   "flag": null,
-  "file": "unknown directive 'zset-max-ziplist-value' (in: zset-max-ziplist-value 65)",
+  "file": "applied",
   "runtime": "applied"
  }
 }

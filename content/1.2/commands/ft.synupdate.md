@@ -23,15 +23,20 @@ FT.SYNUPDATE index group_id [SKIPINITIALSCAN] term [term ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-Creates or updates a synonym group of an index: words to be treated as the same.
+Creates or updates a synonym group of an index: words to be treated as the same. Terms given for a group that exists are added to it; [`FT.SYNDUMP`](ft.syndump.md) shows the groups.
 
-## Known issue
-
-Groups are stored, and [`FT.SYNDUMP`](ft.syndump.md) shows them, but they do not change what a query matches. Filed as [kividb#130](https://github.com/kividbio/kividb/issues/130).
+A query word then matches every word of the groups it is in, in documents written before the group was made as well as after; `SKIPINITIALSCAN` changes nothing. A quoted phrase is matched as written. Before 1.2, groups were stored and did not change what a query matched.
 
 ## Examples
 
 ```
-> FT.SYNUPDATE products g1 lamp light
+> HSET product:1 name "Wireless headphones"
+(integer) 1
+> FT.SYNUPDATE products g1 headphones earphones
 OK
+> FT.SEARCH products earphones RETURN 1 name
+1) (integer) 1
+2) "product:1"
+3) 1) "name"
+   2) "Wireless headphones"
 ```

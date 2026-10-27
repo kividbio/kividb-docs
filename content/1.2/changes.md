@@ -9,6 +9,8 @@ What each release added, removed and changed in the commands and settings, as ea
 
 ## 1.2
 
-**New settings:** `active-defrag-cycle-max`, `active-defrag-ignore-bytes`, `active-defrag-threshold-lower`, `cluster-announce-client-port`, `cluster-replica-validity-factor`
+**Commands removed:** `GEODELBYMEMBER`
 
-**Defaults changed:** `activedefrag`
+**New settings:** `active-defrag-cycle-max`, `active-defrag-ignore-bytes`, `active-defrag-threshold-lower`, `aof-ack-after-write`, `cluster-announce-client-port`, `cluster-replica-validity-factor`, `latency-monitor-threshold`, `ts-duplicate-policy`
+
+**Defaults changed:** `activedefrag`, `lazyfree-lazy-user-del`

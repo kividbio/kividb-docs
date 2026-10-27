@@ -31,7 +31,7 @@ Creates a compaction rule: every sample added to `sourceKey` is aggregated, by `
 
 ## Differences from Redis
 
-The destination gets the bucket still being filled written as samples arrive; Redis writes a bucket only when it closes, and reports the open one only with `LATEST`. Filed as [kividb#128](https://github.com/kividbio/kividb/issues/128).
+The destination gets the bucket still being filled written as samples arrive; Redis writes a bucket only when it closes, and reports the open one only with `LATEST`. Filed as [kividb#128](https://github.com/kividbio/kividb/issues/128), fixed in 1.2.
 
 ## Examples
 

@@ -174,7 +174,7 @@ Seconds between the pings a master sends its replicas, so that a replica can tel
 
 **Default:** `268435456` · **Since:** 1.1.0 · **Command line:** `--repl-replica-max-backlog-bytes <REPL_REPLICA_MAX_BACKLOG_BYTES>` · **Config file:** yes · **`CONFIG SET`:** replies `OK`, but has no effect
 
-The most bytes a master queues for one replica that is not keeping up. Past it, the replica is disconnected, and copies the whole dataset when it reconnects, rather than the queue growing without bound. It is like Redis's `client-output-buffer-limit replica`. `CONFIG SET` replies `OK` and does not change it: filed as [kividb#143](https://github.com/kividbio/kividb/issues/143).
+The most bytes a master queues for one replica that is not keeping up. Past it, the replica is disconnected, and copies the whole dataset when it reconnects, rather than the queue growing without bound. It is like Redis's `client-output-buffer-limit replica`. `CONFIG SET` replies `OK` and does not change it: filed as [kividb#143](https://github.com/kividbio/kividb/issues/143), fixed in 1.2.
 
 ### `repl-timeout`
 
@@ -407,7 +407,7 @@ The most entries the slow log keeps; the oldest goes when it is full.
 
 **Default:** `1000000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
 
-The most keys [client-side caching](../commands/client-tracking.md) tracks. Past it, keys are dropped from the table, and the clients that had read them are told to forget them. `0`: no limit. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+The most keys [client-side caching](../commands/client-tracking.md) tracks. Past it, keys are dropped from the table, and the clients that had read them are told to forget them. `0`: no limit. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2.
 
 ## Server
 
@@ -507,7 +507,7 @@ Seconds a sealed backup is kept before it is deleted. `0`, the default, keeps it
 
 **Default:** `backupdir` · **Since:** 1.1.0 · **Command line:** `--backupdirname <BACKUPDIRNAME>` · **Config file:** yes · **`CONFIG SET`:** replies `OK`, but has no effect
 
-The directory, under [`dir`](#dir), that [`BACKUP START`](../commands/backup-start.md) writes into. `CONFIG SET` replies `OK` and does not change it: filed as [kividb#143](https://github.com/kividbio/kividb/issues/143).
+The directory, under [`dir`](#dir), that [`BACKUP START`](../commands/backup-start.md) writes into. `CONFIG SET` replies `OK` and does not change it: filed as [kividb#143](https://github.com/kividbio/kividb/issues/143), fixed in 1.2.
 
 ### `dir`
 
@@ -527,19 +527,19 @@ A file to load at startup instead of `dump.kdb` and `appendonly.aof`: `aof:manif
 
 **Default:** `4096` · **Since:** 1.1.1 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
 
-How many indexes each slice of an [array](../commands/arset.md) covers: a power of two from 256 to 65536. It applies to arrays made after it is set. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+How many indexes each slice of an [array](../commands/arset.md) covers: a power of two from 256 to 65536. It applies to arrays made after it is set. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2.
 
 ### `array-sparse-kmax`
 
 **Default:** `10` · **Since:** 1.1.1 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
 
-The most elements a slice of an array holds as a sparse list before it becomes dense: 0 to 256, and more than [`array-sparse-kmin`](#array-sparse-kmin). `0`: slices are always dense. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+The most elements a slice of an array holds as a sparse list before it becomes dense: 0 to 256, and more than [`array-sparse-kmin`](#array-sparse-kmin). `0`: slices are always dense. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2.
 
 ### `array-sparse-kmin`
 
 **Default:** `5` · **Since:** 1.1.1 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
 
-A dense slice of an array with this many elements or fewer becomes sparse again: 0 to 256, and less than [`array-sparse-kmax`](#array-sparse-kmax). It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+A dense slice of an array with this many elements or fewer becomes sparse again: 0 to 256, and less than [`array-sparse-kmax`](#array-sparse-kmax). It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2.
 
 ### `stream-idmp-duration`
 
@@ -557,13 +557,13 @@ How many IDs are remembered for each producer, for streams that do not set their
 
 **Default:** `4096` · **Since:** 1.1.0 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
 
-How many bytes make one node of a stream, for trimming with `~`. `0`: no limit. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+How many bytes make one node of a stream, for trimming with `~`. `0`: no limit. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2.
 
 ### `stream-node-max-entries`
 
 **Default:** `100` · **Since:** 1.1.0 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
 
-How many entries make one node of a stream, for trimming with `~` ([`XADD`](../commands/xadd.md), [`XTRIM`](../commands/xtrim.md)): an approximate trim removes whole nodes only. `0` is taken as `100`. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+How many entries make one node of a stream, for trimming with `~` ([`XADD`](../commands/xadd.md), [`XTRIM`](../commands/xtrim.md)): an approximate trim removes whole nodes only. `0` is taken as `100`. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2.
 
 ## Scripting
 
@@ -571,7 +571,7 @@ How many entries make one node of a stream, for trimming with `~` ([`XADD`](../c
 
 **Default:** `5000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes; in builds without Lua, replies `OK` and has no effect
 
-Milliseconds a script may run before other clients are answered `BUSY`, and [`SCRIPT KILL`](../commands/script-kill.md) or [`FUNCTION KILL`](../commands/function-kill.md) can stop it. `0`: never. In builds without Lua, `CONFIG GET` always gives `5000`. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+Milliseconds a script may run before other clients are answered `BUSY`, and [`SCRIPT KILL`](../commands/script-kill.md) or [`FUNCTION KILL`](../commands/function-kill.md) can stop it. `0`: never. In builds without Lua, `CONFIG GET` always gives `5000`. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2.
 
 ### `lua-parallel-scripts`
 

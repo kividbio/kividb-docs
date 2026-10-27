@@ -29,9 +29,9 @@ A function is held to the flags it was registered with. With `no-writes`, it can
 
 ## Known issue
 
-Refused on a replica with `READONLY`, even for a function that only reads; use [`FCALL_RO`](fcall_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145).
+Refused on a replica with `READONLY`, even for a function that only reads; use [`FCALL_RO`](fcall_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145), fixed in 1.2.
 
-In a cluster, a `redis.call` on a key in a slot another node owns is not refused: the key is written on this node, where clients will not find it. Filed as [kividb#153](https://github.com/kividbio/kividb/issues/153).
+In a cluster, a `redis.call` on a key in a slot another node owns is not refused: the key is written on this node, where clients will not find it. Filed as [kividb#153](https://github.com/kividbio/kividb/issues/153), fixed in 1.2.
 
 ## Reply
 

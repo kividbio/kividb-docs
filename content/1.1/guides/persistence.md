@@ -38,8 +38,8 @@ Background saving started
 
 ### Known issues
 
-- With the append-only file off, a snapshot is copied a part of the dataset at a time, not at a single moment: a transaction or script whose keys are in two parts can be saved half applied. With the append-only file on, it is a single moment. Filed as [kividb#148](https://github.com/kividbio/kividb/issues/148).
-- [`LASTSAVE`](../commands/lastsave.md) is `0` after a restart, and does not move for the save at shutdown. Filed as [kividb#149](https://github.com/kividbio/kividb/issues/149).
+- With the append-only file off, a snapshot is copied a part of the dataset at a time, not at a single moment: a transaction or script whose keys are in two parts can be saved half applied. With the append-only file on, it is a single moment. Filed as [kividb#148](https://github.com/kividbio/kividb/issues/148), fixed in 1.2.
+- [`LASTSAVE`](../commands/lastsave.md) is `0` after a restart, and does not move for the save at shutdown. Filed as [kividb#149](https://github.com/kividbio/kividb/issues/149), fixed in 1.2.
 
 ## The append-only file
 
@@ -83,8 +83,8 @@ While the snapshot is taken, writes wait; it is a copy in memory, and they go on
 
 ### Known issues
 
-- A write is acknowledged before its record is in the file. A process that is killed loses the acknowledged writes that were still queued; in Redis, with a write a second, only a crash of the machine loses anything. `SHUTDOWN NOSAVE` can lose them too. Filed as [kividb#147](https://github.com/kividbio/kividb/issues/147).
-- Turned on with `CONFIG SET appendonly yes`, the file is not rewritten on its own until the server restarts: run `BGREWRITEAOF` now and then, or start the server with `--aof`. Filed as [kividb#146](https://github.com/kividbio/kividb/issues/146).
+- A write is acknowledged before its record is in the file. A process that is killed loses the acknowledged writes that were still queued; in Redis, with a write a second, only a crash of the machine loses anything. `SHUTDOWN NOSAVE` can lose them too. Filed as [kividb#147](https://github.com/kividbio/kividb/issues/147), fixed in 1.2.
+- Turned on with `CONFIG SET appendonly yes`, the file is not rewritten on its own until the server restarts: run `BGREWRITEAOF` now and then, or start the server with `--aof`. Filed as [kividb#146](https://github.com/kividbio/kividb/issues/146), fixed in 1.2.
 - An empty `appendonly.aof` is created even with the append-only file off. Filed as [kividb#47](https://github.com/kividbio/kividb/issues/47).
 
 ## Starting up
@@ -145,7 +145,7 @@ It loads the backup, and nothing else: not its own `dump.kdb` or `appendonly.aof
 
 ### Known issue
 
-What a backup is doing is kept in memory only. After a restart, a sealed backup's files are still there, `BACKUP CLEANUP` says there is nothing to clean up, and `BACKUP START` refuses the directory until they are deleted by hand. Filed as [kividb#150](https://github.com/kividbio/kividb/issues/150).
+What a backup is doing is kept in memory only. After a restart, a sealed backup's files are still there, `BACKUP CLEANUP` says there is nothing to clean up, and `BACKUP START` refuses the directory until they are deleted by hand. Filed as [kividb#150](https://github.com/kividbio/kividb/issues/150), fixed in 1.2.
 
 ## Replicas
 

@@ -34,7 +34,7 @@ Adds an element with its vector to the vector set at `key`, or replaces an eleme
 | `DISTANCE L2 \| COSINE \| INNERPRODUCT` | How similarity is measured. |
 | `SETATTR json` | Attach JSON attributes to the element. |
 | `EF n`, `M n` | Accepted. |
-| `REDUCE dim`, `NOQUANT \| Q8 \| BIN` | Accepted, and ignored in KiviDB 1.1: vectors keep their dimensions and are stored unquantized. See [kividb#132](https://github.com/kividbio/kividb/issues/132). |
+| `REDUCE dim`, `NOQUANT \| Q8 \| BIN` | Accepted, and ignored in KiviDB 1.1: vectors keep their dimensions and are stored unquantized. See [kividb#132](https://github.com/kividbio/kividb/issues/132), fixed in 1.2. |
 
 ## Reply
 

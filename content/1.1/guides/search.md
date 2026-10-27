@@ -134,14 +134,14 @@ Words are found through the index. Tags and numbers are not: a query of only `@c
 
 ## Differences from the Redis Query Engine
 
-Accepted, and doing nothing: stemming (`LANGUAGE`, `NOSTEM`), `PHONETIC`, synonyms (`FT.SYNUPDATE`, [kividb#130](https://github.com/kividbio/kividb/issues/130)), `SCORER` (always BM25), `SLOP` and `INORDER`, `SUMMARIZE` (fields come back whole), `TIMEOUT` (a query runs to the end), `DIALECT`, `HYBRID_POLICY`, `INITIAL_CAP`. Refused: `GEO` and `GEOSHAPE` fields, `GEOFILTER`, `INFIELDS`, `EXPLAINSCORE`, the `FILTER` option of `FT.CREATE`, `SVS-VAMANA` vectors. `FT.HYBRID`, `FT.SPELLCHECK` and `FT.PROFILE` answer from the node they are sent to, in a cluster.
+Accepted, and doing nothing: stemming (`LANGUAGE`, `NOSTEM`), `PHONETIC`, synonyms (`FT.SYNUPDATE`, [kividb#130](https://github.com/kividbio/kividb/issues/130), fixed in 1.2), `SCORER` (always BM25), `SLOP` and `INORDER`, `SUMMARIZE` (fields come back whole), `TIMEOUT` (a query runs to the end), `DIALECT`, `HYBRID_POLICY`, `INITIAL_CAP`. Refused: `GEO` and `GEOSHAPE` fields, `GEOFILTER`, `INFIELDS`, `EXPLAINSCORE`, the `FILTER` option of `FT.CREATE`, `SVS-VAMANA` vectors. `FT.HYBRID`, `FT.SPELLCHECK` and `FT.PROFILE` answer from the node they are sent to, in a cluster.
 
 ## Known issues
 
-Filed as [kividb#162](https://github.com/kividbio/kividb/issues/162):
+Filed as [kividb#162](https://github.com/kividbio/kividb/issues/162), fixed in 1.2:
 
 - BM25 scores drift as documents are updated and deleted: the statistics they are computed from only grow, until a restart. Rankings get worse on data that changes.
 - `FT.DROPINDEX index DD` drops the index and keeps the documents.
 - A KNN clause in `FT.AGGREGATE` is ignored: every document is returned.
 
-[Vector sets](../commands/vadd.md), `VADD` and `VSIM`, are searched exhaustively, and their `FILTER`, `REDUCE`, `Q8` and `BIN` options do nothing ([kividb#132](https://github.com/kividbio/kividb/issues/132)).
+[Vector sets](../commands/vadd.md), `VADD` and `VSIM`, are searched exhaustively, and their `FILTER`, `REDUCE`, `Q8` and `BIN` options do nothing ([kividb#132](https://github.com/kividbio/kividb/issues/132), fixed in 1.2).

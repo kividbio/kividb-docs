@@ -25,9 +25,7 @@ BGSAVE
 <!-- generated: end -->
 Writes a snapshot of the dataset to `dump.kdb` in the background, and replies at once.
 
-## Known issue
-
-With the append-only file off, the dataset is copied a part at a time rather than at one moment: a transaction or script whose keys are in two parts can be saved half applied. Filed as [kividb#148](https://github.com/kividbio/kividb/issues/148).
+The snapshot is the dataset at one moment: a transaction, a script or an `MSET` is in it whole or not at all. Before 1.2, with the append-only file off, the dataset was copied a part at a time, and a transaction whose keys were in two parts could be saved half applied.
 
 ## Examples
 

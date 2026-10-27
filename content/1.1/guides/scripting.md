@@ -39,7 +39,7 @@ Scripts sent with `EVAL` or `SCRIPT LOAD` are kept, by their SHA1, until [`SCRIP
 
 ### Known issue
 
-Every distinct script sent with `EVAL` is kept until `SCRIPT FLUSH`, with no limit; Redis keeps at most 500 of them. Filed as [kividb#155](https://github.com/kividbio/kividb/issues/155).
+Every distinct script sent with `EVAL` is kept until `SCRIPT FLUSH`, with no limit; Redis keeps at most 500 of them. Filed as [kividb#155](https://github.com/kividbio/kividb/issues/155), fixed in 1.2.
 
 ## Functions
 
@@ -77,7 +77,7 @@ While a script runs, the clients waiting for it wait. After [`busy-reply-thresho
 
 ### Known issue
 
-`SCRIPT KILL` replies `OK` to a script that has already written, and the script runs on. Filed as [kividb#129](https://github.com/kividbio/kividb/issues/129).
+`SCRIPT KILL` replies `OK` to a script that has already written, and the script runs on. Filed as [kividb#129](https://github.com/kividbio/kividb/issues/129), fixed in 1.2.
 
 ## Replication and persistence
 
@@ -89,15 +89,15 @@ The keys in `KEYS` must all be in the same slot, or the script gets `CROSSSLOT`;
 
 ### Known issue
 
-A script's `redis.call` on a key in another slot, which another node owns, is not refused: the key is written on this node, where clients will not find it. Keep every key a script uses in its slot, with a hash tag. Filed as [kividb#153](https://github.com/kividbio/kividb/issues/153).
+A script's `redis.call` on a key in another slot, which another node owns, is not refused: the key is written on this node, where clients will not find it. Keep every key a script uses in its slot, with a hash tag. Filed as [kividb#153](https://github.com/kividbio/kividb/issues/153), fixed in 1.2.
 
 ## Differences from Redis
 
 - Lua 5.4: integer division and the `//` operator, `utf8`, no `setfenv` or `getfenv`; `unpack` is still there. `bit` is there, `cjson` and `cmsgpack` too; `struct` is not.
-- Lua's `pcall` around a `redis.call` that fails gives back an error object whose text begins `runtime error:` and ends in a traceback, rather than the error's message, and `assert` takes a table as its message. KiviDB 1.2 gives back the message, as Redis does ([kividb#90](https://github.com/kividbio/kividb/issues/90)).
+- Lua's `pcall` around a `redis.call` that fails gives back an error object whose text begins `runtime error:` and ends in a traceback, rather than the error's message, and `assert` takes a table as its message. KiviDB 1.2 gives back the message, as Redis does ([kividb#90](https://github.com/kividbio/kividb/issues/90), fixed in 1.2).
 - `redis.log` does nothing: the line is not in the server's log.
-- `redis.replicate_commands()` and `redis.set_repl()` do not exist: a script that starts with `redis.replicate_commands()`, as many written for Redis before 7 do, fails. Remove the line: scripts are always replicated as their writes. Filed, with `redis.log`, as [kividb#154](https://github.com/kividbio/kividb/issues/154).
-- On a replica, `EVAL`, `EVALSHA` and `FCALL` are refused even for a script that only reads; use their `_RO` forms ([kividb#145](https://github.com/kividbio/kividb/issues/145)).
+- `redis.replicate_commands()` and `redis.set_repl()` do not exist: a script that starts with `redis.replicate_commands()`, as many written for Redis before 7 do, fails. Remove the line: scripts are always replicated as their writes. Filed, with `redis.log`, as [kividb#154](https://github.com/kividbio/kividb/issues/154), fixed in 1.2.
+- On a replica, `EVAL`, `EVALSHA` and `FCALL` are refused even for a script that only reads; use their `_RO` forms ([kividb#145](https://github.com/kividbio/kividb/issues/145), fixed in 1.2).
 - `allow-stale`, `no-cluster` and `allow-cross-slot-keys` are accepted, and do nothing.
 - [`SCRIPT DEBUG`](../commands/script-debug.md) replies `OK`: there is no debugger.
 - Scripts run more slowly than in Redis: about a third of Redis's rate for small scripts, in the 1.1.0 measurement. A command does the same work faster where there is one.

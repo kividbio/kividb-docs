@@ -99,7 +99,7 @@ While a slot has no master that works, the cluster's state is `fail`, and every 
 
 Replication in a cluster is what it is between standalone servers, asynchronous: a write a master acknowledged and had not yet sent to its replica is lost if the replica takes its place. See [Replication](replication.md).
 
-The replicas stand in order of how up to date they are: the one that has the most of the master's writes stands first, and the others wait, so it is the one elected. A replica that had lost touch with its master for longer than [`cluster-replica-validity-factor`](../reference/configuration.md#cluster-replica-validity-factor) node timeouts does not stand at all, since its data may be old; `0` lets it. Before 1.2, replicas were not ranked, and one that was behind could win ([kividb#107](https://github.com/kividbio/kividb/issues/107)).
+The replicas stand in order of how up to date they are: the one that has the most of the master's writes stands first, and the others wait, so it is the one elected. A replica that had lost touch with its master for longer than [`cluster-replica-validity-factor`](../reference/configuration.md#cluster-replica-validity-factor) node timeouts does not stand at all, since its data may be old; `0` lets it. Before 1.2, replicas were not ranked, and one that was behind could win.
 
 ## Reading from replicas
 
@@ -108,8 +108,3 @@ A client can send reads to a master's replicas, after [`READONLY`](../commands/r
 ## Removing a node
 
 Move its slots away, with `reshard`, then `redis-cli --cluster del-node`, or [`CLUSTER FORGET`](../commands/cluster-forget.md) of its ID on every node within 60 seconds. A forgotten node keeps its own idea of the cluster: [`CLUSTER RESET`](../commands/cluster-reset.md) it before using it again.
-
-## Known issues
-
-- [`CLUSTER REPLICAS`](../commands/cluster-replicas.md) replies with one string, not an array of lines. Filed as [kividb#138](https://github.com/kividbio/kividb/issues/138).
-- [`CLUSTER SLOT-STATS ORDERBY`](../commands/cluster-slot-stats.md) sorts ascending unless told `DESC`. Filed as [kividb#139](https://github.com/kividbio/kividb/issues/139).

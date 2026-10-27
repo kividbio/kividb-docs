@@ -56,6 +56,10 @@ The server remembers at most [`tracking-table-max-keys`](../reference/configurat
 
 A client must read the invalidations it is sent: a value is stale in its cache from the moment it changes until the invalidation is read.
 
-## Known issue
+A connection has room for 65536 messages waiting to be sent to it, invalidations among them. A client that falls further behind than that is closed, with a line in the server's log, so that it drops what it cached rather than serve values that have changed:
 
-A connection has room for 512 invalidations waiting to be sent (256 with io_uring). Beyond that, invalidations are dropped, and a client that falls that far behind keeps serving stale values without being told. Filed as [kividb#161](https://github.com/kividbio/kividb/issues/161). Until it is fixed, use client-side caching for data that can be stale for a while, and give cached entries a time limit of their own.
+```
+2026-10-27T15:23:06.442Z 18008 [WARN] Client id=19 closed: it uses client-side caching and did not read its invalidation messages, over 65536 waiting
+```
+
+Before 1.2, a connection had room for 512 (256 with io_uring), and the invalidations beyond were dropped: the client kept serving stale values without being told.

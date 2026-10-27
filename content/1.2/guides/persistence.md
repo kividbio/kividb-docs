@@ -25,7 +25,11 @@ A snapshot is written:
 
 **There is no snapshot on a schedule.** Redis's `save 3600 1` lines are accepted in the configuration file, with a warning, and do nothing. A server that is killed (`kill -9`, the out-of-memory killer, a machine that loses power) without the append-only file loses everything written since the last `SAVE` or `BGSAVE`. Use the append-only file, or run `BGSAVE` from a scheduler of your own.
 
-A snapshot is written to a temporary file, flushed to disk, and then renamed over `dump.kdb`, so a crash while saving leaves the previous one whole. There is no `fork`: the server copies the dataset in memory, and writes the file while clients carry on.
+A snapshot is written to a temporary file, flushed to disk, and then renamed over `dump.kdb`, so a crash while saving leaves the previous one whole. There is no `fork`: the server captures the dataset in memory, holding writes for that moment, and writes the file while clients carry on.
+
+A snapshot is the dataset at one moment, with the append-only file on or off: a transaction, a script or an `MSET` is in it whole or not at all. Before 1.2, with the append-only file off, the dataset was copied a part at a time, and a transaction whose keys were in two parts could be saved half applied.
+
+[`LASTSAVE`](../commands/lastsave.md) gives the time of the last save of the whole dataset: `SAVE`, `BGSAVE`, the save at shutdown, a rewrite of the append-only file, or a replica's copy of its master's dataset. After a restart it starts at the time the server started. Before 1.2, it was `0` after a restart, and only `SAVE` and `BGSAVE` moved it.
 
 ```
 > SET greeting hello
@@ -33,13 +37,8 @@ OK
 > BGSAVE
 Background saving started
 > LASTSAVE
-(integer) 1792971280
+(integer) 1793114399
 ```
-
-### Known issues
-
-- With the append-only file off, a snapshot is copied a part of the dataset at a time, not at a single moment: a transaction or script whose keys are in two parts can be saved half applied. With the append-only file on, it is a single moment. Filed as [kividb#148](https://github.com/kividbio/kividb/issues/148).
-- [`LASTSAVE`](../commands/lastsave.md) is `0` after a restart, and does not move for the save at shutdown. Filed as [kividb#149](https://github.com/kividbio/kividb/issues/149).
 
 ## The append-only file
 
@@ -62,30 +61,34 @@ What is written is the effect of each command rather than the command itself: an
 
 ### What a crash can lose
 
-The file is flushed to disk once a second. [`appendfsync`](../reference/configuration.md#accepted-for-compatibility-with-redis) is accepted and does not change that.
+A write is acknowledged once its record is in the file, as in Redis: the reply to a command that wrote waits until its record has been written, to the operating system's cache. The file is flushed to disk once a second. [`appendfsync`](../reference/configuration.md#accepted-for-compatibility-with-redis) is accepted and does not change that.
 
 | What happens | What is lost |
 |---|---|
 | `SHUTDOWN`, `SIGTERM`, `docker stop` | Nothing: the server writes out everything and saves a snapshot. |
-| The process is killed (`kill -9`, the out-of-memory killer) | The writes still queued for the file: see the known issue below. |
+| The process is killed (`kill -9`, the out-of-memory killer, a container stopped without a grace period) | No write that was acknowledged: its record is in the file. |
 | The machine crashes or loses power | Up to about the last second of writes. |
 
-[`WAITAOF`](../commands/waitaof.md) waits until the writes a client has made are flushed to disk, for a client that cannot afford to lose one.
+Before 1.2, a write was acknowledged once its record was queued for the file, and a process that was killed could lose the last few.
+
+Waiting costs writes, not reads: on a 16-core server, 20 to 28% fewer `SET`s a second with 50 clients, with or without pipelining, and under 10% with one client. Replies waiting at the same time are sent after one write to the file. With the append-only file off, nothing waits. [`aof-ack-after-write no`](../reference/configuration.md#aof-ack-after-write) acknowledges a write once its record is queued, as before 1.2: faster, for those who would rather lose the last few writes to a killed process.
+
+[`WAITAOF`](../commands/waitaof.md) waits until the writes a client has made are flushed to disk, for a client that cannot afford to lose one even to a crash of the machine.
 
 ### Rewriting
 
 The file grows with every write. Rewriting it saves a snapshot to `dump.kdb` and starts `appendonly.aof` again, empty, from that snapshot: the two always go together. It happens:
 
-- on its own, once the file is at least [`auto-aof-rewrite-min-size`](../reference/configuration.md#auto-aof-rewrite-min-size) (64 MB) and has grown by [`auto-aof-rewrite-percentage`](../reference/configuration.md#auto-aof-rewrite-percentage) (100%) since the last rewrite; the server checks every 10 seconds;
+- on its own, once the file is at least [`auto-aof-rewrite-min-size`](../reference/configuration.md#auto-aof-rewrite-min-size) (64 MB) and has grown by [`auto-aof-rewrite-percentage`](../reference/configuration.md#auto-aof-rewrite-percentage) (100%) since the last rewrite; the server checks every 10 seconds, whether the file was on when it started or turned on with `CONFIG SET appendonly yes`;
 - on [`BGREWRITEAOF`](../commands/bgrewriteaof.md), and on `SAVE`, `BGSAVE` and shutdown.
+
+Before 1.2, a file turned on with `CONFIG SET appendonly yes` was not rewritten on its own until the server restarted.
 
 While the snapshot is taken, writes wait; it is a copy in memory, and they go on while the file is written.
 
-### Known issues
+### Known issue
 
-- A write is acknowledged before its record is in the file. A process that is killed loses the acknowledged writes that were still queued; in Redis, with a write a second, only a crash of the machine loses anything. `SHUTDOWN NOSAVE` can lose them too. Filed as [kividb#147](https://github.com/kividbio/kividb/issues/147).
-- Turned on with `CONFIG SET appendonly yes`, the file is not rewritten on its own until the server restarts: run `BGREWRITEAOF` now and then, or start the server with `--aof`. Filed as [kividb#146](https://github.com/kividbio/kividb/issues/146).
-- An empty `appendonly.aof` is created even with the append-only file off. Filed as [kividb#47](https://github.com/kividbio/kividb/issues/47).
+An empty `appendonly.aof` is created even with the append-only file off. Filed as [kividb#47](https://github.com/kividbio/kividb/issues/47).
 
 ## Starting up
 
@@ -143,9 +146,11 @@ kividb --preload-file aof:/backups/2026-10-26/appendonly.aof.manifest
 
 It loads the backup, and nothing else: not its own `dump.kdb` or `appendonly.aof`. It does not start if the backup cannot be loaded.
 
-### Known issue
+### After a restart
 
-What a backup is doing is kept in memory only. After a restart, a sealed backup's files are still there, `BACKUP CLEANUP` says there is nothing to clean up, and `BACKUP START` refuses the directory until they are deleted by hand. Filed as [kividb#150](https://github.com/kividbio/kividb/issues/150).
+A server that restarts finds the backup in `backupdirname` again. A sealed one is still sealed: `BACKUP LIST` lists its files, `BACKUP CLEANUP` deletes them, and `backup-sealed-ttl` counts from the seal. One that the restart cut short is failed, and [`BACKUP STATUS`](../commands/backup-status.md) says `interrupted by a restart`; `BACKUP CLEANUP` or the next `BACKUP START` deletes it.
+
+Before 1.2, the server forgot a backup when it stopped: after a restart, `BACKUP CLEANUP` said there was nothing to clean up, and `BACKUP START` refused the directory until its files were deleted by hand.
 
 ## Replicas
 

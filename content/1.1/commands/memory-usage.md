@@ -25,7 +25,7 @@ Returns an estimate of the bytes `key` and its value take; `nil` if the key does
 
 ## Known issue
 
-`SAMPLES 0` on a hash, set or sorted set closes the connection, with an error in the server's log; Redis takes it as every element. Filed as [kividb#151](https://github.com/kividbio/kividb/issues/151).
+`SAMPLES 0` on a hash, set or sorted set closes the connection, with an error in the server's log; Redis takes it as every element. Filed as [kividb#151](https://github.com/kividbio/kividb/issues/151), fixed in 1.2.
 
 ## Examples
 

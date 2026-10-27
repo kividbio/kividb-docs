@@ -23,7 +23,7 @@ VINFO key
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-Returns the vector set's dimensions, its number of elements, its quantization, its index type and its graph's levels.
+Returns the vector set's dimensions, its number of elements, its quantization, its index type and its graph's levels. `quant-type` is always `f32`: vectors are kept as 32-bit floats, whatever quantization [`VADD`](vadd.md) was given. Before 1.2 it was `NOQUANT`.
 
 ## Examples
 
@@ -34,7 +34,7 @@ Returns the vector set's dimensions, its number of elements, its quantization, i
  3) "vector-count"
  4) (integer) 3
  5) "quant-type"
- 6) "NOQUANT"
+ 6) "f32"
  7) "index-type"
  8) "FLAT"
  9) "max-level"

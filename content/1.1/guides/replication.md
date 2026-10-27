@@ -80,7 +80,7 @@ A replica expires keys by its own clock: the master does not send it the deletio
 
 ### Known issue
 
-`EVAL`, `EVALSHA` and `FCALL` are refused on a replica, even for a script that only reads. Use [`EVAL_RO`](../commands/eval_ro.md), [`EVALSHA_RO`](../commands/evalsha_ro.md) and [`FCALL_RO`](../commands/fcall_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145).
+`EVAL`, `EVALSHA` and `FCALL` are refused on a replica, even for a script that only reads. Use [`EVAL_RO`](../commands/eval_ro.md), [`EVALSHA_RO`](../commands/evalsha_ro.md) and [`FCALL_RO`](../commands/fcall_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145), fixed in 1.2.
 
 ## How safe a write is
 
@@ -113,7 +113,7 @@ Make every replica a replica of the master.
 
 ### Known issue
 
-A replica accepts replicas of its own, and sends them its data once, but not the writes after: they stay at that copy while their `ROLE` says `connected`. Filed as [kividb#144](https://github.com/kividbio/kividb/issues/144).
+A replica accepts replicas of its own, and sends them its data once, but not the writes after: they stay at that copy while their `ROLE` says `connected`. Filed as [kividb#144](https://github.com/kividbio/kividb/issues/144), fixed in 1.2.
 
 ## Redis and KiviDB
 

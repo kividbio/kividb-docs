@@ -9,7 +9,7 @@ KiviDB reports on itself as Redis does: `INFO`, the slow log, the latency monito
 
 ## INFO
 
-[`INFO`](../commands/info.md) returns sections of `field:value` lines. With no argument, every section but `commandstats`, `latencystats` and `keysizes`; `INFO all` adds them. `keysizes` looks at every key, each time it is asked for: do not scrape `INFO all` every few seconds.
+[`INFO`](../commands/info.md) returns sections of `field:value` lines. With no argument, every section but `commandstats`, `latencystats` and `keysizes`; `INFO all` adds them. `keysizes` looks at every key: `INFO keysizes` counts them each time, while `INFO all` and `INFO everything` give a count up to 10 seconds old, so that a scraper pays for one pass over the keys every 10 seconds at most.
 
 What to watch:
 
@@ -17,7 +17,10 @@ What to watch:
 |---|---|---|
 | `used_memory`, `maxmemory` | memory | Memory in use, and the limit it is compared with. See [Memory](memory.md). |
 | `used_memory_rss` | memory | Memory the system gives the process. |
+| `mem_fragmentation_ratio` | memory | `used_memory_rss` over `used_memory`. |
 | `connected_clients`, `blocked_clients` | clients | Clients connected, and waiting on a blocking command. |
+| `total_commands_processed`, `instantaneous_ops_per_sec` | stats | Commands run, in all and a second. |
+| `keyspace_hits`, `keyspace_misses` | stats | Reads that found their key, and that did not. |
 | `evicted_keys`, `expired_keys` | stats | Keys deleted at the memory limit, and on expiry. |
 | `total_error_replies` | stats | Errors returned; `INFO errorstats` breaks them down. |
 | `role`, `connected_slaves`, `slaveN` | replication | The server's role, and each replica's state, offset and lag. |
@@ -35,11 +38,15 @@ cmdstat_get:calls=3,usec=59,usec_per_call=19.67,rejected_calls=0,failed_calls=0
 
 [`LATENCY HISTOGRAM`](../commands/latency-histogram.md) gives each command's run times in buckets of powers of two microseconds.
 
-### Known issues
+`INFO latencystats` gives percentiles of each command's run time, from the same histogram, so each is a power of two. `latency-tracking-info-percentiles` chooses them (`50 99 99.9`):
 
-- `total_commands_processed`, `keyspace_hits` and `keyspace_misses` are counted by each thread, and added up only every 128 commands: a quiet server shows `0`, and `instantaneous_ops_per_sec` moves in steps. Add up `cmdstat_*:calls` instead. Filed as [kividb#136](https://github.com/kividbio/kividb/issues/136).
-- `INFO latencystats` is empty, and `rejected_connections`, `instantaneous_input_kbps` and `instantaneous_output_kbps` are always `0`. Filed as [kividb#158](https://github.com/kividbio/kividb/issues/158).
-- `mem_fragmentation_ratio` is not Redis's: divide `used_memory_rss` by `used_memory`. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152).
+```
+latency_percentiles_usec_get:p50=2.000,p99=16.000,p99.9=128.000
+```
+
+`rejected_connections` is always `0`: KiviDB has no limit on clients, and `maxclients` is accepted and changes nothing.
+
+Before 1.2, `total_commands_processed`, `keyspace_hits` and `keyspace_misses` stayed `0` on a quiet server, `INFO latencystats` was empty, `instantaneous_input_kbps` and `instantaneous_output_kbps` were `0`, and `mem_fragmentation_ratio` was the process's virtual size over its resident size.
 
 ## The slow log
 
@@ -64,15 +71,31 @@ The time is how long the command ran, not how long it waited to run or to be rea
 
 ## The latency monitor
 
-The [latency monitor](../commands/latency.md) records, for each kind of event, the times one took long: `command` and `fast-command` for commands, `expire-cycle` for the expiry of keys in the background. [`LATENCY LATEST`](../commands/latency-latest.md), [`HISTORY`](../commands/latency-history.md) and [`GRAPH`](../commands/latency-graph.md) show them.
+The [latency monitor](../commands/latency.md) records, for each kind of event, the times one took at least `latency-monitor-threshold` milliseconds: `command` for commands, `fast-command` for those Redis flags `fast` (`GET`, `INCR`, …), `expire-cycle` for the expiry of keys in the background. The threshold is `0` by default, which records nothing, as in Redis. [`LATENCY LATEST`](../commands/latency-latest.md), [`HISTORY`](../commands/latency-history.md) and [`GRAPH`](../commands/latency-graph.md) show what it recorded:
 
-### Known issue
+```
+> CONFIG SET latency-monitor-threshold 100
+OK
+> DEBUG SLEEP 0.25
+OK
+> DEBUG SLEEP 0.15
+OK
+> LATENCY LATEST
+1) 1) "command"
+   2) (integer) 1793114673
+   3) (integer) 150
+   4) (integer) 250
+```
 
-Commands are recorded when they are slower than `slowlog-log-slower-than`, not `latency-monitor-threshold`, which applies to `expire-cycle` only: with the slow log off, no command is. `LATENCY LATEST` gives three fields an event, where Redis gives four. Filed as [kividb#158](https://github.com/kividbio/kividb/issues/158).
+For each event: its name, when it last happened, how long it took then, and the longest recorded, in milliseconds.
+
+Before 1.2, commands were recorded when they were slower than `slowlog-log-slower-than`, so with the slow log off none were, and `LATENCY LATEST` left out the longest.
 
 ## Clients
 
-[`CLIENT LIST`](../commands/client-list.md) gives a line for each client: its address, user, name and library, how long it has been connected and idle, its last command, the bytes it sent and was sent, its subscriptions. The fields about output buffers and memory (`omem`, `tot-mem`, …) are always `0`.
+[`CLIENT LIST`](../commands/client-list.md) gives a line for each client: its address, user, name and library, how long it has been connected and idle, its last command, the bytes it sent and was sent, its subscriptions, the commands it has queued in a transaction (`multi`, `-1` outside one), the keys it watches (`watch`), and its query buffer (`qbuf`, `tot-mem`). The fields about output buffers (`obl`, `oll`, `omem`), and `fd` and `argv-mem`, are always `0`: KiviDB writes replies in another way. Before 1.2, `multi`, `watch` and `tot-mem` were always `-1`, `0` and `0`.
+
+`INFO clients` gives `clients_in_timeout_table`, the clients blocked with a timeout, and `INFO memory` gives `mem_clients_normal` and `mem_clients_slaves`, what their query buffers hold.
 
 ## Watching commands
 
@@ -106,4 +129,4 @@ At `notice` it logs startup and shutdown, every `CONFIG SET` (with secrets hidde
 
 ## Prometheus
 
-KiviDB has no metrics endpoint of its own. [redis_exporter](https://github.com/oliver006/redis_exporter) reads its `INFO` like Redis's. Expect the fields listed in the known issues above to be `0` or to mean something else, and point it at `INFO`, not `INFO all`.
+KiviDB has no metrics endpoint of its own. [redis_exporter](https://github.com/oliver006/redis_exporter) reads its `INFO` and `LATENCY LATEST` like Redis's. `INFO all` is cheap enough to scrape every few seconds: its `keysizes` section is counted once every 10 seconds at most.

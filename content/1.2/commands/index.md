@@ -225,7 +225,6 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 |---|---|---|
 | [`BACKUP`](backup.md) | Takes a consistent backup of the dataset while the server keeps serving: a snapshot as of the start, then the writes that follow, up to the moment it is sealed. | 1.1.0 |
 | [`FAILOVER`](failover.md) | Refused. | 1.1.0 |
-| [`GEODELBYMEMBER`](geodelbymember.md) | COMMAND lists GEODELBYMEMBER, but KiviDB does not have it: calling it replies ERR unknown command 'GEODELBYMEMBER'. | 1.1.0 |
 | [`MODULE`](module.md) | KiviDB does not load modules. | 1.1.0 |
 | [`XIDMPRECORD`](xidmprecord.md) | Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ... IDMP would have (Redis 8.10). | 1.1.1 |
 
@@ -454,7 +453,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`TS.DELETERULE`](ts.deleterule.md) | Deletes the compaction rule from sourceKey to destKey. | 1.1.0 |
 | [`TS.GET`](ts.get.md) | Returns the newest sample of the time series at key. | 1.1.0 |
 | [`TS.INCRBY`](ts.incrby.md) | Adds a sample whose value is the series' last value plus value; a missing series starts at 0. | 1.1.0 |
-| [`TS.INFO`](ts.info.md) | Returns a time series' metadata: its number of samples, memory use, first and last timestamps, retention, chunk size, duplicate policy, labels, and compaction rules. | 1.1.0 |
+| [`TS.INFO`](ts.info.md) | Returns a time series' metadata: its number of samples, memory use, first and last timestamps, retention, chunk size, duplicate policy, labels, the series it is compacted from (sourceKey, nil if none… | 1.1.0 |
 | [`TS.MADD`](ts.madd.md) | Adds samples to one or more time series in one call, creating series that do not exist. | 1.1.0 |
 | [`TS.MGET`](ts.mget.md) | Returns the newest sample of every time series whose labels match the FILTER (see TS.MRANGE for conditions). | 1.1.0 |
 | [`TS.MRANGE`](ts.mrange.md) | Runs TS.RANGE over every time series whose labels match the FILTER, and returns each with its samples. | 1.1.0 |
