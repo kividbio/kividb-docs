@@ -58,4 +58,4 @@ A client must read the invalidations it is sent: a value is stale in its cache f
 
 ## Known issue
 
-A connection has room for 512 invalidations waiting to be sent (256 with io_uring). Beyond that, invalidations are dropped, and a client that falls that far behind keeps serving stale values without being told. Filed as [kividb#161](https://github.com/kividbio/kividb/issues/161). Until it is fixed, use client-side caching for data that can be stale for a while, and give cached entries a time limit of their own.
+A connection has room for 512 invalidations waiting to be sent (256 with io_uring). Beyond that, invalidations are dropped, and a client that falls that far behind keeps serving stale values without being told. Filed as [kividb#161](https://github.com/kividbio/kividb/issues/161), fixed in 1.2. Until it is fixed, use client-side caching for data that can be stale for a while, and give cached entries a time limit of their own.

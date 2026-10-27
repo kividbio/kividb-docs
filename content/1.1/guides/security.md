@@ -119,7 +119,7 @@ Between servers: [`tls-replication`](../reference/configuration.md#tls-replicati
 
 ### Known issue
 
-Certificates are read when the server starts. `CONFIG SET tls-cert-file` replies `OK` and changes nothing: renewed certificates take a restart. Filed as [kividb#156](https://github.com/kividbio/kividb/issues/156).
+Certificates are read when the server starts. `CONFIG SET tls-cert-file` replies `OK` and changes nothing: renewed certificates take a restart. Filed as [kividb#156](https://github.com/kividbio/kividb/issues/156), fixed in 1.2.
 
 ## The cluster bus
 
@@ -131,7 +131,7 @@ At startup the server asks GitHub, over HTTPS, for the newest release, and logs 
 
 ## Known issue
 
-While the `default` user has no password, `AUTH` with any password replies `OK`; Redis replies with an error. Filed as [kividb#135](https://github.com/kividbio/kividb/issues/135).
+While the `default` user has no password, `AUTH` with any password replies `OK`; Redis replies with an error. Filed as [kividb#135](https://github.com/kividbio/kividb/issues/135), fixed in 1.2.
 
 ## Reporting a vulnerability
 

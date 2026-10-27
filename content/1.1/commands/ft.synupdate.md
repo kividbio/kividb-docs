@@ -27,7 +27,7 @@ Creates or updates a synonym group of an index: words to be treated as the same.
 
 ## Known issue
 
-In KiviDB 1.1, groups are stored, and [`FT.SYNDUMP`](ft.syndump.md) shows them, but they do not change what a query matches. Filed as [kividb#130](https://github.com/kividbio/kividb/issues/130).
+In KiviDB 1.1, groups are stored, and [`FT.SYNDUMP`](ft.syndump.md) shows them, but they do not change what a query matches. Filed as [kividb#130](https://github.com/kividbio/kividb/issues/130), fixed in 1.2.
 
 ## Examples
 

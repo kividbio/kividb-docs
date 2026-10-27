@@ -22,7 +22,7 @@ A build without Lua answers the scripting commands with an error, rather than ig
 
 KiviDB reads a configuration file like Redis's, `name value` a line, from `--configfile` (by default `/etc/kividb/kividb.conf`). Most settings have Redis's names. [Configuration](../reference/configuration.md) lists every one, and says whether the file takes it.
 
-**Do not copy `redis.conf` across.** A line the server does not know stops it from starting, with the line's number. Start from an empty file, and carry over the settings you changed. Redis settings for machinery KiviDB does not have (`io-threads`, `hz`, `tcp-keepalive`, `lazyfree-*`, `rdbcompression`, …) are accepted with a warning, and do nothing; others stop the server, `maxclients` among them ([kividb#142](https://github.com/kividbio/kividb/issues/142)).
+**Do not copy `redis.conf` across.** A line the server does not know stops it from starting, with the line's number. Start from an empty file, and carry over the settings you changed. Redis settings for machinery KiviDB does not have (`io-threads`, `hz`, `tcp-keepalive`, `lazyfree-*`, `rdbcompression`, …) are accepted with a warning, and do nothing; others stop the server, `maxclients` among them ([kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2).
 
 | Redis setting | In KiviDB |
 |---|---|
@@ -59,7 +59,7 @@ What comes across, from Redis 6.2 to 8.10:
 
 What does not:
 
-- **JSON documents**: one JSON document from Redis 8.10 makes the whole snapshot fail, `CBOR byte strings have no JSON form`, and a replica copies nothing. Copy JSON documents with `JSON.GET` on Redis and `JSON.SET` on KiviDB, once the rest has come across. Filed as [kividb#157](https://github.com/kividbio/kividb/issues/157);
+- **JSON documents**: one JSON document from Redis 8.10 makes the whole snapshot fail, `CBOR byte strings have no JSON form`, and a replica copies nothing. Copy JSON documents with `JSON.GET` on Redis and `JSON.SET` on KiviDB, once the rest has come across. Filed as [kividb#157](https://github.com/kividbio/kividb/issues/157), fixed in 1.2;
 - **search indexes**: KiviDB builds its own. Run `FT.CREATE` again after the move, and `FT.DICTADD`; it indexes the keys already there;
 - **time series, vector sets, Bloom filters and other module data**: a snapshot with any is refused, all of it, rather than loaded in part. A replica of a Redis master that has such keys copies nothing, and tries again until they are gone. Delete them on Redis before the copy, or move the other keys with [`MIGRATE`](../commands/migrate.md), and create these again on KiviDB, from the application or from what Redis returns for them;
 - **HyperLogLogs**: KiviDB's are laid out differently, and one copied from Redis is refused as corrupt: `INVALIDOBJ Corrupted HLL object detected`. Build them again with `PFADD`. Filed as [kividb#62](https://github.com/kividbio/kividb/issues/62).
@@ -73,7 +73,7 @@ OK
 
 ## 5. Persistence
 
-Turn on the append-only file, `--aof` or `appendonly yes`, for writes to survive a crash: without it, data is on disk only after `SAVE` or `BGSAVE`, and at a clean shutdown. With it, a process that is killed can lose the last acknowledged writes, where Redis loses none ([kividb#147](https://github.com/kividbio/kividb/issues/147)); a clean shutdown loses nothing, and a machine that loses power up to a second, as Redis with `appendfsync everysec`. See [Persistence](persistence.md).
+Turn on the append-only file, `--aof` or `appendonly yes`, for writes to survive a crash: without it, data is on disk only after `SAVE` or `BGSAVE`, and at a clean shutdown. With it, a process that is killed can lose the last acknowledged writes, where Redis loses none ([kividb#147](https://github.com/kividbio/kividb/issues/147), fixed in 1.2); a clean shutdown loses nothing, and a machine that loses power up to a second, as Redis with `appendfsync everysec`. See [Persistence](persistence.md).
 
 ## 6. Replication and clusters
 

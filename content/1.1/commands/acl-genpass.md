@@ -25,7 +25,7 @@ Returns a random password, as hexadecimal digits, from the system's secure rando
 
 ## Known issue
 
-`bits` from 1 to 4 gives an empty string, where Redis gives one digit. Filed as [kividb#140](https://github.com/kividbio/kividb/issues/140).
+`bits` from 1 to 4 gives an empty string, where Redis gives one digit. Filed as [kividb#140](https://github.com/kividbio/kividb/issues/140), fixed in 1.2.
 
 ## Examples
 

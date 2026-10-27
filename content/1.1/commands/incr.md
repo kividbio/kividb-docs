@@ -44,4 +44,4 @@ OK
 
 ## Known issue
 
-In KiviDB 1.1, `INCR` on a key holding the largest 64-bit integer, `9223372036854775807`, does not return an overflow error: the value wraps around to `-9223372036854775808`. [`INCRBY`](incrby.md)` key 1` returns `ERR increment or decrement would overflow` instead, as Redis does, and so does `DECR` at the other end. Filed as [kividb#124](https://github.com/kividbio/kividb/issues/124).
+In KiviDB 1.1, `INCR` on a key holding the largest 64-bit integer, `9223372036854775807`, does not return an overflow error: the value wraps around to `-9223372036854775808`. [`INCRBY`](incrby.md)` key 1` returns `ERR increment or decrement would overflow` instead, as Redis does, and so does `DECR` at the other end. Filed as [kividb#124](https://github.com/kividbio/kividb/issues/124), fixed in 1.2.

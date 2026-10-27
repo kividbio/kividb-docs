@@ -42,7 +42,7 @@ Creates a time series at `key`: samples, each a timestamp in milliseconds and a 
 
 ## Differences from Redis
 
-The default `DUPLICATE_POLICY` is `LAST`: a second sample at a timestamp replaces the first. In Redis it is `BLOCK`, an error. Give `DUPLICATE_POLICY BLOCK` to get Redis's behaviour. Filed as [kividb#127](https://github.com/kividbio/kividb/issues/127).
+The default `DUPLICATE_POLICY` is `LAST`: a second sample at a timestamp replaces the first. In Redis it is `BLOCK`, an error. Give `DUPLICATE_POLICY BLOCK` to get Redis's behaviour. Filed as [kividb#127](https://github.com/kividbio/kividb/issues/127), fixed in 1.2.
 
 ## Examples
 

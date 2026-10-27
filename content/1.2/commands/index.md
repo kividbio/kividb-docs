@@ -225,7 +225,6 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 |---|---|---|
 | [`BACKUP`](backup.md) | Takes a consistent backup of the dataset while the server keeps serving: a snapshot as of the start, then the writes that follow, up to the moment it is sealed. | 1.1.0 |
 | [`FAILOVER`](failover.md) | Refused. | 1.1.0 |
-| [`GEODELBYMEMBER`](geodelbymember.md) | COMMAND lists GEODELBYMEMBER, but KiviDB does not have it: calling it replies ERR unknown command 'GEODELBYMEMBER'. | 1.1.0 |
 | [`MODULE`](module.md) | KiviDB does not load modules. | 1.1.0 |
 | [`XIDMPRECORD`](xidmprecord.md) | Records that producer producer-id's idempotent ID idempotent-id produced the entry id, already in the stream at key, as an XADD ... IDMP would have (Redis 8.10). | 1.1.1 |
 

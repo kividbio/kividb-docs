@@ -29,9 +29,9 @@ Sections include `server`, `clients`, `memory`, `persistence`, `stats`, `replica
 
 ## Known issue
 
-`total_commands_processed`, `total_reads_processed`, `keyspace_hits` and `keyspace_misses` in `INFO stats` stay `0`, while `INFO commandstats` counts commands. Filed as [kividb#136](https://github.com/kividbio/kividb/issues/136).
+`total_commands_processed`, `total_reads_processed`, `keyspace_hits` and `keyspace_misses` in `INFO stats` stay `0`, while `INFO commandstats` counts commands. Filed as [kividb#136](https://github.com/kividbio/kividb/issues/136), fixed in 1.2.
 
-In `INFO memory`, `mem_fragmentation_ratio` is the process's virtual size over its resident size on Linux, not `used_memory_rss / used_memory`, and several fields are fixed. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152).
+In `INFO memory`, `mem_fragmentation_ratio` is the process's virtual size over its resident size on Linux, not `used_memory_rss / used_memory`, and several fields are fixed. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152), fixed in 1.2.
 
 ## Examples
 

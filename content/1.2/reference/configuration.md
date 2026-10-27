@@ -35,18 +35,6 @@ While `yes`, the default, the `default` user has no password, and [`bind`](#bind
 
 In Redis, the length of the queue of connections not yet accepted. It has no effect in KiviDB; `CONFIG GET` always gives `511`.
 
-### `tcp-keepalive`
-
-**Default:** `300` · **Since:** 1.1.0 · **Command line:** no · **Config file:** accepted, but has no effect · **`CONFIG SET`:** replies `OK`, but has no effect
-
-In Redis, how often, in seconds, TCP keepalives are sent to idle clients. It has no effect in KiviDB; `CONFIG GET` always gives `300`.
-
-### `timeout`
-
-**Default:** `0` · **Since:** 1.1.0 · **Command line:** no · **Config file:** accepted, but has no effect · **`CONFIG SET`:** replies `OK`, but has no effect
-
-In Redis, closes a client that has been idle this many seconds; `0` never does. KiviDB does not close idle clients; `CONFIG GET` always gives `0`.
-
 ## TLS
 
 ### `tls-auth-clients`
@@ -172,7 +160,7 @@ Seconds between the pings a master sends its replicas, so that a replica can tel
 
 ### `repl-replica-max-backlog-bytes`
 
-**Default:** `268435456` · **Since:** 1.1.0 · **Command line:** `--repl-replica-max-backlog-bytes <REPL_REPLICA_MAX_BACKLOG_BYTES>` · **Config file:** yes · **`CONFIG SET`:** replies `OK`, but has no effect
+**Default:** `268435456` · **Since:** 1.1.0 · **Command line:** `--repl-replica-max-backlog-bytes <REPL_REPLICA_MAX_BACKLOG_BYTES>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 The most bytes a master queues for one replica that is not keeping up. Past it, the replica is disconnected, and copies the whole dataset when it reconnects, rather than the queue growing without bound. It is like Redis's `client-output-buffer-limit replica`. `CONFIG SET` replies `OK` and does not change it: filed as [kividb#143](https://github.com/kividbio/kividb/issues/143).
 
@@ -338,23 +326,11 @@ The default became `yes` in 1.2.
 
 Active defrag: string values are moved, from a thread of its own and a few keys at a time, off the memory slabs that deletes have left sparse, so that those slabs empty and their memory goes back to the system. Nothing is freed later than before, and a value that a command or a snapshot is using is left where it is. It starts while the waste is over both [`active-defrag-threshold-lower`](#active-defrag-threshold-lower) and [`active-defrag-ignore-bytes`](#active-defrag-ignore-bytes), and stops when it is under half of both. `INFO memory` reports `active_defrag_running`, `active_defrag_hits` (values moved) and `active_defrag_misses` (values left where they are).
 
-### `activerehashing`
-
-**Default:** `yes` · **Since:** 1.1.0 · **Command line:** no · **Config file:** accepted, but has no effect · **`CONFIG SET`:** replies `OK`, but has no effect
-
-In Redis, rehashes the main hash table a little at a time in the background. KiviDB's tables are resized as they grow and shrink; `CONFIG GET` always gives `yes`.
-
 ### `key-access-tracking`
 
 **Default:** `no` · **Since:** 1.1.1 · **Command line:** `--key-access-tracking <KEY_ACCESS_TRACKING>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 Records every key's use whatever the eviction policy, so that [`OBJECT IDLETIME`](../commands/object-idletime.md) and [`OBJECT FREQ`](../commands/object-freq.md) answer under `noeviction` too. It costs a little on every command and every key.
-
-### `lazyfree-lazy-eviction`
-
-**Default:** `no` · **Since:** 1.1.0 · **Command line:** no · **Config file:** accepted, but has no effect · **`CONFIG SET`:** replies `OK`, but has no effect
-
-In Redis, frees evicted keys in the background. `CONFIG GET` always gives `no`.
 
 ### `lfu-decay-time`
 
@@ -443,7 +419,7 @@ The most entries the slow log keeps; the oldest goes when it is full.
 
 ### `tracking-table-max-keys`
 
-**Default:** `1000000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
+**Default:** `1000000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 The most keys [client-side caching](../commands/client-tracking.md) tracks. Past it, keys are dropped from the table, and the clients that had read them are told to forget them. `0`: no limit. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
 
@@ -460,12 +436,6 @@ The configuration file to read at startup. The server starts without one if the 
 **Default:** `16` · **Since:** 1.1.0 · **Command line:** `--databases <DATABASES>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 How many databases there are, numbered from `0`. A cluster node has only `0`.
-
-### `hz`
-
-**Default:** `10` · **Since:** 1.1.0 · **Command line:** no · **Config file:** accepted, but has no effect · **`CONFIG SET`:** replies `OK`, but has no effect
-
-In Redis, how many times a second background tasks run. KiviDB's run on their own schedule; `CONFIG GET` always gives `10`.
 
 ### `io-model`
 
@@ -543,7 +513,7 @@ Seconds a sealed backup is kept before it is deleted. `0`, the default, keeps it
 
 ### `backupdirname`
 
-**Default:** `backupdir` · **Since:** 1.1.0 · **Command line:** `--backupdirname <BACKUPDIRNAME>` · **Config file:** yes · **`CONFIG SET`:** replies `OK`, but has no effect
+**Default:** `backupdir` · **Since:** 1.1.0 · **Command line:** `--backupdirname <BACKUPDIRNAME>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 The directory, under [`dir`](#dir), that [`BACKUP START`](../commands/backup-start.md) writes into. `CONFIG SET` replies `OK` and does not change it: filed as [kividb#143](https://github.com/kividbio/kividb/issues/143).
 
@@ -569,13 +539,13 @@ How many indexes each slice of an [array](../commands/arset.md) covers: a power 
 
 ### `array-sparse-kmax`
 
-**Default:** `10` · **Since:** 1.1.1 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
+**Default:** `10` · **Since:** 1.1.1 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 The most elements a slice of an array holds as a sparse list before it becomes dense: 0 to 256, and more than [`array-sparse-kmin`](#array-sparse-kmin). `0`: slices are always dense. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
 
 ### `array-sparse-kmin`
 
-**Default:** `5` · **Since:** 1.1.1 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
+**Default:** `5` · **Since:** 1.1.1 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 A dense slice of an array with this many elements or fewer becomes sparse again: 0 to 256, and less than [`array-sparse-kmax`](#array-sparse-kmax). It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
 
@@ -593,13 +563,13 @@ How many IDs are remembered for each producer, for streams that do not set their
 
 ### `stream-node-max-bytes`
 
-**Default:** `4096` · **Since:** 1.1.0 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
+**Default:** `4096` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 How many bytes make one node of a stream, for trimming with `~`. `0`: no limit. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
 
 ### `stream-node-max-entries`
 
-**Default:** `100` · **Since:** 1.1.0 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
+**Default:** `100` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 How many entries make one node of a stream, for trimming with `~` ([`XADD`](../commands/xadd.md), [`XTRIM`](../commands/xtrim.md)): an approximate trim removes whole nodes only. `0` is taken as `100`. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
 
@@ -607,7 +577,7 @@ How many entries make one node of a stream, for trimming with `~` ([`XADD`](../c
 
 ### `busy-reply-threshold`
 
-**Default:** `5000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes; in builds without Lua, replies `OK` and has no effect
+**Default:** `5000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes; in builds without Lua, replies `OK` and has no effect
 
 Milliseconds a script may run before other clients are answered `BUSY`, and [`SCRIPT KILL`](../commands/script-kill.md) or [`FUNCTION KILL`](../commands/function-kill.md) can stop it. `0`: never. In builds without Lua, `CONFIG GET` always gives `5000`. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
 
@@ -619,7 +589,7 @@ Scripts whose keys share a hash tag run at the same time as each other, each hol
 
 ### `lua-time-limit`
 
-**Default:** `5000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes; in builds without Lua, replies `OK` and has no effect
+**Default:** `5000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes; in builds without Lua, replies `OK` and has no effect
 
 The old name of [`busy-reply-threshold`](#busy-reply-threshold): setting either sets both.
 
@@ -629,31 +599,39 @@ These are Redis settings that mean nothing in KiviDB: how Redis encodes small va
 
 | Setting | Default | Since | Config file |
 |---|---|---|---|
+| `activerehashing` | `yes` | 1.1.0 | yes |
+| `aof-ack-after-write` | `yes` | 1.2 | yes |
 | `appendfsync` | `everysec` | 1.1.0 | accepted, but has no effect |
-| `client-query-buffer-limit` | `1073741824` | 1.1.0 | no: the server does not start |
-| `close-on-replica-write` | `yes` | 1.1.0 | no: the server does not start |
-| `hash-max-listpack-entries` | `512` | 1.1.0 | no: the server does not start |
-| `hash-max-listpack-value` | `64` | 1.1.0 | no: the server does not start |
-| `hash-max-ziplist-entries` | `512` | 1.1.0 | no: the server does not start |
-| `hash-max-ziplist-value` | `64` | 1.1.0 | no: the server does not start |
-| `hll-sparse-max-bytes` | `3000` | 1.1.0 | no: the server does not start |
-| `latency-tracking` | `yes` | 1.1.0 | no: the server does not start |
-| `latency-tracking-info-percentiles` | `50 99 99.9` | 1.1.0 | no: the server does not start |
-| `lazyfree-lazy-expire` | `yes` | 1.1.0 | accepted, but has no effect |
-| `lazyfree-lazy-server-del` | `yes` | 1.1.0 | accepted, but has no effect |
-| `lazyfree-lazy-user-del` | `yes` | 1.1.0 | accepted, but has no effect |
-| `lazyfree-lazy-user-flush` | `no` | 1.1.0 | no: the server does not start |
-| `list-compress-depth` | `0` | 1.1.0 | no: the server does not start |
-| `list-max-listpack-size` | `-2` | 1.1.0 | no: the server does not start |
-| `list-max-ziplist-size` | `-2` | 1.1.0 | no: the server does not start |
-| `maxclients` | `10000` | 1.1.0 | no: the server does not start |
-| `maxmemory-clients` | `0` | 1.1.0 | no: the server does not start |
-| `proto-max-bulk-len` | `536870912` | 1.1.0 | no: the server does not start |
+| `client-query-buffer-limit` | `1073741824` | 1.1.0 | yes |
+| `close-on-replica-write` | `yes` | 1.1.0 | yes |
+| `hash-max-listpack-entries` | `512` | 1.1.0 | yes |
+| `hash-max-listpack-value` | `64` | 1.1.0 | yes |
+| `hash-max-ziplist-entries` | `512` | 1.1.0 | yes |
+| `hash-max-ziplist-value` | `64` | 1.1.0 | yes |
+| `hll-sparse-max-bytes` | `3000` | 1.1.0 | yes |
+| `hz` | `10` | 1.1.0 | yes |
+| `latency-monitor-threshold` | `0` | 1.2 | yes |
+| `latency-tracking` | `yes` | 1.1.0 | yes |
+| `latency-tracking-info-percentiles` | `50 99 99.9` | 1.1.0 | yes |
+| `lazyfree-lazy-eviction` | `no` | 1.1.0 | yes |
+| `lazyfree-lazy-expire` | `yes` | 1.1.0 | yes |
+| `lazyfree-lazy-server-del` | `yes` | 1.1.0 | yes |
+| `lazyfree-lazy-user-del` | `no` | 1.1.0 | yes |
+| `lazyfree-lazy-user-flush` | `no` | 1.1.0 | yes |
+| `list-compress-depth` | `0` | 1.1.0 | yes |
+| `list-max-listpack-size` | `-2` | 1.1.0 | yes |
+| `list-max-ziplist-size` | `-2` | 1.1.0 | yes |
+| `maxclients` | `10000` | 1.1.0 | yes |
+| `maxmemory-clients` | `0` | 1.1.0 | yes |
+| `proto-max-bulk-len` | `536870912` | 1.1.0 | yes |
 | `save` | (empty) | 1.1.0 | accepted, but has no effect |
-| `set-max-intset-entries` | `512` | 1.1.0 | no: the server does not start |
-| `set-max-listpack-entries` | `128` | 1.1.0 | no: the server does not start |
-| `set-max-listpack-value` | `64` | 1.1.0 | no: the server does not start |
-| `zset-max-listpack-entries` | `128` | 1.1.0 | no: the server does not start |
-| `zset-max-listpack-value` | `64` | 1.1.0 | no: the server does not start |
-| `zset-max-ziplist-entries` | `128` | 1.1.0 | no: the server does not start |
-| `zset-max-ziplist-value` | `64` | 1.1.0 | no: the server does not start |
+| `set-max-intset-entries` | `512` | 1.1.0 | yes |
+| `set-max-listpack-entries` | `128` | 1.1.0 | yes |
+| `set-max-listpack-value` | `64` | 1.1.0 | yes |
+| `tcp-keepalive` | `300` | 1.1.0 | yes |
+| `timeout` | `0` | 1.1.0 | yes |
+| `ts-duplicate-policy` | `last` | 1.2 | yes |
+| `zset-max-listpack-entries` | `128` | 1.1.0 | yes |
+| `zset-max-listpack-value` | `64` | 1.1.0 | yes |
+| `zset-max-ziplist-entries` | `128` | 1.1.0 | yes |
+| `zset-max-ziplist-value` | `64` | 1.1.0 | yes |

@@ -37,9 +37,9 @@ cmdstat_get:calls=3,usec=59,usec_per_call=19.67,rejected_calls=0,failed_calls=0
 
 ### Known issues
 
-- `total_commands_processed`, `keyspace_hits` and `keyspace_misses` are counted by each thread, and added up only every 128 commands: a quiet server shows `0`, and `instantaneous_ops_per_sec` moves in steps. Add up `cmdstat_*:calls` instead. Filed as [kividb#136](https://github.com/kividbio/kividb/issues/136).
-- `INFO latencystats` is empty, and `rejected_connections`, `instantaneous_input_kbps` and `instantaneous_output_kbps` are always `0`. Filed as [kividb#158](https://github.com/kividbio/kividb/issues/158).
-- `mem_fragmentation_ratio` is not Redis's: divide `used_memory_rss` by `used_memory`. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152).
+- `total_commands_processed`, `keyspace_hits` and `keyspace_misses` are counted by each thread, and added up only every 128 commands: a quiet server shows `0`, and `instantaneous_ops_per_sec` moves in steps. Add up `cmdstat_*:calls` instead. Filed as [kividb#136](https://github.com/kividbio/kividb/issues/136), fixed in 1.2.
+- `INFO latencystats` is empty, and `rejected_connections`, `instantaneous_input_kbps` and `instantaneous_output_kbps` are always `0`. Filed as [kividb#158](https://github.com/kividbio/kividb/issues/158), fixed in 1.2.
+- `mem_fragmentation_ratio` is not Redis's: divide `used_memory_rss` by `used_memory`. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152), fixed in 1.2.
 
 ## The slow log
 
@@ -68,7 +68,7 @@ The [latency monitor](../commands/latency.md) records, for each kind of event, t
 
 ### Known issue
 
-Commands are recorded when they are slower than `slowlog-log-slower-than`, not `latency-monitor-threshold`, which applies to `expire-cycle` only: with the slow log off, no command is. `LATENCY LATEST` gives three fields an event, where Redis gives four. Filed as [kividb#158](https://github.com/kividbio/kividb/issues/158).
+Commands are recorded when they are slower than `slowlog-log-slower-than`, not `latency-monitor-threshold`, which applies to `expire-cycle` only: with the slow log off, no command is. `LATENCY LATEST` gives three fields an event, where Redis gives four. Filed as [kividb#158](https://github.com/kividbio/kividb/issues/158), fixed in 1.2.
 
 ## Clients
 

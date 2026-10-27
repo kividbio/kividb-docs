@@ -3,7 +3,7 @@ title: "VSIM"
 description: "Returns the elements of the vector set at key most similar to a vector, most similar first."
 version: "1.2"
 command: "VSIM"
-syntax: "VSIM key (ELE | FP32 | VALUES num) vector [WITHSCORES] [WITHATTRIBS] [COUNT num] [EF n] [NOTHREAD] [TRUTH]"
+syntax: "VSIM key (ELE | FP32 | VALUES num) vector [WITHSCORES] [WITHATTRIBS] [COUNT num] [EF n] [FILTER expr] [FILTER-EF n] [NOTHREAD] [TRUTH]"
 group: "vector-set"
 since: "1.1.0"
 arity: -2
@@ -18,7 +18,7 @@ status: "reviewed"
 ## Syntax
 
 ```
-VSIM key (ELE | FP32 | VALUES num) vector [WITHSCORES] [WITHATTRIBS] [COUNT num] [EF n] [NOTHREAD] [TRUTH]
+VSIM key (ELE | FP32 | VALUES num) vector [WITHSCORES] [WITHATTRIBS] [COUNT num] [EF n] [FILTER expr] [FILTER-EF n] [NOTHREAD] [TRUTH]
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`

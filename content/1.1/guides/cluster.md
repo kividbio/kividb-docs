@@ -99,7 +99,7 @@ Replication in a cluster is what it is between standalone servers, asynchronous:
 
 ### Known issue
 
-In KiviDB 1.1, the replicas of a failed master are not ranked by how up to date they are, so one that is behind can win the election, and the writes it had not received are lost. Fixed in 1.2. Filed as [kividb#107](https://github.com/kividbio/kividb/issues/107).
+In KiviDB 1.1, the replicas of a failed master are not ranked by how up to date they are, so one that is behind can win the election, and the writes it had not received are lost. Fixed in 1.2. Filed as [kividb#107](https://github.com/kividbio/kividb/issues/107), fixed in 1.2.
 
 ## Reading from replicas
 
@@ -111,5 +111,5 @@ Move its slots away, with `reshard`, then `redis-cli --cluster del-node`, or [`C
 
 ## Known issues
 
-- [`CLUSTER REPLICAS`](../commands/cluster-replicas.md) replies with one string, not an array of lines. Filed as [kividb#138](https://github.com/kividbio/kividb/issues/138).
-- [`CLUSTER SLOT-STATS ORDERBY`](../commands/cluster-slot-stats.md) sorts ascending unless told `DESC`. Filed as [kividb#139](https://github.com/kividbio/kividb/issues/139).
+- [`CLUSTER REPLICAS`](../commands/cluster-replicas.md) replies with one string, not an array of lines. Filed as [kividb#138](https://github.com/kividbio/kividb/issues/138), fixed in 1.2.
+- [`CLUSTER SLOT-STATS ORDERBY`](../commands/cluster-slot-stats.md) sorts ascending unless told `DESC`. Filed as [kividb#139](https://github.com/kividbio/kividb/issues/139), fixed in 1.2.

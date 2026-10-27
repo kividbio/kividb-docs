@@ -27,7 +27,7 @@ Makes the server a replica of the master at `host port`, or, with `NO ONE`, a ma
 
 ## Known issue
 
-A replica accepts replicas of its own, but sends them only its first snapshot and nothing after, while their `ROLE` says `connected`: replicate every replica from the master. Filed as [kividb#144](https://github.com/kividbio/kividb/issues/144).
+A replica accepts replicas of its own, but sends them only its first snapshot and nothing after, while their `ROLE` says `connected`: replicate every replica from the master. Filed as [kividb#144](https://github.com/kividbio/kividb/issues/144), fixed in 1.2.
 
 ## Examples
 

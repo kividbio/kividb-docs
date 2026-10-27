@@ -70,7 +70,7 @@ Commands sent together, without waiting for each reply, run in the order sent, a
 
 ## Known issues
 
-Filed as [kividb#159](https://github.com/kividbio/kividb/issues/159):
+Filed as [kividb#159](https://github.com/kividbio/kividb/issues/159), fixed in 1.2:
 
 - A command refused by ACL (`NOPERM`) inside `MULTI` does not abort the transaction: `EXEC` runs the others.
 - Multi-key commands other than `MSET`, `MSETNX` and `MGET` are not atomic, as above.

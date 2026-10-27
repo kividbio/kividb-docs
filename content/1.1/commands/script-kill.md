@@ -30,7 +30,7 @@ Stops the script running, if it has not written anything. While a script has run
 
 ## Known issue
 
-In KiviDB 1.1, `SCRIPT KILL` on a script that has already written replies `OK`, but the script goes on running, and the server stays busy until `SHUTDOWN NOSAVE`. Redis replies `UNKILLABLE` instead. Filed as [kividb#129](https://github.com/kividbio/kividb/issues/129).
+In KiviDB 1.1, `SCRIPT KILL` on a script that has already written replies `OK`, but the script goes on running, and the server stays busy until `SHUTDOWN NOSAVE`. Redis replies `UNKILLABLE` instead. Filed as [kividb#129](https://github.com/kividbio/kividb/issues/129), fixed in 1.2.
 
 ## Examples
 

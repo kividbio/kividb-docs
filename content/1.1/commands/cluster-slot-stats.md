@@ -28,7 +28,7 @@ Each slot has `key-count`, `cpu-usec`, `network-bytes-in` and `network-bytes-out
 
 ## Known issue
 
-`ORDERBY` with neither `ASC` nor `DESC` sorts ascending, where Redis sorts descending, so it returns the emptiest slots. Give `DESC` for the busiest. Filed as [kividb#139](https://github.com/kividbio/kividb/issues/139).
+`ORDERBY` with neither `ASC` nor `DESC` sorts ascending, where Redis sorts descending, so it returns the emptiest slots. Give `DESC` for the busiest. Filed as [kividb#139](https://github.com/kividbio/kividb/issues/139), fixed in 1.2.
 
 ## Reply
 

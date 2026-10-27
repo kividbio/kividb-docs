@@ -22,7 +22,33 @@
    "since": "1.1.0"
   },
   "ACL|GENPASS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Generate a cryptographically random hex password; `bits` defaults to 256, must be between 4 and 4096 and divisible by 4",
+         "section": "ACL commands",
+         "subsection": "Utilities",
+         "syntax": "ACL GENPASS [bits]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Generate a cryptographically random hex password, a digit per 4 bits; `bits` defaults to 256 and may be 1 to 4096 (rounded up to a multiple of 4: `ACL GENPASS 5` gives two digits)",
+         "section": "ACL commands",
+         "subsection": "Utilities",
+         "syntax": "ACL GENPASS [bits]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -102,12 +128,64 @@
    "since": "1.1.0"
   },
   "ARGREP": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Search elements by textual predicate. `start`/`end` accept `-` (first index) and `+` (last). Multiple predicates combine with OR by default. `WITHVALUES` returns a **flat** `[idx, val, ...]` array",
+         "section": "Array commands (AR*)",
+         "subsection": null,
+         "syntax": "ARGREP key start end <EXACT string | MATCH string | GLOB pattern | RE pattern [...]> [AND | OR | LIMIT limit | WITHVALUES | NOCASE ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Search elements by textual predicate. `start`/`end` accept `-` (first index) and `+` (last). Multiple predicates combine with OR by default. `WITHVALUES` returns an array of `[idx, val]` pairs, as Redis 8.8 does, and without it an array of indices",
+         "section": "Array commands (AR*)",
+         "subsection": null,
+         "syntax": "ARGREP key start end <EXACT string | MATCH string | GLOB pattern | RE pattern [...]> [AND | OR | LIMIT limit | WITHVALUES | NOCASE ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "ARINFO": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Array metadata: `count`, `len`, `next-insert-index`, `slices`, `directory-size`, `super-dir-entries`, `slice-size` (plus `ring-size` for rings). `FULL` adds per-slice statistics. RESP2 returns a flat array, RESP3 a map",
+         "section": "Array commands (AR*)",
+         "subsection": null,
+         "syntax": "ARINFO key [FULL]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Array metadata: `count`, `len`, `next-insert-index`, `slices`, `directory-size`, `super-dir-entries`, `slice-size`, as in Redis 8.8. `FULL` adds per-slice statistics. RESP2 returns a flat array, RESP3 a map",
+         "section": "Array commands (AR*)",
+         "subsection": null,
+         "syntax": "ARINFO key [FULL]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -152,7 +230,33 @@
    "since": "1.1.0"
   },
   "ARSCAN": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Iterate existing elements in a range, skipping empty slots. Returns a **flat** `[idx, val, idx, val, ...]` array; `start > end` iterates in reverse",
+         "section": "Array commands (AR*)",
+         "subsection": null,
+         "syntax": "ARSCAN key start end [LIMIT limit]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Iterate existing elements in a range, skipping empty slots. Returns an array of `[idx, val]` pairs, as Redis 8.8 does; `start > end` iterates in reverse",
+         "section": "Array commands (AR*)",
+         "subsection": null,
+         "syntax": "ARSCAN key start end [LIMIT limit]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -523,7 +627,33 @@
    "since": "1.1.0"
   },
   "CLUSTER|REPLICAS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "List replicas of a given master. Aliases.",
+         "section": "Cluster",
+         "subsection": "Discovery and membership",
+         "syntax": "CLUSTER REPLICAS master-id"
+        }
+       ],
+       "to": [
+        {
+         "notes": "The replicas of a master: an array with one `CLUSTER NODES` line per replica (empty for a master without any). Aliases.",
+         "section": "Cluster",
+         "subsection": "Discovery and membership",
+         "syntax": "CLUSTER REPLICAS master-id"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -558,12 +688,64 @@
    "since": "1.1.0"
   },
   "CLUSTER|SLAVES": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "List replicas of a given master. Aliases.",
+         "section": "Cluster",
+         "subsection": "Discovery and membership",
+         "syntax": "CLUSTER SLAVES master-id"
+        }
+       ],
+       "to": [
+        {
+         "notes": "The replicas of a master: an array with one `CLUSTER NODES` line per replica (empty for a master without any). Aliases.",
+         "section": "Cluster",
+         "subsection": "Discovery and membership",
+         "syntax": "CLUSTER SLAVES master-id"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "CLUSTER|SLOT-STATS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Per-slot stats. Only `key-count` carries real data; `cpu-usec` / `network-bytes-in` / `network-bytes-out` are reported as 0 (no per-slot instrumentation yet). `ORDERBY` only accepts `key-count`.",
+         "section": "Cluster",
+         "subsection": "Statistics",
+         "syntax": "CLUSTER SLOT-STATS SLOTSRANGE start end\nCLUSTER SLOT-STATS ORDERBY metric [LIMIT n] [ASC | DESC]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Per-slot stats. Only `key-count` carries real data; `cpu-usec` / `network-bytes-in` / `network-bytes-out` are reported as 0 (no per-slot instrumentation yet). `ORDERBY` only accepts `key-count`, and sorts descending (the busiest slots first) unless `ASC` is given, as in Redis.",
+         "section": "Cluster",
+         "subsection": "Statistics",
+         "syntax": "CLUSTER SLOT-STATS SLOTSRANGE start end\nCLUSTER SLOT-STATS ORDERBY metric [LIMIT n] [ASC | DESC]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -780,7 +962,33 @@
    "since": "1.1.0"
   },
   "EXPIRE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Set a TTL in seconds; returns 1 if set, 0 if key missing or condition not met; `NX`=only if no TTL exists, `XX`=only if TTL exists, `GT`=only if new TTL is greater than current, `LT`=only if new TTL is less than current; GT/LT on a key with no expiry always sets it",
+         "section": "Generic commands",
+         "subsection": "Expiry \u2014 set and query",
+         "syntax": "EXPIRE key seconds [NX | XX | GT | LT]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Set a TTL in seconds; returns 1 if set, 0 if key missing or condition not met; `NX`=only if no TTL exists, `XX`=only if TTL exists, `GT`=only if new TTL is greater than current, `LT`=only if new TTL is less than current; a key with no expiry counts as never expiring, as in Redis: `GT` does not set it, `LT` does",
+         "section": "Generic commands",
+         "subsection": "Expiry \u2014 set and query",
+         "syntax": "EXPIRE key seconds [NX | XX | GT | LT]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -960,7 +1168,33 @@
    "since": "1.1.0"
   },
   "FT.SYNUPDATE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Create or update a synonym group; terms in a group are treated as equivalent; AOF-logged",
+         "section": "Vector Search commands (FT.*)",
+         "subsection": "Tag and text utilities",
+         "syntax": "FT.SYNUPDATE index group_id [SKIPINITIALSCAN] term [term ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Create or update a synonym group; a query term matches every term of the groups it is in, in documents indexed before the group was made too (a quoted phrase is matched as written); AOF-logged",
+         "section": "Vector Search commands (FT.*)",
+         "subsection": "Tag and text utilities",
+         "syntax": "FT.SYNUPDATE index group_id [SKIPINITIALSCAN] term [term ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1031,7 +1265,7 @@
   },
   "GEODELBYMEMBER": {
    "changes": [],
-   "removed": null,
+   "removed": "1.2",
    "since": "1.1.0"
   },
   "GEODIST": {
@@ -1506,7 +1740,33 @@
    "since": "1.1.0"
   },
   "LATENCY|GRAPH": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return a UTF-8 sparkline string (up to 80 chars, using `\u2581\u2582\u2583\u2584\u2585\u2586\u2587\u2588`) visualising the history of `event`. Returns an error if the event has no samples",
+         "section": "Observability commands",
+         "subsection": "LATENCY",
+         "syntax": "LATENCY GRAPH event"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return Redis's ASCII graph of the history of `event`: a header with the high and the low, a rule, and a sparkline of `_`, `o`, `#` and ` | `. Returns an error if the event has no samples",
+         "section": "Observability commands",
+         "subsection": "LATENCY",
+         "syntax": "LATENCY GRAPH event"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1526,7 +1786,33 @@
    "since": "1.1.0"
   },
   "LATENCY|LATEST": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return the most recent sample for each tracked event as `[[event, timestamp_secs, latency_ms], ...]`",
+         "section": "Observability commands",
+         "subsection": "LATENCY",
+         "syntax": "LATENCY LATEST"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return the most recent sample for each tracked event as `[[event, timestamp_secs, latest_ms, max_ms], ...]`, as Redis does",
+         "section": "Observability commands",
+         "subsection": "LATENCY",
+         "syntax": "LATENCY LATEST"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2011,7 +2297,33 @@
    "since": "1.1.0"
   },
   "SCRIPT|KILL": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Kill a long-running script (subject to Redis rules)",
+         "section": "Scripting commands (Lua)",
+         "subsection": null,
+         "syntax": "SCRIPT KILL"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Stop the running script, if it has not written; one that has is answered `UNKILLABLE`, as in Redis, and runs on (`SHUTDOWN NOSAVE` is the way out)",
+         "section": "Scripting commands (Lua)",
+         "subsection": null,
+         "syntax": "SCRIPT KILL"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2101,7 +2413,33 @@
    "since": "1.1.0"
   },
   "SLOWLOG|GET": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return the last `count` entries (default 128), newest first. Returns an empty array if no entries exist",
+         "section": "Observability commands",
+         "subsection": "SLOWLOG",
+         "syntax": "SLOWLOG GET [count]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return the last `count` entries (default 10, as in Redis; `slowlog-max-len`, 128, is how many are kept), newest first. Returns an empty array if no entries exist",
+         "section": "Observability commands",
+         "subsection": "SLOWLOG",
+         "syntax": "SLOWLOG GET [count]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2241,12 +2579,64 @@
    "since": "1.1.0"
   },
   "TS.CREATE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Create a new time series. ENCODING is accepted but ignored \u2014 storage is always BTreeMap",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Data lifecycle",
+         "syntax": "TS.CREATE key [RETENTION ms] [ENCODING COMPRESSED|UNCOMPRESSED] [CHUNK SIZE size] [DUPLICATE_POLICY BLOCK|FIRST|LAST|MIN|MAX|SUM] [LABELS label value ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Create a new time series. ENCODING is accepted but ignored \u2014 storage is always BTreeMap. Without `DUPLICATE_POLICY`, a series (made here or by `TS.ADD`) takes `ts-duplicate-policy`: `last` unless set; RedisTimeSeries's default is `block`",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Data lifecycle",
+         "syntax": "TS.CREATE key [RETENTION ms] [ENCODING COMPRESSED|UNCOMPRESSED] [CHUNK SIZE size] [DUPLICATE_POLICY BLOCK|FIRST|LAST|MIN|MAX|SUM] [LABELS label value ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "TS.CREATERULE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Create a compaction rule from source to destination. On each `TS.ADD` to the source, the sample is bucketed and aggregated into the destination",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Compaction rules",
+         "syntax": "TS.CREATERULE sourceKey destKey AGGREGATION agg bucketDuration [alignTimestamp]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Create a compaction rule from source to destination. A bucket is written to the destination once it has closed (when the first sample of a later bucket arrives), and again if a sample is added to it after; the bucket still open is reported only with `LATEST`, as in RedisTimeSeries. A destination has one source",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Compaction rules",
+         "syntax": "TS.CREATERULE sourceKey destKey AGGREGATION agg bucketDuration [alignTimestamp]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2276,7 +2666,33 @@
    "since": "1.1.0"
   },
   "TS.INFO": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return metadata for a series: totalSamples, firstTimestamp, lastTimestamp, retentionTime, chunkSize, duplicatePolicy, labels, rules",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Querying",
+         "syntax": "TS.INFO key [DEBUG]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return metadata for a series: totalSamples, firstTimestamp, lastTimestamp, retentionTime, chunkSize, duplicatePolicy, labels, sourceKey (the series it is a compaction of, or nil), rules",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Querying",
+         "syntax": "TS.INFO key [DEBUG]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2386,7 +2802,33 @@
    "since": "1.1.0"
   },
   "VINFO": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return metadata: `vector-dim`, `vector-count`, `quant-type`, `index-type`, `max-level`",
+         "section": "Vector Set commands (V*)",
+         "subsection": "Inspection and traversal",
+         "syntax": "VINFO key"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return metadata: `vector-dim`, `vector-count`, `quant-type` (always `f32`: vectors are kept at full precision, whatever `VADD` asked for), `index-type`, `max-level`",
+         "section": "Vector Set commands (V*)",
+         "subsection": "Inspection and traversal",
+         "syntax": "VINFO key"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2421,7 +2863,33 @@
    "since": "1.1.0"
   },
   "VSIM": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return elements ordered by cosine similarity to the query vector; `ELE` queries by an existing element's vector; scores are similarities computed using the set's stored distance metric (1.0 = identical for cosine/IP, bounded 0\u20131 for L2)",
+         "section": "Vector Set commands (V*)",
+         "subsection": "Similarity search",
+         "syntax": "VSIM key (ELE | FP32 | VALUES num) vector [WITHSCORES] [WITHATTRIBS] [COUNT num] [EF n] [NOTHREAD] [TRUTH]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return elements ordered by cosine similarity to the query vector; `FILTER` keeps the elements whose JSON attributes pass Redis's expression (`.color == \"red\" and .size > 3`, `\"a\" in .tags`, `.year in [2024, 2025]`, arithmetic, `not`, `**`); an element without a field it asks for does not pass. The search is exact, so `EF` and `FILTER-EF` change nothing; `ELE` queries by an existing element's vector; scores are similarities computed using the set's stored distance metric (1.0 = identical for cosine/IP, bounded 0\u20131 for L2)",
+         "section": "Vector Set commands (V*)",
+         "subsection": "Similarity search",
+         "syntax": "VSIM key (ELE | FP32 | VALUES num) vector [WITHSCORES] [WITHATTRIBS] [COUNT num] [EF n] [FILTER expr] [FILTER-EF n] [NOTHREAD] [TRUTH]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2431,7 +2899,33 @@
    "since": "1.1.0"
   },
   "WAITAOF": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Block until the local AOF has fsynced all preceding writes, or `timeout` milliseconds elapse; returns `[local_fsynced, replica_fsynced]`",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "WAITAOF numlocal numreplicas timeout"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Block until the local AOF has fsynced all preceding writes, or `timeout` milliseconds elapse; returns `[local_fsynced, replica_fsynced]`, the first 1 once the write is fsynced. With the AOF off, a `numlocal` above 0 is an error and `WAITAOF 0 ...` replies `[0, 0]`, as in Redis",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "WAITAOF numlocal numreplicas timeout"
+        }
+       ]
+      }
+     ],
+     "release": "1.2"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2783,20 +3277,45 @@
   {
    "commands_added": [],
    "commands_changed": [
+    "ACL|GENPASS",
+    "ARGREP",
+    "ARINFO",
+    "ARSCAN",
+    "CLUSTER|REPLICAS",
+    "CLUSTER|SLAVES",
+    "CLUSTER|SLOT-STATS",
     "CONFIG|SET",
-    "INFO"
+    "EXPIRE",
+    "FT.SYNUPDATE",
+    "INFO",
+    "LATENCY|GRAPH",
+    "LATENCY|LATEST",
+    "SCRIPT|KILL",
+    "SLOWLOG|GET",
+    "TS.CREATE",
+    "TS.CREATERULE",
+    "TS.INFO",
+    "VINFO",
+    "VSIM",
+    "WAITAOF"
    ],
-   "commands_removed": [],
+   "commands_removed": [
+    "GEODELBYMEMBER"
+   ],
    "defaults_changed": [
-    "activedefrag"
+    "activedefrag",
+    "lazyfree-lazy-user-del"
    ],
    "release": "1.2",
    "settings_added": [
     "active-defrag-cycle-max",
     "active-defrag-ignore-bytes",
     "active-defrag-threshold-lower",
+    "aof-ack-after-write",
     "cluster-announce-client-port",
-    "cluster-replica-validity-factor"
+    "cluster-replica-validity-factor",
+    "latency-monitor-threshold",
+    "ts-duplicate-policy"
    ],
    "settings_removed": []
   }
@@ -2875,6 +3394,16 @@
    ],
    "removed": null,
    "since": "1.1.0"
+  },
+  "aof-ack-after-write": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
   },
   "aof-preamble": {
    "defaults": [
@@ -3296,6 +3825,16 @@
    "removed": null,
    "since": "1.1.1"
   },
+  "latency-monitor-threshold": {
+   "defaults": [
+    {
+     "default": "0",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
+  },
   "latency-tracking": {
    "defaults": [
     {
@@ -3351,6 +3890,10 @@
     {
      "default": "yes",
      "release": "1.1.0"
+    },
+    {
+     "default": "no",
+     "release": "1.2"
     }
    ],
    "removed": null,
@@ -3985,6 +4528,16 @@
    ],
    "removed": null,
    "since": "1.1.0"
+  },
+  "ts-duplicate-policy": {
+   "defaults": [
+    {
+     "default": "last",
+     "release": "1.2"
+    }
+   ],
+   "removed": null,
+   "since": "1.2"
   },
   "update-check": {
    "defaults": [

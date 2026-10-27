@@ -25,7 +25,7 @@ Starts a backup: writes a snapshot of the dataset as of now into the backup dire
 
 ## Known issue
 
-After a restart, a sealed backup's files are left in the directory, and it refuses to start until they are deleted by hand. Filed as [kividb#150](https://github.com/kividbio/kividb/issues/150).
+After a restart, a sealed backup's files are left in the directory, and it refuses to start until they are deleted by hand. Filed as [kividb#150](https://github.com/kividbio/kividb/issues/150), fixed in 1.2.
 
 ## Reply
 

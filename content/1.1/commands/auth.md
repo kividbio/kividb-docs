@@ -34,7 +34,7 @@ Before logging in, a connection that needs to can only send `AUTH`, `HELLO`, `PI
 
 ## Differences from Redis
 
-`AUTH password` while the `default` user has no password replies `OK`. Redis refuses it, which tells a client that the password it was given is not in use. Filed as [kividb#135](https://github.com/kividbio/kividb/issues/135).
+`AUTH password` while the `default` user has no password replies `OK`. Redis refuses it, which tells a client that the password it was given is not in use. Filed as [kividb#135](https://github.com/kividbio/kividb/issues/135), fixed in 1.2.
 
 ## Examples
 

@@ -25,7 +25,7 @@ Returns the replicas of the master `master-id`, each as a [`CLUSTER NODES`](clus
 
 ## Known issue
 
-The reply is one bulk string, the lines joined by newlines, where Redis replies with an array of lines. Filed as [kividb#138](https://github.com/kividbio/kividb/issues/138).
+The reply is one bulk string, the lines joined by newlines, where Redis replies with an array of lines. Filed as [kividb#138](https://github.com/kividbio/kividb/issues/138), fixed in 1.2.
 
 ## Examples
 

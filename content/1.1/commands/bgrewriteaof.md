@@ -27,7 +27,7 @@ Rewrites the append-only file in the background, as the shortest file that rebui
 
 ## Known issue
 
-With the append-only file turned on by `CONFIG SET appendonly yes`, it is not rewritten on its own until a restart; this command is then the way to rewrite it. Filed as [kividb#146](https://github.com/kividbio/kividb/issues/146).
+With the append-only file turned on by `CONFIG SET appendonly yes`, it is not rewritten on its own until a restart; this command is then the way to rewrite it. Filed as [kividb#146](https://github.com/kividbio/kividb/issues/146), fixed in 1.2.
 
 ## Reply
 

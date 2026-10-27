@@ -56,7 +56,7 @@
    {
     "documented": [
      {
-      "notes": "Generate a cryptographically random hex password; `bits` defaults to 256, must be between 4 and 4096 and divisible by 4",
+      "notes": "Generate a cryptographically random hex password, a digit per 4 bits; `bits` defaults to 256 and may be 1 to 4096 (rounded up to a multiple of 4: `ACL GENPASS 5` gives two digits)",
       "section": "ACL commands",
       "subsection": "Utilities",
       "syntax": "ACL GENPASS [bits]"
@@ -328,7 +328,7 @@
   "arity": -2,
   "documented": [
    {
-    "notes": "Search elements by textual predicate. `start`/`end` accept `-` (first index) and `+` (last). Multiple predicates combine with OR by default. `WITHVALUES` returns a **flat** `[idx, val, ...]` array",
+    "notes": "Search elements by textual predicate. `start`/`end` accept `-` (first index) and `+` (last). Multiple predicates combine with OR by default. `WITHVALUES` returns an array of `[idx, val]` pairs, as Redis 8.8 does, and without it an array of indices",
     "section": "Array commands (AR*)",
     "subsection": null,
     "syntax": "ARGREP key start end <EXACT string | MATCH string | GLOB pattern | RE pattern [...]> [AND | OR | LIMIT limit | WITHVALUES | NOCASE ...]"
@@ -354,7 +354,7 @@
   "arity": -2,
   "documented": [
    {
-    "notes": "Array metadata: `count`, `len`, `next-insert-index`, `slices`, `directory-size`, `super-dir-entries`, `slice-size` (plus `ring-size` for rings). `FULL` adds per-slice statistics. RESP2 returns a flat array, RESP3 a map",
+    "notes": "Array metadata: `count`, `len`, `next-insert-index`, `slices`, `directory-size`, `super-dir-entries`, `slice-size`, as in Redis 8.8. `FULL` adds per-slice statistics. RESP2 returns a flat array, RESP3 a map",
     "section": "Array commands (AR*)",
     "subsection": null,
     "syntax": "ARINFO key [FULL]"
@@ -588,7 +588,7 @@
   "arity": -2,
   "documented": [
    {
-    "notes": "Iterate existing elements in a range, skipping empty slots. Returns a **flat** `[idx, val, idx, val, ...]` array; `start > end` iterates in reverse",
+    "notes": "Iterate existing elements in a range, skipping empty slots. Returns an array of `[idx, val]` pairs, as Redis 8.8 does; `start > end` iterates in reverse",
     "section": "Array commands (AR*)",
     "subsection": null,
     "syntax": "ARSCAN key start end [LIMIT limit]"
@@ -1689,7 +1689,7 @@
    {
     "documented": [
      {
-      "notes": "List replicas of a given master. Aliases.",
+      "notes": "The replicas of a master: an array with one `CLUSTER NODES` line per replica (empty for a master without any). Aliases.",
       "section": "Cluster",
       "subsection": "Discovery and membership",
       "syntax": "CLUSTER REPLICAS master-id"
@@ -1773,7 +1773,7 @@
    {
     "documented": [
      {
-      "notes": "List replicas of a given master. Aliases.",
+      "notes": "The replicas of a master: an array with one `CLUSTER NODES` line per replica (empty for a master without any). Aliases.",
       "section": "Cluster",
       "subsection": "Discovery and membership",
       "syntax": "CLUSTER SLAVES master-id"
@@ -1785,7 +1785,7 @@
    {
     "documented": [
      {
-      "notes": "Per-slot stats. Only `key-count` carries real data; `cpu-usec` / `network-bytes-in` / `network-bytes-out` are reported as 0 (no per-slot instrumentation yet). `ORDERBY` only accepts `key-count`.",
+      "notes": "Per-slot stats. Only `key-count` carries real data; `cpu-usec` / `network-bytes-in` / `network-bytes-out` are reported as 0 (no per-slot instrumentation yet). `ORDERBY` only accepts `key-count`, and sorts descending (the busiest slots first) unless `ASC` is given, as in Redis.",
       "section": "Cluster",
       "subsection": "Statistics",
       "syntax": "CLUSTER SLOT-STATS SLOTSRANGE start end\nCLUSTER SLOT-STATS ORDERBY metric [LIMIT n] [ASC | DESC]"
@@ -2438,7 +2438,7 @@
   "arity": -3,
   "documented": [
    {
-    "notes": "Set a TTL in seconds; returns 1 if set, 0 if key missing or condition not met; `NX`=only if no TTL exists, `XX`=only if TTL exists, `GT`=only if new TTL is greater than current, `LT`=only if new TTL is less than current; GT/LT on a key with no expiry always sets it",
+    "notes": "Set a TTL in seconds; returns 1 if set, 0 if key missing or condition not met; `NX`=only if no TTL exists, `XX`=only if TTL exists, `GT`=only if new TTL is greater than current, `LT`=only if new TTL is less than current; a key with no expiry counts as never expiring, as in Redis: `GT` does not set it, `LT` does",
     "section": "Generic commands",
     "subsection": "Expiry \u2014 set and query",
     "syntax": "EXPIRE key seconds [NX | XX | GT | LT]"
@@ -3238,7 +3238,7 @@
   "arity": -1,
   "documented": [
    {
-    "notes": "Create or update a synonym group; terms in a group are treated as equivalent; AOF-logged",
+    "notes": "Create or update a synonym group; a query term matches every term of the groups it is in, in documents indexed before the group was made too (a quoted phrase is matched as written); AOF-logged",
     "section": "Vector Search commands (FT.*)",
     "subsection": "Tag and text utilities",
     "syntax": "FT.SYNUPDATE index group_id [SKIPINITIALSCAN] term [term ...]"
@@ -3444,25 +3444,6 @@
   "key_step": 1,
   "last_key": 1,
   "name": "GEOADD",
-  "subcommands": [],
-  "tips": []
- },
- {
-  "acl_categories": [
-   "geo",
-   "slow",
-   "write"
-  ],
-  "arity": -2,
-  "documented": [],
-  "first_key": 1,
-  "flags": [
-   "write"
-  ],
-  "key_specs": [],
-  "key_step": 1,
-  "last_key": 1,
-  "name": "GEODELBYMEMBER",
   "subcommands": [],
   "tips": []
  },
@@ -5611,7 +5592,7 @@
    {
     "documented": [
      {
-      "notes": "Return a UTF-8 sparkline string (up to 80 chars, using `\u2581\u2582\u2583\u2584\u2585\u2586\u2587\u2588`) visualising the history of `event`. Returns an error if the event has no samples",
+      "notes": "Return Redis's ASCII graph of the history of `event`: a header with the high and the low, a rule, and a sparkline of `_`, `o`, `#` and ` | `. Returns an error if the event has no samples",
       "section": "Observability commands",
       "subsection": "LATENCY",
       "syntax": "LATENCY GRAPH event"
@@ -5652,7 +5633,7 @@
    {
     "documented": [
      {
-      "notes": "Return the most recent sample for each tracked event as `[[event, timestamp_secs, latency_ms], ...]`",
+      "notes": "Return the most recent sample for each tracked event as `[[event, timestamp_secs, latest_ms, max_ms], ...]`, as Redis does",
       "section": "Observability commands",
       "subsection": "LATENCY",
       "syntax": "LATENCY LATEST"
@@ -7687,7 +7668,7 @@
    {
     "documented": [
      {
-      "notes": "Kill a long-running script (subject to Redis rules)",
+      "notes": "Stop the running script, if it has not written; one that has is answered `UNKILLABLE`, as in Redis, and runs on (`SHUTDOWN NOSAVE` is the way out)",
       "section": "Scripting commands (Lua)",
       "subsection": null,
       "syntax": "SCRIPT KILL"
@@ -8129,7 +8110,7 @@
    {
     "documented": [
      {
-      "notes": "Return the last `count` entries (default 128), newest first. Returns an empty array if no entries exist",
+      "notes": "Return the last `count` entries (default 10, as in Redis; `slowlog-max-len`, 128, is how many are kept), newest first. Returns an empty array if no entries exist",
       "section": "Observability commands",
       "subsection": "SLOWLOG",
       "syntax": "SLOWLOG GET [count]"
@@ -8821,7 +8802,7 @@
   "arity": -2,
   "documented": [
    {
-    "notes": "Create a new time series. ENCODING is accepted but ignored \u2014 storage is always BTreeMap",
+    "notes": "Create a new time series. ENCODING is accepted but ignored \u2014 storage is always BTreeMap. Without `DUPLICATE_POLICY`, a series (made here or by `TS.ADD`) takes `ts-duplicate-policy`: `last` unless set; RedisTimeSeries's default is `block`",
     "section": "Time Series commands (TS.*)",
     "subsection": "Data lifecycle",
     "syntax": "TS.CREATE key [RETENTION ms] [ENCODING COMPRESSED|UNCOMPRESSED] [CHUNK SIZE size] [DUPLICATE_POLICY BLOCK|FIRST|LAST|MIN|MAX|SUM] [LABELS label value ...]"
@@ -8847,7 +8828,7 @@
   "arity": -2,
   "documented": [
    {
-    "notes": "Create a compaction rule from source to destination. On each `TS.ADD` to the source, the sample is bucketed and aggregated into the destination",
+    "notes": "Create a compaction rule from source to destination. A bucket is written to the destination once it has closed (when the first sample of a later bucket arrives), and again if a sample is added to it after; the bucket still open is reported only with `LATEST`, as in RedisTimeSeries. A destination has one source",
     "section": "Time Series commands (TS.*)",
     "subsection": "Compaction rules",
     "syntax": "TS.CREATERULE sourceKey destKey AGGREGATION agg bucketDuration [alignTimestamp]"
@@ -9003,7 +8984,7 @@
   "arity": -2,
   "documented": [
    {
-    "notes": "Return metadata for a series: totalSamples, firstTimestamp, lastTimestamp, retentionTime, chunkSize, duplicatePolicy, labels, rules",
+    "notes": "Return metadata for a series: totalSamples, firstTimestamp, lastTimestamp, retentionTime, chunkSize, duplicatePolicy, labels, sourceKey (the series it is a compaction of, or nil), rules",
     "section": "Time Series commands (TS.*)",
     "subsection": "Querying",
     "syntax": "TS.INFO key [DEBUG]"
@@ -9573,7 +9554,7 @@
   "arity": -2,
   "documented": [
    {
-    "notes": "Return metadata: `vector-dim`, `vector-count`, `quant-type`, `index-type`, `max-level`",
+    "notes": "Return metadata: `vector-dim`, `vector-count`, `quant-type` (always `f32`: vectors are kept at full precision, whatever `VADD` asked for), `index-type`, `max-level`",
     "section": "Vector Set commands (V*)",
     "subsection": "Inspection and traversal",
     "syntax": "VINFO key"
@@ -9755,10 +9736,10 @@
   "arity": -2,
   "documented": [
    {
-    "notes": "Return elements ordered by cosine similarity to the query vector; `ELE` queries by an existing element's vector; scores are similarities computed using the set's stored distance metric (1.0 = identical for cosine/IP, bounded 0\u20131 for L2)",
+    "notes": "Return elements ordered by cosine similarity to the query vector; `FILTER` keeps the elements whose JSON attributes pass Redis's expression (`.color == \"red\" and .size > 3`, `\"a\" in .tags`, `.year in [2024, 2025]`, arithmetic, `not`, `**`); an element without a field it asks for does not pass. The search is exact, so `EF` and `FILTER-EF` change nothing; `ELE` queries by an existing element's vector; scores are similarities computed using the set's stored distance metric (1.0 = identical for cosine/IP, bounded 0\u20131 for L2)",
     "section": "Vector Set commands (V*)",
     "subsection": "Similarity search",
-    "syntax": "VSIM key (ELE | FP32 | VALUES num) vector [WITHSCORES] [WITHATTRIBS] [COUNT num] [EF n] [NOTHREAD] [TRUTH]"
+    "syntax": "VSIM key (ELE | FP32 | VALUES num) vector [WITHSCORES] [WITHATTRIBS] [COUNT num] [EF n] [FILTER expr] [FILTER-EF n] [NOTHREAD] [TRUTH]"
    }
   ],
   "first_key": 1,
@@ -9811,7 +9792,7 @@
   "arity": 4,
   "documented": [
    {
-    "notes": "Block until the local AOF has fsynced all preceding writes, or `timeout` milliseconds elapse; returns `[local_fsynced, replica_fsynced]`",
+    "notes": "Block until the local AOF has fsynced all preceding writes, or `timeout` milliseconds elapse; returns `[local_fsynced, replica_fsynced]`, the first 1 once the write is fsynced. With the AOF off, a `numlocal` above 0 is an error and `WAITAOF 0 ...` replies `[0, 0]`, as in Redis",
     "section": "Server commands",
     "subsection": null,
     "syntax": "WAITAOF numlocal numreplicas timeout"
