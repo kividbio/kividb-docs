@@ -76,4 +76,5 @@ Filed as [kividb#159](https://github.com/kividbio/kividb/issues/159), fixed in 1
 - Multi-key commands other than `MSET`, `MSETNX` and `MGET` are not atomic, as above.
 - A write that changes nothing, such as another client's `SET key value NX` on a key that exists, fails a `WATCH` on the key.
 - On a replica, `WATCH` does not see the writes that come from its master.
-- A transaction reaches replicas, and the append-only file, as its commands one by one: a reader on a replica can see it half applied.
+
+A transaction reaches replicas, and the append-only file, as its commands one by one: a reader on a replica can see it half applied. Filed as [kividb#172](https://github.com/kividbio/kividb/issues/172).

@@ -35,6 +35,18 @@ While `yes`, the default, the `default` user has no password, and [`bind`](#bind
 
 In Redis, the length of the queue of connections not yet accepted. It has no effect in KiviDB; `CONFIG GET` always gives `511`.
 
+### `tcp-keepalive`
+
+**Default:** `300` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+In Redis, how often, in seconds, TCP keepalives are sent to idle clients. It has no effect in KiviDB; `CONFIG GET` gives back what was set.
+
+### `timeout`
+
+**Default:** `0` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+In Redis, closes a client that has been idle this many seconds; `0` never does. KiviDB does not close idle clients; `CONFIG GET` gives back what was set.
+
 ## TLS
 
 ### `tls-auth-clients`
@@ -162,7 +174,7 @@ Seconds between the pings a master sends its replicas, so that a replica can tel
 
 **Default:** `268435456` · **Since:** 1.1.0 · **Command line:** `--repl-replica-max-backlog-bytes <REPL_REPLICA_MAX_BACKLOG_BYTES>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
-The most bytes a master queues for one replica that is not keeping up. Past it, the replica is disconnected, and copies the whole dataset when it reconnects, rather than the queue growing without bound. It is like Redis's `client-output-buffer-limit replica`. `CONFIG SET` replies `OK` and does not change it: filed as [kividb#143](https://github.com/kividbio/kividb/issues/143).
+The most bytes a master queues for one replica that is not keeping up. Past it, the replica is disconnected, and copies the whole dataset when it reconnects, rather than the queue growing without bound. It is like Redis's `client-output-buffer-limit replica`. It is read at startup only. Before 1.2, `CONFIG SET` replied `OK` and did not change it.
 
 ### `repl-timeout`
 
@@ -218,7 +230,7 @@ The bus port this node announces. `0`, the default: `port` + 10000.
 
 **Default:** `0` · **Since:** 1.2 · **Command line:** `--cluster-announce-client-port <CLUSTER_ANNOUNCE_CLIENT_PORT>` · **Config file:** yes · **`CONFIG SET`:** yes
 
-The port clients are told to reach this node on, in `MOVED`, `ASK`, `CLUSTER SLOTS`, `SHARDS` and `NODES`, where it is not the port the nodes use between themselves: a Kubernetes NodePort, or a load balancer that maps ports. `0`, the default: the client port.
+The port clients are told to reach this node on, in `MOVED`, `ASK`, `CLUSTER SLOTS`, `SHARDS`, `NODES` and `REPLICAS`, where it is not the port the nodes use between themselves: a Kubernetes NodePort, or a load balancer that maps ports. `0`, the default: the client port.
 
 ### `cluster-announce-hostname`
 
@@ -326,11 +338,33 @@ The default became `yes` in 1.2.
 
 Active defrag: string values are moved, from a thread of its own and a few keys at a time, off the memory slabs that deletes have left sparse, so that those slabs empty and their memory goes back to the system. Nothing is freed later than before, and a value that a command or a snapshot is using is left where it is. It starts while the waste is over both [`active-defrag-threshold-lower`](#active-defrag-threshold-lower) and [`active-defrag-ignore-bytes`](#active-defrag-ignore-bytes), and stops when it is under half of both. `INFO memory` reports `active_defrag_running`, `active_defrag_hits` (values moved) and `active_defrag_misses` (values left where they are).
 
+It is on by default because it costs nothing measurable: under 9 million requests a second, throughput and p99 latency were the same with it running as with it off. In the same test, 10 million keys with a random half deleted held 1426 MB, and 986 MB 70 seconds later. Before 1.2, `activedefrag` was accepted and did nothing, and a server kept the memory of deleted keys until it restarted.
+
+### `activerehashing`
+
+**Default:** `yes` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+In Redis, rehashes the main hash table a little at a time in the background. KiviDB's tables are resized as they grow and shrink; `CONFIG GET` gives back what was set.
+
 ### `key-access-tracking`
 
 **Default:** `no` · **Since:** 1.1.1 · **Command line:** `--key-access-tracking <KEY_ACCESS_TRACKING>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 Records every key's use whatever the eviction policy, so that [`OBJECT IDLETIME`](../commands/object-idletime.md) and [`OBJECT FREQ`](../commands/object-freq.md) answer under `noeviction` too. It costs a little on every command and every key.
+
+### `lazyfree-lazy-eviction`
+
+**Default:** `no` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+In Redis, frees evicted keys in the background. It has no effect in KiviDB; `CONFIG GET` gives back what was set.
+
+### `lazyfree-lazy-user-del`
+
+**Default:** `no` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+The default became `no` in 1.2.
+
+In Redis, makes `DEL` free a key's memory in the background, as `UNLINK` does. KiviDB's `DEL` frees it before replying; `CONFIG GET` gives `no`, which says so, and gives back what was set. Before 1.2, it gave `yes`.
 
 ### `lfu-decay-time`
 
@@ -368,6 +402,12 @@ What a write does when [`maxmemory`](#maxmemory) is reached:
 How many keys are looked at to choose each one to delete. More is nearer to exact, and slower.
 
 ## Diagnostics
+
+### `latency-monitor-threshold`
+
+**Default:** `0` · **Since:** 1.2 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+Milliseconds a command must take for the latency monitor to record it, as a `command` or `fast-command` event, in [`LATENCY LATEST`](../commands/latency-latest.md) and [`LATENCY HISTORY`](../commands/latency-history.md). `0`, the default, records none. Before 1.2, these events were recorded by [`slowlog-log-slower-than`](#slowlog-log-slower-than), and this setting did nothing.
 
 ### `log-format`
 
@@ -421,7 +461,7 @@ The most entries the slow log keeps; the oldest goes when it is full.
 
 **Default:** `1000000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-The most keys [client-side caching](../commands/client-tracking.md) tracks. Past it, keys are dropped from the table, and the clients that had read them are told to forget them. `0`: no limit. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+The most keys [client-side caching](../commands/client-tracking.md) tracks. Past it, keys are dropped from the table, and the clients that had read them are told to forget them. `0`: no limit. It cannot be given on the command line. Before 1.2, it could not be given in the configuration file either.
 
 ## Server
 
@@ -436,6 +476,12 @@ The configuration file to read at startup. The server starts without one if the 
 **Default:** `16` · **Since:** 1.1.0 · **Command line:** `--databases <DATABASES>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 How many databases there are, numbered from `0`. A cluster node has only `0`.
+
+### `hz`
+
+**Default:** `10` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+In Redis, how many times a second background tasks run. KiviDB's run on their own schedule; `CONFIG GET` gives back what was set.
 
 ### `io-model`
 
@@ -469,6 +515,12 @@ Where the update check asks: a `releases/latest` page, over `https://`.
 
 The command-line switch for [`appendonly`](#appendonly): `--aof`, with no value. In the configuration file, `aof yes` and `appendonly yes` are the same.
 
+### `aof-ack-after-write`
+
+**Default:** `yes` · **Since:** 1.2 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+With the [append-only file](#appendonly) on, whether the reply to a write waits until its record is in the file. `yes`, the default, is Redis's guarantee: a process that is killed loses no acknowledged write. `no` acknowledges a write once its record is queued for the file, as KiviDB did before 1.2: faster, and a killed process can lose the last few acknowledged writes. Waiting costs writes, not reads: on a 16-core server, 20 to 28% fewer `SET`s a second with 50 clients, with or without pipelining, and under 10% with one client. With the append-only file off, it changes nothing.
+
 ### `aof-preamble`
 
 **Default:** `true` · **Since:** 1.1.0 · **Command line:** `--aof-preamble <AOF_PREAMBLE>` · **Config file:** yes · **`CONFIG SET`:** no: not a `CONFIG` setting
@@ -491,7 +543,7 @@ Another name for [`auto-aof-rewrite-percentage`](#auto-aof-rewrite-percentage), 
 
 **Default:** `no` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-Turns the append-only file on or off: every write is appended to `appendonly.aof`, and replayed when the server starts. `CONFIG SET appendonly yes` turns it on at once, writing a snapshot first. On the command line it is [`--aof`](#aof). The file is written to disk once a second; [`appendfsync`](#accepted-for-compatibility-with-redis) cannot change that.
+Turns the append-only file on or off: every write is appended to `appendonly.aof`, and replayed when the server starts. `CONFIG SET appendonly yes` turns it on at once, writing a snapshot first. On the command line it is [`--aof`](#aof). A write is acknowledged once its record is in the file, unless [`aof-ack-after-write`](#aof-ack-after-write) is `no`. The file is flushed to disk once a second; [`appendfsync`](#accepted-for-compatibility-with-redis) cannot change that.
 
 ### `auto-aof-rewrite-min-size`
 
@@ -503,7 +555,7 @@ The smallest the append-only file must be to be rewritten on its own: bytes, or 
 
 **Default:** `100` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-The append-only file is rewritten, as a snapshot and a new, empty log, once it has grown this many percent past its size after the last rewrite, and is at least [`auto-aof-rewrite-min-size`](#auto-aof-rewrite-min-size). `0` never rewrites it on its own. It is checked every 10 seconds, on a server started with the AOF on. On the command line it is `--aof-rewrite-percentage`; in the file, either name.
+The append-only file is rewritten, as a snapshot and a new, empty log, once it has grown this many percent past its size after the last rewrite, and is at least [`auto-aof-rewrite-min-size`](#auto-aof-rewrite-min-size). `0` never rewrites it on its own. It is checked every 10 seconds, also on a server that turned the AOF on with `CONFIG SET appendonly yes`; before 1.2, such a server did not rewrite it on its own until it restarted. On the command line it is `--aof-rewrite-percentage`; in the file, either name.
 
 ### `backup-sealed-ttl`
 
@@ -515,7 +567,7 @@ Seconds a sealed backup is kept before it is deleted. `0`, the default, keeps it
 
 **Default:** `backupdir` · **Since:** 1.1.0 · **Command line:** `--backupdirname <BACKUPDIRNAME>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
-The directory, under [`dir`](#dir), that [`BACKUP START`](../commands/backup-start.md) writes into. `CONFIG SET` replies `OK` and does not change it: filed as [kividb#143](https://github.com/kividbio/kividb/issues/143).
+The directory, under [`dir`](#dir), that [`BACKUP START`](../commands/backup-start.md) writes into. It is read at startup only. Before 1.2, `CONFIG SET` replied `OK` and did not change it.
 
 ### `dir`
 
@@ -533,21 +585,21 @@ A file to load at startup instead of `dump.kdb` and `appendonly.aof`: `aof:manif
 
 ### `array-slice-size`
 
-**Default:** `4096` · **Since:** 1.1.1 · **Command line:** no · **Config file:** no: the server does not start · **`CONFIG SET`:** yes
+**Default:** `4096` · **Since:** 1.1.1 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-How many indexes each slice of an [array](../commands/arset.md) covers: a power of two from 256 to 65536. It applies to arrays made after it is set. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+How many indexes each slice of an [array](../commands/arset.md) covers: a power of two from 256 to 65536. It applies to arrays made after it is set. It cannot be given on the command line. Before 1.2, it could not be given in the configuration file either.
 
 ### `array-sparse-kmax`
 
 **Default:** `10` · **Since:** 1.1.1 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-The most elements a slice of an array holds as a sparse list before it becomes dense: 0 to 256, and more than [`array-sparse-kmin`](#array-sparse-kmin). `0`: slices are always dense. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+The most elements a slice of an array holds as a sparse list before it becomes dense: 0 to 256, and more than [`array-sparse-kmin`](#array-sparse-kmin). `0`: slices are always dense. It cannot be given on the command line. Before 1.2, it could not be given in the configuration file either.
 
 ### `array-sparse-kmin`
 
 **Default:** `5` · **Since:** 1.1.1 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-A dense slice of an array with this many elements or fewer becomes sparse again: 0 to 256, and less than [`array-sparse-kmax`](#array-sparse-kmax). It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+A dense slice of an array with this many elements or fewer becomes sparse again: 0 to 256, and less than [`array-sparse-kmax`](#array-sparse-kmax). It cannot be given on the command line. Before 1.2, it could not be given in the configuration file either.
 
 ### `stream-idmp-duration`
 
@@ -565,13 +617,19 @@ How many IDs are remembered for each producer, for streams that do not set their
 
 **Default:** `4096` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-How many bytes make one node of a stream, for trimming with `~`. `0`: no limit. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+How many bytes make one node of a stream, for trimming with `~`. `0`: no limit. It cannot be given on the command line. Before 1.2, it could not be given in the configuration file either.
 
 ### `stream-node-max-entries`
 
 **Default:** `100` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-How many entries make one node of a stream, for trimming with `~` ([`XADD`](../commands/xadd.md), [`XTRIM`](../commands/xtrim.md)): an approximate trim removes whole nodes only. `0` is taken as `100`. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+How many entries make one node of a stream, for trimming with `~` ([`XADD`](../commands/xadd.md), [`XTRIM`](../commands/xtrim.md)): an approximate trim removes whole nodes only. `0` is taken as `100`. It cannot be given on the command line. Before 1.2, it could not be given in the configuration file either.
+
+### `ts-duplicate-policy`
+
+**Default:** `last` · **Since:** 1.2 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+What a [time series](../commands/ts.create.md) made without a `DUPLICATE_POLICY`, by `TS.CREATE` or `TS.ADD`, does with a second sample at a timestamp it already has: `block` refuses it, `first` keeps the old value, `last`, the default, keeps the new one, `min` and `max` keep the smaller or larger, and `sum` adds them. A series keeps the policy it was made with. RedisTimeSeries's default is `block`; KiviDB's stays `last`, so that an upgraded server, and an append-only file it replays, do what they did before. Set it alike on a master and its replicas.
 
 ## Scripting
 
@@ -579,7 +637,7 @@ How many entries make one node of a stream, for trimming with `~` ([`XADD`](../c
 
 **Default:** `5000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes; in builds without Lua, replies `OK` and has no effect
 
-Milliseconds a script may run before other clients are answered `BUSY`, and [`SCRIPT KILL`](../commands/script-kill.md) or [`FUNCTION KILL`](../commands/function-kill.md) can stop it. `0`: never. In builds without Lua, `CONFIG GET` always gives `5000`. It cannot be given in the configuration file, or on the command line: filed as [kividb#142](https://github.com/kividbio/kividb/issues/142).
+Milliseconds a script may run before other clients are answered `BUSY`, and [`SCRIPT KILL`](../commands/script-kill.md) or [`FUNCTION KILL`](../commands/function-kill.md) can stop it. `0`: never. In builds without Lua it has no effect, and `CONFIG GET` gives back what was set. It cannot be given on the command line. Before 1.2, it could not be given in the configuration file either.
 
 ### `lua-parallel-scripts`
 
@@ -599,8 +657,6 @@ These are Redis settings that mean nothing in KiviDB: how Redis encodes small va
 
 | Setting | Default | Since | Config file |
 |---|---|---|---|
-| `activerehashing` | `yes` | 1.1.0 | yes |
-| `aof-ack-after-write` | `yes` | 1.2 | yes |
 | `appendfsync` | `everysec` | 1.1.0 | accepted, but has no effect |
 | `client-query-buffer-limit` | `1073741824` | 1.1.0 | yes |
 | `close-on-replica-write` | `yes` | 1.1.0 | yes |
@@ -609,14 +665,10 @@ These are Redis settings that mean nothing in KiviDB: how Redis encodes small va
 | `hash-max-ziplist-entries` | `512` | 1.1.0 | yes |
 | `hash-max-ziplist-value` | `64` | 1.1.0 | yes |
 | `hll-sparse-max-bytes` | `3000` | 1.1.0 | yes |
-| `hz` | `10` | 1.1.0 | yes |
-| `latency-monitor-threshold` | `0` | 1.2 | yes |
 | `latency-tracking` | `yes` | 1.1.0 | yes |
 | `latency-tracking-info-percentiles` | `50 99 99.9` | 1.1.0 | yes |
-| `lazyfree-lazy-eviction` | `no` | 1.1.0 | yes |
 | `lazyfree-lazy-expire` | `yes` | 1.1.0 | yes |
 | `lazyfree-lazy-server-del` | `yes` | 1.1.0 | yes |
-| `lazyfree-lazy-user-del` | `no` | 1.1.0 | yes |
 | `lazyfree-lazy-user-flush` | `no` | 1.1.0 | yes |
 | `list-compress-depth` | `0` | 1.1.0 | yes |
 | `list-max-listpack-size` | `-2` | 1.1.0 | yes |
@@ -628,9 +680,6 @@ These are Redis settings that mean nothing in KiviDB: how Redis encodes small va
 | `set-max-intset-entries` | `512` | 1.1.0 | yes |
 | `set-max-listpack-entries` | `128` | 1.1.0 | yes |
 | `set-max-listpack-value` | `64` | 1.1.0 | yes |
-| `tcp-keepalive` | `300` | 1.1.0 | yes |
-| `timeout` | `0` | 1.1.0 | yes |
-| `ts-duplicate-policy` | `last` | 1.2 | yes |
 | `zset-max-listpack-entries` | `128` | 1.1.0 | yes |
 | `zset-max-listpack-value` | `64` | 1.1.0 | yes |
 | `zset-max-ziplist-entries` | `128` | 1.1.0 | yes |

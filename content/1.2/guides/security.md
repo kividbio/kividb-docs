@@ -40,6 +40,8 @@ Clients then log in before anything else:
 OK
 ```
 
+While the `default` user has no password, `AUTH` with a password alone is refused, as in Redis: `ERR AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?`. A client configured with a password for a server that has none gets this error when it connects. Before 1.2, it replied `OK`.
+
 Before logging in, a client may send only `AUTH`, `HELLO` with `AUTH`, `QUIT` and `RESET`, of at most 10 arguments of 16 KB each. [`ACL GENPASS`](../commands/acl-genpass.md) makes a good password.
 
 There is no delay after a wrong password, as in Redis: with a password that is short enough to guess, a client that can connect can try many a second. Use a long, random one. Passwords are kept as their SHA-256.
@@ -117,9 +119,9 @@ TLS 1.2 and 1.3 are accepted. The plain port stays open beside it: keep it to th
 
 Between servers: [`tls-replication`](../reference/configuration.md#tls-replication) makes replicas connect to their master over TLS, and [`tls-cluster`](../reference/configuration.md#tls-cluster) the cluster's nodes to each other. Each node presents a certificate and checks the other's against the CA; the host name in it is not checked, as in Redis.
 
-### Known issue
+### Renewing certificates
 
-Certificates are read when the server starts. `CONFIG SET tls-cert-file` replies `OK` and changes nothing: renewed certificates take a restart. Filed as [kividb#156](https://github.com/kividbio/kividb/issues/156).
+`CONFIG SET` of `tls-cert-file`, `tls-key-file`, `tls-ca-cert-file`, `tls-auth-clients`, [`tls-client-cert-file`](../reference/configuration.md#tls-client-cert-file) or [`tls-client-key-file`](../reference/configuration.md#tls-client-key-file) reads the files again, also when the path is the same, so a certificate renewed in place takes no restart. Every handshake from then on uses them, from clients and between servers; connections already open keep theirs. Set a certificate and its key in one `CONFIG SET`, so that they change together. Files that cannot be loaded change nothing, and the reply ends `Unable to update TLS configuration. Check server logs.` Before 1.2, these settings replied `OK` and changed nothing: a renewed certificate took a restart.
 
 ## The cluster bus
 
@@ -128,10 +130,6 @@ Anything that can reach a node's bus port can join the cluster, as in Redis. Giv
 ## The update check
 
 At startup the server asks GitHub, over HTTPS, for the newest release, and logs a line if it is newer than itself. The request carries the server's version and nothing else. `--update-check no`, or the environment variable `KIVIDB_NO_UPDATE_CHECK=1`, turns it off.
-
-## Known issue
-
-While the `default` user has no password, `AUTH` with any password replies `OK`; Redis replies with an error. Filed as [kividb#135](https://github.com/kividbio/kividb/issues/135).
 
 ## Reporting a vulnerability
 

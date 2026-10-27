@@ -13,6 +13,8 @@ KiviDB keeps every key in memory. This page is about how much it uses, how to ca
 
 `used_memory_rss` is what the operating system gives the process: what `top` and a container's memory limit see. It is higher than `used_memory`, since memory that was freed is not always given back (below).
 
+`mem_fragmentation_ratio` is `used_memory_rss` over `used_memory`, as in Redis, and `mem_fragmentation_bytes` their difference. On a server with little data it is high, since the program's own memory counts in `used_memory_rss`: an empty server's is several times `used_memory`. [`MEMORY DOCTOR`](../commands/memory-doctor.md) warns of fragmentation when the ratio is above 1.4 and the difference above 10 MB. `used_memory_peak` is the most `used_memory` has been, and `used_memory_startup` what the server used once started, before any data. Before 1.2, `mem_fragmentation_ratio` was the process's virtual size over its resident size on Linux, much higher, and `MEMORY DOCTOR` always warned because of it.
+
 For small values, a key takes about 180 bytes, all told: [the benchmark in the README](https://github.com/kividbio/kividb) measured 177 bytes a key for 10 million keys with 100-byte values. A value kept in a slab counts at its slab's size, which, for 100-byte values, adds about 4 bytes a key to `used_memory`. A key of 24 bytes or fewer is stored in the table itself; a value is stored apart, with an 8-byte header. A time to live takes an entry of its own. An LRU, LFU or LRM eviction policy, or [`key-access-tracking`](../reference/configuration.md#key-access-tracking), adds about 53 bytes a key, for the record of when it was used.
 
 [`MEMORY USAGE`](../commands/memory-usage.md) gives an estimate for one key, in the way Redis counts, not a measurement of KiviDB's layout.
@@ -87,7 +89,7 @@ On Windows, slabs that empty are kept for reuse rather than given back.
 
 ## Freeing large values
 
-[`UNLINK`](../commands/unlink.md), `FLUSHALL ASYNC` and `FLUSHDB ASYNC` free large collections in the background, on a thread of their own, so that the command replies at once: a list, set, hash or sorted set of more than 64 elements, or a big stream. A string is freed in the command, whatever its size, and so is everything [`DEL`](../commands/del.md) deletes.
+[`UNLINK`](../commands/unlink.md), `FLUSHALL ASYNC` and `FLUSHDB ASYNC` free large collections in the background, on a thread of their own, so that the command replies at once: a list, set, hash or sorted set of more than 64 elements, or a big stream. A string is freed in the command, whatever its size, and so is everything [`DEL`](../commands/del.md) deletes: `lazyfree-lazy-user-del` is `no`, and setting it changes nothing.
 
 ## Encodings
 
@@ -100,8 +102,3 @@ KiviDB has no compact encodings: a small hash and a large one are kept the same 
 - A Pub/Sub subscriber that falls behind is disconnected beyond 32 MB waiting for it, or 8 MB for 60 seconds.
 - A replica that falls behind is disconnected beyond [`repl-replica-max-backlog-bytes`](../reference/configuration.md#repl-replica-max-backlog-bytes).
 - `client-output-buffer-limit`, `maxmemory-clients` and `CLIENT NO-EVICT` are not supported: other clients' replies are not limited.
-
-## Known issues
-
-- `mem_fragmentation_ratio` in `INFO memory` is not Redis's `used_memory_rss / used_memory`: on Linux it is the process's virtual size over its resident size, much higher. [`MEMORY DOCTOR`](../commands/memory-doctor.md) warns of fragmentation because of it. Divide `used_memory_rss` by `used_memory` instead. Several other `INFO memory` fields are fixed. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152).
-- `MEMORY USAGE key SAMPLES 0` on a hash, set or sorted set closes the connection, with an error in the server's log. Filed as [kividb#151](https://github.com/kividbio/kividb/issues/151).

@@ -34,12 +34,16 @@ Adds an element with its vector to the vector set at `key`, or replaces an eleme
 | `DISTANCE L2 \| COSINE \| INNERPRODUCT` | How similarity is measured. |
 | `SETATTR json` | Attach JSON attributes to the element. |
 | `EF n`, `M n` | Accepted. |
-| `REDUCE dim`, `NOQUANT \| Q8 \| BIN` | Accepted, and ignored: vectors keep their dimensions and are stored unquantized. See [kividb#132](https://github.com/kividbio/kividb/issues/132). |
+| `NOQUANT \| Q8 \| BIN` | Accepted. Vectors are kept as 32-bit floats whichever is given; [`VINFO`](vinfo.md) reports `f32`. |
+| `REDUCE dim` | Refused: vectors are kept at the dimension they are given. |
 
 ## Reply
 
 - `1` if the element is new, `0` if its vector was replaced.
 - `ERR vector dimension mismatch` for a vector of another size.
+- `ERR REDUCE is not supported by KiviDB` with `REDUCE`.
+
+Before 1.2, `REDUCE` was accepted and ignored.
 
 ## Examples
 
@@ -52,4 +56,6 @@ Adds an element with its vector to the vector set at `key`, or replaces an eleme
 (integer) 1
 > VADD points VALUES 2 1 0 d
 (error) ERR vector dimension mismatch: index has dim 3, got 2
+> VADD points REDUCE 2 VALUES 3 1 0 0 d
+(error) ERR REDUCE is not supported by KiviDB: vectors are kept at the dimension they are given
 ```

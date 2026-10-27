@@ -23,15 +23,11 @@ INFO [section [section ...]]
 
 **Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
-Returns information and statistics about the server, as `field:value` lines in sections. With no section, the default ones; with `all` or `everything`, all of them.
+Returns information and statistics about the server, as `field:value` lines in sections. With no section, the default ones, which leave out `commandstats`, `latencystats` and `keysizes`; with `all` or `everything`, all of them.
 
-Sections include `server`, `clients`, `memory`, `persistence`, `stats`, `replication`, `cpu`, `modules`, `commandstats`, `latencystats`, `errorstats`, `cluster` and `keyspace`. `commandstats` gives each command's calls, time and failures, with Redis 8.8's slow-log fields. `memory` gives `used_memory`, which `maxmemory` is compared with, and `used_memory_rss`.
+Sections include `server`, `clients`, `memory`, `persistence`, `stats`, `replication`, `cpu`, `modules`, `commandstats`, `latencystats`, `errorstats`, `cluster`, `keyspace` and `keysizes`. `commandstats` gives each command's calls, time and failures, with Redis 8.8's slow-log fields. `latencystats` gives percentiles of each command's run time. `memory` gives `used_memory`, which `maxmemory` is compared with, `used_memory_rss`, and `mem_fragmentation_ratio`, the one over the other. `keysizes` looks at every key: asked for by name, it counts them each time; in `INFO all` or `everything`, it gives a count up to 10 seconds old.
 
-## Known issue
-
-`total_commands_processed`, `total_reads_processed`, `keyspace_hits` and `keyspace_misses` in `INFO stats` stay `0`, while `INFO commandstats` counts commands. Filed as [kividb#136](https://github.com/kividbio/kividb/issues/136).
-
-In `INFO memory`, `mem_fragmentation_ratio` is the process's virtual size over its resident size on Linux, not `used_memory_rss / used_memory`, and several fields are fixed. Filed as [kividb#152](https://github.com/kividbio/kividb/issues/152).
+Before 1.2, `total_commands_processed`, `keyspace_hits` and `keyspace_misses` stayed `0` on a quiet server, `total_reads_processed` and `total_writes_processed` were always `0`, and `mem_fragmentation_ratio` was the process's virtual size over its resident size. See [Monitoring](../guides/monitoring.md) for the fields worth watching.
 
 ## Examples
 

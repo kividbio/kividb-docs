@@ -36,7 +36,7 @@ Returns the samples of the time series at `key` from `fromTimestamp` to `toTimes
 | `ALIGN value` | Where buckets start: a timestamp, `start` for `fromTimestamp` or `end` for `toTimestamp` (which must then be explicit, not `-` or `+`); 0 by default. |
 | `BUCKETTIMESTAMP -\|+\|~` | Label a bucket by its start, end or middle. |
 | `EMPTY` | Also report the empty buckets between the first and last samples: `COUNT` and `SUM` as `0`. |
-| `LATEST` | Accepted. |
+| `LATEST` | On the destination of a compaction rule, also report the bucket still open, as it stands. Without it, only closed buckets. Before 1.2 it was accepted and did nothing. |
 
 The aggregators are `AVG`, `FIRST`, `LAST`, `MIN`, `MAX`, `SUM`, `RANGE` (max minus min), `COUNT`, `STD.P`, `STD.S`, `VAR.P`, `VAR.S`, `TWA` (time-weighted average), `COUNTNAN` (the `NaN` samples) and `COUNTALL` (all samples). The numeric ones skip `NaN` samples.
 

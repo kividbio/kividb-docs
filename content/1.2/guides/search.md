@@ -36,6 +36,8 @@ A document is indexed as it is written: once `HSET` or `JSON.SET` returns, searc
 
 Indexes are kept in the snapshot, HNSW graphs included, and the rest is built again from the keys when the server starts; meanwhile commands get `LOADING`. A replica builds its own. In a [cluster](cluster.md), each master indexes its own keys, `FT.CREATE` and `FT.DROPINDEX` reach every master, and `FT.SEARCH` and `FT.AGGREGATE` ask every master and merge their answers.
 
+[`FT.DROPINDEX`](../commands/ft.dropindex.md) drops an index and keeps its documents; with `DD`, it deletes them too. Before 1.2, `DD` kept them.
+
 ## Searching
 
 ```
@@ -63,11 +65,25 @@ Words next to each other must all match; `|` is or, `-` is not, `( )` groups. [S
 
 Results are ranked by BM25, a field's `WEIGHT` counting in, or sorted with `SORTBY`. `LIMIT offset count` pages through them (10 by default), `RETURN` chooses the fields, `NOCONTENT` returns only the keys, `WITHSCORES` the scores, `HIGHLIGHT` wraps the words that matched.
 
+Scores follow the documents as they are written again and deleted: a word's rarity and the average field length are those of the documents there now. Before 1.2, they counted every write and no delete, and rankings got worse on data that changed, until a restart.
+
 ### How words match
 
 Text is split into words at spaces and punctuation, and lower-cased. A query word matches the same word, whole: `able` does not find `cable`. `head*` matches words that start with `head`, `*phones` those that end with it, `%hedphones%` those within one letter of it (`%%...%%`, two; `%%%...%%%`, three).
 
 There is no stemming: `cables` does not find `cable`; search for `cable*`, or both. Common English words, `the`, `a`, `of` and the like, are not indexed; `STOPWORDS` in `FT.CREATE` gives another list, `STOPWORDS 0` none.
+
+Synonym groups, made with [`FT.SYNUPDATE`](../commands/ft.synupdate.md), widen a word: a query word matches every word of the groups it is in, in documents written before the group as well as after. A quoted phrase is matched as written. Before 1.2, synonym groups changed nothing.
+
+```
+> FT.SYNUPDATE products g1 headphones earphones
+OK
+> FT.SEARCH products earphones RETURN 1 name
+1) (integer) 1
+2) "product:1"
+3) 1) "name"
+   2) "Wireless headphones"
+```
 
 ## Vector search
 
@@ -128,20 +144,27 @@ Every vector is kept as 32-bit floats in the index, whatever `TYPE` it was given
 
 `GROUPBY` with `REDUCE` (`COUNT`, `COUNT_DISTINCT`, `SUM`, `AVG`, `MIN`, `MAX`, `STDDEV`, `QUANTILE`, `TOLIST`, `FIRST_VALUE`, `RANDOM_SAMPLE`), `APPLY` expressions, `FILTER`, `SORTBY`, `LIMIT`, `LOAD`, and `WITHCURSOR` to read large results a page at a time. It looks at every document under the index's prefixes.
 
+A KNN clause keeps the nearest `k` documents of those the filter before it leaves, found exactly, with their distance under the clause's `AS` name for `LOAD`, `SORTBY` and `GROUPBY`; in a cluster, the nearest of every master's. Before 1.2, the clause was ignored and every document went on.
+
+```
+> FT.AGGREGATE products "*=>[KNN 2 @embedding $v AS score]" PARAMS 2 v <3 floats> LOAD 2 @name @score SORTBY 2 @score ASC DIALECT 2
+1) (integer) 2
+2) 1) "name"
+   2) "Wireless headphones"
+   3) "score"
+   4) "0.006116271"
+3) 1) "name"
+   2) "Bluetooth speaker"
+   3) "score"
+   4) "0.036913157"
+```
+
 ## Performance
 
 Words are found through the index. Tags and numbers are not: a query of only `@category:{...}` or `@price:[...]` clauses, and one with a fuzzy word or a `-` at the top, looks at every key of the database. Give such queries a word to narrow them, or keep them for small indexes.
 
 ## Differences from the Redis Query Engine
 
-Accepted, and doing nothing: stemming (`LANGUAGE`, `NOSTEM`), `PHONETIC`, synonyms (`FT.SYNUPDATE`, [kividb#130](https://github.com/kividbio/kividb/issues/130)), `SCORER` (always BM25), `SLOP` and `INORDER`, `SUMMARIZE` (fields come back whole), `TIMEOUT` (a query runs to the end), `DIALECT`, `HYBRID_POLICY`, `INITIAL_CAP`. Refused: `GEO` and `GEOSHAPE` fields, `GEOFILTER`, `INFIELDS`, `EXPLAINSCORE`, the `FILTER` option of `FT.CREATE`, `SVS-VAMANA` vectors. `FT.HYBRID`, `FT.SPELLCHECK` and `FT.PROFILE` answer from the node they are sent to, in a cluster.
+Accepted, and doing nothing: stemming (`LANGUAGE`, `NOSTEM`), `PHONETIC`, `SCORER` (always BM25), `SLOP` and `INORDER`, `SUMMARIZE` (fields come back whole), `TIMEOUT` (a query runs to the end), `DIALECT`, `HYBRID_POLICY`, `INITIAL_CAP`. Refused: `GEO` and `GEOSHAPE` fields, `GEOFILTER`, `INFIELDS`, `EXPLAINSCORE`, the `FILTER` option of `FT.CREATE`, `SVS-VAMANA` vectors. `FT.HYBRID`, `FT.SPELLCHECK` and `FT.PROFILE` answer from the node they are sent to, in a cluster.
 
-## Known issues
-
-Filed as [kividb#162](https://github.com/kividbio/kividb/issues/162):
-
-- BM25 scores drift as documents are updated and deleted: the statistics they are computed from only grow, until a restart. Rankings get worse on data that changes.
-- `FT.DROPINDEX index DD` drops the index and keeps the documents.
-- A KNN clause in `FT.AGGREGATE` is ignored: every document is returned.
-
-[Vector sets](../commands/vadd.md), `VADD` and `VSIM`, are searched exhaustively, and their `FILTER`, `REDUCE`, `Q8` and `BIN` options do nothing ([kividb#132](https://github.com/kividbio/kividb/issues/132)).
+[Vector sets](../commands/vadd.md), `VADD` and `VSIM`, are searched exhaustively. `VSIM ... FILTER` filters by the elements' attributes; `Q8` and `BIN` are accepted and the vectors kept as 32-bit floats; `REDUCE` is refused. Before 1.2, `FILTER` and `REDUCE` were accepted and ignored.

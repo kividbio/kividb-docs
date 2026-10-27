@@ -35,11 +35,9 @@ Name every key the script uses in `KEYS`, and pass every other value in `ARGV`, 
 
 [`EVAL_RO`](../commands/eval_ro.md) and [`EVALSHA_RO`](../commands/evalsha_ro.md) run a script that may only read. A first line `#!lua flags=no-writes` does the same for `EVAL`; `allow-oom` lets a script run while the server is over [`maxmemory`](memory.md).
 
-Scripts sent with `EVAL` or `SCRIPT LOAD` are kept, by their SHA1, until [`SCRIPT FLUSH`](../commands/script-flush.md), but not across a restart, and not on a replica that took its master's place: a client that gets `NOSCRIPT` from `EVALSHA` sends the script again with `EVAL`. Client libraries do that on their own.
+Scripts are kept by their SHA1. One loaded with [`SCRIPT LOAD`](../commands/script-load.md) stays until [`SCRIPT FLUSH`](../commands/script-flush.md). Of those sent only with `EVAL`, the server keeps the 500 used most recently, as Redis 7.4 does: running one with `EVAL` or `EVALSHA` counts as a use, and `evicted_scripts` in `INFO stats` counts the ones let go. No script is kept across a restart, or on a replica that took its master's place. A client that gets `NOSCRIPT` from `EVALSHA` sends the script again with `EVAL`; client libraries do that on their own. Before 1.2, every script sent with `EVAL` was kept, with no limit.
 
-### Known issue
-
-Every distinct script sent with `EVAL` is kept until `SCRIPT FLUSH`, with no limit; Redis keeps at most 500 of them. Filed as [kividb#155](https://github.com/kividbio/kividb/issues/155).
+`redis.log(redis.LOG_WARNING, 'text')` writes its arguments, joined by spaces, to the server's log, at the level given; a level below [`loglevel`](../reference/configuration.md#loglevel) is left out. Before 1.2, `redis.log` did nothing.
 
 ## Functions
 
@@ -53,6 +51,21 @@ A library is loaded once, with a name, and kept: it is in the snapshot, it survi
 ```
 
 `redis.register_function{function_name=..., callback=..., flags={'no-writes'}}` declares a function that only reads, which [`FCALL_RO`](../commands/fcall_ro.md) can call. [`FUNCTION DUMP`](../commands/function-dump.md) and [`FUNCTION RESTORE`](../commands/function-restore.md) copy libraries between KiviDB servers; the format is not Redis's.
+
+## Errors
+
+`redis.call` raises the error of a command that fails, and the script stops with it; `redis.pcall` returns the error instead. Lua's `pcall` gives back the error's message, as in Redis:
+
+```
+> SET s abc
+OK
+> EVAL "local ok, e = pcall(redis.call, 'INCR', KEYS[1]) return e" 1 s
+"ERR value is not an integer or out of range"
+```
+
+Around `error({err = ...})` or `error(redis.error_reply(...))`, `pcall` gives back the `err`. `assert` takes a string or a number as its message, and refuses a table: `bad argument #2 to 'assert' (string expected, got table)`.
+
+Before 1.2, `pcall` gave back the raised table itself, and, for a command that failed, an error object whose text began `runtime error:` and ended in a traceback. A script that reads `e.err` from what `pcall` caught reads `e` now, and one that gives `assert` a table as its message fails.
 
 ## How scripts run
 
@@ -73,31 +86,42 @@ Either way, a script is one step: no other command sees it half done. A script t
 
 ## Long scripts
 
-While a script runs, the clients waiting for it wait. After [`busy-reply-threshold`](../reference/configuration.md#busy-reply-threshold) milliseconds (5000), they are answered `BUSY`, and [`SCRIPT KILL`](../commands/script-kill.md), or [`FUNCTION KILL`](../commands/function-kill.md), can stop a script that has not written yet. One that has written cannot be stopped without losing the step: only `SHUTDOWN NOSAVE` ends it.
-
-### Known issue
-
-`SCRIPT KILL` replies `OK` to a script that has already written, and the script runs on. Filed as [kividb#129](https://github.com/kividbio/kividb/issues/129).
+While a script runs, the clients waiting for it wait. After [`busy-reply-threshold`](../reference/configuration.md#busy-reply-threshold) milliseconds (5000), they are answered `BUSY`, and [`SCRIPT KILL`](../commands/script-kill.md), or [`FUNCTION KILL`](../commands/function-kill.md), can stop a script that has not written yet. One that has written cannot be stopped without losing the step: `SCRIPT KILL` replies `UNKILLABLE`, and only `SHUTDOWN NOSAVE` ends it. Before 1.2, `SCRIPT KILL` replied `OK` to such a script, which ran on.
 
 ## Replication and persistence
 
 A script is replicated, and written to the append-only file, as the writes it made, not as the script: a script that uses `TIME` or `SRANDMEMBER` gives the same result on the replicas. The writes of one script go together. The clock stands still while a script runs.
 
+`redis.replicate_commands()`, which many scripts written for Redis before 7 call first, returns true and changes nothing, as in Redis 7. `redis.set_repl(redis.REPL_ALL)` is taken; any other mode is refused. Before 1.2, neither function existed, and a script that called one failed.
+
+On a replica, a script runs as long as it only reads, as in Redis; a write it makes is refused:
+
+```
+replica> EVAL "return redis.call('GET', KEYS[1])" 1 counter
+"7"
+replica> EVAL "return redis.call('INCR', KEYS[1])" 1 counter
+(error) READONLY You can't write against a read only replica.
+```
+
+A script whose first line declares flags without `no-writes`, and a function registered without `no-writes`, are refused there before they run. Before 1.2, `EVAL`, `EVALSHA` and `FCALL` were refused on a replica even for a script that only read.
+
 ## In a cluster
 
 The keys in `KEYS` must all be in the same slot, or the script gets `CROSSSLOT`; a cluster client sends it to the node that owns them.
 
-### Known issue
+A script uses only keys of one slot: that of its first key in `KEYS`, or, with none, of the first key it uses. Keep every key it uses in that slot, with a hash tag:
 
-A script's `redis.call` on a key in another slot, which another node owns, is not refused: the key is written on this node, where clients will not find it. Keep every key a script uses in its slot, with a hash tag. Filed as [kividb#153](https://github.com/kividbio/kividb/issues/153).
+```
+> EVAL "return redis.call('GET', 'user:2')" 1 user:1
+(error) ERR Script attempted to access keys that do not hash to the same slot
+```
+
+A script flagged `allow-cross-slot-keys`, on its first line or as a function's flag, may use keys of other slots, as long as this node serves them. A key of a slot another node owns is refused either way: `ERR Script attempted to access a non local key in a cluster node`. Before 1.2, a script could write a key of a slot another node owns: the key was stored on this node, where clients would not find it.
 
 ## Differences from Redis
 
-- Lua 5.4: integer division and the `//` operator, `utf8`, no `setfenv` or `getfenv`; `unpack` is still there. `bit` is there, `cjson` and `cmsgpack` too; `struct` is not.
-- Lua's `pcall` around a `redis.call` that fails gives back the error's message, `ERR value is not an integer or out of range`, and `assert` takes only a string or a number as its message, as in Redis. Before 1.2, `pcall` gave back an error object whose text began `runtime error:` and ended in a traceback ([kividb#90](https://github.com/kividbio/kividb/issues/90)).
-- `redis.log` does nothing: the line is not in the server's log.
-- `redis.replicate_commands()` and `redis.set_repl()` do not exist: a script that starts with `redis.replicate_commands()`, as many written for Redis before 7 do, fails. Remove the line: scripts are always replicated as their writes. Filed, with `redis.log`, as [kividb#154](https://github.com/kividbio/kividb/issues/154).
-- On a replica, `EVAL`, `EVALSHA` and `FCALL` are refused even for a script that only reads; use their `_RO` forms ([kividb#145](https://github.com/kividbio/kividb/issues/145)).
-- `allow-stale`, `no-cluster` and `allow-cross-slot-keys` are accepted, and do nothing.
+- Lua 5.4: integer division and the `//` operator, `utf8`, no `setfenv` or `getfenv`; `unpack` is still there. `bit`, `cjson`, `cmsgpack` and `struct` are there. Before 1.2, `struct` was not.
+- `redis.set_repl()` takes only `redis.REPL_ALL`: a script cannot keep its writes from the replicas or the append-only file.
+- `allow-stale` and `no-cluster` are accepted, and do nothing.
 - [`SCRIPT DEBUG`](../commands/script-debug.md) replies `OK`: there is no debugger.
 - Scripts run more slowly than in Redis: about a third of Redis's rate for small scripts, in the 1.1.0 measurement. A command does the same work faster where there is one.

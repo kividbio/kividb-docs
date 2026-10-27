@@ -23,9 +23,7 @@ BACKUP CLEANUP
 <!-- generated: end -->
 Removes the files of a sealed or failed backup.
 
-## Known issue
-
-After a restart the server no longer knows a sealed backup: this command replies `ERR there is no backup to clean up`, the files stay, and `BACKUP START` refuses the directory until they are deleted by hand. Filed as [kividb#150](https://github.com/kividbio/kividb/issues/150).
+A backup in the directory when the server starts is found again: a sealed one stays sealed, and one the restart cut short is failed; this command deletes either. Before 1.2, after a restart it replied `ERR there is no backup to clean up`, and the files had to be deleted by hand.
 
 ## Reply
 

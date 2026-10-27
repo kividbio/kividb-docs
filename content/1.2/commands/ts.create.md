@@ -31,7 +31,7 @@ Creates a time series at `key`: samples, each a timestamp in milliseconds and a 
 |---|---|
 | `RETENTION ms` | Drop samples older than this, measured back from the newest; `0` keeps them all (the default). |
 | `LABELS label value ...` | Name-value pairs that [`TS.MGET`](ts.mget.md), [`TS.MRANGE`](ts.mrange.md) and [`TS.QUERYINDEX`](ts.queryindex.md) select series by. |
-| `DUPLICATE_POLICY policy` | What a sample at a timestamp that already has one does: `BLOCK` (an error), `FIRST`, `LAST`, `MIN`, `MAX` or `SUM`. |
+| `DUPLICATE_POLICY policy` | What a sample at a timestamp that already has one does: `BLOCK` (an error), `FIRST`, `LAST`, `MIN`, `MAX` or `SUM`. Without it, the series takes the server's [`ts-duplicate-policy`](../reference/configuration.md), `last` by default, and keeps it. |
 | `CHUNK SIZE size` | Accepted, and reported by `TS.INFO`. |
 | `ENCODING COMPRESSED \| UNCOMPRESSED` | Accepted; KiviDB stores every series one way. |
 
@@ -42,7 +42,7 @@ Creates a time series at `key`: samples, each a timestamp in milliseconds and a 
 
 ## Differences from Redis
 
-The default `DUPLICATE_POLICY` is `LAST`: a second sample at a timestamp replaces the first. In Redis it is `BLOCK`, an error. Give `DUPLICATE_POLICY BLOCK` to get Redis's behaviour. Filed as [kividb#127](https://github.com/kividbio/kividb/issues/127).
+The default duplicate policy is `LAST`: a second sample at a timestamp replaces the first. In Redis it is `BLOCK`, an error. Set `ts-duplicate-policy` to `block`, with [`CONFIG SET`](config-set.md) or in the config file, to get Redis's default for every series made after, or give `DUPLICATE_POLICY BLOCK` to one series. Set it alike on a master and its replicas.
 
 ## Examples
 

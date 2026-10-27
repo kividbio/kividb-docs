@@ -21,11 +21,7 @@ MEMORY USAGE key [SAMPLES count]
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-Returns an estimate of the bytes `key` and its value take; `nil` if the key does not exist. For a large collection, the estimate is from `SAMPLES count` of its elements, 5 by default, or all of them with `0`.
-
-## Known issue
-
-`SAMPLES 0` on a hash, set or sorted set closes the connection, with an error in the server's log; Redis takes it as every element. Filed as [kividb#151](https://github.com/kividbio/kividb/issues/151).
+Returns an estimate of the bytes `key` and its value take; `nil` if the key does not exist. For a large collection, the estimate is from `SAMPLES count` of its elements, 5 by default, or all of them with `0`. A `count` that is not a number is an error, and a negative one, or an option other than `SAMPLES`, a syntax error. Before 1.2, `SAMPLES 0` on a hash, set or sorted set closed the connection, and a `count` that was not a number was taken as 5.
 
 ## Examples
 
@@ -34,4 +30,10 @@ Returns an estimate of the bytes `key` and its value take; `nil` if the key does
 OK
 > MEMORY USAGE user:1
 (integer) 32
+> HSET user:2 name Ada lang en
+(integer) 2
+> MEMORY USAGE user:2 SAMPLES 0
+(integer) 196
+> MEMORY USAGE user:2 SAMPLES five
+(error) ERR value is not an integer or out of range
 ```

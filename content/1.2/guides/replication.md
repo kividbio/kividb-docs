@@ -72,15 +72,24 @@ A replica that hears nothing from its master for [`repl-timeout`](../reference/c
 
 ## What a replica serves
 
-A replica is read-only: a write is refused with `READONLY You can't write against a read only replica.` [`replica-read-only no`](../reference/configuration.md#accepted-for-compatibility-with-redis) is refused in the configuration file.
+A replica is read-only: a write is refused with `READONLY You can't write against a read only replica.` `replica-read-only no` in the configuration file is accepted with a warning, and changes nothing.
 
 What it returns can be a little behind the master. It serves its data while it is disconnected from the master, too.
 
 A replica expires keys by its own clock: the master does not send it the deletions. Times to live are sent as the time the key expires, so a replica whose clock is ahead of the master's drops keys early. Keep the clocks in step.
 
-### Known issue
+### Scripts on a replica
 
-`EVAL`, `EVALSHA` and `FCALL` are refused on a replica, even for a script that only reads. Use [`EVAL_RO`](../commands/eval_ro.md), [`EVALSHA_RO`](../commands/evalsha_ro.md) and [`FCALL_RO`](../commands/fcall_ro.md) there. Filed as [kividb#145](https://github.com/kividbio/kividb/issues/145).
+A script that only reads runs on a replica, with `EVAL`, `EVALSHA` or `FCALL`, as in Redis; a write it makes is refused with `READONLY`. A script whose first line declares flags without `no-writes`, and a function registered without `no-writes`, may write, and are refused before they run. [`EVAL_RO`](../commands/eval_ro.md), [`EVALSHA_RO`](../commands/evalsha_ro.md) and [`FCALL_RO`](../commands/fcall_ro.md) run there too.
+
+```
+> EVAL "return redis.call('GET', KEYS[1])" 1 k
+"v"
+> EVAL "return redis.call('SET', KEYS[1], 'x')" 1 k
+(error) READONLY You can't write against a read only replica.
+```
+
+Before 1.2, `EVAL`, `EVALSHA` and `FCALL` were refused on a replica before the script ran, even for a script that only read.
 
 ## How safe a write is
 
@@ -109,11 +118,15 @@ The new master keeps the old master's stream as well as its own, as Redis does, 
 
 ## Replicas of replicas
 
-Make every replica a replica of the master.
+KiviDB does not chain replicas, as Redis can: make every replica a replica of the master. A replica refuses a server that asks it for a copy, with `ERR this server is a replica, and KiviDB does not chain replicas: replicate from its master instead`. The server that asked keeps trying, its `ROLE` says `connect` rather than `connected`, and its log says why:
 
-### Known issue
+```
+[WARN] Replication: Replication link to 127.0.0.1:7104 failed: expected +FULLRESYNC or +CONTINUE, got: -ERR this server is a replica, and KiviDB does not chain replicas: replicate from its master instead — retrying every 1s
+```
 
-A replica accepts replicas of its own, and sends them its data once, but not the writes after: they stay at that copy while their `ROLE` says `connected`. Filed as [kividb#144](https://github.com/kividbio/kividb/issues/144).
+A master made a replica with `REPLICAOF host port` disconnects the replicas it had; point them at the new master.
+
+Before 1.2, a replica accepted replicas of its own, sent them its data once and not the writes after, while their `ROLE` said `connected`.
 
 ## Redis and KiviDB
 

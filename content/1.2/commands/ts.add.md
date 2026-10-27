@@ -34,7 +34,7 @@ Samples can be added out of order. One at a timestamp that already has a sample 
 
 ## Differences from Redis
 
-Without a duplicate policy, a sample at a timestamp that already has one replaces it; Redis refuses it. See [`TS.CREATE`](ts.create.md).
+With the default `ts-duplicate-policy`, `last`, a sample at a timestamp that already has one replaces it; Redis refuses it. Set `ts-duplicate-policy` to `block` for Redis's behaviour. See [`TS.CREATE`](ts.create.md).
 
 ## Examples
 

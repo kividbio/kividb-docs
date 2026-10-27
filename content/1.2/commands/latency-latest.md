@@ -1,6 +1,6 @@
 ---
 title: "LATENCY LATEST"
-description: "Returns each event's latest sample: the event, the Unix time, and the milliseconds it took."
+description: "Returns each event's latest sample: the event, the Unix time, the milliseconds it took, and the most any of its samples took."
 version: "1.2"
 command: "LATENCY LATEST"
 syntax: "LATENCY LATEST"
@@ -21,7 +21,7 @@ LATENCY LATEST
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-Returns each event's latest sample: the event, the Unix time, and the milliseconds it took.
+Returns each event's latest sample: the event, the Unix time, the milliseconds it took, and the most any of its samples took. Before 1.2 the maximum was missing.
 
 ## Examples
 
@@ -34,4 +34,5 @@ OK
 1) 1) "command"
    2) (integer) 1792968201
    3) (integer) 120
+   4) (integer) 120
 ```
