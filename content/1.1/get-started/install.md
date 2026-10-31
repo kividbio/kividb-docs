@@ -9,12 +9,12 @@ KiviDB 1.1 is published as Docker images, as binaries for Linux and macOS, and a
 
 ## Docker
 
-Images are on Docker Hub and the GitHub Container Registry, with the same tags in both:
+Images are on the GitHub Container Registry and Docker Hub (`kividb/kividb`), with the same tags in both:
 
 ```bash
-docker run -d -p 6380:6380 kividb/kividb:v1.1.2
-# or
 docker run -d -p 6380:6380 ghcr.io/kividbio/kividb:v1.1.2
+# or
+docker run -d -p 6380:6380 kividb/kividb:v1.1.2
 ```
 
 | Tag | Build |
@@ -29,14 +29,14 @@ Images are built for `amd64` and `arm64`. `latest` is the newest release; pin a 
 **Arguments replace the image's default command.** A container is always reached through its network, never over loopback, so the image runs with `--protected-mode no` by default. Any arguments you pass replace that, and protected mode is on again. When you pass your own flags, set a password, or add `--protected-mode no` yourself:
 
 ```bash
-docker run -d -p 6380:6380 kividb/kividb:v1.1.2 --requirepass "change-me"
+docker run -d -p 6380:6380 ghcr.io/kividbio/kividb:v1.1.2 --requirepass "change-me"
 ```
 
 **Keeping data.** Mount a volume on `/home/kividb`, where the server runs as UID 1000. With `--aof`, every write is also appended to a log that is replayed on start:
 
 ```bash
 docker run -d -p 6380:6380 -v "$(pwd)/data:/home/kividb" \
-  kividb/kividb:v1.1.2 --aof --requirepass "change-me"
+  ghcr.io/kividbio/kividb:v1.1.2 --aof --requirepass "change-me"
 ```
 
 The image has no shell and no `redis-cli`. Connect from another container, for example:

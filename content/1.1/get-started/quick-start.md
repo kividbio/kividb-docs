@@ -10,7 +10,7 @@ weight: 20
 With Docker:
 
 ```bash
-docker run -d --name kividb -p 6380:6380 kividb/kividb:v1.1.2
+docker run -d --name kividb -p 6380:6380 ghcr.io/kividbio/kividb:v1.1.2
 ```
 
 Or with a [release binary](install.md#release-binaries):
