@@ -1,5 +1,5 @@
 {
- "comment": "Documentation versions, newest first. A version is a minor release (x.y); its patch releases (x.y.Z) are listed in `releases`, oldest first, and are documented inside it. `source` is the kividb git ref the newest release of the version is built from.",
+ "comment": "Documentation versions, newest first. A version is a minor release (x.y); its patch releases (x.y.Z) are listed in `releases`, oldest first, and are documented inside it. `source` is the kividb git ref the newest release of the version is built from. `withdrawn` maps a release that was withdrawn to why, in Markdown; it stays listed, with that note.",
  "latest": "1.1",
  "versions": [
   {
@@ -12,7 +12,10 @@
    "version": "1.1",
    "status": "current",
    "releases": ["1.1.0", "1.1.1", "1.1.2"],
-   "source": "v1.1.2"
+   "source": "v1.1.2",
+   "withdrawn": {
+    "1.1.1": "Under a high rate of writes with a TTL, background expiry falls behind and memory grows without bound ([#87](https://github.com/kividbio/kividb/issues/87)). Use 1.1.2, a patch release of 1.1.0 that includes everything in 1.1.1 and the fix. The 1.1.1 images and packages are still published, so that a pinned deployment does not break."
+   }
   }
  ]
 }
