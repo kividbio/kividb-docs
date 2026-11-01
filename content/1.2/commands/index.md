@@ -114,7 +114,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 |---|---|---|
 | [`PFADD`](pfadd.md) | Adds elements to the HyperLogLog at key: a structure of fixed size that estimates how many different elements it has been given, however many that is. | 1.1.0 |
 | [`PFCOUNT`](pfcount.md) | Returns the estimated number of different elements added to the HyperLogLog at key. | 1.1.0 |
-| [`PFDEBUG`](pfdebug.md) | Inspects or resets a HyperLogLog. | 1.1.0 |
+| [`PFDEBUG`](pfdebug.md) | Inspects or converts a HyperLogLog. | 1.1.0 |
 | [`PFMERGE`](pfmerge.md) | Merges the HyperLogLogs at the source keys into destkey, so that it estimates their union. | 1.1.0 |
 | [`PFSELFTEST`](pfselftest.md) | Runs KiviDB's checks of its HyperLogLog code: an empty one counts 0, 10,000 elements are estimated within 2%, and registers read back as written. | 1.1.0 |
 
@@ -298,7 +298,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`COMMAND`](command.md) | Returns every command, each as an array: its name, its arity (a negative number is a minimum), its flags, the positions of its first and last key and the step between them, and its ACL categories. | 1.1.0 |
 | [`CONFIG`](config.md) | Reads and changes the server's settings at runtime. | 1.1.0 |
 | [`DBSIZE`](dbsize.md) | Returns the number of keys in the current database. | 1.1.0 |
-| [`DEBUG`](debug.md) | Accepted for compatibility with Redis tools. | 1.1.0 |
+| [`DEBUG`](debug.md) | For tests and tools written for Redis. | 1.1.0 |
 | [`ECHO`](echo.md) | Returns message. | 1.1.0 |
 | [`FLUSHALL`](flushall.md) | Deletes every key of every database. | 1.1.0 |
 | [`FLUSHDB`](flushdb.md) | Deletes every key of the current database. | 1.1.0 |
@@ -487,7 +487,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`VGETATTR`](vgetattr.md) | Returns an element's JSON attributes; nil if it has none. | 1.1.0 |
 | [`VINFO`](vinfo.md) | Returns the vector set's dimensions, its number of elements, its quantization, its index type and its graph's levels. | 1.1.0 |
 | [`VISMEMBER`](vismember.md) | Tells whether element is in the vector set at key: 1 or 0. | 1.1.0 |
-| [`VLINKS`](vlinks.md) | Returns an element's nearest neighbours, up to 16, as one level; WITHSCORES gives their similarity. | 1.1.0 |
+| [`VLINKS`](vlinks.md) | Returns an element's nearest neighbours, up to 16, as one level; WITHSCORES gives their similarity, scored as VSIM scores it. | 1.1.0 |
 | [`VRANDMEMBER`](vrandmember.md) | Returns elements of the vector set at key, picked at random: one, or count different ones, or, with a negative count, exactly -count that may repeat. | 1.1.0 |
 | [`VRANGE`](vrange.md) | Returns the elements of the vector set at key between two names in lexicographical order, with bounds as ZRANGEBYLEX takes them, and at most count. | 1.1.0 |
 | [`VREM`](vrem.md) | Removes elements from the vector set at key. | 1.1.0 |

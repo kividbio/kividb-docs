@@ -57,7 +57,9 @@ or while it runs, which first writes a snapshot, so that the file starts from it
 OK
 ```
 
-What is written is the effect of each command rather than the command itself: an `EXPIRE` as the time the key expires, an `SPOP` as the members it removed, a script as the writes it made, together. Replaying it gives the same dataset, whatever the clock says when it is replayed.
+What is written is the effect of each command rather than the command itself: an `EXPIRE` as the time the key expires, an `SPOP` as the members it removed, a script as the writes it made, and a key that expires as an `UNLINK` (a `DEL` with [`lazyfree-lazy-expire no`](../reference/configuration.md#lazyfree-lazy-expire)). A transaction, or a script that writes more than once, is written between a `MULTI` and an `EXEC`, so that it is replayed whole or not at all. Replaying the file gives the same dataset, whatever the clock says when it is replayed: nothing expires while it is loaded.
+
+Expiries are in the file since 1.1.3. Before it, a key expired by the clock at replay, so a restart after a key's time replayed a write made while it lived onto a missing key, which came back with no time to live, for good. Transactions are in `MULTI` and `EXEC` since 1.2: before it, their writes were written one by one, and a process killed between two of them left half the transaction in the file. A transaction whose `EXEC` never reached the file is now dropped at startup, and cut off the file, with `Revert incomplete MULTI/EXEC transaction in AOF file` in the log. A 1.1 server that replays a file 1.2 wrote applies each write, and logs an error for each `MULTI` and `EXEC`.
 
 ### What a crash can lose
 
@@ -86,6 +88,10 @@ Before 1.2, a file turned on with `CONFIG SET appendonly yes` was not rewritten 
 
 While the snapshot is taken, writes wait; it is a copy in memory, and they go on while the file is written.
 
+Checkpoints (a rewrite, `SAVE`, `BGSAVE`, the snapshot at shutdown) run one at a time: one has the files to itself from the start until it has removed the old log. A `BGREWRITEAOF` sent while one runs is served by exactly one more after it. The new `appendonly.aof` is written before the old one is moved aside, and a start that finds `appendonly.aof.prev` with no `appendonly.aof` beside it replays it.
+
+That is since 1.1.3, which fixes [GHSA-pjrr-m43f-m5g3](https://github.com/kividbio/kividb/security/advisories/GHSA-pjrr-m43f-m5g3). In 1.1.0 to 1.1.2, overlapping checkpoints could lose acknowledged writes or bring deleted keys back, and a crash in the middle of a rewrite could leave no log, so that the next start replayed nothing written since the last snapshot.
+
 ### Known issue
 
 An empty `appendonly.aof` is created even with the append-only file off. Filed as [kividb#47](https://github.com/kividbio/kividb/issues/47).
@@ -106,6 +112,7 @@ The files that belong together, all in the working directory:
 | `dump.kdb` | The last snapshot. |
 | `dump.kdb.gen` | Which snapshot it is, so that `appendonly.aof` is replayed on the right one. |
 | `dump.kdb.repl` | Where a replica was in its master's stream, so that it can carry on after a restart. |
+| `dump.kdb.clean` | On a cluster node: left by a clean stop, to say the final snapshot is whole, and removed when the node starts. A [cluster](cluster.md#a-master-back-without-its-data) master that starts without it, and without the append-only file, takes itself to have lost its data. Since 1.1.3. |
 | `appendonly.aof` | The writes since the snapshot. |
 | `appendonly.aof.prev` | The writes before it, while a rewrite is not yet finished. |
 

@@ -18,6 +18,8 @@ What each release has is not written from memory. [`tools/extract.py`](tools/ext
 
 That goes into `data/<release>/`. [`tools/diff.py`](tools/diff.py) compares the releases in order and writes `data/history.json`: what each command and setting was added in, and what changed in it since. The "since" and "changed in" notes on each page come from there.
 
+[`tools/release.sh`](tools/release.sh) does all of it for one release, on Linux with Rust and Python: `tools/release.sh 1.2.0 <kividb checkout>` builds the default and `lua` builds of the checkout, runs the probes and the extraction, and regenerates the pages. [`tools/check_links.py`](tools/check_links.py) checks every link between pages, and its anchor.
+
 1.1.0 is the baseline: everything it had is "since 1.1.0".
 
 ## Layout
@@ -38,7 +40,8 @@ content/<version>/       the pages of a version
   reference/
   guides/
 text/<version>/settings.md   what each setting does (written; the configuration page is generated from it)
-tools/                   extract.py, probe.py, probe_config.py, diff.py, generate.py
+tools/                   extract.py, probe.py, probe_config.py, diff.py, generate.py,
+                         release.sh (all of them for one release), check_links.py
 ```
 
 ## Pages

@@ -27,6 +27,10 @@ Writes a snapshot of the dataset to `dump.kdb` in the background, and replies at
 
 The snapshot is the dataset at one moment: a transaction, a script or an `MSET` is in it whole or not at all. Before 1.2, with the append-only file off, the dataset was copied a part at a time, and a transaction whose keys were in two parts could be saved half applied.
 
+A `BGSAVE` sent while another checkpoint runs starts once that one has finished. Checkpoints, the snapshots and rewrites of the append-only file, run one at a time; one has the persistence files to itself until it has finished. Since 1.1.3: before it, checkpoints that overlapped could lose acknowledged writes or bring deleted keys back. See [Persistence](../guides/persistence.md).
+
+A script cannot run it: it is refused, as in Redis.
+
 ## Examples
 
 ```

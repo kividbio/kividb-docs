@@ -29,8 +29,14 @@ FT.EXPLAINCLI index query
 
 ```
 > FT.EXPLAINCLI products "desk | lamp"
-1) "UNION {"
-2) "  desk"
-3) "  lamp"
-4) "}"
+ 1) "UNION {"
+ 2) "  UNION {"
+ 3) "    desk"
+ 4) "    +desk(expanded)"
+ 5) "  }"
+ 6) "  UNION {"
+ 7) "    lamp"
+ 8) "    +lamp(expanded)"
+ 9) "  }"
+10) "}"
 ```

@@ -1845,7 +1845,7 @@
    {
     "documented": [
      {
-      "notes": "Returns empty array; accepted for client compatibility",
+      "notes": "Documentation for the named commands, or for every top-level command (subcommands nested under `subcommands`) when none are named: each entry is a map of `summary`, `since`, `group`, `complexity`, `history`, `doc_flags` and `arguments` (plus `module` for search, JSON, time series and vector set commands, and `deprecated_since` / `replaced_by` where they apply). A name that is not a command is omitted. RESP2 uses a flat array of those pairs; RESP3 a map. `COMMAND` / `COMMAND INFO` still carry arity and key positions",
       "section": "Server commands",
       "subsection": "COMMAND subcommands",
       "syntax": "COMMAND DOCS [command ...]"
@@ -2647,10 +2647,10 @@
   "arity": -1,
   "documented": [
    {
-    "notes": "Aggregate the documents a query matches. Reducers: `COUNT`, `COUNT_DISTINCT`, `COUNT_DISTINCTISH`, `SUM`, `AVG`, `MIN`, `MAX`, `STDDEV`, `QUANTILE`, `TOLIST` (a list of the distinct values), `FIRST_VALUE [BY @prop [ASC|DESC]]`, `RANDOM_SAMPLE`, and `COLLECT` (Redis 8.8: the group's documents \u2014 `FIELDS * | n @field \u2026`, with `SORTBY`, `LIMIT` and `DISTINCT` inside the group). Groups come out in the order they first appear. `ADDSCORES` gives each row `@__score`. `WITHCURSOR` returns the first `COUNT` rows and a cursor for `FT.CURSOR READ`. On an `ON JSON` index, fields go by the names the schema gives their paths",
+    "notes": "Aggregate the documents a query matches. Reducers: `COUNT`, `COUNT_DISTINCT`, `COUNT_DISTINCTISH`, `SUM`, `AVG`, `MIN`, `MAX`, `STDDEV`, `QUANTILE`, `TOLIST` (a list of the distinct values), `FIRST_VALUE [BY @prop [ASC|DESC]]`, `RANDOM_SAMPLE`, and `COLLECT` (Redis 8.8: the group's documents \u2014 `FIELDS * | n @field \u2026`, with `SORTBY`, `LIMIT` and `DISTINCT` inside the group). Groups come out in the order they first appear. `ADDSCORES` gives each row `@__score`. `WITHCURSOR` returns the first `COUNT` rows and a cursor for `FT.CURSOR READ`. On an `ON JSON` index, fields go by the names the schema gives their paths. `TIMEOUT` is the same as on `FT.SEARCH`, and holds the scan, a `KNN` step, and `GROUPBY`, `APPLY`, `FILTER` and `SORTBY` to it; a step cut short keeps what it finished, and `LIMIT` still applies. Each `FT.CURSOR READ` page of a timed-out aggregation carries the warning",
     "section": "Vector Search commands (FT.*)",
     "subsection": "Search",
-    "syntax": "FT.AGGREGATE index query [LOAD n @field \u2026 | LOAD *] [ADDSCORES] [GROUPBY n @prop ... REDUCE fn n arg ... [AS name] \u2026] [APPLY expr AS name] [FILTER expr] [SORTBY n @prop [ASC|DESC] \u2026 [MAX n]] [LIMIT offset count] [WITHCURSOR [COUNT n] [MAXIDLE ms]] [PARAMS \u2026]"
+    "syntax": "FT.AGGREGATE index query [LOAD n @field \u2026 | LOAD *] [ADDSCORES] [GROUPBY n @prop ... REDUCE fn n arg ... [AS name] \u2026] [APPLY expr AS name] [FILTER expr] [SORTBY n @prop [ASC|DESC] \u2026 [MAX n]] [LIMIT offset count] [TIMEOUT ms] [WITHCURSOR [COUNT n] [MAXIDLE ms]] [PARAMS \u2026]"
    }
   ],
   "first_key": 0,
@@ -2825,7 +2825,7 @@
    {
     "documented": [
      {
-      "notes": "Set one; an unknown option or a value of the wrong kind is an error. Acted on: `CURSOR_MAX_IDLE` (the longest a cursor may sit unread) and `MAXSEARCHRESULTS` (the largest `LIMIT` an `FT.SEARCH` may ask for). The rest are kept and reported \u2014 `TIMEOUT` and `ON_TIMEOUT` in particular do not cut a query short",
+      "notes": "Set one; an unknown option or a value of the wrong kind is an error. Acted on: `CURSOR_MAX_IDLE` (the longest a cursor may sit unread), `MAXSEARCHRESULTS` (the largest `LIMIT` an `FT.SEARCH` may ask for), and `TIMEOUT` / `ON_TIMEOUT` (how long a query that names no `TIMEOUT` may run, `0`, the default, being no limit; and whether running out is an error or a partial reply). These two are also the server settings `search-timeout` and `search-on-timeout` (`CONFIG SET`, the config file): one value, whichever name sets it. The rest are kept and reported",
       "section": "Vector Search commands (FT.*)",
       "subsection": "Debug and compatibility commands",
       "syntax": "FT.CONFIG SET option value"
@@ -2846,10 +2846,10 @@
   "arity": -1,
   "documented": [
    {
-    "notes": "Create a search index; supported field types: `TEXT`, `TAG`, `NUMERIC`, `VECTOR`; backfills existing keys on creation. `ON HASH` indexes hashes (including ones with field TTLs) by field name. `ON JSON` indexes JSON documents by JSONPath (`$.title AS title TEXT`): a string is a TEXT or TAG value, an array of strings is several tags or words, a boolean is the tag `true` / `false`, a number a NUMERIC value, an array of numbers a vector. `FT.SEARCH` returns a JSON document whole under `$`, and `RETURN` takes schema names or paths",
+    "notes": "Create a search index; supported field types: `TEXT`, `TAG`, `NUMERIC`, `VECTOR`; backfills existing keys on creation. TEXT words are indexed with their stems, as in Redis, in the index's `LANGUAGE` (English by default) or the one a document names in its `LANGUAGE_FIELD` (hashes); `NOSTEM` turns that off for a field, and words shorter than `MINSTEMLEN` (`search-min-stem-len`, 4) are not stemmed. Snowball stemmers for Arabic, Danish, Dutch, English, Finnish, French, German, Greek, Hungarian, Italian, Norwegian, Portuguese, Romanian, Russian, Spanish, Swedish, Tamil and Turkish; Redis's other languages are accepted and not stemmed. `ON HASH` indexes hashes (including ones with field TTLs) by field name. `ON JSON` indexes JSON documents by JSONPath (`$.title AS title TEXT`): a string is a TEXT or TAG value, an array of strings is several tags or words, a boolean is the tag `true` / `false`, a number a NUMERIC value, an array of numbers a vector. `FT.SEARCH` returns a JSON document whole under `$`, and `RETURN` takes schema names or paths",
     "section": "Vector Search commands (FT.*)",
     "subsection": "Index lifecycle",
-    "syntax": "FT.CREATE index ON HASH|JSON PREFIX n prefix [...] [STOPWORDS n word \u2026] SCHEMA field [AS name] type [options ...]"
+    "syntax": "FT.CREATE index ON HASH|JSON PREFIX n prefix [...] [LANGUAGE lang] [LANGUAGE_FIELD field] [STOPWORDS n word \u2026] SCHEMA field [AS name] type [options ...]"
    }
   ],
   "first_key": 0,
@@ -3046,10 +3046,10 @@
   "arity": -1,
   "documented": [
    {
-    "notes": "The query's plan as Redis writes one: `INTERSECT { \u2026 }`, `UNION { \u2026 }`, `NOT`, `OPTIONAL`, `TAG:@field { \u2026 }`, `NUMERIC {lo <= @field <= hi}`, `VECTOR { \u2026 }`, one clause to a line. An error for a query that does not parse or an index that does not exist",
+    "notes": "The query's plan as Redis writes one: `INTERSECT { \u2026 }`, `UNION { \u2026 }`, `NOT`, `OPTIONAL`, `TAG:@field { \u2026 }`, `NUMERIC {lo <= @field <= hi}`, `VECTOR { \u2026 }`, a word's stems as `+stem(expanded)`, one clause to a line. An error for a query that does not parse or an index that does not exist",
     "section": "Vector Search commands (FT.*)",
     "subsection": "Debug and compatibility commands",
-    "syntax": "FT.EXPLAIN index query [PARAMS \u2026] [DIALECT n]"
+    "syntax": "FT.EXPLAIN index query [PARAMS \u2026] [VERBATIM] [LANGUAGE lang] [DIALECT n]"
    }
   ],
   "first_key": 0,
@@ -3094,7 +3094,7 @@
   "arity": -1,
   "documented": [
    {
-    "notes": "Combined text + vector search with score fusion. Default fusion is RRF (rank-based). LINEAR uses min-max-normalized scores with ALPHA (text) and BETA (vector) weights. Returns ranked merged result list with hybrid_score, text_score, vsim_score per row (renameable via YIELD_SCORE_AS). Supports the full FT.AGGREGATE pipeline tail (GROUPBY/REDUCE/APPLY/FILTER) for further transformation",
+    "notes": "Combined text + vector search with score fusion. Default fusion is RRF (rank-based). LINEAR uses min-max-normalized scores with ALPHA (text) and BETA (vector) weights. Returns ranked merged result list with hybrid_score, text_score, vsim_score per row (renameable via YIELD_SCORE_AS). Supports the full FT.AGGREGATE pipeline tail (GROUPBY/REDUCE/APPLY/FILTER) for further transformation. Does not take `TIMEOUT` (an error before the pipeline clauses, ignored among them), and `search-timeout` does not apply: it runs to the end",
     "section": "Vector Search commands (FT.*)",
     "subsection": "Search",
     "syntax": "FT.HYBRID index SEARCH query [YIELD_SCORE_AS name] VSIM @field $param [KNN count K k [EF_RUNTIME n]] [YIELD_SCORE_AS name] [COMBINE RRF|LINEAR count [WINDOW w] [CONSTANT c] [ALPHA a] [BETA b] [YIELD_SCORE_AS name]] [LIMIT off cnt] [SORTBY count field [ASC|DESC]] [NOSORT] [LOAD count @field ...] [LOAD *] PARAMS n k v ... [GROUPBY ...] [REDUCE ...] [APPLY expr AS name] [FILTER expr]"
@@ -3118,7 +3118,7 @@
   "arity": -1,
   "documented": [
    {
-    "notes": "Return index metadata: name, type, prefixes, field schemas, field count. For indexes with HNSW fields, additionally returns `hnsw_live_count` / `hnsw_tombstone_count` / `hnsw_tombstone_ratio` / `hnsw_compaction_in_progress` (mirroring the first HNSW field for backwards compatibility) plus an `hnsw_indexes` nested array with per-field stats",
+    "notes": "Return index metadata: name, type, prefixes, field schemas, field count. For indexes with HNSW fields, additionally returns `hnsw_live_count` / `hnsw_tombstone_count` / `hnsw_tombstone_ratio` / `hnsw_compaction_in_progress` (mirroring the first HNSW field for backwards compatibility) plus an `hnsw_indexes` nested array with per-field stats. With a TEXT field, `num_terms` (words seen), `num_records` (word, field and document triples) and what the TEXT index holds in bytes: `text_terms_bytes`, `text_postings_bytes`, `text_docs_bytes`",
     "section": "Vector Search commands (FT.*)",
     "subsection": "Index lifecycle",
     "syntax": "FT.INFO index"
@@ -3166,10 +3166,10 @@
   "arity": -1,
   "documented": [
    {
-    "notes": "Search an index; supports pure KNN (`*=>[KNN k @field $param AS alias]`), pure text/filter queries (`@field:token`, `@field:{tag}`, `@field:[lo hi]`, `*`), and hybrid pre-filter KNN; TEXT fields use BM25 scoring with inverted index",
+    "notes": "Search an index; supports pure KNN (`*=>[KNN k @field $param AS alias]`), pure text/filter queries (`@field:token`, `@field:{tag}`, `@field:[lo hi]`, `*`), and hybrid pre-filter KNN. A word also finds its stem (`VERBATIM`: not; `LANGUAGE`: stemmed in that language). Scores are Redis 8.10's: `SCORER` `BM25STD` (default), `BM25STD.TANH`, `BM25`, `TFIDF`, `TFIDF.DOCNORM`, `DISMAX`, `DOCSCORE`, `HAMMING` (no payloads: 0). `TIMEOUT` is milliseconds, `0` no limit; omitted, `search-timeout` (`FT.CONFIG TIMEOUT`) is used, which is `0` unless set. The scan, the order of the matches (and `SORTBY`), and a filtered KNN's nearest-neighbour step are held to it. A query cut short: `search-on-timeout` (`FT.CONFIG ON_TIMEOUT`) `return` replies with what was found, `total_results` being that partial count (RESP3 puts `Timeout limit was reached` in `warning`; over RESP2 the client gets no signal); `fail` and `return_strict` reply with that as an error. A query that finishes, however late, is not reported as timed out. In a cluster, each master reports whether its part timed out and the coordinator applies `ON_TIMEOUT`",
     "section": "Vector Search commands (FT.*)",
     "subsection": "Search",
-    "syntax": "FT.SEARCH index query [PARAMS n k v ...] [RETURN n field ...] [LIMIT offset count] [DIALECT 2]"
+    "syntax": "FT.SEARCH index query [VERBATIM] [LANGUAGE lang] [SCORER name] [PARAMS n k v ...] [RETURN n field ...] [LIMIT offset count] [TIMEOUT ms] [DIALECT 2]"
    }
   ],
   "first_key": 0,
@@ -6701,15 +6701,15 @@
    "admin",
    "dangerous",
    "hyperloglog",
-   "read",
-   "slow"
+   "slow",
+   "write"
   ],
   "arity": 3,
   "documented": [],
   "first_key": 2,
   "flags": [
    "admin",
-   "readonly"
+   "write"
   ],
   "key_specs": [],
   "key_step": 1,
@@ -9736,7 +9736,7 @@
   "arity": -2,
   "documented": [
    {
-    "notes": "Return elements ordered by cosine similarity to the query vector; `FILTER` keeps the elements whose JSON attributes pass Redis's expression (`.color == \"red\" and .size > 3`, `\"a\" in .tags`, `.year in [2024, 2025]`, arithmetic, `not`, `**`); an element without a field it asks for does not pass. The search is exact, so `EF` and `FILTER-EF` change nothing; `ELE` queries by an existing element's vector; scores are similarities computed using the set's stored distance metric (1.0 = identical for cosine/IP, bounded 0\u20131 for L2)",
+    "notes": "Return elements ordered by cosine similarity to the query vector; `FILTER` keeps the elements whose JSON attributes pass Redis's expression (`.color == \"red\" and .size > 3`, `\"a\" in .tags`, `.year in [2024, 2025]`, arithmetic, `not`, `**`); an element without a field it asks for does not pass. The search is exact, so `EF` and `FILTER-EF` change nothing; `ELE` queries by an existing element's vector; `WITHSCORES` gives each a similarity from the set's metric: for cosine, the default and Redis's only one, `(1 + cosine) / 2` as in Redis (1 the same direction, 0.5 at right angles, 0 opposite); for `IP` the dot product; for `L2` `1 / (1 + distance)`",
     "section": "Vector Set commands (V*)",
     "subsection": "Similarity search",
     "syntax": "VSIM key (ELE | FP32 | VALUES num) vector [WITHSCORES] [WITHATTRIBS] [COUNT num] [EF n] [FILTER expr] [FILTER-EF n] [NOTHREAD] [TRUTH]"

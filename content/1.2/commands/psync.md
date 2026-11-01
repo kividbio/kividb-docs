@@ -24,3 +24,5 @@ PSYNC repl_id offset
 **Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
 <!-- generated: end -->
 Sent by a replica to its master to start or resume replication: `PSYNC replication-id offset`. The master either continues from that offset, or sends a full copy of the dataset first. Not for applications.
+
+In a cluster, a master that came back without its data answers `+LOSTDATA <node id>` to a replica that says it understands it (1.1.3 and later), so that a replica holding the data takes over rather than copy the empty dataset: see [Cluster](../guides/cluster.md#a-master-back-without-its-data). A replica answers `PSYNC` with an error, since KiviDB does not chain replicas.

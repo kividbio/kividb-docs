@@ -5,19 +5,19 @@ version: "1.2"
 weight: 170
 ---
 
-The image is `ghcr.io/kividbio/kividb`, also on Docker Hub as `kividb/kividb`, for `amd64` and `arm64`; [Install](../../1.1/get-started/install.md#docker) lists its tags. Pin a version tag, `v1.1.2`, not `latest`.
+The image is `ghcr.io/kividbio/kividb`, also on Docker Hub as `kividb/kividb`, for `amd64` and `arm64`; [Install](../get-started/install.md#docker) lists its tags. Pin a version tag, not `latest`. 1.2 is published as a release candidate, `v1.2.0-rc3`, for testing; `latest` stays on 1.1.3, the release to run in production until 1.2.0 is out.
 
 ## What the image is
 
 - The server runs as user and group 1000, in `/home/kividb`, its working directory: snapshots, the append-only file, backups and `nodes.conf` are written there.
 - It listens on 6380.
 - Its default command is `--protected-mode no`, since a container is reached through its network, never its loopback. Arguments given to `docker run`, or `args` in Kubernetes, replace it: protected mode is then on again, and clients from other containers are refused until the server has a password. Give it a password.
-- There is no shell, and no `redis-cli`, in the image.
+- There is no shell, and no `redis-cli`, in the image. Since 1.2 it has no OpenSSL either: its base is distroless's `base-nossl`, and TLS is built into the binary, so image scanners have less to report.
 
 ```bash
 docker run -d --name kividb -p 6380:6380 \
   -v kividb-data:/home/kividb \
-  ghcr.io/kividbio/kividb:v1.1.2 --requirepass "change-me" --aof --maxmemory 1gb
+  ghcr.io/kividbio/kividb:v1.2.0-rc3 --requirepass "change-me" --aof --maxmemory 1gb
 ```
 
 ## Keeping data
@@ -26,11 +26,11 @@ Mount a volume on `/home/kividb`, writable by UID 1000. Without one, the data is
 
 ## Memory
 
-Set [`maxmemory`](../reference/configuration.md#maxmemory) below the container's memory limit. The limit is on the process's resident memory, which is higher than the `used_memory` that `maxmemory` is compared with; leave a quarter or so between them, more for a server with many clients or replicas. A server that reaches the container's limit is killed by the kernel, and loses what was not on disk. See [Memory](memory.md).
+Set [`maxmemory`](../reference/configuration.md#maxmemory) below the container's memory limit. The limit is on the process's resident memory, which is higher than the `used_memory` that `maxmemory` is compared with: at the limit, a few per cent higher (see [Memory](memory.md#setting-a-limit)). Leave a fifth or so between them, for the program itself and for what deletes have not yet given back. A server that reaches the container's limit is killed by the kernel, and loses what was not on disk. See [Memory](memory.md).
 
 ## Stopping cleanly
 
-`docker stop` and Kubernetes send `SIGTERM`; the server then saves a snapshot and exits. If it is still saving when the grace period ends, it is killed, and the snapshot is not written. The grace period is 10 seconds in Docker and 30 in Kubernetes. A large dataset takes longer to save: give it time, with `docker stop -t 120`, `--stop-timeout`, or `terminationGracePeriodSeconds`.
+`docker stop` and Kubernetes send `SIGTERM`; the server then saves a snapshot and exits. From the moment it starts saving, it takes no new connections and runs no command, so every write it acknowledged is in the snapshot; clients waiting for a reply see their connection close. Before 1.2, connections already open went on running commands while the snapshot was written, and writes acknowledged then were lost. If it is still saving when the grace period ends, it is killed, and the snapshot is not written. The grace period is 10 seconds in Docker and 30 in Kubernetes. A large dataset takes longer to save: give it time, with `docker stop -t 120`, `--stop-timeout`, or `terminationGracePeriodSeconds`.
 
 ## Health checks
 

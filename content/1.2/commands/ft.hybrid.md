@@ -53,7 +53,7 @@ Searches an index by text and by vector together, and fuses the two rankings int
    3) "hybrid_score"
    4) "0.032522"
    5) "vsim_score"
-   6) "0.000000"
+   6) "0.001196"
    7) "name"
    8) "USB-C cable, 2 m"
 ...

@@ -32,7 +32,7 @@ Returns the elements of the vector set at `key` most similar to a vector, most s
 | `ELE element` | Use an element's vector. |
 | `VALUES n x1 ... xn`, `FP32 blob` | Use this vector. |
 | `COUNT n` | Return at most `n` elements (10 by default). |
-| `WITHSCORES` | Give each element's similarity: `1` is identical. |
+| `WITHSCORES` | Give each element's similarity, from `0` to `1`: `1` is identical. |
 | `WITHATTRIBS` | Give each element's attributes. |
 | `EF n`, `FILTER-EF n`, `NOTHREAD`, `TRUTH` | Accepted. Every search compares every vector, so results are exact. |
 | `FILTER expr` | Score only the elements whose attributes pass `expr`. |
@@ -52,7 +52,7 @@ Returns the elements of the vector set at `key` most similar to a vector, most s
 1) "a"
 2) "1.000000"
 3) "b"
-4) "0.993884"
+4) "0.996942"
 > VSIM points ELE c WITHATTRIBS COUNT 1
 1) "c"
 2) "{\"color\":\"red\",\"size\":3}"
@@ -60,6 +60,6 @@ Returns the elements of the vector set at `key` most similar to a vector, most s
 1) "c"
 ```
 
-## Known issue
+## Scores
 
-`WITHSCORES` gives the cosine similarity itself, from `-1` to `1`. Redis gives it on a scale from `0` to `1`, as `(1 + cosine) / 2`. Identical vectors score `1` in both, but vectors at right angles score `0` here and `0.5` in Redis, and opposite vectors `-1` here and `0` in Redis. The order of the results is the same. Filed as [kividb#171](https://github.com/kividbio/kividb/issues/171).
+With the default `COSINE` distance, `WITHSCORES` gives `(1 + cosine) / 2`, as Redis does: identical vectors score `1`, vectors at right angles `0.5`, and opposite ones `0`. Before 1.2, it gave the cosine itself, from `-1` to `1` ([kividb#171](https://github.com/kividbio/kividb/issues/171)); the order of the results was the same. A threshold an application set on the old scores needs changing. Sets made with `DISTANCE L2` or `INNERPRODUCT` keep their scores.

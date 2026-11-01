@@ -27,7 +27,9 @@ Returns information and statistics about the server, as `field:value` lines in s
 
 Sections include `server`, `clients`, `memory`, `persistence`, `stats`, `replication`, `cpu`, `modules`, `commandstats`, `latencystats`, `errorstats`, `cluster`, `keyspace` and `keysizes`. `commandstats` gives each command's calls, time and failures, with Redis 8.8's slow-log fields. `latencystats` gives percentiles of each command's run time. `memory` gives `used_memory`, which `maxmemory` is compared with, `used_memory_rss`, and `mem_fragmentation_ratio`, the one over the other. `keysizes` looks at every key: asked for by name, it counts them each time; in `INFO all` or `everything`, it gives a count up to 10 seconds old.
 
-Before 1.2, `total_commands_processed`, `keyspace_hits` and `keyspace_misses` stayed `0` on a quiet server, `total_reads_processed` and `total_writes_processed` were always `0`, and `mem_fragmentation_ratio` was the process's virtual size over its resident size. See [Monitoring](../guides/monitoring.md) for the fields worth watching.
+Before 1.2, `total_commands_processed`, `keyspace_hits` and `keyspace_misses` stayed `0` on a quiet server, `total_reads_processed` and `total_writes_processed` were always `0`, and `mem_fragmentation_ratio` was the process's virtual size over its resident size. In a cluster, `replication` on a master that came back without its data has `master_lost_dataset:1`, until a replica has taken over: see [Cluster](../guides/cluster.md#a-master-back-without-its-data).
+
+See [Monitoring](../guides/monitoring.md) for the fields worth watching.
 
 ## Examples
 

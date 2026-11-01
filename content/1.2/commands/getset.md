@@ -28,6 +28,7 @@ Sets `key` to `value` and returns the value it held before, in one step. The key
 ## Reply
 
 - The old value, or `nil` if the key did not exist.
+- A `WRONGTYPE` error if the key holds another type; the key is left as it was.
 
 ## Examples
 
@@ -39,3 +40,5 @@ OK
 > GET a
 "new"
 ```
+
+Before 1.2, `GETSET` of a key of another type replaced it with the string and then replied `WRONGTYPE`.

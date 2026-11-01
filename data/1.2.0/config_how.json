@@ -387,6 +387,16 @@
   "file": "applied",
   "runtime": "applied"
  },
+ "hll-write-format": {
+  "flag": {
+   "arg": "<HLL_WRITE_FORMAT>",
+   "default": "legacy",
+   "values": null,
+   "help": "HLL write format during rolling upgrade: \"legacy\" or \"redis\""
+  },
+  "file": "accepted",
+  "runtime": "accepted"
+ },
  "hz": {
   "flag": null,
   "file": "applied",
@@ -411,7 +421,7 @@
    "arg": "<KEY_ACCESS_TRACKING>",
    "default": "no",
    "values": null,
-   "help": "Record every key's use whatever the eviction policy, so that `OBJECT IDLETIME` and `OBJECT FREQ` report it under `noeviction` too. Costs every command and every key: see `eviction::key_access_tracking`"
+   "help": "Record every key's use whatever the eviction policy, so that `OBJECT IDLETIME` and `OBJECT FREQ` report it under `noeviction` too. Costs every command a little: see `eviction::key_access_tracking`"
   },
   "file": "applied",
   "runtime": "applied"
@@ -782,6 +792,21 @@
   "file": "ignored",
   "runtime": "applied"
  },
+ "search-min-stem-len": {
+  "flag": null,
+  "file": "applied",
+  "runtime": "applied"
+ },
+ "search-on-timeout": {
+  "flag": null,
+  "file": "accepted",
+  "runtime": "accepted"
+ },
+ "search-timeout": {
+  "flag": null,
+  "file": "applied",
+  "runtime": "applied"
+ },
  "set-max-intset-entries": {
   "flag": null,
   "file": "applied",
@@ -903,6 +928,16 @@
    "default": "yes",
    "values": null,
    "help": "Whether TLS clients must present a certificate signed by `tls-ca-cert-file` (Redis `tls-auth-clients`): yes      — required; a client without a valid one is refused optional — not required, but one that is presented must be valid no       — not asked for Has no effect while `tls-ca-cert-file` is empty"
+  },
+  "file": "accepted",
+  "runtime": "not a CONFIG setting"
+ },
+ "tls-auth-clients-allowed-names": {
+  "flag": {
+   "arg": "<TLS_AUTH_CLIENTS_ALLOWED_NAMES>",
+   "default": "\"\"",
+   "values": null,
+   "help": "The names a client certificate must carry to be accepted, separated by spaces or commas: a client (or replica, or node on the cluster bus) that presents a certificate is refused unless its subject CN or one of its DNS names matches one of them. A name is exact, or starts with `*.`, where `*` stands for exactly one label: `*.db.example` takes `node-0.db.example`, not `a.b.db.example`. Case does not matter. Empty (the default): any certificate the CA signed"
   },
   "file": "accepted",
   "runtime": "not a CONFIG setting"

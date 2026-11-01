@@ -29,6 +29,10 @@ The file is also rewritten on its own as it grows ([`auto-aof-rewrite-percentage
 
 A rewrite saves a snapshot to `dump.kdb` as well, and moves [`LASTSAVE`](lastsave.md).
 
+A `BGREWRITEAOF` sent while another checkpoint runs is served by one more rewrite after it, however many are sent meanwhile. Checkpoints, the snapshots and rewrites of the append-only file, run one at a time; one has the persistence files to itself until it has finished. Since 1.1.3: before it, checkpoints that overlapped could lose acknowledged writes or bring deleted keys back. See [Persistence](../guides/persistence.md).
+
+A script cannot run it: it is refused, as in Redis.
+
 ## Reply
 
 - A status reply.

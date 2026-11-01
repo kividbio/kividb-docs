@@ -18,7 +18,7 @@ OK
 
 ## Text
 
-A TEXT field is split into words. A query word matches documents that have that word, in any case. Results are ranked by BM25.
+A TEXT field is split into words. A query word matches documents that have that word, in any case, or another form of it: each word is indexed with its stem, as in Redis, so `desks` finds `desk`. Results are ranked by score, `BM25STD` unless `SCORER` names another; see [Search](../guides/search.md#scores).
 
 | Query | Matches |
 |---|---|
@@ -26,8 +26,9 @@ A TEXT field is split into words. A query word matches documents that have that 
 | `@name:usb` | the word in the `name` field |
 | `cab*` | words that start with `cab` |
 | `%cabxe%` | words one letter different from `cabxe`, such as `cable`; `%%caxxe%%` allows two letters |
+| `desks` | `desks`, and the words with its stem, `desk` among them; with `VERBATIM` on the query, or `NOSTEM` on the field, only `desks` |
 
-A query word is a whole word: `@name:cab` does not find "cable"; `@name:cab*` does.
+A query word is a whole word, or a form of it: `@name:cab` does not find "cable"; `@name:cab*` does. Words are stemmed in English unless the index, the document or the query (`LANGUAGE`) names another language; see [How words match](../guides/search.md#how-words-match). Before 1.2, there was no stemming.
 
 ```
 > FT.SEARCH products desk RETURN 1 name
@@ -102,15 +103,15 @@ A VECTOR field is searched for its nearest neighbours to a vector passed as a pa
 3) 1) "name"
    2) "USB-C cable, 2 m"
    3) "score"
-   4) "0.0012476444"
+   4) "0.001195848"
 4) "product:2"
 5) 1) "name"
    2) "Wireless keyboard"
    3) "score"
-   4) "0.0018416047"
+   4) "0.017377615"
 ```
 
-A query before `=>` filters first: the neighbours are found among the documents it matches.
+A query before `=>` filters first: the neighbours are found among the documents it matches. `HYBRID_POLICY ADHOC_BF` or `HYBRID_POLICY BATCHES` inside the brackets picks how; see [Vector search](../guides/search.md#vector-search).
 
 ```
 > FT.SEARCH products "(@category:{furniture})=>[KNN 1 @embedding $q AS score]" PARAMS 2 q "<...>" RETURN 2 name score DIALECT 2
@@ -128,7 +129,7 @@ A query before `=>` filters first: the neighbours are found among the documents 
 
 `TYPE` is `FLOAT32`, `FLOAT64`, `FLOAT16` or `BFLOAT16`; KiviDB keeps every vector as 32-bit floats, so a 16-bit field takes as much memory as a `FLOAT32` one. `INT8` and `UINT8` are not supported. `DISTANCE_METRIC` is `L2`, `COSINE` or `IP`. An index can have several VECTOR fields, each with its own dimension and metric.
 
-An HNSW index keeps deleted vectors as tombstones, and rebuilds itself in the background once they are over a fifth of it; [`FT.DEBUG COMPACT`](../commands/ft.debug-compact.md) starts that by hand.
+An HNSW index keeps deleted vectors as tombstones, and rebuilds itself in the background once they are over a fifth of it; [`FT.DEBUG COMPACT`](../commands/ft.debug-compact.md) starts that by hand. A deleted vector's place is taken by the next vector inserted.
 
 ## JSON documents
 

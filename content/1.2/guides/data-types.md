@@ -33,3 +33,16 @@ Hashes and JSON documents can be indexed and queried by their fields, words and 
 ## Differences from Redis
 
 KiviDB keeps no compact encodings, `listpack`, `intset`, `ziplist`: small values of each type are kept as large ones are. [`OBJECT ENCODING`](../commands/object-encoding.md) answers what Redis would use, for tools that read it.
+
+### HyperLogLogs
+
+A HyperLogLog is a string, and comes from Redis as one: in a Redis snapshot, or to a replica of a Redis master. KiviDB reads both of Redis's encodings, dense and sparse, and always writes dense ones, 12,304 bytes: `PFADD` to a sparse one rewrites it dense.
+
+Which elements set which registers depends on a hash, and KiviDB 1.1 used a hash of its own. KiviDB 1.2 has both:
+
+- [`hll-write-format`](../reference/configuration.md#hll-write-format) `legacy`, the default, makes new HyperLogLogs in KiviDB's own hash space, as 1.1 did;
+- `redis` makes them in Redis's, which Redis counts the same.
+
+A HyperLogLog keeps the hash space it was made in: `PFADD` adds to it in that space, and `PFMERGE` gives a new destination its sources'. Counting or merging HyperLogLogs of both spaces together is refused (`ERR Cannot PFCOUNT HyperLogLogs with different hash formats.`), since their registers cannot be combined. `PFCOUNT` uses Ertl's estimator, as Redis does, for both, so a 1.1 HyperLogLog's estimate can differ slightly from what 1.1 gave.
+
+Leave the setting at `legacy` until every server that replicates the data runs 1.2, then set it to `redis` on the master and all its replicas: `PFADD` and `PFMERGE` reach replicas as commands, and each server makes new HyperLogLogs in its own setting.

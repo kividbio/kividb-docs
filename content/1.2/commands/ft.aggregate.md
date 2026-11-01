@@ -3,7 +3,7 @@ title: "FT.AGGREGATE"
 description: "Runs a query and transforms its results: groups them, reduces each group, computes new fields, filters and sorts."
 version: "1.2"
 command: "FT.AGGREGATE"
-syntax: "FT.AGGREGATE index query [LOAD n @field … | LOAD *] [ADDSCORES] [GROUPBY n @prop ... REDUCE fn n arg ... [AS name] …] [APPLY expr AS name] [FILTER expr] [SORTBY n @prop [ASC|DESC] … [MAX n]] [LIMIT offset count] [WITHCURSOR [COUNT n] [MAXIDLE ms]] [PARAMS …]"
+syntax: "FT.AGGREGATE index query [LOAD n @field … | LOAD *] [ADDSCORES] [GROUPBY n @prop ... REDUCE fn n arg ... [AS name] …] [APPLY expr AS name] [FILTER expr] [SORTBY n @prop [ASC|DESC] … [MAX n]] [LIMIT offset count] [TIMEOUT ms] [WITHCURSOR [COUNT n] [MAXIDLE ms]] [PARAMS …]"
 group: "vector-search"
 since: "1.1.0"
 arity: -1
@@ -18,7 +18,7 @@ status: "reviewed"
 ## Syntax
 
 ```
-FT.AGGREGATE index query [LOAD n @field … | LOAD *] [ADDSCORES] [GROUPBY n @prop ... REDUCE fn n arg ... [AS name] …] [APPLY expr AS name] [FILTER expr] [SORTBY n @prop [ASC|DESC] … [MAX n]] [LIMIT offset count] [WITHCURSOR [COUNT n] [MAXIDLE ms]] [PARAMS …]
+FT.AGGREGATE index query [LOAD n @field … | LOAD *] [ADDSCORES] [GROUPBY n @prop ... REDUCE fn n arg ... [AS name] …] [APPLY expr AS name] [FILTER expr] [SORTBY n @prop [ASC|DESC] … [MAX n]] [LIMIT offset count] [TIMEOUT ms] [WITHCURSOR [COUNT n] [MAXIDLE ms]] [PARAMS …]
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
@@ -37,10 +37,16 @@ They run in the order given.
 | `FILTER expr` | Keep the rows for which `expr` holds. |
 | `SORTBY n @prop [ASC \| DESC] ... [MAX n]` | Sort. |
 | `LIMIT offset count` | A page of rows. |
-| `ADDSCORES` | Give each row its score, as `@__score`. |
+| `ADDSCORES` | Give each row its score, as `@__score`. `SCORER name` picks how it is scored. |
+| `VERBATIM`, `LANGUAGE lang` | As for [`FT.SEARCH`](ft.search.md). |
+| `TIMEOUT ms` | Cut the aggregation short after this long, as for [`FT.SEARCH`](ft.search.md); every `FT.CURSOR READ` page of one cut short carries the warning. |
 | `WITHCURSOR [COUNT n] [MAXIDLE ms]` | Return the first `n` rows and a cursor for [`FT.CURSOR READ`](ft.cursor-read.md). |
 
-The reducers are `COUNT`, `COUNT_DISTINCT`, `COUNT_DISTINCTISH`, `SUM`, `AVG`, `MIN`, `MAX`, `STDDEV`, `QUANTILE`, `TOLIST` (the distinct values), `FIRST_VALUE [BY @prop [ASC \| DESC]]`, `RANDOM_SAMPLE`, and `COLLECT` (Redis 8.8: the group's documents, with `FIELDS * | n @field ...`, and `SORTBY`, `LIMIT` and `DISTINCT` inside the group). Groups come out in the order they first appear.
+The reducers are `COUNT`, `COUNT_DISTINCT`, `COUNT_DISTINCTISH`, `SUM`, `AVG`, `MIN`, `MAX`, `STDDEV`, `QUANTILE`, `TOLIST` (the distinct values), `FIRST_VALUE [BY @prop [ASC \| DESC]]`, `RANDOM_SAMPLE`, and `COLLECT` (Redis 8.8: the group's documents, with `FIELDS * | n @field ...`, and `SORTBY`, `LIMIT` and `DISTINCT` inside the group). Groups come out in the order they first appear. Without `SORTBY`, rows come in the order of the documents' numbers in the index, not of their keys.
+
+A KNN clause in the query (`*=>[KNN 10 @v $q AS d]`) keeps the nearest `k` of the documents the filter leaves, with the distance under its `AS` name for the steps. Before 1.2, it was ignored, and every document went on.
+
+An index that does not exist is `SEARCH_INDEX_NOT_FOUND Index not found: <index>`.
 
 ## Examples
 

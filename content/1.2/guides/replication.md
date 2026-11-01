@@ -70,13 +70,21 @@ A master disconnects a replica that has more than [`repl-replica-max-backlog-byt
 
 A replica that hears nothing from its master for [`repl-timeout`](../reference/configuration.md#repl-timeout) seconds (60) takes the link to be down and connects again; the master pings it every [`repl-ping-replica-period`](../reference/configuration.md#repl-ping-replica-period) seconds (10), so a quiet master is not mistaken for a lost one.
 
+The other way round, a master disconnects a replica that is online and has sent no acknowledgement (`REPLCONF ACK`) for `repl-timeout` seconds, as Redis does, and logs `Replication: disconnecting timedout replica <ip>:<port>`. That is a replica whose machine went away without closing the connection: a terminated VM, a lost network path, a paused container. A replica still loading the dataset sends no acknowledgement, and is not timed out. Since 1.1.3: before it, such a replica stayed in `INFO replication` as `state=online`, its `lag` growing, and was counted in `connected_slaves` until the master restarted. [`min-replicas-to-write`](../reference/configuration.md#min-replicas-to-write) and [`WAIT`](../commands/wait.md) were not misled by it: they go by each replica's last acknowledgement.
+
 ## What a replica serves
 
 A replica is read-only: a write is refused with `READONLY You can't write against a read only replica.` `replica-read-only no` in the configuration file is accepted with a warning, and changes nothing.
 
 What it returns can be a little behind the master. It serves its data while it is disconnected from the master, too.
 
-A replica expires keys by its own clock: the master does not send it the deletions. Times to live are sent as the time the key expires, so a replica whose clock is ahead of the master's drops keys early. Keep the clocks in step.
+A replica does not delete expired keys itself: its clients see a key past its time as gone, and it is deleted when the master's `UNLINK` for it arrives (a `DEL` with [`lazyfree-lazy-expire no`](../reference/configuration.md#lazyfree-lazy-expire)), as in Redis. The master sends one for every key it expires, whether a read, a write or the background task found it. Until it arrives, the key still counts in `DBSIZE` and `INFO keyspace`. Since 1.1.3: before it, the master sent no deletions, and a replica expired keys by its own clock, so it could delete a key while the master's writes to it were still on the way, and diverge from the master. See [Keys and expiry](expiration.md#replicas-snapshots-and-the-append-only-file).
+
+A replica of a master older than 1.1.3, which sends no deletions, expires keys by its own clock, as before; keep the machines' clocks in step, with NTP, while it follows one.
+
+### Transactions and scripts
+
+The writes of a transaction, or of a script that writes more than once, reach the replicas between a `MULTI` and an `EXEC`, as in Redis, and a replica applies them together, with no command of its own clients in between: a client reading from a replica never sees half of one. A transaction or script that writes once is sent as that one write. Before 1.2, their writes went one by one, and a replica could show half of a transaction. A KiviDB replica of a Redis master, which has always sent `MULTI` and `EXEC`, applies those transactions as one step too.
 
 ### Scripts on a replica
 
@@ -127,6 +135,20 @@ KiviDB does not chain replicas, as Redis can: make every replica a replica of th
 A master made a replica with `REPLICAOF host port` disconnects the replicas it had; point them at the new master.
 
 Before 1.2, a replica accepted replicas of its own, sent them its data once and not the writes after, while their `ROLE` said `connected`.
+
+## Upgrading
+
+Upgrade the replicas first, one at a time, and the master last. A replica that restarts loads its own snapshot or append-only file, and catches up from the master's backlog, or with a full copy. A 1.2 replica of a 1.1 master is fine; the other way round:
+
+- A 1.2 master sends a transaction's writes wrapped in `MULTI` and `EXEC`, which a 1.1 replica does not know. It still applies every write, one by one, but logs `Replication: Replicated command error (non-fatal): -ERR unknown command 'MULTI'` (and `'EXEC'`) for every transaction.
+- In a cluster, a master back without its data tells its replicas not to copy its empty dataset (see [Cluster](cluster.md#a-master-back-without-its-data)). A replica older than 1.1.3 does not understand that, and after 30 seconds copies the empty dataset and drops its own.
+- [`FT.DROPINDEX index DD`](../commands/ft.dropindex.md) reaches the replicas as `DEL`s of the documents it deleted, and then the drop without `DD`, which any replica applies as its master did.
+
+`FT.SEARCH` and `FT.AGGREGATE` with a `TIMEOUT` work across a cluster whose masters run 1.1 and 1.2 during the upgrade.
+
+HyperLogLogs: keep [`hll-write-format`](../reference/configuration.md#hll-write-format) `legacy`, its default, until every node runs 1.2; then set it to `redis` on the master and every replica. A master and its replicas must agree, since `PFADD` and `PFMERGE` reach replicas as commands and each node writes new values in its own setting.
+
+[Upgrading from 1.1](../get-started/upgrading.md) has the rest.
 
 ## Redis and KiviDB
 

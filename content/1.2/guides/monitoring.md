@@ -44,7 +44,7 @@ cmdstat_get:calls=3,usec=59,usec_per_call=19.67,rejected_calls=0,failed_calls=0
 latency_percentiles_usec_get:p50=2.000,p99=16.000,p99.9=128.000
 ```
 
-`rejected_connections` is always `0`: KiviDB has no limit on clients, and `maxclients` is accepted and changes nothing.
+At most [`maxclients`](../reference/configuration.md#maxclients) clients (10000) are connected at once, plaintext and TLS together; one more is refused with `ERR max number of clients reached`, and logged (`{n} clients connected (maxclients); closing new connections`, at most every 10 seconds). Before 1.1.3, `maxclients` changed nothing. Known issue: `rejected_connections` in `INFO stats` stays `0`, also when connections are refused at `maxclients`.
 
 Before 1.2, `total_commands_processed`, `keyspace_hits` and `keyspace_misses` stayed `0` on a quiet server, `INFO latencystats` was empty, `instantaneous_input_kbps` and `instantaneous_output_kbps` were `0`, and `mem_fragmentation_ratio` was the process's virtual size over its resident size.
 

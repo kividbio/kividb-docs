@@ -26,4 +26,4 @@ CONFIG
 
 Subcommands: [CONFIG GET](config-get.md), [CONFIG HELP](config-help.md), [CONFIG RESETSTAT](config-resetstat.md), [CONFIG REWRITE](config-rewrite.md), [CONFIG SET](config-set.md)
 <!-- generated: end -->
-Reads and changes the server's settings at runtime. See its subcommands, and [Configuration](../reference/configuration.md) for every setting.
+Reads and changes the server's settings at runtime. See its subcommands, and [Configuration](../reference/configuration.md) for every setting. A script cannot run it: it is refused, as in Redis.

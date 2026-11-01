@@ -45,6 +45,8 @@ Adds an element with its vector to the vector set at `key`, or replaces an eleme
 
 Before 1.2, `REDUCE` was accepted and ignored.
 
+A `DISTANCE` it does not know is taken as `COSINE`, and an option it does not know is skipped, with no error.
+
 ## Examples
 
 ```

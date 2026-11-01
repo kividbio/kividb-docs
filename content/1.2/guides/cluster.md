@@ -93,13 +93,36 @@ There are two ways a slot moves, and `redis-cli` from Redis 8.4 on uses the firs
 
 A node that does not hear from another for [`cluster-node-timeout`](../reference/configuration.md#cluster-node-timeout) milliseconds (15 seconds by default) suspects it; when a majority of masters suspect a master, it is marked `fail`, and its replicas stand for election. The one that wins takes the master's slots, the clients are redirected to it, and the cluster is `ok` again. When the old master comes back, it finds its slots taken, and becomes a replica of the node that took them.
 
-To move a master's role to its replica without a failure, for maintenance, send [`CLUSTER FAILOVER`](../commands/cluster-failover.md) to the replica: the master stops writes, the replica catches up, and they swap, without losing a write.
+To move a master's role to its replica without a failure, for maintenance, send [`CLUSTER FAILOVER`](../commands/cluster-failover.md) to the replica: the master stops writes, the replica catches up, and they swap, without losing a write. The master holds writes for up to 10 seconds; the replica has 5 of them to catch up and win its election, as in Redis, and otherwise gives the failover up (`Manual failover abandoned` in its log), and the master takes writes again. Before 1.2, the master held writes for 5 seconds only, and a replica whose election was slower took over all the same, losing the writes the master had acknowledged meanwhile.
 
 While a slot has no master that works, the cluster's state is `fail`, and every node refuses keyed commands with `CLUSTERDOWN`. With [`cluster-require-full-coverage no`](../reference/configuration.md#cluster-require-full-coverage), nodes go on serving the slots that do have one.
 
 Replication in a cluster is what it is between standalone servers, asynchronous: a write a master acknowledged and had not yet sent to its replica is lost if the replica takes its place. See [Replication](replication.md).
 
 The replicas stand in order of how up to date they are: the one that has the most of the master's writes stands first, and the others wait, so it is the one elected. A replica that had lost touch with its master for longer than [`cluster-replica-validity-factor`](../reference/configuration.md#cluster-replica-validity-factor) node timeouts does not stand at all, since its data may be old; `0` lets it. Before 1.2, replicas were not ranked, and one that was behind could win.
+
+### A master back without its data
+
+A master that is killed outright, with the append-only file off, has no snapshot from a clean shutdown to start from, and can come back, under its old ID from `nodes.conf` and inside `cluster-node-timeout`, with nothing. A master that starts with neither an append-only file nor a snapshot from a clean shutdown, and has replicas, serves none of its slots: keyed commands get `CLUSTERDOWN`, `CLUSTER INFO` says `cluster_state:fail`, and `INFO replication` on it says `master_lost_dataset:1`. It logs:
+
+```
+[WARN] Cluster: This master came back without its dataset (0 keys loaded; no AOF, and no snapshot from a clean shutdown). It serves none of its slots until a replica that holds them takes over, or its replicas answer that they hold nothing either
+```
+
+It answers its replicas' `PSYNC` with `+LOSTDATA <node id>`. A replica that holds the data takes over, by an election as with [`CLUSTER FAILOVER FORCE`](../commands/cluster-failover.md), and the old master becomes its replica:
+
+```
+[WARN] Cluster: Taking over from master 9b18d365...: the master lost its dataset in a restart, and this replica holds 100 keys of it
+[INFO] Cluster: Won election at epoch 4 (3 votes, quorum 2)
+```
+
+A replica that holds nothing says so, and once every replica has, the master serves what it has: a whole cluster restarted with no persistence comes back without failovers. The master also serves once every replica has failed, or when no replica that knows `+LOSTDATA` (1.1.2 and earlier) has asked within `max(30 s, 6 × cluster-node-timeout)`.
+
+And a replica does not drop its data for the master it was following until a moment ago (within [`repl-timeout`](../reference/configuration.md#repl-timeout)) when that master comes back under a replication ID that does not continue its stream and with fewer than [`replica-full-sync-guard-ratio`](../reference/configuration.md#replica-full-sync-guard-ratio) percent of its keys, whatever [`replica-full-sync-guard`](../reference/configuration.md#replica-full-sync-guard) says: it takes over instead.
+
+A node's clean stop, `SHUTDOWN` or `SIGTERM`, leaves `dump.kdb.clean` beside the final snapshot, to say it is whole; with it, or with the append-only file on, a restart goes on as before. Run masters with `appendonly yes` where they may be killed.
+
+That is since 1.1.3. Before it, such a master served its slots empty, and nobody failed it over: its replica refused the empty dataset only until clients had written a key to the master, and then dropped every key it held. Because replicas of 1.1.2 and earlier do not understand `+LOSTDATA`, upgrade every master's replicas before the master: see [Upgrading](replication.md#upgrading).
 
 ## Reading from replicas
 

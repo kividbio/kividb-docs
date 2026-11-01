@@ -13,15 +13,29 @@ A configuration file with a line the server does not know stops it from starting
 
 ### `bind`
 
-**Default:** `0.0.0.0` · **Since:** 1.1.0 · **Command line:** `--bind <BIND>`
+**Default:** `0.0.0.0` · **Since:** 1.1.0 · **Command line:** `--bind <BIND>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 The address to listen on. `0.0.0.0`, the default, is every IPv4 address of the machine; `127.0.0.1` is this machine only. Giving `bind`, on the command line or in the file, turns [`protected-mode`](#protected-mode) off.
 
+### `maxclients`
+
+**Default:** `10000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+The most clients connected at once, plaintext and TLS together; a TLS client counts from the start of its handshake. One more is closed: a plaintext client first gets `ERR max number of clients reached`, as in Redis, and the log says `{n} clients connected (maxclients); closing new connections`, at most every 10 seconds. Lowering it with `CONFIG SET` leaves the clients already connected; `INFO clients` gives the value in effect.
+
+At startup KiviDB raises the open-file limit (`ulimit -n`) to `maxclients` plus what the server keeps for itself (32 files, or on io_uring 40 and 8 a worker thread), if the hard limit allows; if it does not, it lowers `maxclients` to fit and logs a warning (`maxclients 10000 needs 10152 open files, but the limit (ulimit -n) allows 200: maxclients is 48`). It does not start if not even one client fits. `CONFIG SET maxclients` refuses a value the limit cannot hold, and says what would fit (`The operating system is not able to handle the specified number of clients, try with {n}`). `0` is refused, in the file and by `CONFIG SET`.
+
+Enforced since 1.1.3, and in 1.2. In 1.1.0 to 1.1.2, `CONFIG SET` took it and `CONFIG GET` gave it back, but nothing checked it, and a configuration file that set it did not start. The limit on TLS clients is part of the fix for [GHSA-58x5-jq4h-h6rr](https://github.com/kividbio/kividb/security/advisories/GHSA-58x5-jq4h-h6rr): a client that opened TLS connections and sent nothing could hold up every other TLS client.
+
 ### `port`
 
-**Default:** `6380` · **Since:** 1.1.0 · **Command line:** `--port <PORT>`
+**Default:** `6380` · **Since:** 1.1.0 · **Command line:** `--port <PORT>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 The TCP port clients connect to. KiviDB's default is 6380, not Redis's 6379, so that both can run on one machine.
+
+`CONFIG SET port <n>` opens the new port and closes the old one before it replies; clients already connected stay connected. A port that cannot be had is refused with `Unable to listen on this port: {e}`, and nothing changes. Before 1.2, on the io_uring I/O model (the default on Linux) `CONFIG SET port` was refused for every port, `Address already in use`.
+
+`0` turns the plaintext port off, for a server reached over TLS only, as in Redis. It needs [`tls-port`](#tls-port), as there is no Unix socket: a server started with `port 0` and no TLS port stops with `port 0 turns the plaintext port off, which leaves no port to reach this server on…`, and `CONFIG SET port 0` with no TLS port open is refused. `CONFIG SET port 0` closes only the port: plaintext clients already connected stay connected (`CLIENT KILL` them if they must go). With no plaintext port, `CONFIG GET port` and `tcp_port` in `INFO server` give `0`. A cluster node with `port 0` needs [`tls-cluster yes`](#tls-cluster), and is known to the cluster by its TLS port. `port 0` is new in 1.2.
 
 ### `protected-mode`
 
@@ -51,63 +65,86 @@ In Redis, closes a client that has been idle this many seconds; `0` never does. 
 
 ### `tls-auth-clients`
 
-**Default:** `yes` · **Since:** 1.1.0 · **Command line:** `--tls-auth-clients <TLS_AUTH_CLIENTS>` · **Config file:** yes · **`CONFIG SET`:** no: not a `CONFIG` setting
+**Default:** `yes` · **Since:** 1.1.0 · **Command line:** `--tls-auth-clients <TLS_AUTH_CLIENTS>` · **Config file:** yes · **`CONFIG SET`:** yes, in builds with TLS
 
-Whether TLS clients must present a certificate signed by [`tls-ca-cert-file`](#tls-ca-cert-file): `yes`, the default, requires one; `optional` checks one if it is presented; `no` does not ask. It means nothing while `tls-ca-cert-file` is empty.
+Whether TLS clients must present a certificate signed by [`tls-ca-cert-file`](#tls-ca-cert-file): `yes`, the default, requires one; `optional` checks one if it is presented; `no` does not ask. It means nothing while `tls-ca-cert-file` is empty. `CONFIG SET` changes it for handshakes from then on.
+
+### `tls-auth-clients-allowed-names`
+
+**Default:** `""` · **Since:** 1.2.0 · **Command line:** `--tls-auth-clients-allowed-names <TLS_AUTH_CLIENTS_ALLOWED_NAMES>` · **Config file:** yes · **`CONFIG SET`:** yes, in builds with TLS
+
+The names a client certificate must carry to be accepted, separated by spaces or commas. When it is set, a client that presents a certificate is accepted only if the certificate's subject CN, or one of its DNS names, matches one of them; otherwise its handshake fails, as with a certificate from another CA, and the log says `TLS: client certificate refused: its names ({names}) match none of tls-auth-clients-allowed-names`, at most every 10 seconds.
+
+A name is exact, or starts with `*.`, where `*` stands for exactly one label, as in a certificate: `*.db1.nodes.example` takes `node-0.db1.nodes.example`, not `a.b.db1.nodes.example`, `db1.nodes.example` or `x.db2.nodes.example`. Case does not matter. It is checked wherever a certificate is asked for: clients and replicas on [`tls-port`](#tls-port) (with `tls-ca-cert-file` and `tls-auth-clients yes` or `optional`), and nodes on a [`tls-cluster`](#tls-cluster) bus. Empty, the default: any certificate the CA signed is accepted.
+
+`CONFIG SET` changes it for connections from then on; `CONFIG GET` gives it back lower case, one space apart. Redis has no such setting: with one CA for many databases, it keeps the certificates of one from being taken by another. New in 1.2.
 
 ### `tls-ca-cert-file`
 
-**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-ca-cert-file <TLS_CA_CERT_FILE>`
+**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-ca-cert-file <TLS_CA_CERT_FILE>` · **Config file:** yes · **`CONFIG SET`:** yes, in builds with TLS
 
-The CA certificate, in PEM, that clients' certificates are checked against. Empty, the default: clients are not asked for one.
+The CA certificate, in PEM, that clients' certificates are checked against. Empty, the default: clients are not asked for one. `CONFIG SET` loads it again, as for [`tls-cert-file`](#tls-cert-file).
 
 ### `tls-cert-file`
 
-**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-cert-file <TLS_CERT_FILE>`
+**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-cert-file <TLS_CERT_FILE>` · **Config file:** yes · **`CONFIG SET`:** yes, in builds with TLS
 
-The server's certificate, in PEM.
+The server's certificate, in PEM. It must be an X.509 version 3 certificate: an older one is refused when it is loaded.
+
+Since 1.2, `CONFIG SET` of this file, or of [`tls-key-file`](#tls-key-file), [`tls-ca-cert-file`](#tls-ca-cert-file), [`tls-auth-clients`](#tls-auth-clients), [`tls-client-cert-file`](#tls-client-cert-file) or [`tls-client-key-file`](#tls-client-key-file), reads the files again, also when the path is the same: a certificate renewed in place, by cert-manager or Let's Encrypt, is taken up without a restart. Every handshake from then on uses them, clients' and between the nodes of a cluster or a replica and its master; connections already open keep theirs. Several in one `CONFIG SET` are loaded together, so that a certificate and its key change as a pair. Files that cannot be loaded change nothing, and the reply is `Unable to update TLS configuration. Check server logs.`, with the reason in the log. While the TLS port is closed, a certificate and its key are loaded once both are set. In 1.1, `CONFIG SET` of these replied `OK` and changed nothing: renewed certificates took a restart.
 
 ### `tls-client-cert-file`
 
-**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-client-cert-file <TLS_CLIENT_CERT_FILE>`
+**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-client-cert-file <TLS_CLIENT_CERT_FILE>` · **Config file:** yes · **`CONFIG SET`:** yes, in builds with TLS
 
-The certificate this node presents when it connects to another, as a replica or on the cluster bus. Empty, the default: [`tls-cert-file`](#tls-cert-file).
+The certificate this node presents when it connects to another, as a replica or on the cluster bus. Empty, the default: [`tls-cert-file`](#tls-cert-file). `CONFIG SET` loads it again, as for `tls-cert-file`.
 
 ### `tls-client-key-file`
 
-**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-client-key-file <TLS_CLIENT_KEY_FILE>`
+**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-client-key-file <TLS_CLIENT_KEY_FILE>` · **Config file:** yes · **`CONFIG SET`:** yes, in builds with TLS
 
 The private key of [`tls-client-cert-file`](#tls-client-cert-file).
 
 ### `tls-cluster`
 
-**Default:** `no` · **Since:** 1.1.0 · **Command line:** `--tls-cluster <TLS_CLUSTER>`
+**Default:** `no` · **Since:** 1.1.0 · **Command line:** `--tls-cluster <TLS_CLUSTER>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
-Nodes of a cluster talk to each other over TLS, on the bus and for replication, and the port each announces to clients is its [`tls-port`](#tls-port). Needs `tls-port`, the certificate and key, and the CA certificate.
+Nodes of a cluster talk to each other over TLS, on the bus and for replication, and the port each announces to clients is its [`tls-port`](#tls-port). Needs `tls-port`, the certificate and key, and the CA certificate. A node with [`port 0`](#port) needs it.
 
 ### `tls-key-file`
 
-**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-key-file <TLS_KEY_FILE>`
+**Default:** `""` · **Since:** 1.1.0 · **Command line:** `--tls-key-file <TLS_KEY_FILE>` · **Config file:** yes · **`CONFIG SET`:** yes, in builds with TLS
 
-The private key of [`tls-cert-file`](#tls-cert-file), in PEM.
+The private key of [`tls-cert-file`](#tls-cert-file), in PEM. `CONFIG SET` loads it again, as for `tls-cert-file`.
 
 ### `tls-port`
 
-**Default:** `0` · **Since:** 1.1.0 · **Command line:** `--tls-port <TLS_PORT>`
+**Default:** `0` · **Since:** 1.1.0 · **Command line:** `--tls-port <TLS_PORT>` · **Config file:** yes · **`CONFIG SET`:** yes, in builds with TLS
 
-The port to accept TLS connections on; `0`, the default, accepts none. It is separate from [`port`](#port), which stays plain TCP. Needs [`tls-cert-file`](#tls-cert-file) and [`tls-key-file`](#tls-key-file). Only in builds with TLS.
+The port to accept TLS connections on; `0`, the default, accepts none. It is separate from [`port`](#port), which stays plain TCP unless it is `0`. Needs [`tls-cert-file`](#tls-cert-file) and [`tls-key-file`](#tls-key-file). Only in builds with TLS; a build without it does not start with a `tls-port`, rather than serve plaintext on it.
+
+Since 1.2 it changes while the server runs, as in Redis: `CONFIG SET tls-port <port>` opens the TLS port, also on a server started without TLS, moves it, or closes it with `0`; `CONFIG GET tls-port` and `INFO` show the port open now. Opening or moving it loads `tls-cert-file` and `tls-key-file` first, so a server is given TLS in one command:
+
+```
+> CONFIG SET tls-cert-file /etc/kividb/server.crt tls-key-file /etc/kividb/server.key tls-port 6381
+OK
+```
+
+or one setting after another. A port that cannot be had (`Unable to listen on this port`), files that cannot be loaded (`Unable to update TLS configuration. Check server logs.`), or a port with no certificate and key (`TLS needs tls-cert-file and tls-key-file: set them first`) are refused, and nothing changes. Closing the port closes only the port: TLS clients already connected stay connected. `tls-port 0` with no plaintext [`port`](#port) is refused. On a node with [`tls-cluster yes`](#tls-cluster), which announces this port to the cluster, it is fixed at startup. Before 1.2, `tls-port` was fixed at startup.
 
 ### `tls-replication`
 
-**Default:** `no` · **Since:** 1.1.0 · **Command line:** `--tls-replication <TLS_REPLICATION>`
+**Default:** `no` · **Since:** 1.1.0 · **Command line:** `--tls-replication <TLS_REPLICATION>` · **Config file:** yes · **`CONFIG SET`:** yes, in builds with TLS
 
-A replica connects to its master over TLS. In a cluster, [`tls-cluster`](#tls-cluster) implies it.
+A replica connects to its master over TLS. In a cluster, [`tls-cluster`](#tls-cluster) implies it. It needs `tls-cert-file`, `tls-key-file` and `tls-ca-cert-file`.
+
+Since 1.2, `CONFIG SET tls-replication yes|no` decides whether the replica's next connection to its master is TLS; the link that is up stays as it is. And a replica with `tls-replication yes`, or with no plaintext port, tells its master its TLS port as the one to reach it on, as Redis does, unless [`replica-announced-port`](#replica-announced-port) says otherwise. Before 1.2, it was fixed at startup, and a replica announced its plaintext port.
 
 ## Security
 
 ### `aclfile`
 
-**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--aclfile <ACLFILE>`
+**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--aclfile <ACLFILE>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 A file of users, one `user name rules...` line each, as [`ACL SAVE`](../commands/acl-save.md) writes it. It is loaded at startup and by [`ACL LOAD`](../commands/acl-load.md). Empty, the default: users exist only until the server stops.
 
@@ -117,7 +154,17 @@ A file of users, one `user name rules...` line each, as [`ACL SAVE`](../commands
 
 The `default` user's password. Empty, the default: no password, and clients are logged in as `default` without `AUTH`. Setting it is the same as `ACL SETUSER default resetpass >password`.
 
+With no password set, `AUTH <password>` is refused, as in Redis: `ERR AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?`. A client configured with a password for a server that has none learns of it when it connects. Before 1.2, `AUTH` replied `OK`. `AUTH default <password>` is not affected.
+
 ## Replication
+
+### `lazyfree-lazy-expire`
+
+**Default:** `yes` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+How a key the master expires is written to the append-only file and sent to replicas: as `UNLINK` with `yes`, the default, or as `DEL` with `no`. Either deletes the key; the setting only picks the command, for tools that read the stream. A master writes and sends one for every key it expires, whether a read, a write or the background task found it. `CONFIG SET` changes it, and so does a line in the configuration file.
+
+Since 1.1.3, and in 1.2. Before 1.1.3, nothing was written or sent for an expired key, and the setting did nothing; in 1.1.3, a line in the configuration file was accepted with a warning and changed nothing. See [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
 
 ### `masterauth`
 
@@ -182,6 +229,8 @@ The most bytes a master queues for one replica that is not keeping up. Past it, 
 
 Seconds without a byte from its master before a replica takes the link to be down, and connects again. It is also the limit on each step of connecting. It is what notices a master that has been switched off or cut off by the network, which closes no connection.
 
+It works the other way too, as in Redis: a master disconnects a replica that is online and has sent no acknowledgement (`REPLCONF ACK`) for this many seconds, and logs `Replication: disconnecting timedout replica <ip>:<port>: no REPLCONF ACK for {n} s (repl-timeout)`. That is since 1.1.3, and in 1.2; before, such a replica stayed listed as `state=online` until the master restarted. See [Replication](../guides/replication.md#a-replica-that-falls-behind).
+
 ### `replica-announced-port`
 
 **Default:** `0` · **Since:** 1.1.0 · **Command line:** `--replica-announced-port <REPLICA_ANNOUNCED_PORT>` · **Config file:** yes · **`CONFIG SET`:** no: not a `CONFIG` setting
@@ -206,15 +255,17 @@ A refused copy keeps the replica's dataset and is tried again. It guards against
 
 The percentage for `replica-full-sync-guard shrink`.
 
+Since 1.1.3, and in 1.2, it is also used whatever `replica-full-sync-guard` says, in one case: a replica does not drop its dataset for the master it followed until a moment ago (within [`repl-timeout`](#repl-timeout)) when that master comes back under a replication ID that does not continue its stream, and holds fewer than this percentage of the replica's keys. In a cluster the replica takes over from it instead; see [Cluster](../guides/cluster.md#a-master-back-without-its-data).
+
 ### `replicaof`
 
-**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--replicaof <HOST> <PORT>`
+**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--replicaof <HOST> <PORT>` · **Config file:** yes · **`CONFIG SET`:** no: use `REPLICAOF`
 
 Makes the server a replica of the master at `host port` when it starts. [`REPLICAOF`](../commands/replicaof.md) does the same while it runs.
 
 ### `slaveof`
 
-**Default:** (empty) · **Since:** 1.1.0 · **Command line:** no
+**Default:** (empty) · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** no: use `REPLICAOF`
 
 Another name for [`replicaof`](#replicaof).
 
@@ -228,7 +279,7 @@ The bus port this node announces. `0`, the default: `port` + 10000.
 
 ### `cluster-announce-client-port`
 
-**Default:** `0` · **Since:** 1.2 · **Command line:** `--cluster-announce-client-port <CLUSTER_ANNOUNCE_CLIENT_PORT>` · **Config file:** yes · **`CONFIG SET`:** yes
+**Default:** `0` · **Since:** 1.2.0 · **Command line:** `--cluster-announce-client-port <CLUSTER_ANNOUNCE_CLIENT_PORT>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 The port clients are told to reach this node on, in `MOVED`, `ASK`, `CLUSTER SLOTS`, `SHARDS`, `NODES` and `REPLICAS`, where it is not the port the nodes use between themselves: a Kubernetes NodePort, or a load balancer that maps ports. `0`, the default: the client port.
 
@@ -264,13 +315,13 @@ A secret all the nodes of a cluster share. A node connecting to another's bus mu
 
 ### `cluster-config-file`
 
-**Default:** `nodes.conf` · **Since:** 1.1.0 · **Command line:** `--cluster-config-file <CLUSTER_CONFIG_FILE>`
+**Default:** `nodes.conf` · **Since:** 1.1.0 · **Command line:** `--cluster-config-file <CLUSTER_CONFIG_FILE>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 The file where a node keeps its ID, the other nodes and which slots each owns. The node writes it itself.
 
 ### `cluster-enabled`
 
-**Default:** `no` · **Since:** 1.1.0 · **Command line:** `--cluster-enabled <CLUSTER_ENABLED>`
+**Default:** `no` · **Since:** 1.1.0 · **Command line:** `--cluster-enabled <CLUSTER_ENABLED>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 Runs the server as a node of a cluster: see [`CLUSTER`](../commands/cluster.md).
 
@@ -288,7 +339,7 @@ What clients are told to connect to, in `MOVED`, `ASK` and the topology replies:
 
 ### `cluster-replica-validity-factor`
 
-**Default:** `10` · **Since:** 1.2 · **Command line:** `--cluster-replica-validity-factor <CLUSTER_REPLICA_VALIDITY_FACTOR>` · **Config file:** yes · **`CONFIG SET`:** yes
+**Default:** `10` · **Since:** 1.2.0 · **Command line:** `--cluster-replica-validity-factor <CLUSTER_REPLICA_VALIDITY_FACTOR>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 A replica whose link to its master has been down for longer than this many [`cluster-node-timeout`](#cluster-node-timeout)s, plus [`repl-ping-replica-period`](#repl-ping-replica-period), does not stand for election when the master fails: its data may be too old. `0`: it always stands.
 
@@ -314,19 +365,19 @@ For [`CLUSTER MIGRATION`](../commands/cluster-migration.md): the longest, in mil
 
 ### `active-defrag-cycle-max`
 
-**Default:** `10` · **Since:** 1.2 · **Command line:** `--active-defrag-cycle-max <ACTIVE_DEFRAG_CYCLE_MAX>` · **Config file:** yes · **`CONFIG SET`:** yes
+**Default:** `10` · **Since:** 1.2.0 · **Command line:** `--active-defrag-cycle-max <ACTIVE_DEFRAG_CYCLE_MAX>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 The most of one CPU core [active defrag](#activedefrag) uses, as a percentage: it sleeps between batches to keep to it.
 
 ### `active-defrag-ignore-bytes`
 
-**Default:** `67108864` · **Since:** 1.2 · **Command line:** `--active-defrag-ignore-bytes <ACTIVE_DEFRAG_IGNORE_BYTES>` · **Config file:** yes · **`CONFIG SET`:** yes
+**Default:** `67108864` · **Since:** 1.2.0 · **Command line:** `--active-defrag-ignore-bytes <ACTIVE_DEFRAG_IGNORE_BYTES>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 The waste in the slabs, in bytes, under which [active defrag](#activedefrag) does not start.
 
 ### `active-defrag-threshold-lower`
 
-**Default:** `20` · **Since:** 1.2 · **Command line:** `--active-defrag-threshold-lower <ACTIVE_DEFRAG_THRESHOLD_LOWER>` · **Config file:** yes · **`CONFIG SET`:** yes
+**Default:** `20` · **Since:** 1.2.0 · **Command line:** `--active-defrag-threshold-lower <ACTIVE_DEFRAG_THRESHOLD_LOWER>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 The waste in the slabs, as a percentage of what they hold, over which [active defrag](#activedefrag) starts.
 
@@ -334,7 +385,7 @@ The waste in the slabs, as a percentage of what they hold, over which [active de
 
 **Default:** `yes` · **Since:** 1.1.0 · **Command line:** `--activedefrag <ACTIVEDEFRAG>` · **Config file:** yes · **`CONFIG SET`:** yes
 
-The default became `yes` in 1.2.
+The default became `yes` in 1.2.0.
 
 Active defrag: string values are moved, from a thread of its own and a few keys at a time, off the memory slabs that deletes have left sparse, so that those slabs empty and their memory goes back to the system. Nothing is freed later than before, and a value that a command or a snapshot is using is left where it is. It starts while the waste is over both [`active-defrag-threshold-lower`](#active-defrag-threshold-lower) and [`active-defrag-ignore-bytes`](#active-defrag-ignore-bytes), and stops when it is under half of both. `INFO memory` reports `active_defrag_running`, `active_defrag_hits` (values moved) and `active_defrag_misses` (values left where they are).
 
@@ -362,7 +413,7 @@ In Redis, frees evicted keys in the background. It has no effect in KiviDB; `CON
 
 **Default:** `no` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-The default became `no` in 1.2.
+The default became `no` in 1.2.0.
 
 In Redis, makes `DEL` free a key's memory in the background, as `UNLINK` does. KiviDB's `DEL` frees it before replying; `CONFIG GET` gives `no`, which says so, and gives back what was set. Before 1.2, it gave `yes`.
 
@@ -382,7 +433,9 @@ For the LFU policies: how slowly a key's use count grows. Higher tells apart key
 
 **Default:** `0` · **Since:** 1.1.0 · **Command line:** `--maxmemory <MAXMEMORY>` · **Config file:** yes · **`CONFIG SET`:** yes
 
-The most memory the dataset may use: bytes, or with a unit, `512mb` or `3gb`. `0`, the default, is no limit. What happens at the limit is [`maxmemory-policy`](#maxmemory-policy).
+The most memory the server may use: bytes, or with a unit, `512mb` or `3gb`. `0`, the default, is no limit. What happens at the limit is [`maxmemory-policy`](#maxmemory-policy).
+
+It is compared with `used_memory` in `INFO memory`, which counts everything the server allocates: keys and values, client buffers, the replication backlog and what is queued for replicas, search indexes, and Lua. A key and its value kept in KiviDB's own slabs count at the size of the slab's class, a multiple of 16 bytes, which is what they take. Near the limit, within an eighth of it, the room evictions free inside slabs is used again sooner, so that the process's resident memory stays close to the limit: one server thread with a 1 GiB limit under `allkeys-lfu`, writing 1 KB values, peaked at 1,039 MiB, 1.5% over. Give a container some room above `maxmemory` all the same. See [Memory](../guides/memory.md).
 
 ### `maxmemory-policy`
 
@@ -399,13 +452,13 @@ What a write does when [`maxmemory`](#maxmemory) is reached:
 
 **Default:** `5` · **Since:** 1.1.0 · **Command line:** `--maxmemory-samples <MAXMEMORY_SAMPLES>` · **Config file:** yes · **`CONFIG SET`:** yes
 
-How many keys are looked at to choose each one to delete. More is nearer to exact, and slower.
+How many keys are looked at to choose each one to delete. Each is picked at random, every key as likely as any other, and the four the policy wanted least after the one it deleted are looked at again at the next eviction. More is nearer to exact, and slower. Before 1.2, the keys looked at were a run from one random place, and some keys came up far more often than others: under `allkeys-lfu`, keys read again and again were evicted that Redis keeps.
 
 ## Diagnostics
 
 ### `latency-monitor-threshold`
 
-**Default:** `0` · **Since:** 1.2 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+**Default:** `0` · **Since:** 1.2.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 Milliseconds a command must take for the latency monitor to record it, as a `command` or `fast-command` event, in [`LATENCY LATEST`](../commands/latency-latest.md) and [`LATENCY HISTORY`](../commands/latency-history.md). `0`, the default, records none. Before 1.2, these events were recorded by [`slowlog-log-slower-than`](#slowlog-log-slower-than), and this setting did nothing.
 
@@ -417,7 +470,7 @@ Milliseconds a command must take for the latency monitor to record it, as a `com
 
 ### `logfile`
 
-**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--logfile <LOGFILE>`
+**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--logfile <LOGFILE>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 A file to append the log to. Empty, the default: standard error.
 
@@ -431,7 +484,7 @@ How much the server logs: `debug`, `verbose`, `notice` (or `info`, the default),
 
 **Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--notify-keyspace-events <NOTIFY_KEYSPACE_EVENTS>` · **Config file:** yes · **`CONFIG SET`:** yes
 
-Which [keyspace notifications](../commands/psubscribe.md) are published: letters, as in Redis: `K` and `E` for the two channels, and `g`, `$`, `l`, `s`, `h`, `z`, `x`, `e`, `t`, `m`, `n` for kinds of event, `A` for all of them. Empty, the default: none.
+Which [keyspace notifications](../guides/pub-sub.md#keyspace-notifications) are published: letters, as in Redis: `K` and `E` for the two channels, and `g`, `$`, `l`, `s`, `h`, `z`, `x`, `e`, `t`, `m`, `n`, `d` for kinds of event, `A` for all of them but `m` and `n`. Empty, the default: none. `d` is the JSON, time series and vector set commands' own events (`json.set`, `ts.add`, `vadd`, …), and `m` a read that does not find its key (`keymiss`). A character that is not a flag is refused, by `CONFIG SET` and in the configuration file: `Invalid event class character. Use 'Ag$lshzxeKEtmdn'.` Before 1.2, it was dropped (`KEAQ!` was taken as `AKE`), `d` did not exist, and `m` sent nothing.
 
 ### `slowlog-entry-max-argc`
 
@@ -467,7 +520,7 @@ The most keys [client-side caching](../commands/client-tracking.md) tracks. Past
 
 ### `configfile`
 
-**Default:** `/etc/kividb/kividb.conf` · **Since:** 1.1.0 · **Command line:** `--configfile <CONFIGFILE>`
+**Default:** `/etc/kividb/kividb.conf` · **Since:** 1.1.0 · **Command line:** `--configfile <CONFIGFILE>` · **Config file:** no: it names the file · **`CONFIG SET`:** no: at startup only
 
 The configuration file to read at startup. The server starts without one if the default file does not exist.
 
@@ -485,7 +538,7 @@ In Redis, how many times a second background tasks run. KiviDB's run on their ow
 
 ### `io-model`
 
-**Default:** `auto` · **Since:** 1.1.0 · **Command line:** `--io-model <IO_MODEL>`
+**Default:** `auto` · **Since:** 1.1.0 · **Command line:** `--io-model <IO_MODEL>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 How the server does network I/O: `uring`, Linux's io_uring; `tokio`, the portable way; or `auto`, the default, io_uring where the kernel has it. On other systems than Linux it is always `tokio`.
 
@@ -503,7 +556,7 @@ At startup, asks GitHub for the newest release, and logs a line when it is newer
 
 ### `update-check-url`
 
-**Default:** `https://github.com/kividbio/kividb/releases/latest` · **Since:** 1.1.0 · **Command line:** `--update-check-url <UPDATE_CHECK_URL>`
+**Default:** `https://github.com/kividbio/kividb/releases/latest` · **Since:** 1.1.0 · **Command line:** `--update-check-url <UPDATE_CHECK_URL>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 Where the update check asks: a `releases/latest` page, over `https://`.
 
@@ -517,7 +570,7 @@ The command-line switch for [`appendonly`](#appendonly): `--aof`, with no value.
 
 ### `aof-ack-after-write`
 
-**Default:** `yes` · **Since:** 1.2 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+**Default:** `yes` · **Since:** 1.2.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 With the [append-only file](#appendonly) on, whether the reply to a write waits until its record is in the file. `yes`, the default, is Redis's guarantee: a process that is killed loses no acknowledged write. `no` acknowledges a write once its record is queued for the file, as KiviDB did before 1.2: faster, and a killed process can lose the last few acknowledged writes. Waiting costs writes, not reads: on a 16-core server, 20 to 28% fewer `SET`s a second with 50 clients, with or without pipelining, and under 10% with one client. With the append-only file off, it changes nothing.
 
@@ -571,13 +624,13 @@ The directory, under [`dir`](#dir), that [`BACKUP START`](../commands/backup-sta
 
 ### `dir`
 
-**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--dir <DIR>`
+**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--dir <DIR>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 The working directory: where `dump.kdb`, `appendonly.aof`, backups and `nodes.conf` are. Empty, the default: the directory the server was started in.
 
 ### `preload-file`
 
-**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--preload-file <PRELOAD_FILE>`
+**Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--preload-file <PRELOAD_FILE>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 A file to load at startup instead of `dump.kdb` and `appendonly.aof`: `aof:manifest` restores a sealed backup, `rdb:file` a snapshot. The server does not start if it cannot load it.
 
@@ -600,6 +653,16 @@ The most elements a slice of an array holds as a sparse list before it becomes d
 **Default:** `5` · **Since:** 1.1.1 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 A dense slice of an array with this many elements or fewer becomes sparse again: 0 to 256, and less than [`array-sparse-kmax`](#array-sparse-kmax). It cannot be given on the command line. Before 1.2, it could not be given in the configuration file either.
+
+### `hll-write-format`
+
+**Default:** `legacy` · **Since:** 1.2.0 · **Command line:** `--hll-write-format <HLL_WRITE_FORMAT>` · **Config file:** yes · **`CONFIG SET`:** yes
+
+The hash space new [HyperLogLog](../commands/pfadd.md) values are written in: `legacy`, the default, KiviDB's own, as in 1.1; or `redis`, Redis's (MurmurHash64A), whose values a Redis server reads and counts the same. Values are always written dense. It is set in the configuration file, on the command line or with `CONFIG SET`, and kept by `CONFIG REWRITE`; it is in place before the append-only file is replayed.
+
+It applies only to values made from then on. A value keeps the hash space it was written in: `PFADD` adds to it in that space, and `PFMERGE` gives a new destination the space of its sources (or this setting's, when it has none). Values of both kinds are read, and Redis's dense and sparse values too; but they cannot be mixed, so `PFMERGE` and a `PFCOUNT` of several keys refuse a mixture (`ERR Cannot merge HyperLogLogs with different hash formats.`, `ERR Cannot PFCOUNT HyperLogLogs with different hash formats.`) rather than give a wrong count.
+
+In a rolling upgrade, keep it at `legacy` until every node runs 1.2, then set it to `redis` on the master and every replica: `PFADD` and `PFMERGE` reach replicas as commands, and each node writes new values in its own setting, so a master and its replicas must agree. New in 1.2.
 
 ### `stream-idmp-duration`
 
@@ -627,9 +690,34 @@ How many entries make one node of a stream, for trimming with `~` ([`XADD`](../c
 
 ### `ts-duplicate-policy`
 
-**Default:** `last` · **Since:** 1.2 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+**Default:** `last` · **Since:** 1.2.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 What a [time series](../commands/ts.create.md) made without a `DUPLICATE_POLICY`, by `TS.CREATE` or `TS.ADD`, does with a second sample at a timestamp it already has: `block` refuses it, `first` keeps the old value, `last`, the default, keeps the new one, `min` and `max` keep the smaller or larger, and `sum` adds them. A series keeps the policy it was made with. RedisTimeSeries's default is `block`; KiviDB's stays `last`, so that an upgraded server, and an append-only file it replays, do what they did before. Set it alike on a master and its replicas.
+
+## Search
+
+### `search-min-stem-len`
+
+**Default:** `4` · **Since:** 1.2.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+The shortest word, in bytes, that [stemming](../guides/search.md) reduces to its stem: a shorter word of a TEXT field or a query is indexed and searched only as it is. At least `2`; `4` by default, as in Redis. It is the same value as `FT.CONFIG SET MINSTEMLEN`. Set it before the documents are indexed: a document is stemmed when it is written. New in 1.2.
+
+### `search-on-timeout`
+
+**Default:** `return` · **Since:** 1.2.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+What a search query that runs out of time replies:
+
+- `return`, the default: what was found so far, with `total_results` its count. Over RESP3 the reply's `warning` says `Timeout limit was reached`; over RESP2 the client is not told.
+- `fail` and `return_strict`: the error `Timeout limit was reached`.
+
+It is the same value as `FT.CONFIG SET ON_TIMEOUT`. A query that finishes, however late, is not taken to have timed out. In a cluster, each master says whether its part timed out, and the node that asked applies this setting. New in 1.2.
+
+### `search-timeout`
+
+**Default:** `0` · **Since:** 1.2.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+The longest, in milliseconds, an [`FT.SEARCH`](../commands/ft.search.md) or [`FT.AGGREGATE`](../commands/ft.aggregate.md) that names no `TIMEOUT` of its own may run. `0`, the default, is no limit: a query here can look at every document (`FT.SEARCH idx * LIMIT 0 0` counts them one by one), and a limit nobody asked for would make a large index's counts silently short. What running out does is [`search-on-timeout`](#search-on-timeout). It is the same value as `FT.CONFIG SET TIMEOUT`. New in 1.2: before, `TIMEOUT` was accepted and did nothing.
 
 ## Scripting
 
@@ -667,13 +755,11 @@ These are Redis settings that mean nothing in KiviDB: how Redis encodes small va
 | `hll-sparse-max-bytes` | `3000` | 1.1.0 | yes |
 | `latency-tracking` | `yes` | 1.1.0 | yes |
 | `latency-tracking-info-percentiles` | `50 99 99.9` | 1.1.0 | yes |
-| `lazyfree-lazy-expire` | `yes` | 1.1.0 | yes |
 | `lazyfree-lazy-server-del` | `yes` | 1.1.0 | yes |
 | `lazyfree-lazy-user-flush` | `no` | 1.1.0 | yes |
 | `list-compress-depth` | `0` | 1.1.0 | yes |
 | `list-max-listpack-size` | `-2` | 1.1.0 | yes |
 | `list-max-ziplist-size` | `-2` | 1.1.0 | yes |
-| `maxclients` | `10000` | 1.1.0 | yes |
 | `maxmemory-clients` | `0` | 1.1.0 | yes |
 | `proto-max-bulk-len` | `536870912` | 1.1.0 | yes |
 | `save` | (empty) | 1.1.0 | accepted, but has no effect |

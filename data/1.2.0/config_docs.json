@@ -24,7 +24,8 @@
  "cluster-slot-migration-write-pause-timeout": "Atomic slot migration: the longest the source keeps writes paused for a handoff, in milliseconds, before giving the migration up (Redis 8.4 `cluster-slot-migration-write-pause-timeout`).",
  "databases": "Number of databases",
  "dir": "Working directory: where `dump.kdb`, `appendonly.aof`, backups and `nodes.conf` live (Redis `dir`). Empty = the directory the server was started in.",
- "key-access-tracking": "Record every key's use whatever the eviction policy, so that `OBJECT IDLETIME` and `OBJECT FREQ` report it under `noeviction` too. Costs every command and every key: see `eviction::key_access_tracking`.",
+ "hll-write-format": "HLL write format during rolling upgrade: \"legacy\" or \"redis\".",
+ "key-access-tracking": "Record every key's use whatever the eviction policy, so that `OBJECT IDLETIME` and `OBJECT FREQ` report it under `noeviction` too. Costs every command a little: see `eviction::key_access_tracking`.",
  "lfu-decay-time": "Minutes for a key's use count to fall by one, for the LFU policies (Redis `lfu-decay-time`). 0 = it never falls.",
  "lfu-log-factor": "How slowly a key's use count grows, for the LFU policies (Redis `lfu-log-factor`).",
  "log-format": "Log line format: `text`, or `json` \u2014 one object per line, for log pipelines.",
@@ -59,5 +60,6 @@
  "stream-idmp-duration": "Default seconds an `XADD ... IDMP` producer/id pair is remembered (Redis 8.6 `stream-idmp-duration`).",
  "stream-idmp-maxsize": "Default idempotency ids remembered per producer (Redis 8.6 `stream-idmp-maxsize`).",
  "tls-cluster": "The cluster bus over TLS, and the TLS port announced as this node's port, so that what nodes open to each other is TLS (Redis `tls-cluster`). Needs `tls-port`, the certificate, key and CA files.",
+ "tls-port": "Port to accept TLS connections on. 0 = TLS disabled. Separate from `port` so the uring hot-path on `port` is untouched.",
  "tls-replication": "A replica connects to its master over TLS (Redis `tls-replication`). Implied by `tls-cluster` in a cluster."
 }
