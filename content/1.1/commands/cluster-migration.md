@@ -31,9 +31,17 @@ Moves whole slot ranges to this node from the master that owns them, in the back
 | `STATUS [ID task-id \| ALL]` | The tasks this node knows of, as destination (`operation` `import`) or source (`migrate`). |
 | `CANCEL <ID task-id \| ALL>` | Cancels them, and returns how many. The source keeps the slots and the destination drops what it had received. |
 
-The source sends a snapshot of the slots' keys, then the writes that arrive for them meanwhile. When the destination is less than `cluster-slot-migration-handoff-max-lag-bytes` behind, the source pauses writes, sends the rest, and the destination takes the slots. Clients get no `ASK` and no `TRYAGAIN`; only, at the end, the `MOVED` that says where the slots are now. No acknowledged write is lost or applied twice.
+The source sends a snapshot of the slots' keys, then the writes that arrive for them meanwhile. When the destination is less than `cluster-slot-migration-handoff-max-lag-bytes` behind, the source pauses writes, sends the rest, and the destination takes the slots. Clients get no `ASK` and no `TRYAGAIN`; only, at the end, the `MOVED` that says where the slots are now. No acknowledged write is lost or applied twice, but for the known issue below.
 
-During the handoff every write to the source waits, not only those for the slots that move: `write_pause_ms` in `STATUS` says how long. If the pause would last longer than `cluster-slot-migration-write-pause-timeout`, the attempt is abandoned and tried again.
+During the handoff every write to the source waits, not only those for the slots that move: `write_pause_ms` in `STATUS` says how long. If the pause would last longer than `cluster-slot-migration-write-pause-timeout`, the attempt is abandoned and tried again; in 1.1, writes can then be lost, as the known issue below says.
+
+## Known issue
+
+In 1.1, the pause at the handoff ends by itself after `cluster-slot-migration-write-pause-timeout`, 10 seconds by default, whether or not the handoff has finished. If sending the last writes and the destination's taking the slots last longer than that, because the destination's disk or the network is slow, or because the destination's answer is lost, the source takes writes for the moving slots again and no longer sends them on. When the destination then takes the slots, the source deletes its copy of their keys, and those writes are lost, although their clients got `OK`.
+
+A higher [`cluster-slot-migration-write-pause-timeout`](../reference/configuration.md#cluster-slot-migration-write-pause-timeout), set on the command line or in the configuration file, makes it less likely, at the cost of a longer wait for every write to the source when a handoff is slow; it does not rule it out. Move slots while the destination's disk and the network between the two nodes are not under heavy load.
+
+In 1.2.0, writes stay paused until the source knows whether the destination took the slots. Filed as [kividb#278](https://github.com/kividbio/kividb/issues/278), fixed in 1.2.0 by [kividb#279](https://github.com/kividbio/kividb/pull/279).
 
 ## Reply
 

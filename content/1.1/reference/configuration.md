@@ -314,7 +314,7 @@ For [`CLUSTER MIGRATION`](../commands/cluster-migration.md): once the source has
 
 **Default:** `10000` · **Since:** 1.1.0 · **Command line:** `--cluster-slot-migration-write-pause-timeout <CLUSTER_SLOT_MIGRATION_WRITE_PAUSE_TIMEOUT>` · **Config file:** yes · **`CONFIG SET`:** no: not a `CONFIG` setting
 
-For [`CLUSTER MIGRATION`](../commands/cluster-migration.md): the longest, in milliseconds, the source pauses writes for the handoff. Past it, the attempt is given up, and tried again.
+For [`CLUSTER MIGRATION`](../commands/cluster-migration.md): the longest, in milliseconds, the source pauses writes for the handoff. Past it, the attempt is given up, and tried again. In 1.1, a handoff that takes longer can lose writes: see [`CLUSTER MIGRATION`](../commands/cluster-migration.md#known-issue). Filed as [kividb#278](https://github.com/kividbio/kividb/issues/278), fixed in 1.2.0.
 
 ## Memory and eviction
 
@@ -352,7 +352,7 @@ For the LFU policies: how slowly a key's use count grows. Higher tells apart key
 
 **Default:** `0` · **Since:** 1.1.0 · **Command line:** `--maxmemory <MAXMEMORY>` · **Config file:** yes · **`CONFIG SET`:** yes
 
-The most memory the dataset may use: bytes, or with a unit, `512mb` or `3gb`. `0`, the default, is no limit. What happens at the limit is [`maxmemory-policy`](#maxmemory-policy).
+The most memory the dataset may use: bytes, or with a unit, `512mb` or `3gb`. `0`, the default, is no limit. What happens at the limit is [`maxmemory-policy`](#maxmemory-policy). In 1.1, writes made while a snapshot is written can evict far more keys than they need: see [Memory](../guides/memory.md#known-issues). Filed as [kividb#284](https://github.com/kividbio/kividb/issues/284), fixed in 1.2.0.
 
 ### `maxmemory-policy`
 

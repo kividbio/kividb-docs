@@ -153,10 +153,10 @@ With `yes`, a node does not start without a [`cluster-bus-secret`](#cluster-bus-
 For [`CLUSTER MIGRATION`](../commands/cluster-migration.md): once the source has less than this many bytes of writes left to send, it pauses writes and hands the slots over.
 === cluster-slot-migration-write-pause-timeout
 @group Cluster
-For [`CLUSTER MIGRATION`](../commands/cluster-migration.md): the longest, in milliseconds, the source pauses writes for the handoff. Past it, the attempt is given up, and tried again.
+For [`CLUSTER MIGRATION`](../commands/cluster-migration.md): the longest, in milliseconds, the source pauses writes for the handoff. Past it, the attempt is given up, and tried again. In 1.1, a handoff that takes longer can lose writes: see [`CLUSTER MIGRATION`](../commands/cluster-migration.md#known-issue). Filed as [kividb#278](https://github.com/kividbio/kividb/issues/278), fixed in 1.2.0.
 === maxmemory
 @group Memory and eviction
-The most memory the dataset may use: bytes, or with a unit, `512mb` or `3gb`. `0`, the default, is no limit. What happens at the limit is [`maxmemory-policy`](#maxmemory-policy).
+The most memory the dataset may use: bytes, or with a unit, `512mb` or `3gb`. `0`, the default, is no limit. What happens at the limit is [`maxmemory-policy`](#maxmemory-policy). In 1.1, writes made while a snapshot is written can evict far more keys than they need: see [Memory](../guides/memory.md#known-issues). Filed as [kividb#284](https://github.com/kividbio/kividb/issues/284), fixed in 1.2.0.
 === maxmemory-policy
 @group Memory and eviction
 What a write does when [`maxmemory`](#maxmemory) is reached:
