@@ -76,10 +76,11 @@ That is since 1.1.3. Before it, the master wrote and sent nothing when a key exp
 
 ### Known issues
 
-Each of these leaves a replica, or the append-only file, holding a key its master no longer has. The replica's clients never see the key, since it is past its time, but it takes memory and counts in `DBSIZE` until a full copy from the master replaces it. Both are fixed in 1.2; if you run replicas, upgrade to 1.2.
+The first two leave a replica, or the append-only file, holding a key its master no longer has. The replica's clients never see the key, since it is past its time, but it takes memory and counts in `DBSIZE` until a full copy from the master replaces it. Both are fixed in 1.2; if you run replicas, upgrade to 1.2.
 
 - An `EXPIRE` or `PEXPIRE` with a time to live of a millisecond or so can delete the key on the master without sending the deletion: the time can pass while the command runs. A time to live of a second or more is not affected. Fixed in 1.2 by [kividb#267](https://github.com/kividbio/kividb/pull/267).
 - A `MOVE` of a key whose time is just passing can answer `0` and still be sent to replicas, which then move the key and keep it. Fixed in 1.2 by [kividb#261](https://github.com/kividbio/kividb/pull/261).
+- `EXPIRE` or `PEXPIRE` with a time to live of `0`, or `EXPIREAT` or `PEXPIREAT` with a moment that has passed, deletes the key and answers `1` without checking `NX`, `XX`, `GT` or `LT`: `EXPIRE k 0 NX` deletes a key that has a time to live, where Redis answers `0` and keeps it. `EXPIREAT` and `PEXPIREAT` also read only their first option. Fixed in 1.2 by [kividb#272](https://github.com/kividbio/kividb/pull/272).
 
 ## In a cluster
 
