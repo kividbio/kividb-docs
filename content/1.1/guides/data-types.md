@@ -33,3 +33,17 @@ Hashes and JSON documents can be indexed and queried by their fields, words and 
 ## Differences from Redis
 
 KiviDB keeps no compact encodings, `listpack`, `intset`, `ziplist`: small values of each type are kept as large ones are. [`OBJECT ENCODING`](../commands/object-encoding.md) answers what Redis would use, for tools that read it.
+
+### Known issues
+
+With the append-only file off and no replica attached, writes to one key from several clients at the same moment can lose updates: the result is not one that running the same commands one after another could give. Affected are:
+
+- `PFADD` and `PFMERGE` into one HyperLogLog, which can lose elements;
+- `HINCRBY` and `HINCRBYFLOAT` on a hash that does not exist yet, where two increments can both answer as the first;
+- `SADD`, `HSET`, `ZADD`, `GEOADD`, `VADD` and `LPUSHX` racing a command that removes the key's last member (`SREM`, `HDEL`, `ZREM`, `LPOP` and the like), where the member added can be lost;
+- `BITFIELD` and `BITOP`;
+- writes that read one key and write another in the same shard: the `*STORE` commands, `SORT ... STORE`, `COPY`, `RENAME`, `SMOVE`.
+
+Turning the append-only file on (`appendonly yes`) avoids it: every write to a key is then ordered against the others.
+
+Filed as [kividb#271](https://github.com/kividbio/kividb/issues/271), fixed in 1.2 by [kividb#286](https://github.com/kividbio/kividb/pull/286).
