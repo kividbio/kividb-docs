@@ -36,7 +36,7 @@ A document is indexed as it is written: once `HSET` or `JSON.SET` returns, searc
 
 Indexes are kept in the snapshot, HNSW graphs included, and the rest is built again from the keys when the server starts; meanwhile commands get `LOADING`. A replica builds its own. In a [cluster](cluster.md), each master indexes its own keys, `FT.CREATE` and `FT.DROPINDEX` reach every master, and `FT.SEARCH` and `FT.AGGREGATE` ask every master and merge their answers.
 
-[`FT.DROPINDEX`](../commands/ft.dropindex.md) drops an index and keeps its documents; with `DD`, it deletes them too. Before 1.2, `DD` kept them.
+[`FT.DROPINDEX`](../commands/ft.dropindex.md) drops an index and keeps its documents; with `DD`, it deletes them too. Before 1.1.3, `DD` kept them.
 
 ## Searching
 

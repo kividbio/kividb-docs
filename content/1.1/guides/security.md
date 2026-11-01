@@ -117,6 +117,10 @@ TLS 1.2 and 1.3 are accepted. The plain port stays open beside it: keep it to th
 
 Between servers: [`tls-replication`](../reference/configuration.md#tls-replication) makes replicas connect to their master over TLS, and [`tls-cluster`](../reference/configuration.md#tls-cluster) the cluster's nodes to each other. Each node presents a certificate and checks the other's against the CA; the host name in it is not checked, as in Redis.
 
+Each TLS handshake runs on its own, and a client that has not finished it within 10 seconds is disconnected. TLS clients count against [`maxclients`](../reference/configuration.md#maxclients) from the start of their handshake, so a flood of connections that never finish one is bounded too.
+
+That is since 1.1.3, which fixes [GHSA-58x5-jq4h-h6rr](https://github.com/kividbio/kividb/security/advisories/GHSA-58x5-jq4h-h6rr). In 1.1.0 to 1.1.2, handshakes ran one at a time: a client that connected to `tls-port` and sent nothing kept every TLS client after it waiting, and `maxclients` was not enforced. Upgrade a server whose `tls-port` untrusted clients can reach.
+
 ### Known issue
 
 Certificates are read when the server starts. `CONFIG SET tls-cert-file` replies `OK` and changes nothing: renewed certificates take a restart. Filed as [kividb#156](https://github.com/kividbio/kividb/issues/156), fixed in 1.2.

@@ -9,10 +9,10 @@ KiviDB is published in four builds. They are the same server; the others add Lua
 
 | Build | Adds | Docker tag | Binary file |
 |---|---|---|---|
-| default | | `v1.1.2` | `kividb-linux-x86_64.tar.gz` |
-| `lua` | Lua scripting | `v1.1.2-lua` | `kividb-lua-linux-x86_64.tar.gz` |
-| `tls` | TLS | `v1.1.2-tls` | `kividb-tls-linux-x86_64.tar.gz` |
-| `full` | Lua scripting and TLS | `v1.1.2-full` | `kividb-full-linux-x86_64.tar.gz` |
+| default | | `v1.1.3` | `kividb-linux-x86_64.tar.gz` |
+| `lua` | Lua scripting | `v1.1.3-lua` | `kividb-lua-linux-x86_64.tar.gz` |
+| `tls` | TLS | `v1.1.3-tls` | `kividb-tls-linux-x86_64.tar.gz` |
+| `full` | Lua scripting and TLS | `v1.1.3-full` | `kividb-full-linux-x86_64.tar.gz` |
 
 The Linux packages (`.deb`, `.rpm`) are the default build.
 

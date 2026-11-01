@@ -23,7 +23,7 @@ FT.DROPINDEX index
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-Deletes an index. The keys it indexed are kept, unless `DD` is given: then they are deleted too. Before 1.2, `DD` kept them.
+Deletes an index. The keys it indexed are kept, unless `DD` is given: then they are deleted too. Before 1.1.3, `DD` kept them.
 
 ## Examples
 

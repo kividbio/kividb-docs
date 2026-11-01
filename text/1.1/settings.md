@@ -16,6 +16,13 @@ In Redis, how often, in seconds, TCP keepalives are sent to idle clients. It has
 === timeout
 @group Network
 In Redis, closes a client that has been idle this many seconds; `0` never does. KiviDB does not close idle clients; `CONFIG GET` always gives `0`.
+=== maxclients
+@group Network
+The most clients connected at once, plaintext and TLS together; a TLS client counts from the start of its handshake. One more is closed: a plaintext client first gets `ERR max number of clients reached`, as in Redis. Lowering it with `CONFIG SET` leaves the clients already connected; `INFO clients` gives the value in effect.
+
+At startup KiviDB raises the open-file limit (`ulimit -n`) to `maxclients` plus what the server keeps for itself (32 files, or on io_uring 40 and 8 a worker thread), if the hard limit allows; if it does not, it lowers `maxclients` to fit and logs a warning (`maxclients 10000 needs 10032 open files, but the limit (ulimit -n) allows 1024: maxclients is 992`). It does not start if not even one client fits. `CONFIG SET maxclients` refuses a value the limit cannot hold, and says what would fit. `0` is refused, in the file and by `CONFIG SET`.
+
+Enforced since 1.1.3. In 1.1.0 to 1.1.2, `CONFIG SET` took it and `CONFIG GET` gave it back, but nothing checked it, and a configuration file that set it did not start (`unknown directive 'maxclients'`). The limit on TLS clients is part of the fix for [GHSA-58x5-jq4h-h6rr](https://github.com/kividbio/kividb/security/advisories/GHSA-58x5-jq4h-h6rr): a client that opened TLS connections and sent nothing could hold up every other TLS client.
 === tls-port
 @group TLS
 The port to accept TLS connections on; `0`, the default, accepts none. It is separate from [`port`](#port), which stays plain TCP. Needs [`tls-cert-file`](#tls-cert-file) and [`tls-key-file`](#tls-key-file). Only in builds with TLS.
@@ -82,6 +89,11 @@ What a replica does with its own dataset while it loads a copy of its master's:
 === repl-timeout
 @group Replication
 Seconds without a byte from its master before a replica takes the link to be down, and connects again. It is also the limit on each step of connecting. It is what notices a master that has been switched off or cut off by the network, which closes no connection.
+
+Since 1.1.3 it works the other way too, as in Redis: a master disconnects a replica that is online and has sent no acknowledgement for this many seconds, and logs `Replication: disconnecting timedout replica <ip>:<port>`. Before 1.1.3, such a replica stayed listed as `state=online` until the master restarted. See [Replication](../guides/replication.md#a-replica-that-falls-behind).
+=== lazyfree-lazy-expire
+@group Replication
+Since 1.1.3, how a key the master expires is written to the append-only file and sent to replicas: as `UNLINK` with `yes`, the default, or as `DEL` with `no`. Either deletes the key; the setting only picks the command, for tools that read the stream. `CONFIG SET` changes it; a line in the configuration file is accepted with a warning and changes nothing. Before 1.1.3, nothing was written or sent for an expired key, and the setting did nothing. See [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
 === repl-ping-replica-period
 @group Replication
 Seconds between the pings a master sends its replicas, so that a replica can tell a master with nothing to send from one that is gone.

@@ -58,7 +58,9 @@ or while it runs, which first writes a snapshot, so that the file starts from it
 OK
 ```
 
-What is written is the effect of each command rather than the command itself: an `EXPIRE` as the time the key expires, an `SPOP` as the members it removed, a script as the writes it made, together. Replaying it gives the same dataset, whatever the clock says when it is replayed.
+What is written is the effect of each command rather than the command itself: an `EXPIRE` as the time the key expires, an `SPOP` as the members it removed, a script as the writes it made, together, and a key that expires as an `UNLINK` (a `DEL` with [`lazyfree-lazy-expire no`](../reference/configuration.md#accepted-for-compatibility-with-redis)). Replaying it gives the same dataset, whatever the clock says when it is replayed: nothing expires while the file is loaded.
+
+Expiries are in the file since 1.1.3. Before it, a key expired by the clock at replay, so a restart after a key's time replayed a write made while it lived onto a missing key, which came back with no time to live, for good.
 
 ### What a crash can lose
 
@@ -80,6 +82,10 @@ The file grows with every write. Rewriting it saves a snapshot to `dump.kdb` and
 - on [`BGREWRITEAOF`](../commands/bgrewriteaof.md), and on `SAVE`, `BGSAVE` and shutdown.
 
 While the snapshot is taken, writes wait; it is a copy in memory, and they go on while the file is written.
+
+Checkpoints (a rewrite, `SAVE`, `BGSAVE`, the snapshot at shutdown) run one at a time: one has the files to itself from the start until it has removed the old log. A `BGREWRITEAOF` sent while one runs is served by exactly one more after it; `SAVE` from a script while one runs replies that one is in progress, rather than wait. The new `appendonly.aof` is written before the old one is moved aside, and a start that finds `appendonly.aof.prev` with no `appendonly.aof` beside it replays it.
+
+That is since 1.1.3, which fixes [GHSA-pjrr-m43f-m5g3](https://github.com/kividbio/kividb/security/advisories/GHSA-pjrr-m43f-m5g3). In 1.1.0 to 1.1.2, overlapping checkpoints could lose acknowledged writes or bring deleted keys back: each `BGREWRITEAOF` started a checkpoint beside any already running, the last to finish put its snapshot in place even when it was the oldest, and each removed `appendonly.aof.prev` while another still needed it. A crash after `appendonly.aof` was moved aside and before the new one took its name left no log, and the next start replayed nothing written since the last snapshot. On those releases, do not send `BGREWRITEAOF`, `SAVE` or `BGSAVE` while another checkpoint may be running.
 
 ### Known issues
 
@@ -103,6 +109,7 @@ The files that belong together, all in the working directory:
 | `dump.kdb` | The last snapshot. |
 | `dump.kdb.gen` | Which snapshot it is, so that `appendonly.aof` is replayed on the right one. |
 | `dump.kdb.repl` | Where a replica was in its master's stream, so that it can carry on after a restart. |
+| `dump.kdb.clean` | Since 1.1.3, on a cluster node: left by a clean stop, to say the final snapshot is whole, and removed when the node starts. A [cluster](cluster.md#a-master-back-without-its-data) master that starts without it, and without the append-only file, takes itself to have lost its data. |
 | `appendonly.aof` | The writes since the snapshot. |
 | `appendonly.aof.prev` | The writes before it, while a rewrite is not yet finished. |
 
