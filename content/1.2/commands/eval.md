@@ -25,7 +25,7 @@ EVAL script numkeys key [key ...] arg [arg ...]
 <!-- generated: end -->
 Runs a Lua script on the server, as one step: no other client's command starts while it runs. `numkeys` is how many of the arguments that follow are key names, which the script reads as `KEYS[1]`, `KEYS[2]`, ...; the rest are `ARGV[1]`, `ARGV[2]`, ....
 
-Only the `lua` and `full` builds run scripts. In the default build, every scripting command replies with an error that names the `lua` and `full` builds; see [Choose a build](../../1.1/get-started/builds.md).
+Only the `lua` and `full` builds run scripts. In the default build, every scripting command replies with an error that names the `lua` and `full` builds; see [Choose a build](../get-started/builds.md).
 
 Inside a script, `redis.call(command, ...)` runs a command and raises its error, if it fails; `redis.pcall` returns the error instead. `redis.error_reply(text)` and `redis.status_reply(text)` make replies.
 
@@ -34,6 +34,8 @@ On a replica, a script runs as long as it only reads; a write it makes gets `REA
 In a cluster, a script uses only keys of its own slot, on this node; with the `allow-cross-slot-keys` flag, keys of any slot this node serves. See [Scripting](../guides/scripting.md#in-a-cluster). Before 1.2, a script could write a key of a slot another node owns, and the key was stored on this node.
 
 The server keeps the 500 scripts sent only with `EVAL` that were used most recently, and lets the others go. Before 1.2, it kept every one.
+
+A script that writes more than once reaches replicas and the append-only file as its writes, between `MULTI` and `EXEC`. A script cannot run the commands Redis keeps from scripts (`SAVE`, `BGSAVE`, `BGREWRITEAOF`, `CONFIG`, `SHUTDOWN`, `ACL`, `CLIENT`, `MULTI`, `DEBUG`, ...): they are refused with `ERR This Redis command is not allowed from script`. Before 1.2, it could run them. See [Scripting](../guides/scripting.md#commands-a-script-cannot-run).
 
 ## Reply
 

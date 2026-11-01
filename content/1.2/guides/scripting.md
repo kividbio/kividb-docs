@@ -9,14 +9,14 @@ A script is Lua code the server runs as one step: it reads and writes keys with 
 
 ## Builds with Lua
 
-Lua is in the `lua` and `full` builds only; see [Choose a build](../../1.1/get-started/builds.md). The default build, which carries the highest throughput, has none, and answers:
+Lua is in the `lua` and `full` builds only; see [Choose a build](../get-started/builds.md). The default build, which carries the highest throughput, has none, and answers:
 
 ```
 > EVAL "return 1" 0
-(error) ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.1.2-lua, or a kividb-lua release file)
+(error) ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.0-rc3-lua, or a kividb-lua release file)
 ```
 
-Job queues that run on scripts, BullMQ and Sidekiq among them, need a build with Lua.
+Job queues that run on scripts, BullMQ and Sidekiq among them, need a build with Lua. Before 1.2, the error said `Lua scripting is not supported by KiviDB`, which read as if no build had it.
 
 The language is Lua 5.4, not Redis's 5.1. Most scripts written for Redis run unchanged; the differences are listed [below](#differences-from-redis).
 
@@ -90,7 +90,9 @@ While a script runs, the clients waiting for it wait. After [`busy-reply-thresho
 
 ## Replication and persistence
 
-A script is replicated, and written to the append-only file, as the writes it made, not as the script: a script that uses `TIME` or `SRANDMEMBER` gives the same result on the replicas. The writes of one script go together. The clock stands still while a script runs.
+A script is replicated, and written to the append-only file, as the writes it made, not as the script: a script that uses `TIME` or `SRANDMEMBER` gives the same result on the replicas. The clock stands still while a script runs.
+
+The writes of a script that writes more than once go to the replicas and the append-only file between a `MULTI` and an `EXEC`, as in Redis: a replica applies them together, with none of its own clients' commands in between, and a restart drops a script whose `EXEC` did not reach the file. One that writes once is sent as that one write. Before 1.2, the writes went one by one, and a client reading from a replica could see a script half done. A 1.1 replica of a 1.2 master still applies them, but logs `ERR unknown command 'MULTI'` for each: upgrade the replicas first.
 
 `redis.replicate_commands()`, which many scripts written for Redis before 7 call first, returns true and changes nothing, as in Redis 7. `redis.set_repl(redis.REPL_ALL)` is taken; any other mode is refused. Before 1.2, neither function existed, and a script that called one failed.
 
@@ -117,6 +119,21 @@ A script uses only keys of one slot: that of its first key in `KEYS`, or, with n
 ```
 
 A script flagged `allow-cross-slot-keys`, on its first line or as a function's flag, may use keys of other slots, as long as this node serves them. A key of a slot another node owns is refused either way: `ERR Script attempted to access a non local key in a cluster node`. Before 1.2, a script could write a key of a slot another node owns: the key was stored on this node, where clients would not find it.
+
+## Commands a script cannot run
+
+A script, or a function, cannot run the commands Redis 8.10 keeps from scripts: `SAVE`, `BGSAVE`, `BGREWRITEAOF`, `SHUTDOWN`, `CONFIG` (`GET` too), `ACL`, `CLIENT`, `MULTI`, `EXEC`, `WATCH`, the subscribe commands, `MONITOR`, `REPLICAOF`, `DEBUG`, `HELLO`, `EVAL` itself and a few others. `redis.call` of one raises the error, and the script stops; `redis.pcall` returns it:
+
+```
+> EVAL "return redis.call('BGSAVE')" 0
+(error) ERR This Redis command is not allowed from script
+> EVAL "return redis.call('CONFIG', 'GET', 'maxmemory')" 0
+(error) ERR This Redis command is not allowed from script
+```
+
+Of `CLUSTER`, a script may run what only reads (`INFO`, `NODES`, `SLOTS`, `KEYSLOT`, ...), as in Redis, but not what changes the cluster, which Redis allows: moving a slot waits for the writes in flight, and the script would be one of them. `HOTKEYS HELP`, `BACKUP LIST` and `BACKUP STATUS` run from a script, as in Redis.
+
+Before 1.2, a script could run all of these but `CLUSTER`, `HOTKEYS` and `BACKUP`, none of which it could run. A `SAVE` from a script on a replica could hang the replica.
 
 ## Differences from Redis
 

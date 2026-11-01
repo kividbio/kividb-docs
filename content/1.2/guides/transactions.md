@@ -70,6 +70,8 @@ The keys of a transaction must all be in one slot: a hash tag, `{order:9001}:ite
 
 Commands sent together, without waiting for each reply, run in the order sent, and their replies come back in that order. A pipeline is not a transaction: other clients' commands run between its commands.
 
-## Known issue
+## On replicas and in the append-only file
 
-A transaction reaches replicas, and the append-only file, as its commands one by one: a reader on a replica can see it half applied. Filed as [kividb#172](https://github.com/kividbio/kividb/issues/172).
+A transaction's writes, and those of a script that writes more than once, reach the replicas and the append-only file between a `MULTI` and an `EXEC`, as in Redis. A replica applies them together, with no command of its own clients in between, so a reader there never sees a transaction half applied; and a restart drops a transaction whose `EXEC` never reached the file. A transaction that writes once is sent as that one write.
+
+Before 1.2, they went one by one: a reader on a replica could see half of a transfer, and a process killed between two of them left half the transaction in the file. A 1.1 replica of a 1.2 master still applies every write, one by one, and logs an error for each `MULTI` and `EXEC`: upgrade replicas before their master.

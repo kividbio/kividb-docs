@@ -25,9 +25,12 @@ PFCOUNT key [key ...]
 <!-- generated: end -->
 Returns the estimated number of different elements added to the HyperLogLog at `key`. With several keys, the estimate for their union, without storing it.
 
+The estimate is Ertl's, as in Redis, for both hash spaces. Several keys must be in the same hash space (see [`hll-write-format`](../reference/configuration.md#hll-write-format)): a mixture is refused rather than estimated.
+
 ## Reply
 
 - The estimate; `0` if the key does not exist.
+- `ERR Cannot PFCOUNT HyperLogLogs with different hash formats.` for keys of both hash spaces.
 
 ## Examples
 
@@ -39,3 +42,5 @@ Returns the estimated number of different elements added to the HyperLogLog at `
 > PFCOUNT h h2
 (integer) 6
 ```
+
+In 1.2 the estimator is Ertl's for HyperLogLogs in KiviDB's own hash space too, so an estimate can differ slightly from 1.1's for the same key.

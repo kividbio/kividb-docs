@@ -1,6 +1,6 @@
 ---
 title: "PFDEBUG DECODE"
-description: "Returns a summary of the HyperLogLog: its encoding, how many of its 16,384 registers are not zero, the largest register, and its estimate."
+description: "Returns the runs of a sparse HyperLogLog, as Redis does: Z:n for n zero registers, v:value,count for count registers holding value."
 version: "1.2"
 command: "PFDEBUG DECODE"
 syntax: "PFDEBUG DECODE key"
@@ -21,13 +21,13 @@ PFDEBUG DECODE key
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-Returns a summary of the HyperLogLog: its encoding, how many of its 16,384 registers are not zero, the largest register, and its estimate.
+Returns the runs of a sparse HyperLogLog, as Redis does: `Z:n` for `n` zero registers, `v:value,count` for `count` registers holding `value`. A dense one is refused with `ERR HLL encoding is not sparse`; KiviDB writes only dense ones, so this is for HyperLogLogs that came from Redis.
 
 ## Examples
 
 ```
-> PFADD h a b c d
-(integer) 1
 > PFDEBUG DECODE h
-"encoding:dense registers:16384 nonzero:4 max_register:2 estimate:4"
+"v:2,1 Z:16383"
 ```
+
+Before 1.2, it returned a summary of a dense HyperLogLog (`encoding:dense registers:16384 nonzero:4 …`).

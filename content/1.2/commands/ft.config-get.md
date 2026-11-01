@@ -28,5 +28,5 @@ Returns settings matching a name or pattern, `*` for all, as `[name, value]` pai
 ```
 > FT.CONFIG GET TIMEOUT
 1) 1) "TIMEOUT"
-   2) "500"
+   2) "0"
 ```

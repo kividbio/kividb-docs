@@ -1,9 +1,9 @@
 ---
 title: "FT.EXPLAIN"
-description: "Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... }, UNION { ... }, NOT, OPTIONAL, TAG:@field { ... }, NUMERIC {lo <= @field <= hi}, VECTOR { ... }, a clause to a line."
+description: "Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... }, UNION { ... }, NOT{ ... }, OPTIONAL{ ... }, TAG:@field { ... }, NUMERIC {lo <= @field <= hi}, VECTOR { ... }, a cla…"
 version: "1.2"
 command: "FT.EXPLAIN"
-syntax: "FT.EXPLAIN index query [PARAMS …] [DIALECT n]"
+syntax: "FT.EXPLAIN index query [PARAMS …] [VERBATIM] [LANGUAGE lang] [DIALECT n]"
 group: "vector-search"
 since: "1.1.0"
 arity: -1
@@ -18,12 +18,14 @@ status: "reviewed"
 ## Syntax
 
 ```
-FT.EXPLAIN index query [PARAMS …] [DIALECT n]
+FT.EXPLAIN index query [PARAMS …] [VERBATIM] [LANGUAGE lang] [DIALECT n]
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
 <!-- generated: end -->
-Returns how a query is understood, as Redis writes a query plan: `INTERSECT { ... }`, `UNION { ... }`, `NOT`, `OPTIONAL`, `TAG:@field { ... }`, `NUMERIC {lo <= @field <= hi}`, `VECTOR { ... }`, a clause to a line. A query that does not parse is an error.
+Returns how a query is understood, as Redis writes a query plan: `INTERSECT { ... }`, `UNION { ... }`, `NOT{ ... }`, `OPTIONAL{ ... }`, `TAG:@field { ... }`, `NUMERIC {lo <= @field <= hi}`, `VECTOR { ... }`, a clause to a line, and `<empty>` for a query left with nothing to look for (only stopwords, say). A query that does not parse is an error. A word is shown with the forms it is looked for as: itself, `+stem(expanded)` and `stem(expanded)`, unless `VERBATIM` is given or the field is `NOSTEM`; `LANGUAGE` stems it in another language. A word shorter than [`search-min-stem-len`](../reference/configuration.md#search-min-stem-len) is still shown, and looked for, with its stems, as in Redis: that length decides which words of a document are indexed with a stem, not what a query looks for.
+
+Before 1.2, `NOT{`, `OPTIONAL{` and `<empty>` were written `NOT {`, `OPTIONAL {` and `<EMPTY>`, and a word was shown without its stems.
 
 ## Examples
 
@@ -35,4 +37,27 @@ INTERSECT {
   }
   NUMERIC {0.000000 <= @price <= 100.000000}
 }
+> FT.EXPLAIN products cables
+UNION {
+  cables
+  +cabl(expanded)
+  cabl(expanded)
+}
+> FT.EXPLAIN products cables VERBATIM
+cables
+> FT.EXPLAIN products "desk -lamp"
+INTERSECT {
+  UNION {
+    desk
+    +desk(expanded)
+  }
+  NOT{
+    UNION {
+      lamp
+      +lamp(expanded)
+    }
+  }
+}
+> FT.EXPLAIN products the
+<empty>
 ```

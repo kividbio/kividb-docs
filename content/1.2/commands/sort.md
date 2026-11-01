@@ -34,7 +34,7 @@ Sorts the elements of a list, set or sorted set, as numbers unless `ALPHA` is gi
 | `LIMIT offset count` | Return `count` elements from `offset`. |
 | `BY pattern` | Sort by other keys: `*` in the pattern is replaced by each element, and a `->field` suffix reads a hash field. |
 | `GET pattern` | Return other keys' values instead of the elements, the same way; `GET #` is the element itself. Can be given more than once. |
-| `STORE destination` | Store the result as a list at `destination` instead of returning it. |
+| `STORE destination` | Store the result as a list at `destination` instead of returning it. The destination loses any time to live it had; an empty result deletes it. |
 
 ## Reply
 
@@ -69,3 +69,5 @@ OK
 1) "1"
 2) "one"
 ```
+
+Before 1.2, `STORE` kept the destination's time to live, so the stored list expired when the old value would have.

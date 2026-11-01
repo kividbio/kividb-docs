@@ -25,7 +25,7 @@ Sent to a replica: makes it the master of its shard, and its master a replica of
 
 | Option | Effect |
 |---|---|
-| none | The master pauses writes, the replica catches up, and then it is elected. Nothing acknowledged is lost. |
+| none | The master pauses writes, the replica catches up, and then it is elected. Nothing acknowledged is lost. The master holds writes for up to 10 seconds, and the replica has 5 to catch up and win, as in Redis; otherwise it gives the failover up (`Manual failover abandoned` in its log), and the master goes on. Before 1.2, the pause was 5 seconds, and a replica that won later still took over, losing the writes acknowledged meanwhile. |
 | `FORCE` | Skips the catching up, for a master that cannot be reached. An election is still held. |
 | `TAKEOVER` | Skips the election too: the replica takes the slots at once, without the other masters' agreement. For when no majority of masters can be reached. |
 

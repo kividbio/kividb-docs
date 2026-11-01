@@ -23,7 +23,9 @@ CLUSTER INFO
 <!-- generated: end -->
 Returns the node's view of the cluster as `field:value` lines: whether the cluster is up (`cluster_state`), how many slots are assigned and how many of those are failing, the nodes it knows, the number of masters serving slots (`cluster_size`), the epochs, and the bus messages sent and received.
 
-`cluster_state` is `fail` while a slot has no owner, or its owner has failed, unless `cluster-require-full-coverage` is `no`.
+`cluster_state` is `fail` while a slot has no owner, or its owner has failed, unless `cluster-require-full-coverage` is `no`. On a master that came back without its data, it is `fail` until a replica has taken over: see [Cluster](../guides/cluster.md#a-master-back-without-its-data).
+
+`cluster_stats_bus_connects` counts the bus connections this node has opened to others. Each peer is pinged over a connection kept open between heartbeats, so it grows only when a connection breaks; before 1.2, every heartbeat opened a new one.
 
 ## Examples
 
@@ -36,10 +38,11 @@ cluster_slots_ok:16384
 cluster_slots_pfail:0
 cluster_slots_fail:0
 cluster_known_nodes:3
-cluster_size:2
-cluster_current_epoch:1
+cluster_size:3
+cluster_current_epoch:3
 cluster_my_epoch:1
 cluster_stats_messages_sent:18
 cluster_stats_messages_received:18
+cluster_stats_bus_connects:2
 total_cluster_links_buffer_limit_exceeded:0
 ```

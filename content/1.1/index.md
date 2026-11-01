@@ -9,6 +9,8 @@ KiviDB is an in-memory database that speaks the Redis protocol (RESP2 and RESP3)
 
 These pages document KiviDB 1.1, which covers releases 1.1.0, 1.1.1, 1.1.2 and 1.1.3. A page says where a patch release added or changed something. 1.1.3 is a security release, and includes everything in 1.1.1 and 1.1.2: use it, and upgrade a replicated deployment replicas first (see [Replication](guides/replication.md#upgrading)). 1.1.1 was withdrawn (see [What changed](changes.md#111)).
 
+The next release, 1.2, is being tested: see [KiviDB 1.2 (release candidate)](../1.2/index.md), and [Upgrading from 1.1](../1.2/get-started/upgrading.md).
+
 ## Where to start
 
 - [Install KiviDB](get-started/install.md): Docker, release binaries, Linux packages, or from source.

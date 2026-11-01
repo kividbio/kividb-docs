@@ -1,12 +1,16 @@
 {
- "comment": "Documentation versions, newest first. A version is a minor release (x.y); its patch releases (x.y.Z) are listed in `releases`, oldest first, and are documented inside it. `source` is the kividb git ref the newest release of the version is built from. `withdrawn` maps a release that was withdrawn to why, in Markdown; it stays listed, with that note. `notes` maps a release to a note, in Markdown, that the What changed page gives above its changes.",
+ "comment": "Documentation versions, newest first. A version is a minor release (x.y); its patch releases (x.y.Z) are listed in `releases`, oldest first, and are documented inside it. `source` is the kividb git ref (a tag, or a commit for a version not yet tagged) the newest release of the version is built from. `candidate` names the release candidate an unreleased version's pages describe, and whose images and packages its install pages give. `withdrawn` maps a release that was withdrawn to why, in Markdown; it stays listed, with that note. `notes` maps a release to a note, in Markdown, that the What changed page gives above its changes.",
  "latest": "1.1",
  "versions": [
   {
    "version": "1.2",
    "status": "unreleased",
-   "releases": ["1.2"],
-   "source": "master"
+   "candidate": "v1.2.0-rc3",
+   "releases": ["1.2.0"],
+   "source": "v1.2.0-rc3",
+   "notes": {
+    "1.2.0": "Not released yet: these pages describe the release candidate, `v1.2.0-rc3`. Use [1.1.3](../1.1/index.md) in production until 1.2.0 is out. [Upgrading from 1.1](get-started/upgrading.md) says what to check before upgrading, and in what order, and what is [known in 1.2.0-rc3](get-started/upgrading.md#known-in-120-rc3)."
+   }
   },
   {
    "version": "1.1",
