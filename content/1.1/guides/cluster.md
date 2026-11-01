@@ -82,7 +82,7 @@ redis-cli -a s3cret --cluster reshard 10.0.0.1:6380 \
 
 There are two ways a slot moves, and `redis-cli` from Redis 8.4 on uses the first where the server has it, as KiviDB does:
 
-- **Atomic slot migration**, [`CLUSTER MIGRATION IMPORT`](../commands/cluster-migration.md), sent to the node that is to receive the slots. The source sends a copy of the slots' keys and then the writes that arrive for them, pauses writes for a moment, and hands the slots over. Clients see no `ASK`, only a `MOVED` at the end, and no write is lost.
+- **Atomic slot migration**, [`CLUSTER MIGRATION IMPORT`](../commands/cluster-migration.md), sent to the node that is to receive the slots. The source sends a copy of the slots' keys and then the writes that arrive for them, pauses writes for a moment, and hands the slots over. Clients see no `ASK`, only a `MOVED` at the end, and no write is lost, but for a known issue below.
 - **Key by key**, the classic way: [`CLUSTER SETSLOT`](../commands/cluster-setslot.md) `IMPORTING` and `MIGRATING`, [`MIGRATE`](../commands/migrate.md) of the keys in batches, then `SETSLOT ... NODE`. Meanwhile, a key that has moved is answered with `ASK`, and a client retries it on the new node after [`ASKING`](../commands/asking.md).
 
 [`CLUSTER MIGRATION STATUS`](../commands/cluster-migration.md) shows how a migration is going, and how long writes were paused for it.
@@ -125,3 +125,5 @@ Move its slots away, with `reshard`, then `redis-cli --cluster del-node`, or [`C
 
 - [`CLUSTER REPLICAS`](../commands/cluster-replicas.md) replies with one string, not an array of lines. Filed as [kividb#138](https://github.com/kividbio/kividb/issues/138), fixed in 1.2.
 - [`CLUSTER SLOT-STATS ORDERBY`](../commands/cluster-slot-stats.md) sorts ascending unless told `DESC`. Filed as [kividb#139](https://github.com/kividbio/kividb/issues/139), fixed in 1.2.
+- A slot moved with [`CLUSTER MIGRATION`](../commands/cluster-migration.md#known-issue) can lose writes when its handoff takes longer than `cluster-slot-migration-write-pause-timeout`: those made after the pause ran out. Filed as [kividb#278](https://github.com/kividbio/kividb/issues/278), fixed in 1.2.0 by [kividb#279](https://github.com/kividbio/kividb/pull/279).
+- [`MIGRATE`](../commands/migrate.md#known-issue), and so moving slots key by key, can lose a write made to a key while it is being moved. Filed as [kividb#274](https://github.com/kividbio/kividb/issues/274), fixed in 1.2.0 by [kividb#280](https://github.com/kividbio/kividb/pull/280).

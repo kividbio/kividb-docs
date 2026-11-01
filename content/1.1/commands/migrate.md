@@ -34,6 +34,14 @@ Moves keys to another server: each is serialised, restored on the server at `hos
 
 In a cluster, this is the third step of moving a slot by hand: see [`CLUSTER SETSLOT`](cluster-setslot.md).
 
+## Known issue
+
+Without `COPY`, `MIGRATE` deletes each key here once the other server has acknowledged it, whatever happened to the key in the meantime. A write to the key after its copy was sent and before that answer came back is acknowledged to its client, then deleted with the key, and the other server has the value from before it: the write is lost. A write made just after `MIGRATE` deleted a key can also reach replicas and the append-only file ahead of the deletion: they then lose the key, while this server keeps it.
+
+To avoid it, make no writes to keys while they are being migrated. In a cluster, `redis-cli` from Redis 8.4 on reshards with [`CLUSTER MIGRATION`](cluster-migration.md), which does not use `MIGRATE` (but see its own known issue).
+
+In 1.2.0, a key written while it was being migrated is kept here, and `MIGRATE` answers `TRYAGAIN` naming it: migrate it again with `REPLACE`. Filed as [kividb#274](https://github.com/kividbio/kividb/issues/274), fixed in 1.2.0 by [kividb#280](https://github.com/kividbio/kividb/pull/280).
+
 ## Reply
 
 - `OK`.

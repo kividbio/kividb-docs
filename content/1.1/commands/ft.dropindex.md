@@ -33,6 +33,10 @@ FT.DROPINDEX index [DD]
 
 `DD` is since 1.1.3. In 1.1.0 to 1.1.2, `DD` was accepted and ignored: the documents stayed. A `DD` already in an append-only file written by an earlier 1.1, or sent by such a master, still keeps them, as that server did.
 
+## Known issue
+
+`DD` can delete a key that stopped being one of the index's documents while it ran, for example one written over as a string: see [Search](../guides/search.md#known-issues). Filed as [kividb#275](https://github.com/kividbio/kividb/issues/275), fixed in 1.2.0 by [kividb#281](https://github.com/kividbio/kividb/pull/281).
+
 ## Reply
 
 - `OK`.

@@ -36,6 +36,10 @@ Creates a search index over the hashes, or JSON documents, whose keys start with
 
 See [Search queries](../reference/search-queries.md) for what each field type matches, and its VECTOR options.
 
+## Known issue
+
+A document written while `FT.CREATE` indexes the existing keys can be left out of the index until it is written again: see [Search](../guides/search.md#known-issues). Filed as [kividb#275](https://github.com/kividbio/kividb/issues/275), fixed in 1.2.0 by [kividb#281](https://github.com/kividbio/kividb/pull/281).
+
 ## Reply
 
 - `OK`.

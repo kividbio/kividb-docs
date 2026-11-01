@@ -143,6 +143,14 @@ Filed as [kividb#162](https://github.com/kividbio/kividb/issues/162), fixed in 1
 - BM25 scores drift as documents are updated and deleted: the statistics they are computed from only grow, until a restart. Rankings get worse on data that changes.
 - A KNN clause in `FT.AGGREGATE` is ignored: every document is returned.
 
+These happen only when the index's keys are written while the command runs. Filed as [kividb#275](https://github.com/kividbio/kividb/issues/275), fixed in 1.2.0 by [kividb#281](https://github.com/kividbio/kividb/pull/281):
+
+- A document written while [`FT.CREATE`](../commands/ft.create.md) indexes the existing keys can be left out of the index: searches do not find it until it is written again.
+- A document written while [`FT.ALTER`](../commands/ft.alter.md) fills a new VECTOR or TEXT field from the existing keys can be indexed with its value from before the write: searches find its old vector or words until it is written again.
+- [`FT.DROPINDEX index DD`](../commands/ft.dropindex.md) can delete a key that stopped being one of the index's documents while it ran, for example one written over as a string.
+
+To avoid them, run these commands while nothing writes to the index's keys. A document left wrong in the index is put right by writing it again.
+
 Fixed in 1.1.3:
 
 - `FT.DROPINDEX index DD` dropped the index and kept the documents ([kividb#162](https://github.com/kividbio/kividb/issues/162)). It now deletes them, as in Redis: see [`FT.DROPINDEX`](../commands/ft.dropindex.md).
