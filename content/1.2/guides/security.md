@@ -108,7 +108,7 @@ Even a user that may write everything should not need the commands that run the 
 
 There is no `rename-command`: ACL rules are how commands are kept from clients. `CONFIG SET` refuses a name it does not know, as Redis does, rather than taking it and doing nothing, and refuses a setting read only at startup (`bind`, `dir`, `threads`, ...): see [`CONFIG SET`](../commands/config-set.md). [`DEBUG SLEEP`](../commands/debug.md) blocks a thread of the server for as long as it is told.
 
-A script's commands are checked against the rights of the user that runs it. A script cannot run `SAVE`, `BGSAVE`, `BGREWRITEAOF`, `CONFIG` or `SHUTDOWN`, as in Redis. In builds with Lua, scripts run in a sandbox: no files, no network, no `os` but the clock, no loading of compiled code.
+A script's commands are checked against the rights of the user that runs it. A script cannot run what Redis keeps from scripts, `SAVE`, `BGSAVE`, `BGREWRITEAOF`, `CONFIG`, `SHUTDOWN`, `ACL`, `CLIENT` and `DEBUG` among them: see [Scripting](scripting.md#commands-a-script-cannot-run). In builds with Lua, scripts run in a sandbox: no files, no network, no `os` but the clock, no loading of compiled code.
 
 ## TLS
 

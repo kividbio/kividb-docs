@@ -86,6 +86,6 @@ The events have Redis's names: `INCR`, `DECR` and `DECRBY` publish `incrby`; `GE
 (error) ERR CONFIG SET failed (possibly related to argument 'notify-keyspace-events') - Invalid event class character. Use 'Ag$lshzxeKEtmdn'.
 ```
 
-`expired` is published when the key is deleted, which can be after its time to live has passed: when it is next read, or when the background task, which runs ten times a second, finds it. Notifications are not stored, like any message, and in a cluster each node publishes those of its own keys, to its own subscribers.
+`expired` is published when the key is deleted, which can be after its time to live has passed: when it is next read, or when the background task, which runs ten times a second, finds it. A write that makes the key again (an `INCR` on a counter whose window ran out, say) publishes its own event after the `expired`, as in Redis; in the release candidates before `v1.2.0-rc3`, it could come first. Notifications are not stored, like any message, and in a cluster each node publishes those of its own keys, to its own subscribers.
 
 Before 1.2, these events had other names (`incr`, `getset`, `lmove`, …); `SETRANGE`, `SETBIT`, `BITOP`, `BITFIELD`, `PFADD`, `PFMERGE`, `GEOADD`, `MOVE` and the JSON, time series and vector set commands published nothing; `m` never published; and a character that is not a flag was ignored. A listener on `__keyevent@0__:set` or `:incrby` now receives more.

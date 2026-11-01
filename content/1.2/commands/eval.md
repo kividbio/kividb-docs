@@ -35,7 +35,7 @@ In a cluster, a script uses only keys of its own slot, on this node; with the `a
 
 The server keeps the 500 scripts sent only with `EVAL` that were used most recently, and lets the others go. Before 1.2, it kept every one.
 
-A script that writes more than once reaches replicas and the append-only file as its writes, between `MULTI` and `EXEC`. A script cannot run `SAVE`, `BGSAVE`, `BGREWRITEAOF`, `CONFIG` or `SHUTDOWN`, as in Redis. See [Scripting](../guides/scripting.md).
+A script that writes more than once reaches replicas and the append-only file as its writes, between `MULTI` and `EXEC`. A script cannot run the commands Redis keeps from scripts (`SAVE`, `BGSAVE`, `BGREWRITEAOF`, `CONFIG`, `SHUTDOWN`, `ACL`, `CLIENT`, `MULTI`, `DEBUG`, ...): they are refused with `ERR This Redis command is not allowed from script`. Before 1.2, it could run them. See [Scripting](../guides/scripting.md#commands-a-script-cannot-run).
 
 ## Reply
 

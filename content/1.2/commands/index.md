@@ -276,7 +276,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`FT.DICTDEL`](ft.dictdel.md) | Removes words from a dictionary. | 1.1.0 |
 | [`FT.DICTDUMP`](ft.dictdump.md) | Returns the words of a dictionary, sorted. | 1.1.0 |
 | [`FT.DROPINDEX`](ft.dropindex.md) | Deletes an index. | 1.1.0 |
-| [`FT.EXPLAIN`](ft.explain.md) | Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... }, UNION { ... }, NOT, OPTIONAL, TAG:@field { ... }, NUMERIC {lo <= @field <= hi}, VECTOR { ... }, a clause to a line. | 1.1.0 |
+| [`FT.EXPLAIN`](ft.explain.md) | Returns how a query is understood, as Redis writes a query plan: INTERSECT { ... }, UNION { ... }, NOT{ ... }, OPTIONAL{ ... }, TAG:@field { ... }, NUMERIC {lo <= @field <= hi}, VECTOR { ... }, a cla… | 1.1.0 |
 | [`FT.EXPLAINCLI`](ft.explaincli.md) | FT.EXPLAIN, as an array of its lines. | 1.1.0 |
 | [`FT.HYBRID`](ft.hybrid.md) | Searches an index by text and by vector together, and fuses the two rankings into one. | 1.1.0 |
 | [`FT.INFO`](ft.info.md) | Returns an index's definition and state: its key type and prefixes, its fields with their options, how many documents and terms it holds, and whether it is still indexing. | 1.1.0 |

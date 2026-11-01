@@ -22,7 +22,7 @@ A build without Lua answers the scripting commands with an error that names the 
 
 KiviDB reads a configuration file like Redis's, `name value` a line, from `--configfile` (by default `/etc/kividb/kividb.conf`). Most settings have Redis's names. [Configuration](../reference/configuration.md) lists every one, and says whether the file takes it.
 
-**A `redis.conf` can be carried over; read the warnings it gives.** Redis settings for machinery KiviDB does not have (`io-threads`, `hz`, `rdbcompression`, `client-output-buffer-limit`, `latency-tracking`, …) are accepted with a warning in the log, one a line, and do nothing:
+**A `redis.conf` can be carried over; read the warnings it gives.** Redis settings for machinery KiviDB does not have (`io-threads`, `hz`, `rdbcompression`, `client-output-buffer-limit`, …) are accepted with a warning in the log, one a line, and do nothing:
 
 ```
 [WARN] redis.conf: line 1: 'io-threads' is accepted but has no effect: KiviDB has no such setting
@@ -37,7 +37,8 @@ A line that is neither KiviDB's nor Redis's, a misspelt name among them, stops t
 | `appendfsync` | Always once a second. |
 | `dbfilename`, `appendfilename` | `dump.kdb` and `appendonly.aof`. |
 | `maxclients` | Enforced, as in Redis, within the open-file limit: see [`maxclients`](../reference/configuration.md#maxclients). |
-| `lazyfree-lazy-expire` | Picks whether an expired key reaches replicas and the append-only file as `UNLINK` (`yes`) or `DEL` (`no`). The other `lazyfree-*` settings have no effect. |
+| `lazyfree-lazy-expire` | Picks whether an expired key reaches replicas and the append-only file as `UNLINK` (`yes`) or `DEL` (`no`). The other `lazyfree-*` settings have no effect. All take only `yes` or `no`, as in Redis: another value stops the server. |
+| `latency-tracking`, `latency-tracking-info-percentiles` | As in Redis: whether `INFO latencystats` reports, and which percentiles. |
 | `client-output-buffer-limit` | Accepted, with a warning, and has no effect. |
 | `appendfsync always`, `appendfsync no` | Accepted, with a warning: the file is synced once a second. |
 | `loadmodule` | Not supported: the server does not start. Search, JSON, time series and vector sets are built in. |

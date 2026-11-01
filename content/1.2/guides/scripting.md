@@ -122,7 +122,18 @@ A script flagged `allow-cross-slot-keys`, on its first line or as a function's f
 
 ## Commands a script cannot run
 
-As in Redis, a script cannot run `SAVE`, `BGSAVE`, `BGREWRITEAOF`, `CONFIG` or `SHUTDOWN`: `redis.call` of one is an error, and the script stops. Before 1.2, a script could run them.
+A script, or a function, cannot run the commands Redis 8.10 keeps from scripts: `SAVE`, `BGSAVE`, `BGREWRITEAOF`, `SHUTDOWN`, `CONFIG` (`GET` too), `ACL`, `CLIENT`, `MULTI`, `EXEC`, `WATCH`, the subscribe commands, `MONITOR`, `REPLICAOF`, `DEBUG`, `HELLO`, `EVAL` itself and a few others. `redis.call` of one raises the error, and the script stops; `redis.pcall` returns it:
+
+```
+> EVAL "return redis.call('BGSAVE')" 0
+(error) ERR This Redis command is not allowed from script
+> EVAL "return redis.call('CONFIG', 'GET', 'maxmemory')" 0
+(error) ERR This Redis command is not allowed from script
+```
+
+Of `CLUSTER`, a script may run what only reads (`INFO`, `NODES`, `SLOTS`, `KEYSLOT`, ...), as in Redis, but not what changes the cluster, which Redis allows: moving a slot waits for the writes in flight, and the script would be one of them. `HOTKEYS HELP`, `BACKUP LIST` and `BACKUP STATUS` run from a script, as in Redis.
+
+Before 1.2, a script could run all of these but `CLUSTER`, `HOTKEYS` and `BACKUP`, none of which it could run. A `SAVE` from a script on a replica could hang the replica.
 
 ## Differences from Redis
 

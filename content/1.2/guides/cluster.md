@@ -99,6 +99,8 @@ While a slot has no master that works, the cluster's state is `fail`, and every 
 
 Replication in a cluster is what it is between standalone servers, asynchronous: a write a master acknowledged and had not yet sent to its replica is lost if the replica takes its place. See [Replication](replication.md).
 
+Known issue: a master that is overloaded, not down, can be marked `fail` while it still takes writes, and go on acknowledging them for a second or two after its replica has been elected, until it learns of the new master; those writes are lost ([kividb#242](https://github.com/kividbio/kividb/issues/242)). Redis Cluster has the same window. In KiviDB it also opens when a `CLUSTER FAILOVER` was given up and the master's pause on writes ran out while the cluster was electing its replica. Use [`WAIT`](../commands/wait.md) for a write that must reach a replica.
+
 The replicas stand in order of how up to date they are: the one that has the most of the master's writes stands first, and the others wait, so it is the one elected. A replica that had lost touch with its master for longer than [`cluster-replica-validity-factor`](../reference/configuration.md#cluster-replica-validity-factor) node timeouts does not stand at all, since its data may be old; `0` lets it. Before 1.2, replicas were not ranked, and one that was behind could win.
 
 ### A master back without its data

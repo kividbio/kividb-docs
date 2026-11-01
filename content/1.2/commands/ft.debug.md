@@ -33,9 +33,16 @@ Two more turn parts of an index's machinery off and on again, to compare; they a
 - `FT.DEBUG POSTINGS <index> ON|OFF`: with `OFF`, TAG and NUMERIC clauses are tried on every document, as before 1.2, rather than read from the index's postings.
 - `FT.DEBUG PAGE <index> ON|OFF`: with `OFF`, a TAG or NUMERIC query reads every match, rather than only those of the page it returns.
 
+`FT.DEBUG HELP` lists the subcommands. Before 1.2, it answered `ERR unknown FT.DEBUG subcommand 'HELP'`.
+
 ```
 > FT.DEBUG POSTINGS products OFF
 OK
 > FT.DEBUG POSTINGS products ON
 OK
+> FT.DEBUG HELP
+1) "COMPACT"
+2) "POSTINGS"
+3) "PAGE"
+4) "HELP"
 ```

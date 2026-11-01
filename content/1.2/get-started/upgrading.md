@@ -64,7 +64,7 @@ These change what a script sees, in the `lua` and `full` builds:
 - `assert` takes only a string or a number as its message; a table fails with `bad argument #2 to 'assert'`.
 - In a cluster, a script may use only keys of this node, and only of one slot unless it is flagged `allow-cross-slot-keys`.
 - A script that only reads runs on a replica.
-- `SAVE`, `BGSAVE`, `BGREWRITEAOF`, `CONFIG` and `SHUTDOWN` are refused in a script, as in Redis.
+- The commands Redis keeps from scripts are refused in a script, as in Redis: `SAVE`, `BGSAVE`, `BGREWRITEAOF`, `CONFIG` (`GET` too), `SHUTDOWN`, `ACL`, `CLIENT`, `MULTI`, `DEBUG` and others, with `ERR This Redis command is not allowed from script`. See [Scripting](../guides/scripting.md#commands-a-script-cannot-run).
 - The cache keeps at most 500 scripts sent with `EVAL` (scripts loaded with `SCRIPT LOAD` stay); an `EVALSHA` of one it let go gets `NOSCRIPT`, which clients answer by sending the script again.
 - `SCRIPT KILL` of a script that has written answers `UNKILLABLE`.
 - `redis.log`, `redis.replicate_commands()`, `redis.set_repl()` and the `struct` library exist.
@@ -78,7 +78,8 @@ The default build's reply to a scripting command now names the build to use: `ER
 - **`TIMEOUT`** is honoured; with none, a query runs to the end, as before, unless [`search-timeout`](../reference/configuration.md#search-timeout) is set.
 - **A missing index** is `SEARCH_INDEX_NOT_FOUND Index not found: <name>`, as in Redis 8 (since 1.1.3). A client that looked for `no such index` must look for `Index not found`.
 - **`FT.DROPINDEX index DD`** deletes the documents (since 1.1.3), and anything but `DD` after the name is an error.
-- `FT.AGGREGATE` without `SORTBY` returns rows in another order than 1.1 did.
+- `FT.AGGREGATE` without `SORTBY` returns rows in another order than 1.1 did. With `ADDSCORES`, every row starts with `__score`.
+- `FT.EXPLAIN` writes `NOT{`, `OPTIONAL{` and `<empty>`, as Redis does, and shows each word with its stems; `FT.EXPLAINCLI` ends with an empty line.
 - TAG and NUMERIC fields are indexed: such queries are much faster, at about 90 bytes a document and 33 to 37 a field.
 
 See [Search](../guides/search.md).
@@ -89,6 +90,8 @@ See [Search](../guides/search.md).
 - `CONFIG SET` of a name that is neither KiviDB's nor Redis's is `ERR Unknown option or number of arguments for CONFIG SET`, and of a setting read only at startup `can't set immutable config`. 1.1 replied `OK` and did nothing. A configuration file with a Redis setting KiviDB has no use for starts, with a warning, rather than stopping.
 - `VSIM` and `VLINKS` `WITHSCORES` give Redis's score for cosine, `(1 + cosine) / 2`, from 0 to 1; 1.1 gave the cosine, from -1 to 1. Thresholds set on the old scores need changing.
 - Keyspace notifications have Redis's event names: `INCR`, `DECR` and `DECRBY` send `incrby`, `GETDEL` `del`, `GETSET` and `SETNX` `set`, `LMOVE` `lpop`/`rpop` and `lpush`/`rpush`. Commands that sent none now do, and `keymiss` fires. A `notify-keyspace-events` with a character that is not a flag is refused. See [Keyspace notifications](../guides/pub-sub.md#keyspace-notifications).
+- `VADD` refuses what it does not know, with Redis 8.10's errors: an unknown option, a vector it cannot read, `M` or `EF` out of range, a `DISTANCE` it does not know or other than the set's. 1.1 skipped or ignored them. See [`VADD`](../commands/vadd.md).
+- The `lazyfree-*` settings and `latency-tracking` take only `yes` or `no`, in `CONFIG SET` and in the configuration file, where another value now stops the server.
 - `PFCOUNT` uses Ertl's estimator, as Redis does, so an estimate can move slightly.
 - `INCR` at the largest integer is an error, `increment or decrement would overflow`, where 1.1 wrapped to the smallest.
 - `CLUSTER REPLICAS` replies with an array; `CLUSTER SLOT-STATS ORDERBY` sorts busiest first.
@@ -100,7 +103,7 @@ See [Search](../guides/search.md).
 
 ### Expiry
 
-Since 1.1.3, and in 1.2: a write to a key past its time to live makes a new key, with no time to live; a master sends a `DEL` (`UNLINK`) for every key it expires, to its replicas and its append-only file; and a replica deletes no expired key itself, but waits for its master's. A 1.2 replica of a master older than 1.1.3, which sends no such deletions, expires keys by its own clock. See [Keys and expiry](../guides/expiration.md).
+Since 1.1.3, and in 1.2: a write to a key past its time to live makes a new key, with no time to live; a master sends a `DEL` (`UNLINK`) for every key it expires, to its replicas and its append-only file; and a replica deletes no expired key itself, but waits for its master's. A 1.2 replica of a master older than 1.1.3, which sends no such deletions, expires keys by its own clock, and logs that it does; once the master is upgraded, it deletes what that master left before it goes on. Upgrading the replicas first is safe for expiry. See [Keys and expiry](../guides/expiration.md) and [Replication](../guides/replication.md#what-a-replica-serves).
 
 ### Limits
 
@@ -111,6 +114,16 @@ Since 1.1.3, and in 1.2: a write to a key past its time to live makes a new key,
 - **`GEODELBYMEMBER`** is gone. It was listed by `COMMAND` and answered `unknown command`; Redis has no such command. Use `ZREM` to remove a member of a geo set.
 - No setting was removed or renamed. The defaults of [`activedefrag`](../reference/configuration.md#activedefrag) (now `yes`) and `lazyfree-lazy-user-del` (now `no`, which is what `DEL` does) changed.
 - New settings: [What changed](../changes.md) lists them.
+
+## Known in 1.2.0-rc3
+
+Open issues in the release candidate, `v1.2.0-rc3`, that may matter when you try it:
+
+- **An overloaded cluster master can acknowledge writes after its replica took its place** ([kividb#242](https://github.com/kividbio/kividb/issues/242)). A master too slow to answer the cluster bus, marked `fail` while it still takes writes, goes on acknowledging them for a second or two, until it learns of the new master; those writes are lost. It is the window of asynchronous replication, which Redis Cluster has too, but KiviDB leaves it open a little longer after a `CLUSTER FAILOVER` that was given up. Where a write must not be lost, use [`WAIT`](../commands/wait.md). See [Cluster](../guides/cluster.md#failover).
+- **A reply waits at most 5 seconds for the append-only file** ([kividb#243](https://github.com/kividbio/kividb/issues/243)). If the disk falls further behind than that, the reply is sent anyway, with a log line, and a process killed just after can lose that write. See [Persistence](../guides/persistence.md).
+- **Values of about 3.8 to 4 KB take up to 5% more memory than in 1.1.3, and `SET`s of values over about 4 KB are about 8% slower** ([kividb#240](https://github.com/kividbio/kividb/issues/240)). After light churn (10 to 20% of the keys deleted and written again), the process settles 13 to 16% above what it took after loading, where active defrag does not reach; it does not grow past that. Measured after heavier churn, 1.2 takes as much as 1.1.3 or less. See [Memory](../guides/memory.md#what-deleting-gives-back).
+- **A cache under eviction serves about 10% fewer reads a second than Redis 8.10** ([kividb#251](https://github.com/kividbio/kividb/issues/251)), on one thread under `allkeys-lfu` at its `maxmemory`, with the same hit rate, memory and P99 latency. Choosing a key to evict costs more than in Redis.
+- **`FT.SEARCH` can count a document whose key is being expired** ([kividb#249](https://github.com/kividbio/kividb/issues/249)): for a moment, while the background task deletes the key, the count (and possibly the reply) of a query answered from the index's postings can include it. See [Search](../guides/search.md#performance).
 
 ## Installing it
 

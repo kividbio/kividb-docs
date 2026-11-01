@@ -23,7 +23,7 @@ FT.EXPLAINCLI index query
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@search`, `@slow`
 <!-- generated: end -->
-[`FT.EXPLAIN`](ft.explain.md), as an array of its lines.
+[`FT.EXPLAIN`](ft.explain.md), as an array of its lines. The last is empty, as in Redis. Before 1.2, there was no empty last line.
 
 ## Examples
 
@@ -39,4 +39,5 @@ FT.EXPLAINCLI index query
  8) "    +lamp(expanded)"
  9) "  }"
 10) "}"
+11) ""
 ```

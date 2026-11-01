@@ -37,7 +37,7 @@ They run in the order given.
 | `FILTER expr` | Keep the rows for which `expr` holds. |
 | `SORTBY n @prop [ASC \| DESC] ... [MAX n]` | Sort. |
 | `LIMIT offset count` | A page of rows. |
-| `ADDSCORES` | Give each row its score, as `@__score`. `SCORER name` picks how it is scored. |
+| `ADDSCORES` | Start each row with its score, `__score`, which the steps can use as `@__score`. `SCORER name` picks how it is scored. |
 | `VERBATIM`, `LANGUAGE lang` | As for [`FT.SEARCH`](ft.search.md). |
 | `TIMEOUT ms` | Cut the aggregation short after this long, as for [`FT.SEARCH`](ft.search.md); every `FT.CURSOR READ` page of one cut short carries the warning. |
 | `WITHCURSOR [COUNT n] [MAXIDLE ms]` | Return the first `n` rows and a cursor for [`FT.CURSOR READ`](ft.cursor-read.md). |
@@ -45,6 +45,8 @@ They run in the order given.
 The reducers are `COUNT`, `COUNT_DISTINCT`, `COUNT_DISTINCTISH`, `SUM`, `AVG`, `MIN`, `MAX`, `STDDEV`, `QUANTILE`, `TOLIST` (the distinct values), `FIRST_VALUE [BY @prop [ASC \| DESC]]`, `RANDOM_SAMPLE`, and `COLLECT` (Redis 8.8: the group's documents, with `FIELDS * | n @field ...`, and `SORTBY`, `LIMIT` and `DISTINCT` inside the group). Groups come out in the order they first appear. Without `SORTBY`, rows come in the order of the documents' numbers in the index, not of their keys.
 
 A KNN clause in the query (`*=>[KNN 10 @v $q AS d]`) keeps the nearest `k` of the documents the filter leaves, with the distance under its `AS` name for the steps. Before 1.2, it was ignored, and every document went on.
+
+With `ADDSCORES`, every row starts with `__score`, whatever the command loads, sorts by or computes, as in Redis 8.10. A `GROUPBY`'s rows have none: a group has no score of its own. Before 1.2, a row had the score only if a `LOAD` or a `SORTBY` named `@__score`, and a plain `ADDSCORES` gave rows with no fields.
 
 An index that does not exist is `SEARCH_INDEX_NOT_FOUND Index not found: <index>`.
 
@@ -74,4 +76,14 @@ An index that does not exist is `SEARCH_INDEX_NOT_FOUND Index not found: <index>
    5) "double"
    6) "70"
 ...
+> FT.AGGREGATE products usb ADDSCORES LOAD 1 @name
+1) (integer) 2
+2) 1) "__score"
+   2) "0.6333549307708415"
+   3) "name"
+   4) "Desk lamp with USB port"
+3) 1) "__score"
+   2) "0.5680231890939452"
+   3) "name"
+   4) "USB-C cable, 2 m"
 ```

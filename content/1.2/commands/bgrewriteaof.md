@@ -31,7 +31,7 @@ A rewrite saves a snapshot to `dump.kdb` as well, and moves [`LASTSAVE`](lastsav
 
 A `BGREWRITEAOF` sent while another checkpoint runs is served by one more rewrite after it, however many are sent meanwhile. Checkpoints, the snapshots and rewrites of the append-only file, run one at a time; one has the persistence files to itself until it has finished. Since 1.1.3: before it, checkpoints that overlapped could lose acknowledged writes or bring deleted keys back. See [Persistence](../guides/persistence.md).
 
-A script cannot run it: it is refused, as in Redis.
+A script cannot run it: it is refused with `ERR This Redis command is not allowed from script`, as in Redis. Before 1.2, a script could.
 
 ## Reply
 

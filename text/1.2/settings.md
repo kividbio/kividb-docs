@@ -150,9 +150,9 @@ It works the other way too, as in Redis: a master disconnects a replica that is 
 === lazyfree-lazy-expire
 @group Replication
 @file yes
-How a key the master expires is written to the append-only file and sent to replicas: as `UNLINK` with `yes`, the default, or as `DEL` with `no`. Either deletes the key; the setting only picks the command, for tools that read the stream. A master writes and sends one for every key it expires, whether a read, a write or the background task found it. `CONFIG SET` changes it, and so does a line in the configuration file.
+How a key the master expires is written to the append-only file and sent to replicas: as `UNLINK` with `yes`, the default, or as `DEL` with `no`. Either deletes the key; the setting only picks the command, for tools that read the stream. A master writes and sends one for every key it expires, whether a read, a write or the background task found it. `CONFIG SET` changes it, and so does a line in the configuration file. It takes only `yes` or `no`, as in Redis; another value is refused, and stops the server in the configuration file.
 
-Since 1.1.3, and in 1.2. Before 1.1.3, nothing was written or sent for an expired key, and the setting did nothing; in 1.1.3, a line in the configuration file was accepted with a warning and changed nothing. See [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
+Since 1.1.3, and in 1.2. Before 1.1.3, nothing was written or sent for an expired key, and the setting did nothing; in 1.1.3, a line in the configuration file was accepted with a warning and changed nothing, and any value was taken. See [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
 === repl-ping-replica-period
 @group Replication
 Seconds between the pings a master sends its replicas, so that a replica can tell a master with nothing to send from one that is gone.
@@ -349,7 +349,7 @@ In Redis, how many times a second background tasks run. KiviDB's run on their ow
 In Redis, rehashes the main hash table a little at a time in the background. KiviDB's tables are resized as they grow and shrink; `CONFIG GET` gives back what was set.
 === lazyfree-lazy-eviction
 @group Memory and eviction
-In Redis, frees evicted keys in the background. It has no effect in KiviDB; `CONFIG GET` gives back what was set.
+In Redis, frees evicted keys in the background. It has no effect in KiviDB; `CONFIG GET` gives back what was set. It takes only `yes` or `no`, as in Redis; before 1.2, any value.
 === appendonly
 @group Persistence
 Turns the append-only file on or off: every write is appended to `appendonly.aof`, and replayed when the server starts. `CONFIG SET appendonly yes` turns it on at once, writing a snapshot first. On the command line it is [`--aof`](#aof). A write is acknowledged once its record is in the file, unless [`aof-ack-after-write`](#aof-ack-after-write) is `no`. The file is flushed to disk once a second; [`appendfsync`](#accepted-for-compatibility-with-redis) cannot change that.
@@ -427,6 +427,12 @@ What a [time series](../commands/ts.create.md) made without a `DUPLICATE_POLICY`
 === latency-monitor-threshold
 @group Diagnostics
 Milliseconds a command must take for the latency monitor to record it, as a `command` or `fast-command` event, in [`LATENCY LATEST`](../commands/latency-latest.md) and [`LATENCY HISTORY`](../commands/latency-history.md). `0`, the default, records none. Before 1.2, these events were recorded by [`slowlog-log-slower-than`](#slowlog-log-slower-than), and this setting did nothing.
+=== latency-tracking
+@group Diagnostics
+Whether the server keeps each command's run times for `INFO latencystats`: `yes`, the default, or `no`, with which `INFO latencystats` is empty. It takes only `yes` or `no`, as in Redis. `CONFIG SET` changes it, and so does a line in the configuration file. Before 1.2, `INFO latencystats` was always empty, and the setting took any value. See [Monitoring](../guides/monitoring.md).
+=== latency-tracking-info-percentiles
+@group Diagnostics
+The percentiles `INFO latencystats` gives for each command, as numbers separated by spaces: `50 99 99.9` by default. Each is a bucket of the command's run-time histogram, so a power of two microseconds. `CONFIG SET` changes it, and so does a line in the configuration file. Before 1.2, `INFO latencystats` was always empty.
 === lazyfree-lazy-user-del
 @group Memory and eviction
-In Redis, makes `DEL` free a key's memory in the background, as `UNLINK` does. KiviDB's `DEL` frees it before replying; `CONFIG GET` gives `no`, which says so, and gives back what was set. Before 1.2, it gave `yes`.
+In Redis, makes `DEL` free a key's memory in the background, as `UNLINK` does. KiviDB's `DEL` frees it before replying; `CONFIG GET` gives `no`, which says so, and gives back what was set. It takes only `yes` or `no`, as in Redis. Before 1.2, it gave `yes`, and took any value.

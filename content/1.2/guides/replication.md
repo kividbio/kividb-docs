@@ -80,7 +80,15 @@ What it returns can be a little behind the master. It serves its data while it i
 
 A replica does not delete expired keys itself: its clients see a key past its time as gone, and it is deleted when the master's `UNLINK` for it arrives (a `DEL` with [`lazyfree-lazy-expire no`](../reference/configuration.md#lazyfree-lazy-expire)), as in Redis. The master sends one for every key it expires, whether a read, a write or the background task found it. Until it arrives, the key still counts in `DBSIZE` and `INFO keyspace`. Since 1.1.3: before it, the master sent no deletions, and a replica expired keys by its own clock, so it could delete a key while the master's writes to it were still on the way, and diverge from the master. See [Keys and expiry](expiration.md#replicas-snapshots-and-the-append-only-file).
 
-A replica of a master older than 1.1.3, which sends no deletions, expires keys by its own clock, as before; keep the machines' clocks in step, with NTP, while it follows one.
+A replica of a master that sends no deletions, KiviDB 1.1.2 or older (or 1.2.0-rc1 or -rc2), expires keys by its own clock, as every replica did before 1.1.3: it deletes them, and sends nothing on. Otherwise it would keep every key that master expires, unseen by reads but in memory, for good. Keep the machines' clocks in step, with NTP, while it follows one. The replica asks its master which release it is when it connects, and logs:
+
+```
+[INFO] Replication: The master (KiviDB 1.1.2) does not send the deletion of the keys it expires: this replica expires keys itself while it follows it
+```
+
+A master that sends them says so in `INFO server`, `kividb_expired_keys_propagated:1`; 1.1.3 and later 1.1 releases are known by their version. A master that is not KiviDB (Redis, Valkey) sends them. A master whose `INFO` the replica cannot read (an ACL that refuses it to the replication user, say) is taken to send them, as 1.1.3 took every master.
+
+When the master is then upgraded and the replica goes on from it by a partial resync, the replica first deletes the keys whose time ended before the upgraded master started; a key that expired later is that master's to delete. A 1.1.3 replica of such a master keeps the keys it expires, for good ([kividb#231](https://github.com/kividbio/kividb/issues/231)): ten keys set with `PX 1000` leave the master with none of them and that replica with all ten. Upgrade replicas of a 1.1.2 or older master to 1.2, not to 1.1.3.
 
 ### Transactions and scripts
 

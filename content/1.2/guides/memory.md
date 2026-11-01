@@ -86,7 +86,9 @@ With an eviction policy, the client whose command finds the server over the limi
 
 The choice is approximate, as in Redis: each time, [`maxmemory-samples`](../reference/configuration.md#maxmemory-samples) keys (5) are looked at, each picked at random from all the keys, and the one the policy wants least goes. The four it wanted least after that one are kept, and looked at again, as they are by then, with the next sample, so that a key the policy does not want does not stay only because it was not picked again. More samples choose better, and cost more. For the LFU policies, [`lfu-log-factor`](../reference/configuration.md#lfu-log-factor) and [`lfu-decay-time`](../reference/configuration.md#lfu-decay-time) set how use is counted and forgotten.
 
-A key's use is noted by the command that finds it, as it finds it. Commands that look at a key without using it, `OBJECT`, `TYPE`, `TTL`, `EXISTS`, do not count. A key written over keeps its count. Changing `maxmemory-policy` between an LRU and an LFU policy starts every key afresh.
+A key's use is noted by the command that finds it, as it finds it. Commands that look at a key without using it, `OBJECT`, `TYPE`, `TTL`, `EXISTS`, do not count. A key written over keeps its count. So does a key a command leaves where it is: `GETDEL` of a key of another type (`WRONGTYPE`), `MOVE` to a database that already has the key, `RENAME` of a key to itself; each counts as a use. A key `MOVE` does move keeps its count and its idle time, as in Redis. A key past its time to live is not counted as used by any command: it is gone. Changing `maxmemory-policy` between an LRU and an LFU policy starts every key afresh.
+
+In the release candidates before `v1.2.0-rc3`, `GETDEL` of a key of another type, `MOVE` onto a key that was there and `RENAME` of a key to itself took the key out and put it back as a new one: under an LFU policy its count started again at 5 ([kividb#221](https://github.com/kividbio/kividb/issues/221)). 1.1 kept the count.
 
 Before 1.2, the keys looked at were a run of neighbouring places from a random one, and some places came up far more often than others: under `allkeys-lfu`, with 20,000 keys read again and again and 300,000 written once into 64 MB, a quarter of the keys that were read went. In 1.2 the same test keeps 96% of them, as Redis 8.10 does.
 
@@ -119,6 +121,8 @@ value_slab_live_bytes:320134400
 Values kept apart, strings over about 4 KB and the elements of lists, hashes, sets and sorted sets, are kept by the system allocator, and what they free is given back as it allows. `FLUSHALL` and `FLUSHDB` give everything back; `FLUSHALL ASYNC` frees in the background. [`MEMORY PURGE`](../commands/memory-purge.md) asks the allocator to give back what it can.
 
 On Windows, slabs that empty are kept for reuse rather than given back.
+
+Known issues ([kividb#240](https://github.com/kividbio/kividb/issues/240)): after light churn, 10 to 20% of the keys deleted and written again, `used_memory_rss` settles 13 to 16% above what it was after loading, and stays there: the free blocks are in slabs that are still three quarters full or more, which active defrag does not take. With values of 1 KB, active defrag can also raise `used_memory_rss` for a while during heavy churn, by up to about a quarter, before it settles. Values of about 3.8 to 4 KB take up to about 200 bytes a key (5%) more than in 1.1.3, which `used_memory` does not show, and values over about 4 KB, which the system allocator keeps, are written about 8% slower than in 1.1.3.
 
 ## Freeing large values
 

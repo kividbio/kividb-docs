@@ -162,9 +162,9 @@ With no password set, `AUTH <password>` is refused, as in Redis: `ERR AUTH <pass
 
 **Default:** `yes` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-How a key the master expires is written to the append-only file and sent to replicas: as `UNLINK` with `yes`, the default, or as `DEL` with `no`. Either deletes the key; the setting only picks the command, for tools that read the stream. A master writes and sends one for every key it expires, whether a read, a write or the background task found it. `CONFIG SET` changes it, and so does a line in the configuration file.
+How a key the master expires is written to the append-only file and sent to replicas: as `UNLINK` with `yes`, the default, or as `DEL` with `no`. Either deletes the key; the setting only picks the command, for tools that read the stream. A master writes and sends one for every key it expires, whether a read, a write or the background task found it. `CONFIG SET` changes it, and so does a line in the configuration file. It takes only `yes` or `no`, as in Redis; another value is refused, and stops the server in the configuration file.
 
-Since 1.1.3, and in 1.2. Before 1.1.3, nothing was written or sent for an expired key, and the setting did nothing; in 1.1.3, a line in the configuration file was accepted with a warning and changed nothing. See [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
+Since 1.1.3, and in 1.2. Before 1.1.3, nothing was written or sent for an expired key, and the setting did nothing; in 1.1.3, a line in the configuration file was accepted with a warning and changed nothing, and any value was taken. See [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
 
 ### `masterauth`
 
@@ -407,7 +407,7 @@ Records every key's use whatever the eviction policy, so that [`OBJECT IDLETIME`
 
 **Default:** `no` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-In Redis, frees evicted keys in the background. It has no effect in KiviDB; `CONFIG GET` gives back what was set.
+In Redis, frees evicted keys in the background. It has no effect in KiviDB; `CONFIG GET` gives back what was set. It takes only `yes` or `no`, as in Redis; before 1.2, any value.
 
 ### `lazyfree-lazy-user-del`
 
@@ -415,7 +415,7 @@ In Redis, frees evicted keys in the background. It has no effect in KiviDB; `CON
 
 The default became `no` in 1.2.0.
 
-In Redis, makes `DEL` free a key's memory in the background, as `UNLINK` does. KiviDB's `DEL` frees it before replying; `CONFIG GET` gives `no`, which says so, and gives back what was set. Before 1.2, it gave `yes`.
+In Redis, makes `DEL` free a key's memory in the background, as `UNLINK` does. KiviDB's `DEL` frees it before replying; `CONFIG GET` gives `no`, which says so, and gives back what was set. It takes only `yes` or `no`, as in Redis. Before 1.2, it gave `yes`, and took any value.
 
 ### `lfu-decay-time`
 
@@ -461,6 +461,18 @@ How many keys are looked at to choose each one to delete. Each is picked at rand
 **Default:** `0` · **Since:** 1.2.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
 Milliseconds a command must take for the latency monitor to record it, as a `command` or `fast-command` event, in [`LATENCY LATEST`](../commands/latency-latest.md) and [`LATENCY HISTORY`](../commands/latency-history.md). `0`, the default, records none. Before 1.2, these events were recorded by [`slowlog-log-slower-than`](#slowlog-log-slower-than), and this setting did nothing.
+
+### `latency-tracking`
+
+**Default:** `yes` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+Whether the server keeps each command's run times for `INFO latencystats`: `yes`, the default, or `no`, with which `INFO latencystats` is empty. It takes only `yes` or `no`, as in Redis. `CONFIG SET` changes it, and so does a line in the configuration file. Before 1.2, `INFO latencystats` was always empty, and the setting took any value. See [Monitoring](../guides/monitoring.md).
+
+### `latency-tracking-info-percentiles`
+
+**Default:** `50 99 99.9` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+The percentiles `INFO latencystats` gives for each command, as numbers separated by spaces: `50 99 99.9` by default. Each is a bucket of the command's run-time histogram, so a power of two microseconds. `CONFIG SET` changes it, and so does a line in the configuration file. Before 1.2, `INFO latencystats` was always empty.
 
 ### `log-format`
 
@@ -753,8 +765,6 @@ These are Redis settings that mean nothing in KiviDB: how Redis encodes small va
 | `hash-max-ziplist-entries` | `512` | 1.1.0 | yes |
 | `hash-max-ziplist-value` | `64` | 1.1.0 | yes |
 | `hll-sparse-max-bytes` | `3000` | 1.1.0 | yes |
-| `latency-tracking` | `yes` | 1.1.0 | yes |
-| `latency-tracking-info-percentiles` | `50 99 99.9` | 1.1.0 | yes |
 | `lazyfree-lazy-server-del` | `yes` | 1.1.0 | yes |
 | `lazyfree-lazy-user-flush` | `no` | 1.1.0 | yes |
 | `list-compress-depth` | `0` | 1.1.0 | yes |

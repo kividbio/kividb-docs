@@ -74,7 +74,7 @@ A master writes an `UNLINK` for every key it expires to its append-only file and
 
 That is since 1.1.3. Before it, the master wrote and sent nothing when a key expired: a replica expired keys by its own clock, and could delete a key while the master's writes to it were still on the way, and diverge from the master; and a restart after a key's time replayed a write made while it lived onto a missing key, which then came back with no time to live, for good.
 
-A 1.2 replica of a master older than 1.1.3, which sends no deletions, expires keys by its own clock, as before, so that they do not stay on it for good while the master is upgraded. Keep the machines' clocks in step, with NTP, while such a master runs: a replica whose clock is ahead of its master's drops keys early.
+A 1.2 replica of a master that sends no deletions (KiviDB 1.1.2 or older) expires keys by its own clock, as before, so that they do not stay on it for good while the master is upgraded; it deletes them and sends nothing on. Keep the machines' clocks in step, with NTP, while such a master runs: a replica whose clock is ahead of its master's drops keys early. A master says that it sends deletions in `INFO server`, `kividb_expired_keys_propagated:1`. See [Replication](replication.md#what-a-replica-serves).
 
 ## In a cluster
 

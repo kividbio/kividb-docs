@@ -29,7 +29,7 @@ The snapshot is the dataset at one moment: a transaction, a script or an `MSET` 
 
 If another checkpoint is running, `SAVE` waits for it, and saves after it. Checkpoints, the snapshots and rewrites of the append-only file, run one at a time; one has the persistence files to itself until it has finished. Since 1.1.3: before it, checkpoints that overlapped could lose acknowledged writes or bring deleted keys back. See [Persistence](../guides/persistence.md).
 
-A script cannot run it: it is refused, as in Redis.
+A script cannot run it: it is refused with `ERR This Redis command is not allowed from script`, as in Redis. Before 1.2, a script could.
 
 ## Examples
 
