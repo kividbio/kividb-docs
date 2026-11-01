@@ -40,7 +40,7 @@ Results are ranked by BM25 for text, and by distance for KNN.
 ## Reply
 
 - An array: the total number of matches, then for each result its key and its fields, as name-value pairs. An `ON JSON` index returns a document whole under `$`.
-- `<index>: no such index`; `Unknown field at offset ...` for a field the schema does not have.
+- `SEARCH_INDEX_NOT_FOUND Index not found: <index>`, since 1.1.3, as in Redis 8 (before it, `<index>: no such index`); `Unknown field at offset ...` for a field the schema does not have.
 
 ## Examples
 

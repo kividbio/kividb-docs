@@ -350,8 +350,9 @@ def config_page(version, release, releases, history):
                      "version": version, "weight": 20}, "\n".join(body))
 
 
-def changes_page(version, releases, history, withdrawn=None):
+def changes_page(version, releases, history, withdrawn=None, notes=None):
     withdrawn = withdrawn or {}
+    notes = notes or {}
     by_release = {r["release"]: r for r in history["releases"]}
     body = []
     for release in reversed(releases):
@@ -359,6 +360,8 @@ def changes_page(version, releases, history, withdrawn=None):
         body += [f"## {release}", ""]
         if release in withdrawn:
             body += [f"**Withdrawn.** {withdrawn[release]}", ""]
+        if release in notes:
+            body += [notes[release], ""]
         if release == history["baseline"]:
             body += ["The first release these docs cover: every command and setting in it is “since " + release + "”.", ""]
             continue
@@ -394,7 +397,7 @@ def main():
         upto = order[: order.index(newest) + 1]
         n = command_pages(v["version"], newest, upto, history)
         config_page(v["version"], newest, upto, history)
-        changes_page(v["version"], releases, history, v.get("withdrawn"))
+        changes_page(v["version"], releases, history, v.get("withdrawn"), v.get("notes"))
         print(v["version"], "from", newest, ":", n, "command pages")
 
 

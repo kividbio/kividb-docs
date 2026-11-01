@@ -10,13 +10,13 @@ weight: 20
 With Docker:
 
 ```bash
-docker run -d --name kividb -p 6380:6380 ghcr.io/kividbio/kividb:v1.1.2
+docker run -d --name kividb -p 6380:6380 ghcr.io/kividbio/kividb:v1.1.3
 ```
 
 Or with a [release binary](install.md#release-binaries):
 
 ```bash
-./kividb
+./kividb/kividb
 ```
 
 KiviDB listens on **port 6380**, on every address, with [protected mode](#protected-mode) on.

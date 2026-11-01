@@ -3276,6 +3276,15 @@
   },
   {
    "commands_added": [],
+   "commands_changed": [],
+   "commands_removed": [],
+   "defaults_changed": [],
+   "release": "1.1.3",
+   "settings_added": [],
+   "settings_removed": []
+  },
+  {
+   "commands_added": [],
    "commands_changed": [
     "ACL|GENPASS",
     "ARGREP",

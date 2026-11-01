@@ -7,7 +7,7 @@ weight: 0
 
 KiviDB is an in-memory database that speaks the Redis protocol (RESP2 and RESP3). Existing Redis clients, `redis-cli` and libraries work with it unchanged. It is written in Rust, runs on every core of the machine, and has full-text, tag, numeric and vector search built in. It keeps data on disk in snapshots and an optional append-only file.
 
-These pages document KiviDB 1.1, which covers releases 1.1.0, 1.1.1 and 1.1.2. A page says where a patch release added or changed something. 1.1.1 was withdrawn: use 1.1.2, which includes everything in it (see [What changed](changes.md#111)).
+These pages document KiviDB 1.1, which covers releases 1.1.0, 1.1.1, 1.1.2 and 1.1.3. A page says where a patch release added or changed something. 1.1.3 is a security release, and includes everything in 1.1.1 and 1.1.2: use it, and upgrade a replicated deployment replicas first (see [Replication](guides/replication.md#upgrading)). 1.1.1 was withdrawn (see [What changed](changes.md#111)).
 
 ## Where to start
 

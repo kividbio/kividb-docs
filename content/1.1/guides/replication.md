@@ -70,13 +70,15 @@ A master disconnects a replica that has more than [`repl-replica-max-backlog-byt
 
 A replica that hears nothing from its master for [`repl-timeout`](../reference/configuration.md#repl-timeout) seconds (60) takes the link to be down and connects again; the master pings it every [`repl-ping-replica-period`](../reference/configuration.md#repl-ping-replica-period) seconds (10), so a quiet master is not mistaken for a lost one.
 
+The other way round, a master disconnects a replica that is online and has sent no acknowledgement (`REPLCONF ACK`) for `repl-timeout` seconds, as Redis does, and logs `Replication: disconnecting timedout replica <ip>:<port>`. That is a replica whose machine went away without closing the connection: a terminated VM, a lost network path, a paused container. A replica still loading the dataset sends no acknowledgement, and is not timed out. Since 1.1.3: before it, such a replica stayed in `INFO replication` as `state=online`, its `lag` growing, and was counted in `connected_slaves` until the master restarted. [`min-replicas-to-write`](../reference/configuration.md#min-replicas-to-write) and [`WAIT`](../commands/wait.md) were not misled by it: they go by each replica's last acknowledgement.
+
 ## What a replica serves
 
 A replica is read-only: a write is refused with `READONLY You can't write against a read only replica.` [`replica-read-only no`](../reference/configuration.md#accepted-for-compatibility-with-redis) is refused in the configuration file.
 
 What it returns can be a little behind the master. It serves its data while it is disconnected from the master, too.
 
-A replica expires keys by its own clock: the master does not send it the deletions. Times to live are sent as the time the key expires, so a replica whose clock is ahead of the master's drops keys early. Keep the clocks in step.
+A replica does not delete expired keys itself: its clients see a key past its time as gone, and it is deleted when the master's `DEL` (`UNLINK`) for it arrives, as in Redis. The master sends one for every key it expires, whether a read, a write or the background task found it. Since 1.1.3: before it, the master sent no deletions, and a replica expired keys by its own clock, so it could delete a key while the master's writes to it were still on the way, and diverge from the master. See [Keys and expiry](expiration.md#replicas-snapshots-and-the-append-only-file).
 
 ### Known issue
 
@@ -114,6 +116,14 @@ Make every replica a replica of the master.
 ### Known issue
 
 A replica accepts replicas of its own, and sends them its data once, but not the writes after: they stay at that copy while their `ROLE` says `connected`. Filed as [kividb#144](https://github.com/kividbio/kividb/issues/144), fixed in 1.2.
+
+## Upgrading
+
+Upgrade the replicas first, one at a time, and the master last. A replica that restarts loads its own snapshot or append-only file, and catches up from the master's backlog, or with a full copy.
+
+From 1.1.2 or earlier to 1.1.3, upgrade the replicas before their master. In a cluster, a 1.1.3 master that restarts without its data tells its replicas not to copy its empty dataset (see [Cluster](cluster.md#a-master-back-without-its-data)). A 1.1.2 replica does not understand that: once the master stops waiting, after 30 seconds, it copies the empty dataset and drops its own, as 1.1.2 did. With the replicas on 1.1.3 first, nothing is lost.
+
+Keep the time between upgrading the replicas and the master short. While a 1.1.3 replica follows a 1.1.2 master, keys that expire on the master are not deleted on the replica: the 1.1.2 master sends no deletion, and a 1.1.3 replica deletes no expired key itself. Clients do not see them, but they take memory and count in `DBSIZE` and `INFO keyspace`, and they are still there after the master is upgraded and the replica carries on from its stream.
 
 ## Redis and KiviDB
 

@@ -17,6 +17,16 @@ A configuration file with a line the server does not know stops it from starting
 
 The address to listen on. `0.0.0.0`, the default, is every IPv4 address of the machine; `127.0.0.1` is this machine only. Giving `bind`, on the command line or in the file, turns [`protected-mode`](#protected-mode) off.
 
+### `maxclients`
+
+**Default:** `10000` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+The most clients connected at once, plaintext and TLS together; a TLS client counts from the start of its handshake. One more is closed: a plaintext client first gets `ERR max number of clients reached`, as in Redis. Lowering it with `CONFIG SET` leaves the clients already connected; `INFO clients` gives the value in effect.
+
+At startup KiviDB raises the open-file limit (`ulimit -n`) to `maxclients` plus what the server keeps for itself (32 files, or on io_uring 40 and 8 a worker thread), if the hard limit allows; if it does not, it lowers `maxclients` to fit and logs a warning (`maxclients 10000 needs 10032 open files, but the limit (ulimit -n) allows 1024: maxclients is 992`). It does not start if not even one client fits. `CONFIG SET maxclients` refuses a value the limit cannot hold, and says what would fit. `0` is refused, in the file and by `CONFIG SET`.
+
+Enforced since 1.1.3. In 1.1.0 to 1.1.2, `CONFIG SET` took it and `CONFIG GET` gave it back, but nothing checked it, and a configuration file that set it did not start (`unknown directive 'maxclients'`). The limit on TLS clients is part of the fix for [GHSA-58x5-jq4h-h6rr](https://github.com/kividbio/kividb/security/advisories/GHSA-58x5-jq4h-h6rr): a client that opened TLS connections and sent nothing could hold up every other TLS client.
+
 ### `port`
 
 **Default:** `6380` · **Since:** 1.1.0 · **Command line:** `--port <PORT>`
@@ -119,6 +129,12 @@ The `default` user's password. Empty, the default: no password, and clients are 
 
 ## Replication
 
+### `lazyfree-lazy-expire`
+
+**Default:** `yes` · **Since:** 1.1.0 · **Command line:** no · **Config file:** accepted, but has no effect · **`CONFIG SET`:** yes
+
+Since 1.1.3, how a key the master expires is written to the append-only file and sent to replicas: as `UNLINK` with `yes`, the default, or as `DEL` with `no`. Either deletes the key; the setting only picks the command, for tools that read the stream. `CONFIG SET` changes it; a line in the configuration file is accepted with a warning and changes nothing. Before 1.1.3, nothing was written or sent for an expired key, and the setting did nothing. See [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
+
 ### `masterauth`
 
 **Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--masterauth <MASTERAUTH>` · **Config file:** yes · **`CONFIG SET`:** yes
@@ -181,6 +197,8 @@ The most bytes a master queues for one replica that is not keeping up. Past it, 
 **Default:** `60` · **Since:** 1.1.0 · **Command line:** `--repl-timeout <REPL_TIMEOUT>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 Seconds without a byte from its master before a replica takes the link to be down, and connects again. It is also the limit on each step of connecting. It is what notices a master that has been switched off or cut off by the network, which closes no connection.
+
+Since 1.1.3 it works the other way too, as in Redis: a master disconnects a replica that is online and has sent no acknowledgement for this many seconds, and logs `Replication: disconnecting timedout replica <ip>:<port>`. Before 1.1.3, such a replica stayed listed as `state=online` until the master restarted. See [Replication](../guides/replication.md#a-replica-that-falls-behind).
 
 ### `replica-announced-port`
 
@@ -602,14 +620,12 @@ These are Redis settings that mean nothing in KiviDB: how Redis encodes small va
 | `hll-sparse-max-bytes` | `3000` | 1.1.0 | no: the server does not start |
 | `latency-tracking` | `yes` | 1.1.0 | no: the server does not start |
 | `latency-tracking-info-percentiles` | `50 99 99.9` | 1.1.0 | no: the server does not start |
-| `lazyfree-lazy-expire` | `yes` | 1.1.0 | accepted, but has no effect |
 | `lazyfree-lazy-server-del` | `yes` | 1.1.0 | accepted, but has no effect |
 | `lazyfree-lazy-user-del` | `yes` | 1.1.0 | accepted, but has no effect |
 | `lazyfree-lazy-user-flush` | `no` | 1.1.0 | no: the server does not start |
 | `list-compress-depth` | `0` | 1.1.0 | no: the server does not start |
 | `list-max-listpack-size` | `-2` | 1.1.0 | no: the server does not start |
 | `list-max-ziplist-size` | `-2` | 1.1.0 | no: the server does not start |
-| `maxclients` | `10000` | 1.1.0 | no: the server does not start |
 | `maxmemory-clients` | `0` | 1.1.0 | no: the server does not start |
 | `proto-max-bulk-len` | `536870912` | 1.1.0 | no: the server does not start |
 | `save` | (empty) | 1.1.0 | accepted, but has no effect |

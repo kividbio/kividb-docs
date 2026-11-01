@@ -47,7 +47,20 @@ The fields of a hash can expire one by one, as in Redis 7.4:
 
 ## When expired keys are deleted
 
-An expired key is never returned: a command that reads it finds it gone, and deletes it then. Keys that are not read are deleted by a background task, which looks through keys with a time to live ten times a second, for up to 25 milliseconds each time, and sooner again while many of those it finds have expired. So an expired key that nobody reads is deleted soon after its time, not at it: the `expired` [notification](pub-sub.md#keyspace-notifications) comes then.
+An expired key is never returned: a command that reads it finds it gone, and deletes it then. A command that writes to it finds it gone too: the key is expired first (counted in `expired_keys`, announced as `expired`), and the write makes a new key, with no time to live, as in Redis:
+
+```
+> SET counter 10 PX 100
+OK
+> INCR counter
+(integer) 1
+> TTL counter
+(integer) -1
+```
+
+That is since 1.1.3, which fixes [GHSA-rhrj-pgm8-2686](https://github.com/kividbio/kividb/security/advisories/GHSA-rhrj-pgm8-2686) (the `INCR` above was sent after the 100 milliseconds). Before it, a write that came before the deletion acted on the old key: `INCR` counted on from the old value, `RPUSH` pushed onto the old list, the key kept its old time to live, and the write was deleted with the key moments after it was acknowledged. `SORT ... STORE` from such a key left the destination as it was; it now deletes it and returns `0`, as from a missing key.
+
+Keys that are not read are deleted by a background task, which looks through keys with a time to live ten times a second, for up to 25 milliseconds each time, and sooner again while many of those it finds have expired. So an expired key that nobody reads is deleted soon after its time, not at it: the `expired` [notification](pub-sub.md#keyspace-notifications) comes then.
 
 `INFO stats` counts the deletions in `expired_keys`, and those the background task made in `expired_keys_active`.
 
@@ -57,7 +70,9 @@ Expired keys are not deleted while writes are paused, by `CLIENT PAUSE WRITE` or
 
 Times to live are kept as the time the key expires, not the time left: in snapshots, in the append-only file, and in what a master sends its replicas. A key that expired while the server was stopped is gone when it starts.
 
-A replica expires keys by its own clock; a Redis replica instead waits for its master to delete them. A replica whose clock is ahead of its master's drops keys early; keep the machines' clocks in step, with NTP.
+A master writes an `UNLINK` for every key it expires to its append-only file and to its replicas, whether a read, a write or the background task found it (a `DEL` with [`lazyfree-lazy-expire no`](../reference/configuration.md#lazyfree-lazy-expire)). Nothing expires while the append-only file or a snapshot is loaded, or while a replica applies its master's stream. A replica deletes no expired key itself: its clients see a key past its time as gone, and it is deleted when the master's `UNLINK` arrives, as in Redis.
+
+That is since 1.1.3. Before it, the master wrote and sent nothing when a key expired: a replica expired keys by its own clock, and could delete a key while the master's writes to it were still on the way, and diverge from the master; and a restart after a key's time replayed a write made while it lived onto a missing key, which then came back with no time to live, for good. On those releases keep the machines' clocks in step, with NTP: a replica whose clock is ahead of its master's drops keys early.
 
 ## In a cluster
 

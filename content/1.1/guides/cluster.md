@@ -101,6 +101,18 @@ Replication in a cluster is what it is between standalone servers, asynchronous:
 
 In KiviDB 1.1, the replicas of a failed master are not ranked by how up to date they are, so one that is behind can win the election, and the writes it had not received are lost. Fixed in 1.2. Filed as [kividb#107](https://github.com/kividbio/kividb/issues/107), fixed in 1.2.
 
+### A master back without its data
+
+A master that is killed outright, with the append-only file off, has no snapshot from a clean shutdown to start from, and can come back, under its old ID from `nodes.conf` and inside `cluster-node-timeout`, with nothing. Since 1.1.3, a master that starts with neither an append-only file nor a snapshot from a clean shutdown, and has replicas, serves none of its slots: keyed commands get `CLUSTERDOWN`, `CLUSTER INFO` says `cluster_state:fail`, and `INFO replication` on it says `master_lost_dataset:1`. It answers its replicas' `PSYNC` with `+LOSTDATA <node id>`. A replica that holds the data takes over, by an election as with [`CLUSTER FAILOVER FORCE`](../commands/cluster-failover.md), and the old master becomes its replica. A replica that holds nothing says so, and once every replica has, the master serves what it has: a whole cluster restarted with no persistence comes back without failovers. The master also serves once every replica has failed, or when no replica that knows `+LOSTDATA` (1.1.2 and earlier) has asked within `max(30 s, 6 × cluster-node-timeout)`.
+
+And a 1.1.3 replica does not drop its data for the master it was following until a moment ago (within [`repl-timeout`](../reference/configuration.md#repl-timeout)) when that master comes back under a replication ID that does not continue its stream and with fewer than [`replica-full-sync-guard-ratio`](../reference/configuration.md#replica-full-sync-guard-ratio) percent of its keys, whatever [`replica-full-sync-guard`](../reference/configuration.md#replica-full-sync-guard) says: it takes over instead.
+
+A cluster node's clean stop, `SHUTDOWN` or `SIGTERM`, leaves `dump.kdb.clean` beside the final snapshot, to say it is whole; with it, or with the append-only file on, a restart goes on as before.
+
+In 1.1.0 to 1.1.2, such a master served its slots empty, and nobody failed it over. Its replica refused the empty dataset only until clients had written a key to the master, and then dropped every key it held and copied the master's few.
+
+Because 1.1.2 replicas do not understand `+LOSTDATA`, upgrade every master's replicas before the master: see [Upgrading](replication.md#upgrading).
+
 ## Reading from replicas
 
 A client can send reads to a master's replicas, after [`READONLY`](../commands/readonly.md) on the connection; writes are still redirected to the master. What a replica returns can be a little behind. Cluster clients have an option for it (`read_from_replicas`, `scaleReads`, `ReadFrom`).

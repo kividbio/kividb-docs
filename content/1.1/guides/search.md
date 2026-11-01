@@ -34,7 +34,7 @@ The index covers the hashes whose names start with `product:`, those there alrea
 
 A document is indexed as it is written: once `HSET` or `JSON.SET` returns, searches find it. `FT.CREATE` indexes the keys already there before it replies (`SKIPINITIALSCAN` skips them), and so can take a while on a large dataset.
 
-Indexes are kept in the snapshot, HNSW graphs included, and the rest is built again from the keys when the server starts; meanwhile commands get `LOADING`. A replica builds its own. In a [cluster](cluster.md), each master indexes its own keys, `FT.CREATE` and `FT.DROPINDEX` reach every master, and `FT.SEARCH` and `FT.AGGREGATE` ask every master and merge their answers.
+Indexes are kept in the snapshot, HNSW graphs included, and the rest is built again from the keys when the server starts; meanwhile commands get `LOADING`. An index belongs to the database it was created in: writes in other databases do not touch it. A replica builds its own. In a [cluster](cluster.md), each master indexes its own keys, `FT.CREATE` and `FT.DROPINDEX` reach every master, and `FT.SEARCH` and `FT.AGGREGATE` ask every master and merge their answers.
 
 ## Searching
 
@@ -141,7 +141,15 @@ Accepted, and doing nothing: stemming (`LANGUAGE`, `NOSTEM`), `PHONETIC`, synony
 Filed as [kividb#162](https://github.com/kividbio/kividb/issues/162), fixed in 1.2:
 
 - BM25 scores drift as documents are updated and deleted: the statistics they are computed from only grow, until a restart. Rankings get worse on data that changes.
-- `FT.DROPINDEX index DD` drops the index and keeps the documents.
 - A KNN clause in `FT.AGGREGATE` is ignored: every document is returned.
+
+Fixed in 1.1.3:
+
+- `FT.DROPINDEX index DD` dropped the index and kept the documents ([kividb#162](https://github.com/kividbio/kividb/issues/162)). It now deletes them, as in Redis: see [`FT.DROPINDEX`](../commands/ft.dropindex.md).
+- After a start from an append-only file with no snapshot in it, each HNSW graph held one vector: an unfiltered KNN query found one document, and `FT.INFO` gave `hnsw_live_count` 1. The bug was there since 1.0.
+- A hash written or deleted under the same key in another database was applied to the index: an `HSET` there replaced the index's own document's vector and added its words, and a `DEL` there took the document out. Writes, deletions, expiry and eviction now reach the indexes of their own database only.
+- A key deleted by a read that found it expired stayed in the indexes, and KNN queries went on returning it; only keys the background expiry removed left them.
+- `RENAME` and `RENAMENX` left a document in the indexes under its old name, and the new name in none. Now the old name leaves the indexes and the new one is indexed whole, in place of whatever the indexes held for it.
+- An index that does not exist was reported as `<name>: no such index` or `ERR no such index`, depending on the command; every `FT.*` command now replies `SEARCH_INDEX_NOT_FOUND Index not found: <name>`, as Redis 8 does. Clients that create the index when the error says "not found" (mem0's Valkey store) failed on a new database. A client that looked for `no such index` must look for `Index not found`.
 
 [Vector sets](../commands/vadd.md), `VADD` and `VSIM`, are searched exhaustively, and their `FILTER`, `REDUCE`, `Q8` and `BIN` options do nothing ([kividb#132](https://github.com/kividbio/kividb/issues/132), fixed in 1.2).

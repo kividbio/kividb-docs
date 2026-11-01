@@ -22,7 +22,7 @@ A build without Lua answers the scripting commands with an error, rather than ig
 
 KiviDB reads a configuration file like Redis's, `name value` a line, from `--configfile` (by default `/etc/kividb/kividb.conf`). Most settings have Redis's names. [Configuration](../reference/configuration.md) lists every one, and says whether the file takes it.
 
-**Do not copy `redis.conf` across.** A line the server does not know stops it from starting, with the line's number. Start from an empty file, and carry over the settings you changed. Redis settings for machinery KiviDB does not have (`io-threads`, `hz`, `tcp-keepalive`, `lazyfree-*`, `rdbcompression`, …) are accepted with a warning, and do nothing; others stop the server, `maxclients` among them ([kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2).
+**Do not copy `redis.conf` across.** A line the server does not know stops it from starting, with the line's number. Start from an empty file, and carry over the settings you changed. Redis settings for machinery KiviDB does not have (`io-threads`, `hz`, `tcp-keepalive`, `lazyfree-*`, `rdbcompression`, …) are accepted with a warning, and do nothing; others stop the server ([kividb#142](https://github.com/kividbio/kividb/issues/142), fixed in 1.2). `maxclients` was among them until 1.1.3, which takes it.
 
 | Redis setting | In KiviDB |
 |---|---|
@@ -30,7 +30,7 @@ KiviDB reads a configuration file like Redis's, `name value` a line, from `--con
 | `save 3600 1` | No effect: there is no snapshot on a schedule. Use the append-only file, or `BGSAVE`. |
 | `appendfsync` | Always once a second. |
 | `dbfilename`, `appendfilename` | `dump.kdb` and `appendonly.aof`. |
-| `maxclients` | Not limited, and not taken by the file. |
+| `maxclients` | Enforced, and taken by the file, since 1.1.3, within the open-file limit: see [`maxclients`](../reference/configuration.md#maxclients). In 1.1.0 to 1.1.2, not limited, and not taken by the file. |
 | `client-output-buffer-limit` | Not supported. |
 | `loadmodule` | Not supported. Search, JSON, time series and vector sets are built in. |
 | `rename-command` | Not supported: use ACL rules. |
