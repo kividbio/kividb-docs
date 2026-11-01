@@ -68,10 +68,12 @@ A write is acknowledged once its record is in the file, as in Redis: the reply t
 | What happens | What is lost |
 |---|---|
 | `SHUTDOWN`, `SIGTERM`, `docker stop` | Nothing: the server writes out everything and saves a snapshot. |
-| The process is killed (`kill -9`, the out-of-memory killer, a container stopped without a grace period) | No write that was acknowledged: its record is in the file. |
+| The process is killed (`kill -9`, the out-of-memory killer, a container stopped without a grace period) | No write that was acknowledged: its record is in the file. The one exception is below. |
 | The machine crashes or loses power | Up to about the last second of writes. |
 
 Before 1.2, a write was acknowledged once its record was queued for the file, and a process that was killed could lose the last few.
+
+**The exception: a reply waits at most 5 seconds.** If the disk falls so far behind that a write's record hasn't reached the file after 5 seconds, the reply is sent anyway and the server logs `AOF: a reply waited 5 s for its write to reach appendonly.aof and was sent without it`. A process killed just after such a reply can lose that write. It takes a disk that can't keep up: seen after a bulk load of millions of keys, while the file's automatic rewrite competed with the writes on a standard SSD. For write-heavy servers with the append-only file on, use a disk sized for the write rate (premium or provisioned-IOPS volumes), and watch for that log line.
 
 Waiting costs writes, not reads: on a 16-core server, 20 to 28% fewer `SET`s a second with 50 clients, with or without pipelining, and under 10% with one client. Replies waiting at the same time are sent after one write to the file. With the append-only file off, nothing waits. [`aof-ack-after-write no`](../reference/configuration.md#aof-ack-after-write) acknowledges a write once its record is queued, as before 1.2: faster, for those who would rather lose the last few writes to a killed process.
 

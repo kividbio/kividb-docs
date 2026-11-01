@@ -572,7 +572,7 @@ The command-line switch for [`appendonly`](#appendonly): `--aof`, with no value.
 
 **Default:** `yes` · **Since:** 1.2.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-With the [append-only file](#appendonly) on, whether the reply to a write waits until its record is in the file. `yes`, the default, is Redis's guarantee: a process that is killed loses no acknowledged write. `no` acknowledges a write once its record is queued for the file, as KiviDB did before 1.2: faster, and a killed process can lose the last few acknowledged writes. Waiting costs writes, not reads: on a 16-core server, 20 to 28% fewer `SET`s a second with 50 clients, with or without pipelining, and under 10% with one client. With the append-only file off, it changes nothing.
+With the [append-only file](#appendonly) on, whether the reply to a write waits until its record is in the file. `yes`, the default, is Redis's guarantee: a process that is killed loses no acknowledged write, unless the disk fell more than 5 seconds behind: a reply waits at most 5 seconds, then is sent anyway, with a log line (see [Persistence](../guides/persistence.md)). `no` acknowledges a write once its record is queued for the file, as KiviDB did before 1.2: faster, and a killed process can lose the last few acknowledged writes. Waiting costs writes, not reads: on a 16-core server, 20 to 28% fewer `SET`s a second with 50 clients, with or without pipelining, and under 10% with one client. With the append-only file off, it changes nothing.
 
 ### `aof-preamble`
 
