@@ -74,6 +74,13 @@ A master writes an `UNLINK` for every key it expires to its append-only file and
 
 That is since 1.1.3. Before it, the master wrote and sent nothing when a key expired: a replica expired keys by its own clock, and could delete a key while the master's writes to it were still on the way, and diverge from the master; and a restart after a key's time replayed a write made while it lived onto a missing key, which then came back with no time to live, for good. On those releases keep the machines' clocks in step, with NTP: a replica whose clock is ahead of its master's drops keys early.
 
+### Known issues
+
+Each of these leaves a replica, or the append-only file, holding a key its master no longer has. The replica's clients never see the key, since it is past its time, but it takes memory and counts in `DBSIZE` until a full copy from the master replaces it. Both are fixed in 1.2; if you run replicas, upgrade to 1.2.
+
+- An `EXPIRE` or `PEXPIRE` with a time to live of a millisecond or so can delete the key on the master without sending the deletion: the time can pass while the command runs. A time to live of a second or more is not affected. Fixed in 1.2 by [kividb#267](https://github.com/kividbio/kividb/pull/267).
+- A `MOVE` of a key whose time is just passing can answer `0` and still be sent to replicas, which then move the key and keep it. Fixed in 1.2 by [kividb#261](https://github.com/kividbio/kividb/pull/261).
+
 ## In a cluster
 
 A key's time to live goes with it when its slot moves to another node.

@@ -133,7 +133,7 @@ The `default` user's password. Empty, the default: no password, and clients are 
 
 **Default:** `yes` · **Since:** 1.1.0 · **Command line:** no · **Config file:** accepted, but has no effect · **`CONFIG SET`:** yes
 
-Since 1.1.3, how a key the master expires is written to the append-only file and sent to replicas: as `UNLINK` with `yes`, the default, or as `DEL` with `no`. Either deletes the key; the setting only picks the command, for tools that read the stream. `CONFIG SET` changes it; a line in the configuration file is accepted with a warning and changes nothing. Before 1.1.3, nothing was written or sent for an expired key, and the setting did nothing. See [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
+Since 1.1.3, how a key the master expires is written to the append-only file and sent to replicas: as `UNLINK` with `yes`, the default, or as `DEL` with `no`. Either deletes the key; the setting only picks the command, for tools that read the stream. `CONFIG SET` changes it; a line in the configuration file is accepted with a warning and changes nothing. Filed as [kividb#232](https://github.com/kividbio/kividb/issues/232), fixed in 1.2. Before 1.1.3, nothing was written or sent for an expired key, and the setting did nothing. See [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
 
 ### `masterauth`
 
