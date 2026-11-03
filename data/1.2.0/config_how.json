@@ -327,7 +327,7 @@
    "arg": "<CLUSTER_SLOT_MIGRATION_WRITE_PAUSE_TIMEOUT>",
    "default": "10000",
    "values": null,
-   "help": "Atomic slot migration: the longest the source keeps writes paused for a handoff, in milliseconds, before giving the migration up (Redis 8.4 `cluster-slot-migration-write-pause-timeout`)"
+   "help": "Atomic slot migration: how long the source waits, writes paused, for the destination's answer to the takeover, in milliseconds, before it asks the destination whether it took the slots; writes stay paused until it knows (Redis 8.4 `cluster-slot-migration-write-pause-timeout`)"
   },
   "file": "applied",
   "runtime": "applied"
@@ -680,7 +680,7 @@
  "repl-backlog-size": {
   "flag": {
    "arg": "<REPL_BACKLOG_SIZE>",
-   "default": "1048576",
+   "default": "67108864",
    "values": null,
    "help": "Bytes of the write stream a master keeps for replicas that reconnect (Redis `repl-backlog-size`). A replica that was away for less than this much writing is brought up to date without a full resync"
   },
@@ -722,10 +722,20 @@
    "arg": "<REPL_REPLICA_MAX_BACKLOG_BYTES>",
    "default": "268435456",
    "values": null,
-   "help": "Max bytes a master will queue for a single replica that isn't keeping up (analogous to Redis's `client-output-buffer-limit slave <hard-limit>`). Once exceeded the replica is disconnected — it must full-resync to catch back up — rather than letting the queue grow without bound"
+   "help": "Max bytes a master will queue for a single replica that isn't keeping up (analogous to Redis's `client-output-buffer-limit slave <hard-limit>`). Once exceeded the replica is disconnected — it must full-resync to catch back up — rather than letting the queue grow without bound. Settable at runtime"
   },
   "file": "applied",
-  "runtime": "ERR CONFIG SET failed (possibly related to argument 'repl-replica-max-backlog-bytes') - can't set immutable config"
+  "runtime": "applied"
+ },
+ "repl-replica-sync-max-backlog-bytes": {
+  "flag": {
+   "arg": "<REPL_REPLICA_SYNC_MAX_BACKLOG_BYTES>",
+   "default": "1073741824",
+   "values": null,
+   "help": "Max bytes a master will queue for a replica during its full sync, from the cut until the replica has loaded the dataset and drained its queue to a quarter of `repl-replica-max-backlog-bytes`. The replica reads nothing of the stream while it loads, so everything written meanwhile waits in the queue (#305). The larger of the two applies. Settable at runtime"
+  },
+  "file": "applied",
+  "runtime": "applied"
  },
  "repl-timeout": {
   "flag": {
@@ -822,6 +832,16 @@
   "file": "applied",
   "runtime": "applied"
  },
+ "shutdown-timeout": {
+  "flag": {
+   "arg": "<SHUTDOWN_TIMEOUT>",
+   "default": "10",
+   "values": null,
+   "help": "Seconds a master that is shutting down waits for its replicas to acknowledge the end of its write stream before it saves and exits (Redis `shutdown-timeout`). A replica that has it all is continued after the restart instead of being sent the whole dataset. 0 does not wait; nor does `SHUTDOWN NOW` or `NOSAVE`"
+  },
+  "file": "applied",
+  "runtime": "applied"
+ },
  "slaveof": {
   "flag": null,
   "file": "not tried",
@@ -914,8 +934,8 @@
    "values": null,
    "help": "Number of worker threads (0 = auto)"
   },
-  "file": "accepted",
-  "runtime": "not a CONFIG setting"
+  "file": "applied",
+  "runtime": "ERR CONFIG SET failed (possibly related to argument 'threads') - can't set immutable config"
  },
  "timeout": {
   "flag": null,

@@ -1,17 +1,17 @@
 ---
-title: "KiviDB 1.2 (release candidate)"
-description: "KiviDB 1.2, from its release candidate v1.2.0-rc3: install it, what changed since 1.1, every command and setting, and guides."
+title: "KiviDB 1.2"
+description: "KiviDB 1.2: install it, what changed since 1.1, every command and setting, and guides."
 version: "1.2"
 weight: 0
 ---
 
-KiviDB 1.2.0 has not been released. These pages describe its release candidate, `v1.2.0-rc3`, which is published for testing; they will be brought up to date with 1.2.0 when it is released. Use [KiviDB 1.1.3](../1.1/index.md) in production until then.
+These pages document KiviDB 1.2, released as 1.2.0 on 3 November 2026. It fixes security issues that affect 1.1.3, and 1.1 gets no further release: upgrade, and read [Upgrading from 1.1](get-started/upgrading.md) first.
 
-1.2 is mostly about not losing writes and being a better Redis: a write is acknowledged once it is in the append-only file, transactions reach replicas whole, keys take about a quarter less memory, search stems words and scores as Redis does, TLS changes without a restart, and dozens of replies, errors and `INFO` fields are now Redis 8.10's.
+1.2 is mostly about not losing writes and being a better Redis: a write is acknowledged once it is in the append-only file, transactions reach replicas whole, replicas carry on after their master restarts or fails over, cluster reshards finish under writes, keys take about a quarter less memory, search stems words and scores as Redis does, TLS changes without a restart, and dozens of replies, errors and `INFO` fields are now Redis 8.10's.
 
 ## Get started
 
-- [Install KiviDB](get-started/install.md): the release candidate's Docker images, Linux binaries and packages, or from source.
+- [Install KiviDB](get-started/install.md): Docker, release binaries, Homebrew, Linux packages, or from source.
 - [Quick start](get-started/quick-start.md): connect and store some data.
 - [Choose a build](get-started/builds.md): the default build, or one with Lua scripting, TLS, or both.
 - [Client libraries](get-started/clients.md).

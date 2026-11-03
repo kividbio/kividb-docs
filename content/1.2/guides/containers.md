@@ -5,7 +5,7 @@ version: "1.2"
 weight: 170
 ---
 
-The image is `ghcr.io/kividbio/kividb`, also on Docker Hub as `kividb/kividb`, for `amd64` and `arm64`; [Install](../get-started/install.md#docker) lists its tags. Pin a version tag, not `latest`. 1.2 is published as a release candidate, `v1.2.0-rc3`, for testing; `latest` stays on 1.1.3, the release to run in production until 1.2.0 is out.
+The image is `ghcr.io/kividbio/kividb`, also on Docker Hub as `kividb/kividb`, for `amd64` and `arm64`; [Install](../get-started/install.md#docker) lists its tags. Pin a version tag, not `latest`.
 
 ## What the image is
 
@@ -17,7 +17,7 @@ The image is `ghcr.io/kividbio/kividb`, also on Docker Hub as `kividb/kividb`, f
 ```bash
 docker run -d --name kividb -p 6380:6380 \
   -v kividb-data:/home/kividb \
-  ghcr.io/kividbio/kividb:v1.2.0-rc3 --requirepass "change-me" --aof --maxmemory 1gb
+  ghcr.io/kividbio/kividb:v1.2.0 --requirepass "change-me" --aof --maxmemory 1gb
 ```
 
 ## Keeping data

@@ -888,7 +888,7 @@
        ],
        "to": [
         {
-         "notes": "All or nothing: an unknown parameter, a value out of range, a parameter that cannot change at run time or one named twice is an error naming it, and none of the pairs is applied. `requirepass`, `slowlog-log-slower-than`, `slowlog-max-len`, `maxmemory`, `maxmemory-policy`, `maxmemory-samples`, `lfu-log-factor`, `lfu-decay-time`, `activedefrag`, `active-defrag-ignore-bytes`, `active-defrag-threshold-lower`, `active-defrag-cycle-max`, `appendonly`, `loglevel`, `repl-backlog-size`, `repl-backlog-ttl`, `repl-diskless-load` all apply immediately at runtime without restart",
+         "notes": "All or nothing: an unknown parameter, a value out of range, a parameter that cannot change at run time or one named twice is an error naming it, and none of the pairs is applied. `requirepass`, `slowlog-log-slower-than`, `slowlog-max-len`, `maxmemory`, `maxmemory-policy`, `maxmemory-samples`, `lfu-log-factor`, `lfu-decay-time`, `activedefrag`, `active-defrag-ignore-bytes`, `active-defrag-threshold-lower`, `active-defrag-cycle-max`, `appendonly`, `loglevel`, `repl-backlog-size`, `repl-backlog-ttl`, `repl-diskless-load`, `repl-replica-max-backlog-bytes`, `repl-replica-sync-max-backlog-bytes`, `shutdown-timeout` all apply immediately at runtime without restart",
          "section": "Server commands",
          "subsection": null,
          "syntax": "CONFIG SET param value [param value ...]"
@@ -3566,7 +3566,8 @@
    ],
    "defaults_changed": [
     "activedefrag",
-    "lazyfree-lazy-user-del"
+    "lazyfree-lazy-user-del",
+    "repl-backlog-size"
    ],
    "release": "1.2.0",
    "settings_added": [
@@ -3578,9 +3579,11 @@
     "cluster-replica-validity-factor",
     "hll-write-format",
     "latency-monitor-threshold",
+    "repl-replica-sync-max-backlog-bytes",
     "search-min-stem-len",
     "search-on-timeout",
     "search-timeout",
+    "shutdown-timeout",
     "tls-auth-clients-allowed-names",
     "ts-duplicate-policy"
    ],
@@ -4431,6 +4434,10 @@
     {
      "default": "1048576",
      "release": "1.1.0"
+    },
+    {
+     "default": "67108864",
+     "release": "1.2.0"
     }
    ],
    "removed": null,
@@ -4475,6 +4482,16 @@
    ],
    "removed": null,
    "since": "1.1.0"
+  },
+  "repl-replica-sync-max-backlog-bytes": {
+   "defaults": [
+    {
+     "default": "1073741824",
+     "release": "1.2.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.2.0"
   },
   "repl-timeout": {
    "defaults": [
@@ -4605,6 +4622,16 @@
    ],
    "removed": null,
    "since": "1.1.0"
+  },
+  "shutdown-timeout": {
+   "defaults": [
+    {
+     "default": "10",
+     "release": "1.2.0"
+    }
+   ],
+   "removed": null,
+   "since": "1.2.0"
   },
   "slaveof": {
    "defaults": [

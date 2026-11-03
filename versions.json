@@ -1,21 +1,27 @@
 {
- "comment": "Documentation versions, newest first. A version is a minor release (x.y); its patch releases (x.y.Z) are listed in `releases`, oldest first, and are documented inside it. `source` is the kividb git ref (a tag, or a commit for a version not yet tagged) the newest release of the version is built from. `candidate` names the release candidate an unreleased version's pages describe, and whose images and packages its install pages give. `withdrawn` maps a release that was withdrawn to why, in Markdown; it stays listed, with that note. `notes` maps a release to a note, in Markdown, that the What changed page gives above its changes.",
- "latest": "1.1",
+ "comment": "Documentation versions, newest first. A version is a minor release (x.y); its patch releases (x.y.Z) are listed in `releases`, oldest first, and are documented inside it. `status` is `current` for the version of the newest release and `previous` for older ones. `source` is the kividb git tag the newest release of the version is built from. `withdrawn` maps a release that was withdrawn to why, in Markdown; it stays listed, with that note. `notes` maps a release to a note, in Markdown, that the What changed page gives above its changes.",
+ "latest": "1.2",
  "versions": [
   {
    "version": "1.2",
-   "status": "unreleased",
-   "candidate": "v1.2.0-rc3",
-   "releases": ["1.2.0"],
-   "source": "v1.2.0-rc3",
+   "status": "current",
+   "releases": [
+    "1.2.0"
+   ],
+   "source": "v1.2.0",
    "notes": {
-    "1.2.0": "Not released yet: these pages describe the release candidate, `v1.2.0-rc3`. Use [1.1.3](../1.1/index.md) in production until 1.2.0 is out. [Upgrading from 1.1](get-started/upgrading.md) says what to check before upgrading, and in what order, and what is [known in 1.2.0-rc3](get-started/upgrading.md#known-in-120-rc3)."
+    "1.2.0": "Released on 3 November 2026. It fixes two security issues that affect 1.1.3: [GHSA-6rw7-4fcr-r6j3](https://github.com/kividbio/kividb/security/advisories/GHSA-6rw7-4fcr-r6j3) (ACL key permissions bypassed through `SORT` patterns and multi-`STORE` destinations) and [GHSA-c4xj-63wm-4jj9](https://github.com/kividbio/kividb/security/advisories/GHSA-c4xj-63wm-4jj9) (credentials in `SLOWLOG`, `MONITOR` and the log). 1.1 gets no further release. [Upgrading from 1.1](get-started/upgrading.md) says what to check before upgrading, and in what order."
    }
   },
   {
    "version": "1.1",
-   "status": "current",
-   "releases": ["1.1.0", "1.1.1", "1.1.2", "1.1.3"],
+   "status": "previous",
+   "releases": [
+    "1.1.0",
+    "1.1.1",
+    "1.1.2",
+    "1.1.3"
+   ],
    "source": "v1.1.3",
    "notes": {
     "1.1.3": "A security release: it fixes [GHSA-58x5-jq4h-h6rr](https://github.com/kividbio/kividb/security/advisories/GHSA-58x5-jq4h-h6rr) (a TLS client that does not finish its handshake holds up the others), [GHSA-rhrj-pgm8-2686](https://github.com/kividbio/kividb/security/advisories/GHSA-rhrj-pgm8-2686) (writes to a key past its time to live are lost) and [GHSA-pjrr-m43f-m5g3](https://github.com/kividbio/kividb/security/advisories/GHSA-pjrr-m43f-m5g3) (overlapping AOF checkpoints, or a crash during one, lose acknowledged writes), and the other bugs its [changelog](https://github.com/kividbio/kividb/blob/v1.1.3/CHANGELOG.md) lists. [`maxclients`](reference/configuration.md#maxclients) is now enforced, and taken in the configuration file. **Upgrade the replicas first, then their master** ([Replication](guides/replication.md#upgrading))."

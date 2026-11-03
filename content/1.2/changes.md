@@ -9,12 +9,12 @@ What each release added, removed and changed in the commands and settings, as ea
 
 ## 1.2.0
 
-Not released yet: these pages describe the release candidate, `v1.2.0-rc3`. Use [1.1.3](../1.1/index.md) in production until 1.2.0 is out. [Upgrading from 1.1](get-started/upgrading.md) says what to check before upgrading, and in what order, and what is [known in 1.2.0-rc3](get-started/upgrading.md#known-in-120-rc3).
+Released on 3 November 2026. It fixes two security issues that affect 1.1.3: [GHSA-6rw7-4fcr-r6j3](https://github.com/kividbio/kividb/security/advisories/GHSA-6rw7-4fcr-r6j3) (ACL key permissions bypassed through `SORT` patterns and multi-`STORE` destinations) and [GHSA-c4xj-63wm-4jj9](https://github.com/kividbio/kividb/security/advisories/GHSA-c4xj-63wm-4jj9) (credentials in `SLOWLOG`, `MONITOR` and the log). 1.1 gets no further release. [Upgrading from 1.1](get-started/upgrading.md) says what to check before upgrading, and in what order.
 
 **Commands removed:** `GEODELBYMEMBER`
 
 **Commands changed:** [`PFDEBUG`](commands/pfdebug.md)
 
-**New settings:** `active-defrag-cycle-max`, `active-defrag-ignore-bytes`, `active-defrag-threshold-lower`, `aof-ack-after-write`, `cluster-announce-client-port`, `cluster-replica-validity-factor`, `hll-write-format`, `latency-monitor-threshold`, `search-min-stem-len`, `search-on-timeout`, `search-timeout`, `tls-auth-clients-allowed-names`, `ts-duplicate-policy`
+**New settings:** `active-defrag-cycle-max`, `active-defrag-ignore-bytes`, `active-defrag-threshold-lower`, `aof-ack-after-write`, `cluster-announce-client-port`, `cluster-replica-validity-factor`, `hll-write-format`, `latency-monitor-threshold`, `repl-replica-sync-max-backlog-bytes`, `search-min-stem-len`, `search-on-timeout`, `search-timeout`, `shutdown-timeout`, `tls-auth-clients-allowed-names`, `ts-duplicate-policy`
 
-**Defaults changed:** `activedefrag`, `lazyfree-lazy-user-del`
+**Defaults changed:** `activedefrag`, `lazyfree-lazy-user-del`, `repl-backlog-size`

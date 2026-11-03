@@ -129,19 +129,29 @@ Another name for [`replicaof`](#replicaof).
 The port a replica tells its master it can be reached on, for `ROLE` and `INFO replication`. `0`, the default: the replica's own [`port`](#port).
 === repl-backlog-size
 @group Replication
-How many bytes of writes a master keeps for its replicas. A replica that reconnects having missed less than this catches up from it; one that missed more copies the whole dataset again.
+How many bytes of writes a master keeps for its replicas. A replica that reconnects having missed less than this catches up from it, with a partial resync; one that missed more copies the whole dataset again.
+
+The default is 64 MB, a few seconds of heavy writing. Redis's default, and KiviDB's before 1.2, is 1 MB: a fraction of a second at 100,000 writes a second, less than a replica takes to reconnect after its master restarts, so the replica was sent the whole dataset again. A master keeps the backlog only from its first replica's sync (or its promotion) until [`repl-backlog-ttl`](#repl-backlog-ttl) after its last replica has gone, so a server that never has a replica uses none of it. With replicas, it counts in `used_memory` and against [`maxmemory`](#maxmemory): on a master with a small `maxmemory` (tens of megabytes), set it back to `1mb`. Under heavier writes, or for replicas that are away longer, give it a few seconds of writes.
 === repl-backlog-ttl
 @group Replication
 Seconds a master with no replicas keeps the backlog before it frees it. `0` keeps it.
 === repl-replica-max-backlog-bytes
 @group Replication
-The most bytes a master queues for one replica that is not keeping up. Past it, the replica is disconnected, and copies the whole dataset when it reconnects, rather than the queue growing without bound. It is like Redis's `client-output-buffer-limit replica`. It is read at startup only. Before 1.2, `CONFIG SET` replied `OK` and did not change it.
+The most bytes a master queues for one replica that is not keeping up. Past it, the replica is disconnected, and copies the whole dataset when it reconnects, rather than the queue growing without bound. It is like Redis's `client-output-buffer-limit replica`. While a replica loads a full sync, the larger [`repl-replica-sync-max-backlog-bytes`](#repl-replica-sync-max-backlog-bytes) applies instead. Since 1.2, `CONFIG SET` changes it; in 1.1, it replied `OK` and changed nothing.
+=== repl-replica-sync-max-backlog-bytes
+@group Replication
+The most bytes a master queues for a replica during its full sync: from the moment the dataset is cut until the replica has loaded it and caught up to a quarter of [`repl-replica-max-backlog-bytes`](#repl-replica-max-backlog-bytes). A replica reads nothing of the write stream while it loads, so every write made meanwhile waits in the queue. Under heavy writes, the normal limit was passed before the load ended, and the replica was disconnected and started the sync again, over and over. The larger of the two limits applies.
+
+1 GiB by default; `CONFIG SET` changes it. This memory is not counted against [`maxmemory`](#maxmemory): lower it on a master close to its memory limit. New in 1.2.
 === repl-diskless-load
 @group Replication
 What a replica does with its own dataset while it loads a copy of its master's:
 
 - `disabled`, `flushdb` and `on-empty-db`: it deletes its dataset first, then loads, so it needs memory for one dataset;
 - `swapdb`: it keeps serving its dataset until the copy is loaded, then swaps them, so it needs memory for two.
+=== shutdown-timeout
+@group Replication
+Seconds a master that is shutting down (`SHUTDOWN`, `SIGTERM`) waits for its replicas to have every write it acknowledged, before it saves and exits, as in Redis. Clients are paused while it waits. A replica that has every write carries on after the restart with a partial resync, instead of being sent the whole dataset again. The default is 10; in our tests the wait took tens of milliseconds. `0` does not wait, and neither do `SHUTDOWN NOW` and `SHUTDOWN NOSAVE`. New in 1.2.
 === repl-timeout
 @group Replication
 Seconds without a byte from its master before a replica takes the link to be down, and connects again. It is also the limit on each step of connecting. It is what notices a master that has been switched off or cut off by the network, which closes no connection.
@@ -418,6 +428,8 @@ The port clients are told to reach this node on, in `MOVED`, `ASK`, `CLUSTER SLO
 === cluster-replica-validity-factor
 @group Cluster
 A replica whose link to its master has been down for longer than this many [`cluster-node-timeout`](#cluster-node-timeout)s, plus [`repl-ping-replica-period`](#repl-ping-replica-period), does not stand for election when the master fails: its data may be too old. `0`: it always stands.
+
+Since 1.2, as in Redis, the time counts from when the replica was last in step with its master, so a replica restarted while its master is down does not take over. A replica in the middle of a full sync never stands, whatever this is set to.
 === aof-ack-after-write
 @group Persistence
 With the [append-only file](#appendonly) on, whether the reply to a write waits until its record is in the file. `yes`, the default, is Redis's guarantee: a process that is killed loses no acknowledged write, unless the disk fell more than 5 seconds behind: a reply waits at most 5 seconds, then is sent anyway, with a log line (see [Persistence](../guides/persistence.md)). `no` acknowledges a write once its record is queued for the file, as KiviDB did before 1.2: faster, and a killed process can lose the last few acknowledged writes. Waiting costs writes, not reads: on a 16-core server, 20 to 28% fewer `SET`s a second with 50 clients, with or without pipelining, and under 10% with one client. With the append-only file off, it changes nothing.

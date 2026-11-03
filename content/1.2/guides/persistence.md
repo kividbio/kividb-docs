@@ -117,8 +117,15 @@ The files that belong together, all in the working directory:
 | `dump.kdb.clean` | On a cluster node: left by a clean stop, to say the final snapshot is whole, and removed when the node starts. A [cluster](cluster.md#a-master-back-without-its-data) master that starts without it, and without the append-only file, takes itself to have lost its data. Since 1.1.3. |
 | `appendonly.aof` | The writes since the snapshot. |
 | `appendonly.aof.prev` | The writes before it, while a rewrite is not yet finished. |
+| `kividb.lock` | Held by the server using the directory ([below](#one-server-per-data-directory)). Since 1.2. |
 
 Copy them together, or not at all. A [backup](#backups) is the safe way to copy a running server's data.
+
+### One server per data directory
+
+A server locks `kividb.lock` in its working directory before it reads anything there, and holds the lock until it exits. A second server started in the same directory waits for the first to exit, and says so in its log every 5 seconds (`The data directory <dir> is in use by another process (it holds kividb.lock): waiting for it to be free`). Then it starts, and loads what the first one saved as it stopped.
+
+That is what happens when a replacement pod is started on a volume while the old one is still stopping, after a forced delete in Kubernetes. Before 1.2 the two could run at once, and the new one could load an old snapshot and carry on from it, losing the writes acknowledged since. Give each server a directory of its own.
 
 ### Coming from Redis
 
