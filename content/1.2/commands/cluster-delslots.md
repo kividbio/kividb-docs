@@ -29,3 +29,5 @@ Makes this node give up each `slot`. A slot that no node owns is not served: whi
 > CLUSTER DELSLOTS 8191
 OK
 ```
+
+It removes any slot this node has assigned, also one another node owns, and the slot's `IMPORTING` state, as Redis does; `redis-cli --cluster fix` relies on it to close a slot that an interrupted reshard left open. A slot that is not assigned is refused, and then nothing changes. For two seconds after, a peer's claim does not give the node the slot back. Before 1.2, a slot owned by another node was refused.

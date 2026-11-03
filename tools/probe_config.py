@@ -44,8 +44,10 @@ NOT_TRIED = {"port", "bind", "dir", "configfile", "tls-port", "tls-cert-file", "
 
 
 def help_flags(binary):
-    """The flags `--help` lists: name -> {arg, default, help}."""
-    out = subprocess.run([binary, "--help"], capture_output=True, text=True, encoding="utf-8",
+    """The flags `-h` lists: name -> {arg, default, help}. (`--help` is clap's
+    long form, with each flag's text on the lines below it, which this does
+    not parse.)"""
+    out = subprocess.run([binary, "-h"], capture_output=True, text=True, encoding="utf-8",
                          errors="replace", timeout=60).stdout
     flags = {}
     for line in out.splitlines():

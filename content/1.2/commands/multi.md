@@ -43,3 +43,5 @@ QUEUED
 1) OK
 2) (integer) 1
 ```
+
+In a cluster, a transaction that names a key a [`MIGRATE`](migrate.md) is moving gets `TRYAGAIN` at `EXEC`, as a multi-key command does in Redis during a reshard; clients retry it. Single commands wait for the move instead.

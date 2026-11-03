@@ -192,9 +192,13 @@ A master refuses writes, with `NOREPLICAS`, while fewer than this many replicas 
 
 ### `repl-backlog-size`
 
-**Default:** `1048576` · **Since:** 1.1.0 · **Command line:** `--repl-backlog-size <REPL_BACKLOG_SIZE>` · **Config file:** yes · **`CONFIG SET`:** yes
+**Default:** `67108864` · **Since:** 1.1.0 · **Command line:** `--repl-backlog-size <REPL_BACKLOG_SIZE>` · **Config file:** yes · **`CONFIG SET`:** yes
 
-How many bytes of writes a master keeps for its replicas. A replica that reconnects having missed less than this catches up from it; one that missed more copies the whole dataset again.
+The default became `67108864` in 1.2.0.
+
+How many bytes of writes a master keeps for its replicas. A replica that reconnects having missed less than this catches up from it, with a partial resync; one that missed more copies the whole dataset again.
+
+The default is 64 MB, a few seconds of heavy writing. Redis's default, and KiviDB's before 1.2, is 1 MB: a fraction of a second at 100,000 writes a second, less than a replica takes to reconnect after its master restarts, so the replica was sent the whole dataset again. A master keeps the backlog only from its first replica's sync (or its promotion) until [`repl-backlog-ttl`](#repl-backlog-ttl) after its last replica has gone, so a server that never has a replica uses none of it. With replicas, it counts in `used_memory` and against [`maxmemory`](#maxmemory): on a master with a small `maxmemory` (tens of megabytes), set it back to `1mb`. Under heavier writes, or for replicas that are away longer, give it a few seconds of writes.
 
 ### `repl-backlog-ttl`
 
@@ -219,9 +223,17 @@ Seconds between the pings a master sends its replicas, so that a replica can tel
 
 ### `repl-replica-max-backlog-bytes`
 
-**Default:** `268435456` · **Since:** 1.1.0 · **Command line:** `--repl-replica-max-backlog-bytes <REPL_REPLICA_MAX_BACKLOG_BYTES>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
+**Default:** `268435456` · **Since:** 1.1.0 · **Command line:** `--repl-replica-max-backlog-bytes <REPL_REPLICA_MAX_BACKLOG_BYTES>` · **Config file:** yes · **`CONFIG SET`:** yes
 
-The most bytes a master queues for one replica that is not keeping up. Past it, the replica is disconnected, and copies the whole dataset when it reconnects, rather than the queue growing without bound. It is like Redis's `client-output-buffer-limit replica`. It is read at startup only. Before 1.2, `CONFIG SET` replied `OK` and did not change it.
+The most bytes a master queues for one replica that is not keeping up. Past it, the replica is disconnected, and copies the whole dataset when it reconnects, rather than the queue growing without bound. It is like Redis's `client-output-buffer-limit replica`. While a replica loads a full sync, the larger [`repl-replica-sync-max-backlog-bytes`](#repl-replica-sync-max-backlog-bytes) applies instead. Since 1.2, `CONFIG SET` changes it; in 1.1, it replied `OK` and changed nothing.
+
+### `repl-replica-sync-max-backlog-bytes`
+
+**Default:** `1073741824` · **Since:** 1.2.0 · **Command line:** `--repl-replica-sync-max-backlog-bytes <REPL_REPLICA_SYNC_MAX_BACKLOG_BYTES>` · **Config file:** yes · **`CONFIG SET`:** yes
+
+The most bytes a master queues for a replica during its full sync: from the moment the dataset is cut until the replica has loaded it and caught up to a quarter of [`repl-replica-max-backlog-bytes`](#repl-replica-max-backlog-bytes). A replica reads nothing of the write stream while it loads, so every write made meanwhile waits in the queue. Under heavy writes, the normal limit was passed before the load ended, and the replica was disconnected and started the sync again, over and over. The larger of the two limits applies.
+
+1 GiB by default; `CONFIG SET` changes it. This memory is not counted against [`maxmemory`](#maxmemory): lower it on a master close to its memory limit. New in 1.2.
 
 ### `repl-timeout`
 
@@ -262,6 +274,12 @@ Since 1.1.3, and in 1.2, it is also used whatever `replica-full-sync-guard` says
 **Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--replicaof <HOST> <PORT>` · **Config file:** yes · **`CONFIG SET`:** no: use `REPLICAOF`
 
 Makes the server a replica of the master at `host port` when it starts. [`REPLICAOF`](../commands/replicaof.md) does the same while it runs.
+
+### `shutdown-timeout`
+
+**Default:** `10` · **Since:** 1.2.0 · **Command line:** `--shutdown-timeout <SHUTDOWN_TIMEOUT>` · **Config file:** yes · **`CONFIG SET`:** yes
+
+Seconds a master that is shutting down (`SHUTDOWN`, `SIGTERM`) waits for its replicas to have every write it acknowledged, before it saves and exits, as in Redis. Clients are paused while it waits. A replica that has every write carries on after the restart with a partial resync, instead of being sent the whole dataset again. The default is 10; in our tests the wait took tens of milliseconds. `0` does not wait, and neither do `SHUTDOWN NOW` and `SHUTDOWN NOSAVE`. New in 1.2.
 
 ### `slaveof`
 
@@ -342,6 +360,8 @@ What clients are told to connect to, in `MOVED`, `ASK` and the topology replies:
 **Default:** `10` · **Since:** 1.2.0 · **Command line:** `--cluster-replica-validity-factor <CLUSTER_REPLICA_VALIDITY_FACTOR>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 A replica whose link to its master has been down for longer than this many [`cluster-node-timeout`](#cluster-node-timeout)s, plus [`repl-ping-replica-period`](#repl-ping-replica-period), does not stand for election when the master fails: its data may be too old. `0`: it always stands.
+
+Since 1.2, as in Redis, the time counts from when the replica was last in step with its master, so a replica restarted while its master is down does not take over. A replica in the middle of a full sync never stands, whatever this is set to.
 
 ### `cluster-require-full-coverage`
 
@@ -556,7 +576,7 @@ How the server does network I/O: `uring`, Linux's io_uring; `tokio`, the portabl
 
 ### `threads`
 
-**Default:** `0` · **Since:** 1.1.0 · **Command line:** `--threads <THREADS>` · **Config file:** yes · **`CONFIG SET`:** no: not a `CONFIG` setting
+**Default:** `0` · **Since:** 1.1.0 · **Command line:** `--threads <THREADS>` · **Config file:** yes · **`CONFIG SET`:** no: at startup only
 
 How many threads serve clients. `0`, the default: one for each CPU, less two on a machine with four or more.
 

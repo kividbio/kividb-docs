@@ -48,3 +48,5 @@ OK
 > MIGRATE 127.0.0.1 17622 "" 0 5000 KEYS m1 m2
 OK
 ```
+
+While `MIGRATE` moves keys, a write to one of them waits until it is done, as in Redis, and a transaction (`MULTI`/`EXEC`) that names one gets `TRYAGAIN`. A `MIGRATE` that answers `TRYAGAIN` itself deletes, on the destination, the copies of the keys it kept, and says so, so that a key is never left on both nodes. Before 1.2, a write to a key being moved made the `MIGRATE` answer `TRYAGAIN`, and `redis-cli --cluster reshard` stopped under writes. See [Cluster](../guides/cluster.md#adding-a-master-and-moving-slots).

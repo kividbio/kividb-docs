@@ -38,7 +38,7 @@ Indexes are kept in the snapshot, HNSW graphs included, and the rest is built ag
 
 A key past its time to live is no document, even before the expiry cycle deletes it: it is neither counted nor returned. A key renamed leaves the indexes under its old name and is indexed under its new one; a hash overwritten by `SET` leaves them.
 
-[`FT.DROPINDEX`](../commands/ft.dropindex.md) drops an index and keeps its documents; with `DD`, it deletes them too. Replicas and the append-only file get those deletions as `DEL`s, and then the drop without `DD`, so that they delete exactly what the master deleted. Before 1.1.3, `DD` kept the documents; the earlier 1.2.0 release candidates sent `DD` on as typed, and each replica deleted what its own copy of the index held.
+[`FT.DROPINDEX`](../commands/ft.dropindex.md) drops an index and keeps its documents; with `DD`, it deletes them too. Replicas and the append-only file get those deletions as `DEL`s, and then the drop without `DD`, so that they delete exactly what the master deleted. Before 1.1.3, `DD` kept the documents.
 
 An index that does not exist is `SEARCH_INDEX_NOT_FOUND Index not found: <name>`, from every `FT.*` command, as in Redis 8. Before 1.1.3, it was `<name>: no such index` or `ERR no such index`, depending on the command: a client that looked for `no such index` must look for `Index not found`.
 
@@ -251,8 +251,6 @@ Words are found through the index: a word, its stem, a prefix, suffix or infix, 
 TAG and NUMERIC fields are indexed too: each index numbers its documents, and keeps, for each tag, the documents that hold it, and each NUMERIC field's values in order. A query made of TAG and NUMERIC clauses, with `AND`, `OR`, `NOT`, `*` and `~`, is a set of documents found without reading any. A TEXT clause narrows it to its candidates, which are checked; a clause the postings cannot answer falls back to reading every document.
 
 Such a query, with no words to score, reads only the documents of the page it returns: in key order without `SORTBY`, in the order of the values with `SORTBY` a NUMERIC field. Its count is the size of the set. On a million documents, a TAG filter that matches half of them takes about a tenth of a millisecond. A query with words to score, a vector clause, `SORTBY` a TAG or TEXT field, `SORTBY` a NUMERIC field that holds NaN, or more matches with a time to live than its page, still reads every match.
-
-Known issue: a count from the postings can include, for a moment, a document whose key the background expiry task is deleting: the key is gone before it leaves the index ([kividb#249](https://github.com/kividbio/kividb/issues/249)).
 
 Queries do not hold writes up: a write that finds the index busy is queued, and the next query applies the queue before it reads, so it sees every write that returned before it began. A thread of the index's own keeps the postings in order.
 

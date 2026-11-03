@@ -32,3 +32,5 @@ Streams every command the server runs, from any client, to this connection, each
 OK
 1792968525.057561 [0 127.0.0.1:53039] "SET" "watched" "v"
 ```
+
+Secrets are shown as `(redacted)`: the passwords given to `ACL SETUSER` and to `MIGRATE ... AUTH` or `AUTH2`, and the secret settings given to `CONFIG SET` (`requirepass`, `masterauth`, `primaryauth`, `cluster-bus-secret`, the TLS key passphrases). `AUTH` and `HELLO ... AUTH` are not shown at all. Before 1.2, `MIGRATE`'s credentials were shown ([GHSA-c4xj-63wm-4jj9](https://github.com/kividbio/kividb/security/advisories/GHSA-c4xj-63wm-4jj9)).

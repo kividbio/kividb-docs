@@ -68,3 +68,5 @@ OK
 > XREADGROUP GROUP workers bob STREAMS jobs >
 (nil)
 ```
+
+The ACL checks the streams after `STREAMS`, also when the group or the consumer is itself named `STREAMS`; before 1.2 it could check the wrong arguments ([GHSA-6rw7-4fcr-r6j3](https://github.com/kividbio/kividb/security/advisories/GHSA-6rw7-4fcr-r6j3)).

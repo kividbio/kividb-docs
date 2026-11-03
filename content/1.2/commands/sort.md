@@ -71,3 +71,9 @@ OK
 ```
 
 Before 1.2, `STORE` kept the destination's time to live, so the stored list expired when the old value would have.
+
+## ACL
+
+A `BY` pattern with a `*`, and any `GET` other than `GET #`, read the keys the pattern names, so they need read access to every key, as in Redis. A user whose ACL is limited to some keys gets `ERR BY option of SORT denied due to insufficient ACL permissions.` or `ERR GET option of SORT denied due to insufficient ACL permissions.`; `BY nosort` and `GET #` need nothing more. Before 1.2, such a user could read any key this way ([GHSA-6rw7-4fcr-r6j3](https://github.com/kividbio/kividb/security/advisories/GHSA-6rw7-4fcr-r6j3)).
+
+With `STORE` given more than once, the last destination is written, and the ACL checks every one; before 1.2 it checked only the first.

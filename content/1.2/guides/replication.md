@@ -58,15 +58,21 @@ What the replica does with its own data during the copy is [`repl-diskless-load`
 
 A replica does not let an empty master wipe it: by default, [`replica-full-sync-guard`](../reference/configuration.md#replica-full-sync-guard) `empty`, it refuses a copy with no keys while it has some, keeps its data, logs `FULL RESYNC REFUSED`, and tries again every 10 seconds. That happens when a master restarted without its data, or a new server took the master's address. Set `replica-full-sync-guard off` once the empty master is the one to follow.
 
+While the replica loads the copy, it reads nothing of its master's stream, so the writes made meanwhile wait on the master: up to [`repl-replica-sync-max-backlog-bytes`](../reference/configuration.md#repl-replica-sync-max-backlog-bytes) (1 GiB) of them, rather than the normal limit ([below](#a-replica-that-falls-behind)). Before 1.2, a copy of a large dataset under heavy writes could pass the normal limit before it was loaded, and start again, over and over. This memory is not counted against `maxmemory`.
+
+A replica stopped in the middle of a copy keeps its last good `dump.kdb`, rather than saving the half-loaded dataset over it.
+
 ### Catching up after a break
 
-A master keeps the last [`repl-backlog-size`](../reference/configuration.md#repl-backlog-size) bytes (1 MB by default) of writes. A replica that reconnects, after a dropped connection or a clean restart, asks to carry on from where it was. If the master still has every write since then, it sends only those; otherwise it sends a full copy again. A busy master, or replicas that are away for long, need a bigger backlog.
+A master keeps the last [`repl-backlog-size`](../reference/configuration.md#repl-backlog-size) bytes of writes: 64 MB by default, 1 MB before 1.2 and in Redis. A replica that reconnects, after a dropped connection or a clean restart, asks to carry on from where it was. If the master still has every write since then, it sends only those; otherwise it sends a full copy again. A busy master, or replicas that are away for long, need a bigger backlog: give it a few seconds of writes. A master keeps the backlog only while it has replicas, and for [`repl-backlog-ttl`](../reference/configuration.md#repl-backlog-ttl) (an hour) after the last one has gone, so a server that never has a replica uses none of it.
+
+A master that is shut down cleanly first waits, for at most [`shutdown-timeout`](../reference/configuration.md#shutdown-timeout) seconds (10), with its clients paused, until its replicas have every write it acknowledged; in our tests that took tens of milliseconds. So they carry on after it restarts, without a full copy. `SHUTDOWN NOW` and `SHUTDOWN NOSAVE` do not wait. Before 1.2, replicas were often sent the whole dataset again after a clean restart of their master under load.
 
 A master that restarts cleanly with the append-only file on keeps its replication ID, and its replicas carry on after it. A master that restarts with the same data, without it, is recognised by the data's fingerprint, and its replicas carry on too.
 
 ### A replica that falls behind
 
-A master disconnects a replica that has more than [`repl-replica-max-backlog-bytes`](../reference/configuration.md#repl-replica-max-backlog-bytes) (256 MB) of writes waiting for it, rather than keep them all; it copies the dataset again when it reconnects.
+A master disconnects a replica that has more than [`repl-replica-max-backlog-bytes`](../reference/configuration.md#repl-replica-max-backlog-bytes) (256 MB) of writes waiting for it, rather than keep them all; it copies the dataset again when it reconnects. While it loads a full copy, the larger [`repl-replica-sync-max-backlog-bytes`](../reference/configuration.md#repl-replica-sync-max-backlog-bytes) applies instead. Since 1.2, `CONFIG SET` changes both.
 
 A replica that hears nothing from its master for [`repl-timeout`](../reference/configuration.md#repl-timeout) seconds (60) takes the link to be down and connects again; the master pings it every [`repl-ping-replica-period`](../reference/configuration.md#repl-ping-replica-period) seconds (10), so a quiet master is not mistaken for a lost one.
 
@@ -80,7 +86,7 @@ What it returns can be a little behind the master. It serves its data while it i
 
 A replica does not delete expired keys itself: its clients see a key past its time as gone, and it is deleted when the master's `UNLINK` for it arrives (a `DEL` with [`lazyfree-lazy-expire no`](../reference/configuration.md#lazyfree-lazy-expire)), as in Redis. The master sends one for every key it expires, whether a read, a write or the background task found it. Until it arrives, the key still counts in `DBSIZE` and `INFO keyspace`. Since 1.1.3: before it, the master sent no deletions, and a replica expired keys by its own clock, so it could delete a key while the master's writes to it were still on the way, and diverge from the master. See [Keys and expiry](expiration.md#replicas-snapshots-and-the-append-only-file).
 
-A replica of a master that sends no deletions, KiviDB 1.1.2 or older (or 1.2.0-rc1 or -rc2), expires keys by its own clock, as every replica did before 1.1.3: it deletes them, and sends nothing on. Otherwise it would keep every key that master expires, unseen by reads but in memory, for good. Keep the machines' clocks in step, with NTP, while it follows one. The replica asks its master which release it is when it connects, and logs:
+A replica of a master that sends no deletions, KiviDB 1.1.2 or older, expires keys by its own clock, as every replica did before 1.1.3: it deletes them, and sends nothing on. Otherwise it would keep every key that master expires, unseen by reads but in memory, for good. Keep the machines' clocks in step, with NTP, while it follows one. The replica asks its master which release it is when it connects, and logs:
 
 ```
 [INFO] Replication: The master (KiviDB 1.1.2) does not send the deletion of the keys it expires: this replica expires keys itself while it follows it

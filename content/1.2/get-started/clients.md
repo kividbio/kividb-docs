@@ -7,7 +7,7 @@ weight: 40
 
 KiviDB speaks the Redis protocol, RESP2 and RESP3, so an application connects with a Redis client library, unchanged; there is no KiviDB driver. Point it at port 6380, KiviDB's default, and give it the password if there is one.
 
-These were run against the 1.2.0 release candidate (`v1.2.0-rc3`, the `lua` build), each with strings, expiry, hashes, a pipeline and a transaction, and the noted extras:
+These were run against KiviDB 1.2 (the `lua` build), each with strings, expiry, hashes, a pipeline and a transaction, and the noted extras:
 
 | Language | Library | Version tried | Also tried |
 |---|---|---|---|

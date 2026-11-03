@@ -42,3 +42,5 @@ No command runs from the moment the final snapshot starts until the process exit
 ```
 > SHUTDOWN NOSAVE
 ```
+
+Before that, a master waits for its replicas to have every write it acknowledged, for at most [`shutdown-timeout`](../reference/configuration.md#shutdown-timeout) seconds (10), with its clients paused, so that they carry on after the restart without a full copy; in our tests that took tens of milliseconds. `NOW` and `NOSAVE` do not wait. New in 1.2, as in Redis. A replica stopped in the middle of a full sync skips its final save and keeps its last good `dump.kdb`.

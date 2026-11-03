@@ -88,8 +88,6 @@ The choice is approximate, as in Redis: each time, [`maxmemory-samples`](../refe
 
 A key's use is noted by the command that finds it, as it finds it. Commands that look at a key without using it, `OBJECT`, `TYPE`, `TTL`, `EXISTS`, do not count. A key written over keeps its count. So does a key a command leaves where it is: `GETDEL` of a key of another type (`WRONGTYPE`), `MOVE` to a database that already has the key, `RENAME` of a key to itself; each counts as a use. A key `MOVE` does move keeps its count and its idle time, as in Redis. A key past its time to live is not counted as used by any command: it is gone. Changing `maxmemory-policy` between an LRU and an LFU policy starts every key afresh.
 
-In the release candidates before `v1.2.0-rc3`, `GETDEL` of a key of another type, `MOVE` onto a key that was there and `RENAME` of a key to itself took the key out and put it back as a new one: under an LFU policy its count started again at 5 ([kividb#221](https://github.com/kividbio/kividb/issues/221)). 1.1 kept the count.
-
 Before 1.2, the keys looked at were a run of neighbouring places from a random one, and some places came up far more often than others: under `allkeys-lfu`, with 20,000 keys read again and again and 300,000 written once into 64 MB, a quarter of the keys that were read went. In 1.2 the same test keeps 96% of them, as Redis 8.10 does.
 
 An evicted key is deleted on the replicas and in the append-only file too, and counted in `evicted_keys` in `INFO stats`. A `volatile-*` policy with no keys with a time to live left has nothing to delete, and refuses writes like `noeviction`.

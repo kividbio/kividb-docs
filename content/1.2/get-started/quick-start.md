@@ -1,21 +1,19 @@
 ---
 title: "Quick start"
-description: "Start the KiviDB 1.2 release candidate, connect with redis-cli or a client library, and store and read data."
+description: "Start KiviDB 1.2, connect with redis-cli or a client library, and store and read data."
 version: "1.2"
 weight: 20
 ---
-
-These steps use the release candidate, `v1.2.0-rc3`: 1.2.0 has not been released. For production, use [1.1.3](../../1.1/get-started/quick-start.md).
 
 ## Start the server
 
 With Docker:
 
 ```bash
-docker run -d --name kividb -p 6380:6380 ghcr.io/kividbio/kividb:v1.2.0-rc3
+docker run -d --name kividb -p 6380:6380 ghcr.io/kividbio/kividb:v1.2.0
 ```
 
-Or with a [Linux binary](install.md#linux-binaries-and-packages):
+Or with a [Linux binary](install.md#release-binaries):
 
 ```bash
 ./kividb/kividb

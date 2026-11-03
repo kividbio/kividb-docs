@@ -63,3 +63,5 @@ OK
 > EXEC
 (error) EXECABORT Transaction discarded because of previous errors.
 ```
+
+In a cluster, `EXEC` of a transaction that names a key a [`MIGRATE`](migrate.md) is moving answers `TRYAGAIN`, and runs nothing; clients retry it. New in 1.2, as in Redis.
