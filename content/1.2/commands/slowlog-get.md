@@ -42,3 +42,5 @@ OK
    6) ""
    7) (integer) 2
 ```
+
+Secrets are not recorded: the passwords given to `ACL SETUSER` and to `MIGRATE ... AUTH` or `AUTH2`, and the values of `requirepass`, `masterauth`, `primaryauth`, `cluster-bus-secret` and the TLS key passphrases given to `CONFIG SET`, are shown as `(redacted)`. `AUTH` and `HELLO ... AUTH` are never recorded. Before 1.2 those values were shown ([GHSA-c4xj-63wm-4jj9](https://github.com/kividbio/kividb/security/advisories/GHSA-c4xj-63wm-4jj9)).

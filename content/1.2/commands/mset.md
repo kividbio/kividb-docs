@@ -39,3 +39,5 @@ OK
 1) "1"
 2) "2"
 ```
+
+Keys in different shards of the store no longer queue behind each other: since 1.2, `MSET` and `MSETNX` of 10 keys do about 3.4 times as many commands a second as in 1.1 with 1,200 clients, with a lower tail latency.

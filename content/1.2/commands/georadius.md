@@ -36,3 +36,5 @@ Returns the members of the geospatial index at `key` within `radius` of a longit
 2) 1) "Palermo"
    2) "190.4424"
 ```
+
+With `STORE` or `STOREDIST` given more than once, the last destination is written, and the ACL checks every one; before 1.2 it checked only the first ([GHSA-6rw7-4fcr-r6j3](https://github.com/kividbio/kividb/security/advisories/GHSA-6rw7-4fcr-r6j3)).

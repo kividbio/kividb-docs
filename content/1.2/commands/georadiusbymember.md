@@ -34,3 +34,5 @@ GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [W
 1) "Palermo"
 2) "Catania"
 ```
+
+With `STORE` or `STOREDIST` given more than once, the last destination is written, and the ACL checks every one; before 1.2 it checked only the first ([GHSA-6rw7-4fcr-r6j3](https://github.com/kividbio/kividb/security/advisories/GHSA-6rw7-4fcr-r6j3)).
