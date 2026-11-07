@@ -319,7 +319,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`SYNC`](sync.md) | The original replication handshake: a replica sends it to get a snapshot, then every write. | 1.1.0 |
 | [`TIME`](time.md) | Returns the server's clock: Unix seconds, and the microseconds within that second, as two bulk strings. | 1.1.0 |
 | [`WAIT`](wait.md) | Waits until numreplicas replicas have acknowledged every write this connection made before it, or timeout milliseconds pass; 0 waits for ever. | 1.1.0 |
-| [`WAITAOF`](waitaof.md) | Waits until every write this connection made before it is in the local AOF and fsynced (numlocal), and in numreplicas replicas' AOFs, or timeout milliseconds pass. | 1.1.0 |
+| [`WAITAOF`](waitaof.md) | Waits for pending writes to be fsynced to the local append-only file, or until timeout milliseconds pass. | 1.1.0 |
 
 ## Sets
 
