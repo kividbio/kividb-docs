@@ -25,6 +25,8 @@ RESTORE key ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME seconds] [FREQ fre
 <!-- generated: end -->
 Creates `key` from a [`DUMP`](dump.md) payload. `ttl` is in milliseconds, `0` for no expiry.
 
+Accepts KiviDB's own payloads and supported Redis `DUMP` encodings, so data can be imported through `DUMP`/`RESTORE` or [`MIGRATE`](migrate.md). See [Migrating from Redis](../guides/migrating-from-redis.md#4-move-the-data) for the types that can be imported.
+
 ## Options
 
 | Option | Effect |
@@ -37,7 +39,8 @@ Creates `key` from a [`DUMP`](dump.md) payload. `ttl` is in milliseconds, `0` fo
 
 - `OK`.
 - `BUSYKEY Target key name already exists.` if `key` exists and `REPLACE` was not given.
-- `ERR DUMP payload version or checksum are wrong` if the payload is damaged, or not KiviDB's.
+- `ERR DUMP payload version or checksum are wrong` if the payload is too short, has an unsupported version, or fails checksum validation.
+- `ERR Bad data format` if the version and checksum are accepted but the value cannot be decoded, including unsupported encodings.
 
 ## Examples
 

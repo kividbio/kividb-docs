@@ -60,7 +60,14 @@ Three ways, from the simplest to the one with the least downtime.
 OK
 ```
 
-with [`masterauth`](../reference/configuration.md#masterauth) if Redis has a password. It copies Redis's dataset, then follows its writes. Once it has caught up, compare `DBSIZE` on both and check a few keys of each type, point the application at KiviDB, and make it a master with `REPLICAOF NO ONE`. The application waits only for the switch.
+with [`masterauth`](../reference/configuration.md#masterauth) if Redis has a password. It copies Redis's dataset, then follows its writes. Once the initial copy is complete, cut over in this order:
+
+1. Stop every application writer to Redis, including background jobs, and keep them stopped until the switch is complete.
+2. Check `INFO replication` on KiviDB: `master_link_status` must be `up` and `master_sync_in_progress` must be `0`. Record `master_repl_offset` from Redis's `INFO replication`, then wait for KiviDB's `slave_repl_offset` to reach at least that value. Compare `DBSIZE` and sample keys and their TTLs as additional checks; these do not replace the offset check.
+3. Promote KiviDB with [`REPLICAOF NO ONE`](../commands/replicaof.md) and confirm that [`ROLE`](../commands/role.md) reports `master`.
+4. Point the application and background jobs at KiviDB, then resume writes there. Keep the old Redis server fenced from application writes so old connections cannot write to it.
+
+Switching clients before promotion exposes their writes to `READONLY` errors. A timed `CLIENT PAUSE ... WRITE` on Redis is only a temporary fence: if it expires before promotion, pause again and repeat the catch-up check. Prevent old writers from using Redis after the pause expires.
 
 What comes across, from Redis 6.2 to 8.10:
 
@@ -90,7 +97,7 @@ Turn on the append-only file, `--aof` or `appendonly yes`, for writes to survive
 
 Replicas are set up as in Redis, with `REPLICAOF`; see [Replication](replication.md). A promoted replica keeps its old master's stream, so the other replicas carry on from it.
 
-A cluster is Redis Cluster: the same slots, commands, bus and failover, and `redis-cli --cluster` drives it. KiviDB nodes make clusters with KiviDB nodes only, not with Redis's. See [Cluster](cluster.md).
+A cluster supports Redis Cluster's slots, redirections and management commands, and `redis-cli --cluster` drives it. Its nodes use KiviDB's own RESP-based cluster bus, which is incompatible with Redis's binary bus protocol. A cluster can contain only KiviDB nodes. See [Cluster](cluster.md).
 
 ## 7. Check the application
 
