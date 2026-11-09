@@ -7,7 +7,9 @@ weight: 130
 
 A cluster spreads the keyspace over several masters, each with replicas of its own. It holds more than one server can, takes writes on every master, and replaces a master that fails with one of its replicas, on its own.
 
-KiviDB's cluster is Redis Cluster: the same 16384 slots, the same redirections, the same `CLUSTER` commands and bus protocol. Cluster clients and `redis-cli --cluster` work with it unchanged.
+KiviDB supports Redis Cluster's 16384 slots, redirections and `CLUSTER` commands. Cluster clients and `redis-cli --cluster` work with it unchanged.
+
+Nodes communicate over KiviDB's own RESP-based cluster bus, which is incompatible with Redis's binary bus protocol. A cluster can contain only KiviDB nodes; Redis nodes cannot join it.
 
 ## How keys are placed
 
