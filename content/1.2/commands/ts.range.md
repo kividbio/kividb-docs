@@ -36,7 +36,7 @@ Returns the samples of the time series at `key` from `fromTimestamp` to `toTimes
 | `ALIGN value` | Where buckets start: a timestamp, `start` for `fromTimestamp` or `end` for `toTimestamp` (which must then be explicit, not `-` or `+`); 0 by default. |
 | `BUCKETTIMESTAMP -\|+\|~` | Label a bucket by its start, end or middle. |
 | `EMPTY` | Also report the empty buckets between the first and last samples: `COUNT` and `SUM` as `0`. |
-| `LATEST` | On the destination of a compaction rule, also report the bucket still open, as it stands. Without it, only closed buckets. Before 1.2 it was accepted and did nothing. |
+| `LATEST` | On the destination of a compaction rule, also report the bucket still open, as it stands. Without it, only closed buckets. Before 1.2, the open bucket was written to the destination as samples arrived, so every range showed it, with or without `LATEST`. |
 
 The aggregators are `AVG`, `FIRST`, `LAST`, `MIN`, `MAX`, `SUM`, `RANGE` (max minus min), `COUNT`, `STD.P`, `STD.S`, `VAR.P`, `VAR.S`, `TWA` (time-weighted average), `COUNTNAN` (the `NaN` samples) and `COUNTALL` (all samples). The numeric ones skip `NaN` samples.
 
@@ -57,24 +57,24 @@ The aggregators are `AVG`, `FIRST`, `LAST`, `MIN`, `MAX`, `SUM`, `RANGE` (max mi
 (integer) 4000
 > TS.RANGE temp:1 1500 3500
 1) 1) (integer) 2000
-   2) "21"
+   2) 21
 2) 1) (integer) 3000
-   2) "22.5"
+   2) 22.5
 > TS.RANGE temp:1 - + AGGREGATION min,max 2000
 1) 1) (integer) 0
-   2) "20.5"
-   3) "20.5"
+   2) 20.5
+   3) 20.5
 2) 1) (integer) 2000
-   2) "21"
-   3) "22.5"
+   2) 21
+   3) 22.5
 3) 1) (integer) 4000
-   2) "23"
-   3) "23"
+   2) 23
+   3) 23
 > TS.RANGE temp:1 - + FILTER_BY_VALUE 21 23
 1) 1) (integer) 2000
-   2) "21"
+   2) 21
 2) 1) (integer) 3000
-   2) "22.5"
+   2) 22.5
 3) 1) (integer) 4000
-   2) "23"
+   2) 23
 ```

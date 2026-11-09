@@ -1,6 +1,6 @@
 ---
 title: "FT.ALIASUPDATE"
-description: "Points an alias at an index, creating it if needed, or moving it from another index."
+description: "Points alias at index."
 version: "1.2"
 command: "FT.ALIASUPDATE"
 syntax: "FT.ALIASUPDATE alias index"
@@ -23,11 +23,45 @@ FT.ALIASUPDATE alias index
 
 **Available since:** 1.1.0 · **ACL categories:** `@search`, `@slow`, `@write`
 <!-- generated: end -->
-Points an alias at an index, creating it if needed, or moving it from another index.
+Points `alias` at `index`. If the alias does not exist it is created, as [`FT.ALIASADD`](ft.aliasadd.md) would; if it points at another index, it is moved, in one step. This is how an index is replaced without changing the clients: build the new index under a new name ([`FT.CREATE`](ft.create.md) indexes the keys already there before it replies), then move the alias that clients search to it, and drop the old index.
+
+- `index` may be an alias too: the new alias points at the index it names.
+- `alias` may not be the name of an index: that would replace the index, and is refused.
+
+## Reply
+
+`OK`.
+
+## Errors
+
+- `ERR Alias already exists as an index name`: `alias` names an index.
+- `SEARCH_INDEX_NOT_FOUND Index not found: <index>`: `index` does not exist.
 
 ## Examples
 
+`p2` adds a TAG field that `p1` does not have:
+
 ```
-> FT.ALIASUPDATE shop products
+> HSET product:3 name chair category furniture
+(integer) 2
+> HSET product:4 name desk category furniture
+(integer) 2
+> FT.CREATE p1 ON HASH PREFIX 1 product: SCHEMA name TEXT
 OK
+> FT.CREATE p2 ON HASH PREFIX 1 product: SCHEMA name TEXT category TAG
+OK
+> FT.ALIASADD store p1
+OK
+> FT.SEARCH store "@category:{furniture}" NOCONTENT
+(error) Unknown field at offset 0 near category
+> FT.ALIASUPDATE store p2
+OK
+> FT.SEARCH store "@category:{furniture}" NOCONTENT
+1) (integer) 2
+2) "product:3"
+3) "product:4"
+> FT.ALIASLIST p1
+(empty array)
+> FT.ALIASUPDATE p1 store
+(error) ERR Alias already exists as an index name
 ```

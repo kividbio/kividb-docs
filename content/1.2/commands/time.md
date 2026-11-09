@@ -1,6 +1,6 @@
 ---
 title: "TIME"
-description: "Returns the server's clock: Unix seconds, and the microseconds within that second, as two bulk strings."
+description: "Returns the server's clock: Unix time in seconds, and the microseconds within that second, as two bulk strings."
 version: "1.2"
 command: "TIME"
 syntax: "TIME"
@@ -23,7 +23,13 @@ TIME
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@server`
 <!-- generated: end -->
-Returns the server's clock: Unix seconds, and the microseconds within that second, as two bulk strings.
+Returns the server's clock: Unix time in seconds, and the microseconds within that second, as two bulk strings. It reads the clock of the machine the server runs on, so it can be used to compare clients' clocks with the server's, or to stamp data with one time for every client.
+
+Join the two parts for microseconds since 1970: `1792968400` and `89815` are `1792968400089815`.
+
+## Reply
+
+An array of two bulk strings.
 
 ## Examples
 

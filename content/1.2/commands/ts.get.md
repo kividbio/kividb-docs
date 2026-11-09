@@ -35,5 +35,5 @@ Returns the newest sample of the time series at `key`.
 ```
 > TS.GET temp:1
 1) (integer) 4000
-2) "23"
+2) 23
 ```

@@ -34,10 +34,10 @@ Runs the same range over several named time series and joins the results by time
 ```
 > TS.NRANGE 2 temp:1 temp:2 - +
 1) 1) (integer) 1000
-   2) 1) "20.5"
-      2) "15"
+   2) 1) 20.5
+      2) 15
 2) 1) (integer) 2000
-   2) 1) "21"
-      2) "NaN"
+   2) 1) 21
+      2) NaN
 ...
 ```

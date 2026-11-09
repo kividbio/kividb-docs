@@ -1,6 +1,6 @@
 ---
 title: "DBSIZE"
-description: "Returns the number of keys in the current database."
+description: "Returns the number of keys in the current database, the one chosen with SELECT (database 0 unless changed)."
 version: "1.2"
 command: "DBSIZE"
 syntax: "DBSIZE"
@@ -23,11 +23,27 @@ DBSIZE
 
 **Available since:** 1.1.0 · **ACL categories:** `@fast`, `@server`
 <!-- generated: end -->
-Returns the number of keys in the current database.
+Returns the number of keys in the current database, the one chosen with [`SELECT`](select.md) (database 0 unless changed). Keys in other databases are not counted.
+
+It can include keys whose time to live has passed but that have not yet been deleted; [`INFO keyspace`](info.md) gives the count for every database at once.
+
+## Reply
+
+The number of keys, as an integer.
 
 ## Examples
 
 ```
+> SET k1 v
+OK
+> SELECT 1
+OK
+> SET k2 v
+OK
 > DBSIZE
-(integer) 0
+(integer) 1
+> SELECT 0
+OK
+> DBSIZE
+(integer) 1
 ```

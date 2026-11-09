@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER MYID"
-description: "Returns this node's ID: 40 hexadecimal characters, kept in nodes.conf across restarts."
+description: "Returns this node's ID: 40 hexadecimal characters that name the node to the rest of the cluster."
 version: "1.2"
 command: "CLUSTER MYID"
 syntax: "CLUSTER MYID"
@@ -21,11 +21,30 @@ CLUSTER MYID
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-Returns this node's ID: 40 hexadecimal characters, kept in `nodes.conf` across restarts. [`CLUSTER RESET HARD`](cluster-reset.md) gives the node a new one.
+Returns this node's ID: 40 hexadecimal characters that name the node to the rest of the cluster. The ID is what other `CLUSTER` commands take to name a node, such as [`CLUSTER REPLICATE`](cluster-replicate.md), [`CLUSTER FORGET`](cluster-forget.md) and [`CLUSTER SETSLOT`](cluster-setslot.md), and what the first column of [`CLUSTER NODES`](cluster-nodes.md) shows.
+
+A node picks its ID at random the first time it starts, and keeps it in [`nodes.conf`](../reference/configuration.md#cluster-config-file), so it keeps the same ID across restarts. Keep that file with the node's data: a node started without it is a new node, with a new ID. [`CLUSTER RESET HARD`](cluster-reset.md) gives it a new one; `CLUSTER RESET SOFT` keeps it.
+
+On a server that is not a cluster node it returns 40 zeros, where Redis replies `ERR This instance has cluster support disabled`.
+
+## Reply
+
+The ID, as a string.
 
 ## Examples
 
 ```
 > CLUSTER MYID
-"b2744aeada9b56dd000f101f31447a33a15c9b08"
+"5c7f6679196b15e2bd1a76761e2b41f47c5b30e2"
+> CLUSTER RESET HARD
+OK
+> CLUSTER MYID
+"c50daad0af30be1b0b7bc93c4c773958fa966c3a"
+```
+
+On a standalone server:
+
+```
+> CLUSTER MYID
+"0000000000000000000000000000000000000000"
 ```

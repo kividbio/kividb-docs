@@ -23,7 +23,7 @@ TS.INCRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK SIZE size] [LABE
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@timeseries`, `@write`
 <!-- generated: end -->
-Adds a sample whose value is the series' last value plus `value`; a missing series starts at `0`. `TIMESTAMP` gives the sample's time, the server's clock by default. It takes the creation options of [`TS.CREATE`](ts.create.md).
+Adds a sample whose value is the series' last value plus `value`; a missing series starts at `0`. `TIMESTAMP` gives the sample's time, the server's clock by default. A series it creates gets [`TS.CREATE`](ts.create.md)'s defaults: in 1.2.0, `RETENTION`, `CHUNK SIZE` and `LABELS` are accepted and ignored, so create the series with `TS.CREATE` first when it needs them.
 
 ## Reply
 
@@ -38,7 +38,7 @@ Adds a sample whose value is the series' last value plus `value`; a missing seri
 (integer) 2000
 > TS.RANGE ctr - +
 1) 1) (integer) 1000
-   2) "5"
+   2) 5
 2) 1) (integer) 2000
-   2) "7"
+   2) 7
 ```

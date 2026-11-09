@@ -37,22 +37,32 @@ Runs [`TS.RANGE`](ts.range.md) over every time series whose labels match the `FI
 | Condition | Matches series where |
 |---|---|
 | `l=v` | label `l` is `v` |
-| `l!=v` | label `l` is not `v` |
+| `l!=v` | label `l` is not `v`, or is absent |
 | `l=` | label `l` is absent |
 | `l!=` | label `l` is present |
 | `l=(v1,v2)` | label `l` is one of these |
-| `l!=(v1,v2)` | label `l` is none of these |
+| `l!=(v1,v2)` | label `l` is none of these, or is absent |
 
 ## Reply
 
 - An array with, per series: its key, its labels (empty unless asked for), and its samples.
+- `ERR FILTER is required for TS.MRANGE/MREVRANGE` without a `FILTER`.
+- `ERR wrong number of arguments for TS.MRANGE/MREVRANGE` with fewer than four arguments.
 
 ## Examples
 
 ```
+> TS.CREATE temp:1 LABELS kind temp room kitchen
+OK
+> TS.CREATE temp:2 LABELS kind temp room hall
+OK
+> TS.MADD temp:1 1000 21 temp:1 4000 23 temp:2 3000 16
+1) (integer) 1000
+2) (integer) 4000
+3) (integer) 3000
 > TS.MRANGE - + AGGREGATION max 10000 FILTER kind=temp GROUPBY kind REDUCE max
 1) 1) "kind=temp"
    2) (empty array)
    3) 1) 1) (integer) 0
-         2) "24"
+         2) 23
 ```
