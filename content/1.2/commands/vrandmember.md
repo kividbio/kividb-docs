@@ -23,12 +23,37 @@ VRANDMEMBER key [count]
 
 **Available since:** 1.1.0 · **ACL categories:** `@read`, `@slow`, `@vector`
 <!-- generated: end -->
-Returns elements of the vector set at `key`, picked at random: one, or `count` different ones, or, with a negative `count`, exactly `-count` that may repeat.
+Returns elements of the vector set at `key`, picked at random. Use it to sample a set, for example to take a few stored vectors as test queries for [`VSIM`](vsim.md).
+
+- Without `count`: one element, as a string.
+- With a positive `count`: up to `count` different elements; all of them, in random order, if the set has fewer.
+- With a negative `count`: exactly `-count` elements, which may repeat.
+- `0`: an empty array.
+
+## Reply
+
+- An element, or `nil` without `count` when the key does not exist.
+- An array of elements with `count`; `(empty array)` when the key does not exist.
+- `WRONGTYPE` if the key holds another type.
 
 ## Examples
 
 ```
+> VRANDMEMBER points
+"a"
 > VRANDMEMBER points 2
+1) "b"
+2) "c"
+> VRANDMEMBER points 10
 1) "c"
-2) "a"
+2) "b"
+3) "a"
+> VRANDMEMBER points -5
+1) "c"
+2) "c"
+3) "a"
+4) "a"
+5) "c"
+> VRANDMEMBER missing
+(nil)
 ```

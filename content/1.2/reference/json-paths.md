@@ -12,9 +12,11 @@ Every JSON command that takes a path reads it with the same engine. The kind of 
 | Kind | Looks like | Matches | Reply |
 |---|---|---|---|
 | JSONPath | starts with `$`: `$.books[*].title` | any number of values | one entry per match, in document order; `nil` where a match is not of the type the command works on. `JSON.GET` returns a JSON array of the matches, `[]` when there are none. |
-| Legacy | anything else: `.store.name`, `a[0]`, `["a"]` | the first match only | a plain value; a match of the wrong type is an error |
+| Legacy | anything else: `.store.name`, `a[0]`, `["a"]` | the first match only | a plain value. A command that changes the value replies with an error when the match is of the wrong type (`ERR path is not an array`); one that only reads it, such as `JSON.ARRLEN` or `JSON.STRLEN`, replies `nil` |
 
 A command given no path uses the legacy root, `.`.
+
+In 1.2.0 not every command keeps to the first match of a legacy path that matches several values (`..a`): [`JSON.CLEAR`](../commands/json.clear.md), [`JSON.FORGET`](../commands/json.forget.md), [`JSON.DEL`](../commands/json.del.md) and [`JSON.MSET`](../commands/json.mset.md) act on every match, and the others on the first. Use a JSONPath, `$..a`, to say which you mean.
 
 ```
 > JSON.SET d $ '{"name":"Ada","addr":{"city":"London"}}'

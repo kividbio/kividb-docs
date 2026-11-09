@@ -57,24 +57,24 @@ The aggregators are `AVG`, `FIRST`, `LAST`, `MIN`, `MAX`, `SUM`, `RANGE` (max mi
 (integer) 4000
 > TS.RANGE temp:1 1500 3500
 1) 1) (integer) 2000
-   2) "21"
+   2) 21
 2) 1) (integer) 3000
-   2) "22.5"
+   2) 22.5
 > TS.RANGE temp:1 - + AGGREGATION min,max 2000
 1) 1) (integer) 0
-   2) "20.5"
-   3) "20.5"
+   2) 20.5
+   3) 20.5
 2) 1) (integer) 2000
-   2) "21"
-   3) "22.5"
+   2) 21
+   3) 22.5
 3) 1) (integer) 4000
-   2) "23"
-   3) "23"
+   2) 23
+   3) 23
 > TS.RANGE temp:1 - + FILTER_BY_VALUE 21 23
 1) 1) (integer) 2000
-   2) "21"
+   2) 21
 2) 1) (integer) 3000
-   2) "22.5"
+   2) 22.5
 3) 1) (integer) 4000
-   2) "23"
+   2) 23
 ```

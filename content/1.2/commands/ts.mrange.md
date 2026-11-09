@@ -54,5 +54,5 @@ Runs [`TS.RANGE`](ts.range.md) over every time series whose labels match the `FI
 1) 1) "kind=temp"
    2) (empty array)
    3) 1) 1) (integer) 0
-         2) "24"
+         2) 24
 ```
