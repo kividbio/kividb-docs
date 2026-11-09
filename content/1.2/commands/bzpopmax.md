@@ -1,6 +1,6 @@
 ---
 title: "BZPOPMAX"
-description: "BZPOPMIN for the highest score."
+description: "Removes and returns the member with the highest score from the first non-empty sorted set among the keys given."
 version: "1.2"
 command: "BZPOPMAX"
 syntax: "BZPOPMAX key [key ...] timeout"

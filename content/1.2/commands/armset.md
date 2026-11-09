@@ -1,6 +1,6 @@
 ---
 title: "ARMSET"
-description: "Sets values at several indexes, in any order, in one call."
+description: "Sets values at several indexes in the array at key, in one call."
 version: "1.2"
 command: "ARMSET"
 syntax: "ARMSET key index value [index value ...]"
@@ -34,7 +34,7 @@ Indexes are whole numbers from `0`. Every pair is checked before any slot is wri
 ## Errors
 
 - `ERR invalid array index` for an index that is negative or not a whole number.
-- `ERR wrong number of arguments` when the last index has no value.
+- `ERR wrong number of arguments for 'armset' command` when the last index has no value.
 - `WRONGTYPE` if the key holds a value that is not an array.
 
 ## Examples

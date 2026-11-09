@@ -1,6 +1,6 @@
 ---
 title: "FUNCTION DUMP"
-description: "Serializes every function library into a payload that FUNCTION RESTORE loads, on this server or another."
+description: "Returns every library of functions as one binary payload, which FUNCTION RESTORE loads, on this server or another KiviDB server."
 version: "1.2"
 command: "FUNCTION DUMP"
 syntax: "FUNCTION DUMP"

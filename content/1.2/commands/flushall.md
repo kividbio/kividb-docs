@@ -1,6 +1,6 @@
 ---
 title: "FLUSHALL"
-description: "Deletes every key of every database."
+description: "Deletes every key of every database, then replies."
 version: "1.2"
 command: "FLUSHALL"
 syntax: "FLUSHALL"
@@ -38,6 +38,8 @@ KiviDB does not check the argument: anything other than `ASYNC` is taken as `SYN
 ## Examples
 
 ```
+> MSET a 1 b 2 c 3
+OK
 > DBSIZE
 (integer) 3
 > FLUSHALL SYNC

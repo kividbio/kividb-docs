@@ -1,6 +1,6 @@
 ---
 title: "JSON.DEBUG MEMORY"
-description: "Returns the approximate size, in bytes, of each value path matches in the JSON document at key; of the whole document with no path."
+description: "Reports the size, in bytes, of each value path matches in the JSON document at key, or of the whole document with no path."
 version: "1.2"
 command: "JSON.DEBUG MEMORY"
 syntax: "JSON.DEBUG MEMORY key [path]"
@@ -23,7 +23,7 @@ JSON.DEBUG MEMORY key [path]
 <!-- generated: end -->
 Reports the size, in bytes, of each value `path` matches in the JSON document at `key`, or of the whole document with no path. Use it to find which parts of a document are large.
 
-The size KiviDB reports is the length of the value written as compact JSON text, the form [`JSON.GET`](json.get.md) returns without formatting options. It is not measured from the server's allocations, which are larger: for the memory a key takes, use [`MEMORY USAGE`](memory-usage.md). A string's size includes its two quotes.
+The size KiviDB reports is the length of the value written as compact JSON text, the form [`JSON.GET`](json.get.md) returns without formatting options. It is not measured from the server's allocations. [`MEMORY USAGE`](memory-usage.md) gives an estimate for the whole key; for a JSON document it is this same text length plus 128 bytes, and the key name's length too if it is over 24 bytes. A string's size includes its two quotes.
 
 A JSONPath reports on every value it matches; a legacy path on the first match only. See [JSON paths](../reference/json-paths.md).
 

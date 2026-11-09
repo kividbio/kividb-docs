@@ -1,6 +1,6 @@
 ---
 title: "DEL"
-description: "Deletes the given keys, of any type."
+description: "Deletes the given keys, whatever their type, and returns how many it deleted."
 version: "1.2"
 command: "DEL"
 syntax: "DEL key [key ...]"

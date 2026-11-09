@@ -1,6 +1,6 @@
 ---
 title: "TS.DELETERULE"
-description: "Deletes the compaction rule from sourceKey to destKey."
+description: "Deletes the compaction rule from sourceKey to destKey that TS.CREATERULE made."
 version: "1.2"
 command: "TS.DELETERULE"
 syntax: "TS.DELETERULE sourceKey destKey"

@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER SET-CONFIG-EPOCH"
-description: "Sets this node's config epoch, for giving each node of a new cluster a different one before it serves."
+description: "Sets this node's config epoch: the number its claims to slots carry, so that when two nodes claim one slot, the claim with the higher epoch wins."
 version: "1.2"
 command: "CLUSTER SET-CONFIG-EPOCH"
 syntax: "CLUSTER SET-CONFIG-EPOCH epoch"

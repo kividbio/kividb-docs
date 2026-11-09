@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER MYID"
-description: "Returns this node's ID: 40 hexadecimal characters, kept in nodes.conf across restarts."
+description: "Returns this node's ID: 40 hexadecimal characters that name the node to the rest of the cluster."
 version: "1.2"
 command: "CLUSTER MYID"
 syntax: "CLUSTER MYID"

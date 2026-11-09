@@ -1,6 +1,6 @@
 ---
 title: "SLOWLOG RESET"
-description: "Empties the slow log."
+description: "Empties the slow log: SLOWLOG GET and SLOWLOG LEN start again from nothing."
 version: "1.2"
 command: "SLOWLOG RESET"
 syntax: "SLOWLOG RESET"

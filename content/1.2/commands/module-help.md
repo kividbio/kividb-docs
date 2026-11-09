@@ -1,6 +1,6 @@
 ---
 title: "MODULE HELP"
-description: "Lists the MODULE subcommands and what each does."
+description: "Lists the MODULE subcommands, with their arguments and a line on what each does: LIST, LOAD, LOADEX, UNLOAD and HELP itself."
 version: "1.2"
 command: "MODULE HELP"
 syntax: "MODULE HELP"

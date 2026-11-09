@@ -1,6 +1,6 @@
 ---
 title: "CLIENT SETINFO"
-description: "Records the client library's name, LIB-NAME, or version, LIB-VER, on the connection; CLIENT LIST shows them as lib-name and lib-ver."
+description: "Records the client library's name, LIB-NAME, or version, LIB-VER, on the connection; CLIENT LIST and CLIENT INFO show them as lib-name and lib-ver."
 version: "1.2"
 command: "CLIENT SETINFO"
 syntax: "CLIENT SETINFO LIB-NAME name | LIB-VER ver"

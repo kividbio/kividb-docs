@@ -1,6 +1,6 @@
 ---
 title: "COMMAND COUNT"
-description: "Returns the number of commands."
+description: "Returns the number of top-level commands the server has: those COMMAND describes, without counting subcommands such as CLIENT LIST separately."
 version: "1.2"
 command: "COMMAND COUNT"
 syntax: "COMMAND COUNT"

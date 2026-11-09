@@ -1,6 +1,6 @@
 ---
 title: "JSON.ARRINSERT"
-description: "Inserts values, each JSON text, before index in each array path matches."
+description: "Inserts one or more values into each array path matches, before the element at index."
 version: "1.2"
 command: "JSON.ARRINSERT"
 syntax: "JSON.ARRINSERT key path index value [value ...]"

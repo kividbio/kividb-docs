@@ -1,6 +1,6 @@
 ---
 title: "CONFIG RESETSTAT"
-description: "Resets the statistics INFO reports: commands' counts and times, error counts, and connection and network totals."
+description: "Resets the statistics INFO reports, so that they count from now: the number of commands processed and connections received, the network totals, keyspace hits and misses, error counts, and each comman…"
 version: "1.2"
 command: "CONFIG RESETSTAT"
 syntax: "CONFIG RESETSTAT"

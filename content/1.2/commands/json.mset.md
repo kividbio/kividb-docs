@@ -1,6 +1,6 @@
 ---
 title: "JSON.MSET"
-description: "JSON.SET for several key-path-value triples at once."
+description: "Runs JSON.SET for several key, path and value triples in one command."
 version: "1.2"
 command: "JSON.MSET"
 syntax: "JSON.MSET key path value [key path value ...]"

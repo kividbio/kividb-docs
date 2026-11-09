@@ -1,6 +1,6 @@
 ---
 title: "SUBSTR"
-description: "Another name for GETRANGE, kept for old clients."
+description: "Returns part of the string at key, from byte offset start to byte offset stop, both included."
 version: "1.2"
 command: "SUBSTR"
 syntax: "SUBSTR key start stop"

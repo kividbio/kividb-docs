@@ -1,6 +1,6 @@
 ---
 title: "JSON.CLEAR"
-description: "Empties each array and object path matches, and sets each number it matches to 0."
+description: "Resets values in a JSON document without removing them: each array and object path matches is emptied, and each number becomes 0."
 version: "1.2"
 command: "JSON.CLEAR"
 syntax: "JSON.CLEAR key [path]"

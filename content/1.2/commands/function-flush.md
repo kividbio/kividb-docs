@@ -1,6 +1,6 @@
 ---
 title: "FUNCTION FLUSH"
-description: "Deletes every library."
+description: "Deletes every library of functions, and so every function: FCALL of any of them then fails with ERR Function not found."
 version: "1.2"
 command: "FUNCTION FLUSH"
 syntax: "FUNCTION FLUSH [ASYNC | SYNC]"

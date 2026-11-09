@@ -1,6 +1,6 @@
 ---
 title: "OBJECT HELP"
-description: "Lists the OBJECT subcommands and what each does."
+description: "Lists the OBJECT subcommands, each with a line or two on what it does."
 version: "1.2"
 command: "OBJECT HELP"
 syntax: "OBJECT HELP"

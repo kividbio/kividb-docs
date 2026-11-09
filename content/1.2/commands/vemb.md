@@ -1,6 +1,6 @@
 ---
 title: "VEMB"
-description: "Returns an element's vector, as numbers; with RAW, as little-endian 32-bit floats."
+description: "Returns the vector of element in the vector set at key, as one number per dimension."
 version: "1.2"
 command: "VEMB"
 syntax: "VEMB key element [RAW]"

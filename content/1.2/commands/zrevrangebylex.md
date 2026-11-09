@@ -1,6 +1,6 @@
 ---
 title: "ZREVRANGEBYLEX"
-description: "ZRANGEBYLEX in reverse order; max comes first."
+description: "Returns members of the sorted set at key between max and min, in reverse lexicographical order."
 version: "1.2"
 command: "ZREVRANGEBYLEX"
 syntax: "ZREVRANGEBYLEX key max min [LIMIT offset count]"

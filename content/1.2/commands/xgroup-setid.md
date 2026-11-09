@@ -1,6 +1,6 @@
 ---
 title: "XGROUP SETID"
-description: "Sets the ID the group delivers after: 0 to deliver every entry again, $ to skip to the end."
+description: "Sets the last delivered ID of the consumer group group: the ID after which XREADGROUP with > delivers entries."
 version: "1.2"
 command: "XGROUP SETID"
 syntax: "XGROUP SETID key group id|$ [ENTRIESREAD n]"

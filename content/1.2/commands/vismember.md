@@ -1,6 +1,6 @@
 ---
 title: "VISMEMBER"
-description: "Tells whether element is in the vector set at key: 1 or 0."
+description: "Tells whether element is in the vector set at key: 1 if it is, 0 if not."
 version: "1.2"
 command: "VISMEMBER"
 syntax: "VISMEMBER key element"

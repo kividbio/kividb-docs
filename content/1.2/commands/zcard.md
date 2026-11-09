@@ -1,6 +1,6 @@
 ---
 title: "ZCARD"
-description: "Returns the number of members of the sorted set at key."
+description: "Returns the number of members of the sorted set at key: the size of a leaderboard, or of a queue kept as a sorted set."
 version: "1.2"
 command: "ZCARD"
 syntax: "ZCARD key"

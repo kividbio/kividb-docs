@@ -1,6 +1,6 @@
 ---
 title: "ECHO"
-description: "Returns message."
+description: "Returns message, unchanged."
 version: "1.2"
 command: "ECHO"
 syntax: "ECHO message"

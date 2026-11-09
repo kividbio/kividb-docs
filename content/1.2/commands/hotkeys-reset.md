@@ -1,6 +1,6 @@
 ---
 title: "HOTKEYS RESET"
-description: "Discards a stopped session's results."
+description: "Discards the results of a stopped HOTKEYS session, so that HOTKEYS GET returns nil again."
 version: "1.2"
 command: "HOTKEYS RESET"
 syntax: "HOTKEYS RESET"

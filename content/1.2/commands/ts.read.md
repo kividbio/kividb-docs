@@ -36,7 +36,7 @@ Returns the samples of the time series at `key` at or after `timestamp`, oldest 
 ```
 > TS.READ temp:2 +
 1) 1) (integer) 25000
-   2) "1"
+   2) 1
 > TS.READ temp:2 $ BLOCK 100 1
 (empty array)
 ```

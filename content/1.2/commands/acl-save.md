@@ -1,6 +1,6 @@
 ---
 title: "ACL SAVE"
-description: "Writes every user to the ACL file, the aclfile setting."
+description: "Writes every user in memory, with its rules and passwords, to the ACL file, so that they are there after a restart."
 version: "1.2"
 command: "ACL SAVE"
 syntax: "ACL SAVE"

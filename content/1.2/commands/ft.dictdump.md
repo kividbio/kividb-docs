@@ -1,6 +1,6 @@
 ---
 title: "FT.DICTDUMP"
-description: "Returns the words of a dictionary, sorted."
+description: "Returns every word of a dictionary made with FT.DICTADD, sorted, in lower case as they are stored."
 version: "1.2"
 command: "FT.DICTDUMP"
 syntax: "FT.DICTDUMP dict"

@@ -1,6 +1,6 @@
 ---
 title: "TS.QUERYINDEX"
-description: "Returns the keys of every time series whose labels match the given conditions (see TS.MRANGE), sorted."
+description: "Returns the keys of every time series whose labels match all the given conditions, sorted by key."
 version: "1.2"
 command: "TS.QUERYINDEX"
 syntax: "TS.QUERYINDEX <filters>"
@@ -32,7 +32,7 @@ Returns the keys of every time series whose labels match all the given condition
 | `l=` | label `l` is absent |
 | `l!=` | label `l` is present |
 | `l=(v1,v2)` | label `l` is one of these |
-| `l!=(v1,v2)` | label `l` is none of these |
+| `l!=(v1,v2)` | label `l` is none of these, or is absent |
 
 Labels are set by [`TS.CREATE`](ts.create.md), [`TS.ADD`](ts.add.md) when it creates a series, and [`TS.ALTER`](ts.alter.md), whose changes show here at once. [`TS.QUERYLABELS`](ts.querylabels.md) lists the label names and values in use.
 

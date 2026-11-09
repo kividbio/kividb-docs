@@ -1,6 +1,6 @@
 ---
 title: "MEMORY PURGE"
-description: "Asks the allocator to give free memory back to the system."
+description: "Asks the allocator to give the free memory it holds back to the system."
 version: "1.2"
 command: "MEMORY PURGE"
 syntax: "MEMORY PURGE"

@@ -1,6 +1,6 @@
 ---
 title: "PFDEBUG ENCODING"
-description: "Returns the HyperLogLog's encoding: dense, or sparse for one Redis wrote that has not been written to since."
+description: "Returns how the HyperLogLog at key is stored: dense, the full 16,384 registers, or sparse, Redis's compact form for one with few elements."
 version: "1.2"
 command: "PFDEBUG ENCODING"
 syntax: "PFDEBUG ENCODING key"

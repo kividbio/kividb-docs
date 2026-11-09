@@ -1,6 +1,6 @@
 ---
 title: "SCARD"
-description: "Returns the number of members of the set at key."
+description: "Returns the number of members of the set at key: its cardinality."
 version: "1.2"
 command: "SCARD"
 syntax: "SCARD key"

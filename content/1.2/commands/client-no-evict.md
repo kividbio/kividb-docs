@@ -1,6 +1,6 @@
 ---
 title: "CLIENT NO-EVICT"
-description: "Marks the connection, ON, as one that is not closed to free memory, or, OFF, as one that may be."
+description: "Accepted for compatibility, and changes nothing."
 version: "1.2"
 command: "CLIENT NO-EVICT"
 syntax: "CLIENT NO-EVICT ON|OFF"

@@ -1,6 +1,6 @@
 ---
 title: "PFDEBUG RESET"
-description: "Sets every register of the HyperLogLog to zero, so that it counts 0; the key is kept."
+description: "Sets every register of the HyperLogLog at key to zero, so that PFCOUNT gives 0 and it counts again from nothing."
 version: "1.2"
 command: "PFDEBUG RESET"
 syntax: "PFDEBUG RESET key"

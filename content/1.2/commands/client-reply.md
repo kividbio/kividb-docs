@@ -1,6 +1,6 @@
 ---
 title: "CLIENT REPLY"
-description: "OFF stops the replies to this connection's commands until ON; SKIP drops the reply to the next command alone."
+description: "Turns off the server's replies to this connection, to send a stream of commands without reading anything back."
 version: "1.2"
 command: "CLIENT REPLY"
 syntax: "CLIENT REPLY ON|OFF|SKIP"

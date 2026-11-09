@@ -1,6 +1,6 @@
 ---
 title: "HIMPORT PREPARE"
-description: "Defines a fieldset named fieldset on this connection: the field names that HIMPORT SET gives values for, in order."
+description: "Defines a fieldset on this connection: a name for an ordered list of hash field names."
 version: "1.2"
 command: "HIMPORT PREPARE"
 syntax: "HIMPORT PREPARE fieldset field [field ...]"

@@ -1,6 +1,6 @@
 ---
 title: "BLMOVE"
-description: "LMOVE that waits, as BLPOP does, until source has an element or timeout seconds have passed."
+description: "Moves an element from one list to another in one step, waiting for one if source is empty."
 version: "1.2"
 command: "BLMOVE"
 syntax: "BLMOVE source destination LEFT|RIGHT LEFT|RIGHT timeout"

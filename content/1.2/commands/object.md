@@ -1,6 +1,6 @@
 ---
 title: "OBJECT"
-description: "Inspects how a key's value is stored and used."
+description: "OBJECT is a container: its subcommands report on a single key's value, and on how the key has been used."
 version: "1.2"
 command: "OBJECT"
 syntax: "OBJECT"

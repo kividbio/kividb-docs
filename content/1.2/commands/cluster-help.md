@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER HELP"
-description: "Lists the CLUSTER subcommands and what each does."
+description: "In Redis, CLUSTER HELP lists the CLUSTER subcommands and what each does."
 version: "1.2"
 command: "CLUSTER HELP"
 syntax: "CLUSTER HELP"

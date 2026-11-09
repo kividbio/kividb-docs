@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT FLUSH"
-description: "Empties the script cache."
+description: "Empties the script cache: every script loaded with SCRIPT LOAD or sent with EVAL is forgotten, and EVALSHA of any of them gets NOSCRIPT until the script is sent again."
 version: "1.2"
 command: "SCRIPT FLUSH"
 syntax: "SCRIPT FLUSH [ASYNC | SYNC]"

@@ -1,6 +1,6 @@
 ---
 title: "FT.ALIASUPDATE"
-description: "Points an alias at an index, creating it if needed, or moving it from another index."
+description: "Points alias at index."
 version: "1.2"
 command: "FT.ALIASUPDATE"
 syntax: "FT.ALIASUPDATE alias index"
@@ -42,6 +42,14 @@ Points `alias` at `index`. If the alias does not exist it is created, as [`FT.AL
 `p2` adds a TAG field that `p1` does not have:
 
 ```
+> HSET product:3 name chair category furniture
+(integer) 2
+> HSET product:4 name desk category furniture
+(integer) 2
+> FT.CREATE p1 ON HASH PREFIX 1 product: SCHEMA name TEXT
+OK
+> FT.CREATE p2 ON HASH PREFIX 1 product: SCHEMA name TEXT category TAG
+OK
 > FT.ALIASADD store p1
 OK
 > FT.SEARCH store "@category:{furniture}" NOCONTENT
@@ -54,6 +62,6 @@ OK
 3) "product:4"
 > FT.ALIASLIST p1
 (empty array)
-> FT.ALIASUPDATE products store
+> FT.ALIASUPDATE p1 store
 (error) ERR Alias already exists as an index name
 ```

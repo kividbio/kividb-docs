@@ -1,6 +1,6 @@
 ---
 title: "TS.DEL"
-description: "Deletes the samples of the time series at key from fromTimestamp to toTimestamp, both included."
+description: "Deletes the samples of the time series at key from fromTimestamp to toTimestamp, both included, and returns how many there were."
 version: "1.2"
 command: "TS.DEL"
 syntax: "TS.DEL key fromTimestamp toTimestamp"

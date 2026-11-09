@@ -1,6 +1,6 @@
 ---
 title: "SLOWLOG HELP"
-description: "Lists the SLOWLOG subcommands and what each does."
+description: "Lists the SLOWLOG subcommands, with their arguments and a line on what each does: GET, with the fields of an entry, LEN, RESET and HELP itself."
 version: "1.2"
 command: "SLOWLOG HELP"
 syntax: "SLOWLOG HELP"

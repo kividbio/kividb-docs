@@ -1,6 +1,6 @@
 ---
 title: "FT.DICTDEL"
-description: "Removes words from a dictionary."
+description: "Removes words from a dictionary made with FT.DICTADD."
 version: "1.2"
 command: "FT.DICTDEL"
 syntax: "FT.DICTDEL dict term [term ...]"

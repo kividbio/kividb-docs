@@ -1,6 +1,6 @@
 ---
 title: "DBSIZE"
-description: "Returns the number of keys in the current database."
+description: "Returns the number of keys in the current database, the one chosen with SELECT (database 0 unless changed)."
 version: "1.2"
 command: "DBSIZE"
 syntax: "DBSIZE"

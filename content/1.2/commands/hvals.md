@@ -1,6 +1,6 @@
 ---
 title: "HVALS"
-description: "Returns the values of the hash at key."
+description: "Returns the values of all the fields of the hash at key, without their names."
 version: "1.2"
 command: "HVALS"
 syntax: "HVALS key"

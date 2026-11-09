@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER SAVECONFIG"
-description: "Writes the node's topology to nodes.conf (cluster-config-file) now."
+description: "Writes this node's view of the cluster to its cluster config file now: its own ID, the other nodes it knows, who owns which slot, and the epochs."
 version: "1.2"
 command: "CLUSTER SAVECONFIG"
 syntax: "CLUSTER SAVECONFIG"

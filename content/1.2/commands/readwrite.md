@@ -1,6 +1,6 @@
 ---
 title: "READWRITE"
-description: "Turns off READONLY for the connection: reads on a replica are redirected to the master again."
+description: "Turns off READONLY for the connection."
 version: "1.2"
 command: "READWRITE"
 syntax: "READWRITE"

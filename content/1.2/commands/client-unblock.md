@@ -1,6 +1,6 @@
 ---
 title: "CLIENT UNBLOCK"
-description: "Accepted for compatibility, and replies 0: KiviDB does not unblock a client waiting in a blocking command this way."
+description: "Ends the blocking command another connection is waiting in, such as BLPOP, BLMOVE, BZPOPMIN or XREAD BLOCK, as if its timeout had passed, or with an error."
 version: "1.2"
 command: "CLIENT UNBLOCK"
 syntax: "CLIENT UNBLOCK id"
@@ -21,7 +21,7 @@ CLIENT UNBLOCK id
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-Ends the blocking command another connection is waiting in, such as [`BLPOP`](blpop.md), `BLMOVE`, `BZPOPMIN` or `XREAD BLOCK`, as if its timeout had passed. `id` is that connection's [`CLIENT ID`](client-id.md).
+Ends the blocking command another connection is waiting in, such as [`BLPOP`](blpop.md), `BLMOVE`, `BZPOPMIN` or `XREAD BLOCK`, as if its timeout had passed, or with an error. `id` is that connection's [`CLIENT ID`](client-id.md).
 
 - `TIMEOUT`, the default: the blocked command returns what it returns on a timeout, usually `nil`.
 - `ERROR`: it fails with `-UNBLOCKED client unblocked via CLIENT UNBLOCK`.

@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER BUMPEPOCH"
-description: "Increments the cluster's current epoch and gives it to this node, so that this node's claims to its slots win over older ones."
+description: "Raises this node's current epoch to one above the highest epoch it knows of, and returns it."
 version: "1.2"
 command: "CLUSTER BUMPEPOCH"
 syntax: "CLUSTER BUMPEPOCH"

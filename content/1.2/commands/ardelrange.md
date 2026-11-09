@@ -1,6 +1,6 @@
 ---
 title: "ARDELRANGE"
-description: "Empties the slots in one or more ranges, each from start to end, both included."
+description: "Empties every slot from start to end, both included, in the array at key, for one or more ranges."
 version: "1.2"
 command: "ARDELRANGE"
 syntax: "ARDELRANGE key start end [start end ...]"
@@ -38,7 +38,8 @@ As with `ARDEL`, when the last filled slot is emptied the key is deleted, unless
 ## Errors
 
 - `ERR invalid array index` for a bound that is negative or not a whole number.
-- `ERR wrong number of arguments` when a range is missing its `end`.
+- `ERR wrong number of arguments for 'ardelrange' command` when a range is missing its `end`.
+- `WRONGTYPE` if the key holds a value that is not an array.
 
 ## Examples
 

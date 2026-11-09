@@ -1,6 +1,6 @@
 ---
 title: "ACL LOAD"
-description: "Replaces every user with those in the ACL file, the aclfile setting."
+description: "Reads the ACL file again and makes its users the server's users, replacing all of those in memory."
 version: "1.2"
 command: "ACL LOAD"
 syntax: "ACL LOAD"
@@ -35,7 +35,8 @@ A server started with an `aclfile` that does not exist, or has an error, does no
 
 - `OK`.
 - `ERR This KiviDB instance is not configured to use an ACL file` without an `aclfile`.
-- `ERR <path>: line <n>: <what is wrong>. WARNING: ACL errors detected, no change to the previously active ACL rules was performed` if the file has an error.
+- `ERR <path>: line <n>: <what is wrong>. WARNING: ACL errors detected, no change to the previously active ACL rules was performed` if the file has an error. Several bad lines are listed together, joined by `; `.
+- `ERR opening '<path>': <reason>. WARNING: ACL errors detected, no change to the previously active ACL rules was performed` if the file cannot be read.
 
 ## Examples
 

@@ -1,6 +1,6 @@
 ---
 title: "ROLE"
-description: "Returns the server's replication role: master with its offset and replicas, or slave with its master and state."
+description: "Returns the server's replication role, with what a client needs to know about it, in fewer bytes than INFO replication."
 version: "1.2"
 command: "ROLE"
 syntax: "ROLE"

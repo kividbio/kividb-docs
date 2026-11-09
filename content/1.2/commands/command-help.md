@@ -1,6 +1,6 @@
 ---
 title: "COMMAND HELP"
-description: "Lists the COMMAND subcommands and what each does."
+description: "Lists the COMMAND subcommands, one line each with its arguments, followed by an indented line saying what it does: COUNT, LIST, INFO, DOCS, GETKEYS, GETKEYSANDFLAGS and HELP."
 version: "1.2"
 command: "COMMAND HELP"
 syntax: "COMMAND HELP"

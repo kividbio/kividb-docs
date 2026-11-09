@@ -1,6 +1,6 @@
 ---
 title: "CLIENT"
-description: "Inspects and manages client connections."
+description: "CLIENT is a container: the work is done by its subcommands, which look at and manage the connections to the server, the one sending them included."
 version: "1.2"
 command: "CLIENT"
 syntax: "CLIENT"

@@ -1,6 +1,6 @@
 ---
 title: "PFSELFTEST"
-description: "Runs KiviDB's checks of its HyperLogLog code: an empty one counts 0, 10,000 elements are estimated within 2%, and registers read back as written."
+description: "Runs KiviDB's checks of its HyperLogLog code and says whether they passed."
 version: "1.2"
 command: "PFSELFTEST"
 syntax: "PFSELFTEST"

@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB"
-description: "Reports on the channels and patterns clients are subscribed to."
+description: "PUBSUB is a container: its subcommands report on the channels and patterns clients are subscribed to."
 version: "1.2"
 command: "PUBSUB"
 syntax: "PUBSUB"
@@ -45,6 +45,11 @@ Subcommands: [PUBSUB CHANNELS](pubsub-channels.md), [PUBSUB HELP](pubsub-help.md
 (error) ERR wrong number of arguments for 'pubsub' command
 > PUBSUB NOPE
 (error) ERR unknown PUBSUB subcommand 'NOPE'
+```
+
+With one client subscribed to `news`:
+
+```
 > PUBSUB NUMSUB news
 1) "news"
 2) (integer) 1

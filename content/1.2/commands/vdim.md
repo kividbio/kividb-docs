@@ -1,6 +1,6 @@
 ---
 title: "VDIM"
-description: "Returns the number of dimensions of the vector set's vectors; nil if it does not exist."
+description: "Returns the number of dimensions of the vectors in the vector set at key."
 version: "1.2"
 command: "VDIM"
 syntax: "VDIM key"

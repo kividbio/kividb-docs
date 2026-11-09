@@ -1,6 +1,6 @@
 ---
 title: "XGROUP DESTROY"
-description: "Deletes the group, its consumers and its pending entries."
+description: "Deletes the consumer group group of the stream at key, with its consumers and its pending entries list."
 version: "1.2"
 command: "XGROUP DESTROY"
 syntax: "XGROUP DESTROY key group"

@@ -1,6 +1,6 @@
 ---
 title: "JSON.NUMMULTBY"
-description: "Multiplies each number path matches by number, with the same replies as JSON.NUMINCRBY."
+description: "Multiplies each number path matches in the JSON document at key by number, and stores the result in place."
 version: "1.2"
 command: "JSON.NUMMULTBY"
 syntax: "JSON.NUMMULTBY key path number"

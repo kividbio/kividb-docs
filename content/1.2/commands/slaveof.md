@@ -1,6 +1,6 @@
 ---
 title: "SLAVEOF"
-description: "Another name for REPLICAOF."
+description: "Another name for REPLICAOF, with the same arguments and replies, kept for clients and scripts written before Redis renamed it."
 version: "1.2"
 command: "SLAVEOF"
 syntax: "SLAVEOF host port | NO ONE"

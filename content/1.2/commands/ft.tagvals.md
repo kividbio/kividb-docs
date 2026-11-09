@@ -1,6 +1,6 @@
 ---
 title: "FT.TAGVALS"
-description: "Returns the distinct values of a TAG field across the indexed documents, sorted."
+description: "Returns the distinct values of a TAG field across the documents an index holds, sorted."
 version: "1.2"
 command: "FT.TAGVALS"
 syntax: "FT.TAGVALS index field"

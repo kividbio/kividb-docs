@@ -1,6 +1,6 @@
 ---
 title: "XGROUP DELCONSUMER"
-description: "Deletes the consumer consumer from the group, with its pending entries: they are no longer pending for anyone."
+description: "Deletes the consumer consumer from the consumer group group, with its pending entries."
 version: "1.2"
 command: "XGROUP DELCONSUMER"
 syntax: "XGROUP DELCONSUMER key group consumer"
@@ -56,3 +56,5 @@ Use it to remove consumers that are gone for good, such as workers of a scaled-d
 > XGROUP DELCONSUMER jobs workers nobody
 (integer) 0
 ```
+
+The consumers in the `XPENDING` summary come in no fixed order.

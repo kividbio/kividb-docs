@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT EXISTS"
-description: "Tells, for each SHA1 digest, whether the script is cached."
+description: "Tells, for each SHA1 digest given, whether the server has that script in its cache, so that EVALSHA can run it."
 version: "1.2"
 command: "SCRIPT EXISTS"
 syntax: "SCRIPT EXISTS sha1 [sha1 ...]"

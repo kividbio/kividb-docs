@@ -1,6 +1,6 @@
 ---
 title: "HMSET"
-description: "Another name for HSET, kept for old clients."
+description: "Sets fields of the hash at key, each to its value, as HSET does, and replies OK instead of a count."
 version: "1.2"
 command: "HMSET"
 syntax: "HMSET key field value [field value ...]"

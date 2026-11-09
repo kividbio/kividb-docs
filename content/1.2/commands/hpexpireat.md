@@ -1,6 +1,6 @@
 ---
 title: "HPEXPIREAT"
-description: "HEXPIREAT with the time in milliseconds."
+description: "Makes fields of the hash at key expire at a Unix time given in milliseconds."
 version: "1.2"
 command: "HPEXPIREAT"
 syntax: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT] FIELDS numfields field [field ...]"

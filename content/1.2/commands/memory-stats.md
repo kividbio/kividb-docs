@@ -1,6 +1,6 @@
 ---
 title: "MEMORY STATS"
-description: "Returns memory figures as name-value pairs: used_memory, used_memory_rss, used_memory_peak and others."
+description: "Returns the server's memory figures as name-value pairs, with the same names as Redis, for tools that read them:"
 version: "1.2"
 command: "MEMORY STATS"
 syntax: "MEMORY STATS"

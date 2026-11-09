@@ -1,6 +1,6 @@
 ---
 title: "COMMAND GETKEYS"
-description: "Returns the keys a command would use, given its arguments."
+description: "Returns the keys a command would use, given its full arguments, without running it."
 version: "1.2"
 command: "COMMAND GETKEYS"
 syntax: "COMMAND GETKEYS command [arg ...]"

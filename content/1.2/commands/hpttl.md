@@ -1,6 +1,6 @@
 ---
 title: "HPTTL"
-description: "HTTL in milliseconds."
+description: "Returns how long fields of the hash at key have before they expire, in milliseconds."
 version: "1.2"
 command: "HPTTL"
 syntax: "HPTTL key FIELDS numfields field [field ...]"

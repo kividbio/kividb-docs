@@ -1,6 +1,6 @@
 ---
 title: "ACL DELUSER"
-description: "Deletes users."
+description: "Deletes one or more users."
 version: "1.2"
 command: "ACL DELUSER"
 syntax: "ACL DELUSER username [username ...]"

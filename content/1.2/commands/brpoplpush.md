@@ -1,6 +1,6 @@
 ---
 title: "BRPOPLPUSH"
-description: "RPOPLPUSH that waits until source has an element or timeout seconds have passed."
+description: "Pops the last element of source and pushes it onto the front of destination, waiting for an element if source is empty."
 version: "1.2"
 command: "BRPOPLPUSH"
 syntax: "BRPOPLPUSH source destination timeout"

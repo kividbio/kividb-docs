@@ -1,6 +1,6 @@
 ---
 title: "TS.ALTER"
-description: "Changes a time series' retention, chunk size, duplicate policy or labels."
+description: "Changes the settings of an existing time series: its retention, chunk size, duplicate policy or labels."
 version: "1.2"
 command: "TS.ALTER"
 syntax: "TS.ALTER key [RETENTION ms] [CHUNK SIZE size] [DUPLICATE_POLICY policy] [LABELS label value ...]"

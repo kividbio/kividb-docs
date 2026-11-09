@@ -1,6 +1,6 @@
 ---
 title: "TS.DECRBY"
-description: "TS.INCRBY, subtracting."
+description: "Adds a sample whose value is the series' last value minus value, for counters that go down: stock left, open slots, a balance."
 version: "1.2"
 command: "TS.DECRBY"
 syntax: "TS.DECRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK SIZE size] [LABELS label value ...]"

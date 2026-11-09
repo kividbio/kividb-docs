@@ -1,6 +1,6 @@
 ---
 title: "FT.SYNDUMP"
-description: "Returns an index's synonym groups, as each word followed by the groups it is in."
+description: "Returns the synonym groups of an index, made with FT.SYNUPDATE, turned around: each word, followed by the groups it is in."
 version: "1.2"
 command: "FT.SYNDUMP"
 syntax: "FT.SYNDUMP index"

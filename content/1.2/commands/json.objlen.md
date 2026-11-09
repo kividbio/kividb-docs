@@ -1,6 +1,6 @@
 ---
 title: "JSON.OBJLEN"
-description: "Returns the number of members of each object path matches."
+description: "Returns the number of members in each object path matches in the JSON document at key."
 version: "1.2"
 command: "JSON.OBJLEN"
 syntax: "JSON.OBJLEN key [path]"

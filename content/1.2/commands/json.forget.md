@@ -1,6 +1,6 @@
 ---
 title: "JSON.FORGET"
-description: "Another name for JSON.DEL."
+description: "Another name for JSON.DEL: it takes the same arguments and gives the same reply."
 version: "1.2"
 command: "JSON.FORGET"
 syntax: "JSON.FORGET key [path]"

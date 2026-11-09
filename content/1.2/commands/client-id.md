@@ -1,6 +1,6 @@
 ---
 title: "CLIENT ID"
-description: "Returns the connection's ID, unique for the server's lifetime."
+description: "Returns the connection's ID."
 version: "1.2"
 command: "CLIENT ID"
 syntax: "CLIENT ID"

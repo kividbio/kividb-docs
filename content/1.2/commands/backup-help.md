@@ -1,6 +1,6 @@
 ---
 title: "BACKUP HELP"
-description: "Lists the BACKUP subcommands and what each does."
+description: "Lists the BACKUP subcommands and a line on what each does: START, LIST, SEAL, CLEANUP, ABORT, STATUS and HELP itself."
 version: "1.2"
 command: "BACKUP HELP"
 syntax: "BACKUP HELP"

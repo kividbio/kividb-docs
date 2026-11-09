@@ -1,6 +1,6 @@
 ---
 title: "VGETATTR"
-description: "Returns an element's JSON attributes; nil if it has none."
+description: "Returns the attributes of element in the vector set at key: the string set with VADD ... SETATTR or VSETATTR, as it was given."
 version: "1.2"
 command: "VGETATTR"
 syntax: "VGETATTR key element"

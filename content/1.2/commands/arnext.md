@@ -1,6 +1,6 @@
 ---
 title: "ARNEXT"
-description: "Returns the index the next ARINSERT will use: 0 for a missing key, nil once the cursor has run past the last index."
+description: "Returns the index the next ARINSERT on the array at key will write to."
 version: "1.2"
 command: "ARNEXT"
 syntax: "ARNEXT key"

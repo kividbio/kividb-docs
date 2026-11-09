@@ -1,6 +1,6 @@
 ---
 title: "SYNC"
-description: "The original replication handshake: a replica sends it to get a snapshot, then every write."
+description: "The original replication handshake: a replica sends it to get a snapshot of the master's data, then every write that follows, with no way to resume after a broken link."
 version: "1.2"
 command: "SYNC"
 syntax: "SYNC"

@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT LOAD"
-description: "Compiles a script and caches it, without running it, and returns its SHA1 digest for EVALSHA."
+description: "Puts a script in the server's cache, without running it, and returns its SHA1 digest."
 version: "1.2"
 command: "SCRIPT LOAD"
 syntax: "SCRIPT LOAD script"

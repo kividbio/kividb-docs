@@ -1,6 +1,6 @@
 ---
 title: "HPEXPIRETIME"
-description: "HEXPIRETIME in milliseconds."
+description: "Returns the Unix time, in milliseconds, at which fields of the hash at key expire."
 version: "1.2"
 command: "HPEXPIRETIME"
 syntax: "HPEXPIRETIME key FIELDS numfields field [field ...]"

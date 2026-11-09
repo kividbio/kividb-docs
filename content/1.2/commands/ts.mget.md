@@ -36,9 +36,9 @@ Returns the newest sample of every time series whose labels match the `FILTER` (
 1) 1) "temp:1"
    2) (empty array)
    3) 1) (integer) 5000
-      2) "24"
+      2) 24
 2) 1) "temp:2"
    2) (empty array)
    3) 1) (integer) 5000
-      2) "17"
+      2) 17
 ```

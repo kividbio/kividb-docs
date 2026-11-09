@@ -1,6 +1,6 @@
 ---
 title: "XACK"
-description: "Acknowledges entries the group delivered: they are no longer pending."
+description: "Acknowledges entries that the consumer group group delivered: they leave the group's pending entries list, and XPENDING no longer shows them."
 version: "1.2"
 command: "XACK"
 syntax: "XACK key group id [id ...]"
@@ -73,3 +73,5 @@ OK
    2) 1) "alice"
       2) "1"
 ```
+
+The consumers in the `XPENDING` summary come in no fixed order.

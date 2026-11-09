@@ -1,6 +1,6 @@
 ---
 title: "FT.DICTADD"
-description: "Adds words to a dictionary: a named list of words, which FT.SPELLCHECK can include or exclude."
+description: "Adds words to a dictionary: a named list of words that FT.SPELLCHECK can use with TERMS INCLUDE or TERMS EXCLUDE."
 version: "1.2"
 command: "FT.DICTADD"
 syntax: "FT.DICTADD dict term [term ...]"
@@ -29,7 +29,7 @@ Adds words to a dictionary: a named list of words that [`FT.SPELLCHECK`](ft.spel
 - A dictionary belongs to the server, not to an index or a database: every index's spell check can use it. [`FLUSHALL`](flushall.md) deletes every dictionary; [`FLUSHDB`](flushdb.md) does not.
 - Dictionaries are kept in the snapshot, sent to replicas, and in a [cluster](../guides/cluster.md) added on every master.
 
-With `TERMS INCLUDE dict`, the dictionary's words count as correctly spelled and can be suggested. With `TERMS EXCLUDE dict`, they are taken out of the index's words for that check: they are not suggested, and a query word among them is reported with no suggestions.
+With `TERMS INCLUDE dict`, the dictionary's words count as correctly spelled and can be suggested. With `TERMS EXCLUDE dict`, they are taken out of the index's words for that check: they are not suggested, and a query word among them is reported as misspelled, with any other word of the index near it as a suggestion.
 
 ## Reply
 

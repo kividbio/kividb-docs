@@ -1,6 +1,6 @@
 ---
 title: "JSON.STRLEN"
-description: "Returns the length of each string path matches; nil for a match that is not a string."
+description: "Returns the length of each string path matches in the JSON document at key."
 version: "1.2"
 command: "JSON.STRLEN"
 syntax: "JSON.STRLEN key [path]"

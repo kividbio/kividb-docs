@@ -1,6 +1,6 @@
 ---
 title: "CLIENT TRACKINGINFO"
-description: "Returns this connection's tracking state: its flags (off, on, bcast, optin, optout, noloop), the connection it redirects to, and its prefixes."
+description: "Returns this connection's client-side caching state, as set with CLIENT TRACKING."
 version: "1.2"
 command: "CLIENT TRACKINGINFO"
 syntax: "CLIENT TRACKINGINFO"

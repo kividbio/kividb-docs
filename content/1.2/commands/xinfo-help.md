@@ -1,6 +1,6 @@
 ---
 title: "XINFO HELP"
-description: "Lists the XINFO subcommands and what each does."
+description: "In Redis, XINFO HELP lists the XINFO subcommands with a line on what each does."
 version: "1.2"
 command: "XINFO HELP"
 syntax: "XINFO HELP"

@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER COUNT-FAILURE-REPORTS"
-description: "Returns how many other nodes currently report node-id as failing."
+description: "Returns how many other masters currently report node-id as failing."
 version: "1.2"
 command: "CLUSTER COUNT-FAILURE-REPORTS"
 syntax: "CLUSTER COUNT-FAILURE-REPORTS node-id"

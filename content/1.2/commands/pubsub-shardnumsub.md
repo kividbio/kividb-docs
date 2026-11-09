@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB SHARDNUMSUB"
-description: "Returns how many clients are subscribed to each of the given shard channels."
+description: "Returns, for each shard channel named, how many clients are subscribed to it with SSUBSCRIBE."
 version: "1.2"
 command: "PUBSUB SHARDNUMSUB"
 syntax: "PUBSUB SHARDNUMSUB [shardchannel ...]"

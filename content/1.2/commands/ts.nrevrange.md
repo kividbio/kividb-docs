@@ -1,6 +1,6 @@
 ---
 title: "TS.NREVRANGE"
-description: "TS.NRANGE, newest first."
+description: "Runs the same range over several named time series and joins the results by timestamp, newest first."
 version: "1.2"
 command: "TS.NREVRANGE"
 syntax: "TS.NREVRANGE numkeys key [key ...] fromTimestamp toTimestamp [...]"

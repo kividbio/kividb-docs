@@ -1,6 +1,6 @@
 ---
 title: "ZREM"
-description: "Removes members from the sorted set at key."
+description: "Removes one or more members from the sorted set at key."
 version: "1.2"
 command: "ZREM"
 syntax: "ZREM key member [member ...]"

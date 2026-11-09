@@ -1,6 +1,6 @@
 ---
 title: "BACKUP SEAL"
-description: "Ends the backup: it now holds everything up to this moment, and its manifest is written."
+description: "Ends the backup BACKUP START began: it stops collecting writes, flushes them to disk as appendonly.aof.N.incr.aof, and writes the manifest, appendonly.aof.manifest."
 version: "1.2"
 command: "BACKUP SEAL"
 syntax: "BACKUP SEAL"

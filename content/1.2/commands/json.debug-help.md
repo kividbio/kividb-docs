@@ -1,6 +1,6 @@
 ---
 title: "JSON.DEBUG HELP"
-description: "Lists the JSON.DEBUG subcommands and what each does."
+description: "Lists the JSON.DEBUG subcommands, one line each, with their arguments and what they do."
 version: "1.2"
 command: "JSON.DEBUG HELP"
 syntax: "JSON.DEBUG HELP"

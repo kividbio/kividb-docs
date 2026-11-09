@@ -1,6 +1,6 @@
 ---
 title: "RANDOMKEY"
-description: "Returns a key of the current database, picked at random."
+description: "Returns the name of a key of the current database, picked at random, or nil if the database has no keys."
 version: "1.2"
 command: "RANDOMKEY"
 syntax: "RANDOMKEY"

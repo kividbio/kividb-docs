@@ -1,6 +1,6 @@
 ---
 title: "ARGET"
-description: "Returns the value at index, or nil for an empty slot."
+description: "Returns the value at index in the array at key."
 version: "1.2"
 command: "ARGET"
 syntax: "ARGET key index"

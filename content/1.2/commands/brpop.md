@@ -1,6 +1,6 @@
 ---
 title: "BRPOP"
-description: "Like BLPOP, but pops the last element."
+description: "Pops the last element of the first non-empty list among the keys given."
 version: "1.2"
 command: "BRPOP"
 syntax: "BRPOP key [key ...] timeout"

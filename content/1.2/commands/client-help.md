@@ -1,6 +1,6 @@
 ---
 title: "CLIENT HELP"
-description: "Lists the CLIENT subcommands and what each does."
+description: "Lists the CLIENT subcommands, one line each with its arguments, followed by an indented line saying what it does."
 version: "1.2"
 command: "CLIENT HELP"
 syntax: "CLIENT HELP"

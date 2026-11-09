@@ -1,6 +1,6 @@
 ---
 title: "LATENCY HELP"
-description: "Lists the LATENCY subcommands and what each does."
+description: "Lists the LATENCY subcommands, with their arguments and a line on what each does: DOCTOR, GRAPH, HISTORY, LATEST, RESET, HISTOGRAM and HELP itself."
 version: "1.2"
 command: "LATENCY HELP"
 syntax: "LATENCY HELP"

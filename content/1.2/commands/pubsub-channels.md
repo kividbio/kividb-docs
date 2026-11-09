@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB CHANNELS"
-description: "Returns the channels with at least one subscriber, or those matching a glob-style pattern."
+description: "Returns the channels that at least one client is subscribed to with SUBSCRIBE, sorted."
 version: "1.2"
 command: "PUBSUB CHANNELS"
 syntax: "PUBSUB CHANNELS [pattern]"

@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER SLAVES"
-description: "Another name for CLUSTER REPLICAS, which Redis deprecates."
+description: "Returns the replicas of the master master-id, each as a CLUSTER NODES line."
 version: "1.2"
 command: "CLUSTER SLAVES"
 syntax: "CLUSTER SLAVES master-id"

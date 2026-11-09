@@ -16,7 +16,7 @@ Every JSON command that takes a path reads it with the same engine. The kind of 
 
 A command given no path uses the legacy root, `.`.
 
-In 1.2.0 not every command keeps to the first match of a legacy path that matches several values (`..a`): [`JSON.CLEAR`](../commands/json.clear.md), [`JSON.FORGET`](../commands/json.forget.md), [`JSON.DEL`](../commands/json.del.md) and [`JSON.MSET`](../commands/json.mset.md) act on every match, and the others on the first. Use a JSONPath, `$..a`, to say which you mean.
+In 1.2.0 not every command keeps to the first match of a legacy path that matches several values (`..a`): [`JSON.SET`](../commands/json.set.md), [`JSON.MSET`](../commands/json.mset.md), [`JSON.MERGE`](../commands/json.merge.md), [`JSON.DEL`](../commands/json.del.md), [`JSON.FORGET`](../commands/json.forget.md) and [`JSON.CLEAR`](../commands/json.clear.md) act on every match, and the others on the first. Use a JSONPath, `$..a`, to say which you mean.
 
 ```
 > JSON.SET d $ '{"name":"Ada","addr":{"city":"London"}}'

@@ -1,6 +1,6 @@
 ---
 title: "FT.CURSOR"
-description: "Reads and closes the cursors FT.AGGREGATE ... WITHCURSOR returns."
+description: "FT.CURSOR is a container: its subcommands read and close the cursors that FT.AGGREGATE ... WITHCURSOR opens, so that a large aggregation can be read a page at a time instead of in one reply."
 version: "1.2"
 command: "FT.CURSOR"
 syntax: "FT.CURSOR"

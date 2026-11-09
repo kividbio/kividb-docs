@@ -1,6 +1,6 @@
 ---
 title: "TIME"
-description: "Returns the server's clock: Unix seconds, and the microseconds within that second, as two bulk strings."
+description: "Returns the server's clock: Unix time in seconds, and the microseconds within that second, as two bulk strings."
 version: "1.2"
 command: "TIME"
 syntax: "TIME"

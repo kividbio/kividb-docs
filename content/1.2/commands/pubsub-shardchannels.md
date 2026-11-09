@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB SHARDCHANNELS"
-description: "Returns the shard channels with at least one subscriber, or those matching a glob-style pattern."
+description: "Returns the shard channels that at least one client is subscribed to with SSUBSCRIBE, sorted."
 version: "1.2"
 command: "PUBSUB SHARDCHANNELS"
 syntax: "PUBSUB SHARDCHANNELS [pattern]"

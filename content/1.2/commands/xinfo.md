@@ -1,6 +1,6 @@
 ---
 title: "XINFO"
-description: "Reports on a stream, its consumer groups and their consumers."
+description: "XINFO is a container: its subcommands report on a stream, its consumer groups, and their consumers."
 version: "1.2"
 command: "XINFO"
 syntax: "XINFO"

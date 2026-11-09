@@ -1,6 +1,6 @@
 ---
 title: "HPEXPIRE"
-description: "HEXPIRE with the time in milliseconds."
+description: "Makes fields of the hash at key expire after milliseconds."
 version: "1.2"
 command: "HPEXPIRE"
 syntax: "HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS numfields field [field ...]"

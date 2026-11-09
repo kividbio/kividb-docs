@@ -1,6 +1,6 @@
 ---
 title: "TS.MREVRANGE"
-description: "TS.MRANGE, newest first, with the same options."
+description: "Runs TS.REVRANGE over every time series whose labels match the FILTER, and returns each with its samples, newest first."
 version: "1.2"
 command: "TS.MREVRANGE"
 syntax: "TS.MREVRANGE fromTimestamp toTimestamp [...]"
@@ -30,7 +30,8 @@ The range is still given from the earlier timestamp to the later one. `COUNT` ke
 ## Reply
 
 - An array with, per series (or per group): its key, its labels (empty unless asked for), and its samples, newest first.
-- `ERR wrong number of arguments for TS.MRANGE/MREVRANGE` without a `FILTER`.
+- `ERR FILTER is required for TS.MRANGE/MREVRANGE` without a `FILTER`.
+- `ERR wrong number of arguments for TS.MRANGE/MREVRANGE` with fewer than four arguments.
 
 ## Examples
 

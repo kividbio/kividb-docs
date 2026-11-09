@@ -1,6 +1,6 @@
 ---
 title: "OBJECT REFCOUNT"
-description: "Returns 1 for a key that exists: in KiviDB a value is not shared between keys."
+description: "Returns how many references there are to the value stored at key."
 version: "1.2"
 command: "OBJECT REFCOUNT"
 syntax: "OBJECT REFCOUNT key"

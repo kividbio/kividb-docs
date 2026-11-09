@@ -1,6 +1,6 @@
 ---
 title: "TS.REVRANGE"
-description: "TS.RANGE, newest first, with the same options."
+description: "Returns the samples of the time series at key from fromTimestamp to toTimestamp, both included, newest first."
 version: "1.2"
 command: "TS.REVRANGE"
 syntax: "TS.REVRANGE key fromTimestamp toTimestamp [...]"

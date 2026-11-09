@@ -1,6 +1,6 @@
 ---
 title: "COMMAND LIST"
-description: "Returns the names of every command, or of those matching a FILTERBY: PATTERN pattern, ACLCAT category, or MODULE module (always empty)."
+description: "Returns the names of every command, or of those matching a FILTERBY:"
 version: "1.2"
 command: "COMMAND LIST"
 syntax: "COMMAND LIST [FILTERBY MODULE module | ACLCAT category | PATTERN pattern]"

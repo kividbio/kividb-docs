@@ -1,6 +1,6 @@
 ---
 title: "FT._LIST"
-description: "Returns the names of every index."
+description: "Returns the names of every index on the server."
 version: "1.2"
 command: "FT._LIST"
 syntax: "FT._LIST"

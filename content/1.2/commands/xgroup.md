@@ -1,6 +1,6 @@
 ---
 title: "XGROUP"
-description: "Creates and manages consumer groups: named readers of a stream that share its entries among their consumers, and track what each consumer has been given and not yet acknowledged."
+description: "XGROUP is a container: its subcommands create and manage consumer groups."
 version: "1.2"
 command: "XGROUP"
 syntax: "XGROUP"

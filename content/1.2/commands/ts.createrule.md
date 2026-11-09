@@ -53,10 +53,10 @@ OK
 (empty array)
 > TS.RANGE dst - + LATEST
 1) 1) (integer) 0
-   2) "2"
+   2) 2
 > TS.ADD src 12000 1
 (integer) 12000
 > TS.RANGE dst - +
 1) 1) (integer) 0
-   2) "2"
+   2) 2
 ```

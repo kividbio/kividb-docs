@@ -1,6 +1,6 @@
 ---
 title: "DISCARD"
-description: "Drops the commands queued since MULTI, ends the transaction, and stops watching keys."
+description: "Ends a transaction without running it: the commands queued since MULTI are dropped, none of them runs, and the connection is back to running each command as it is sent."
 version: "1.2"
 command: "DISCARD"
 syntax: "DISCARD"

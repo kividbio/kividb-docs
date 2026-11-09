@@ -1,6 +1,6 @@
 ---
 title: "MODULE LOADEX"
-description: "Refused, as MODULE LOAD is."
+description: "Refused, as MODULE LOAD is: KiviDB does not load modules."
 version: "1.2"
 command: "MODULE LOADEX"
 syntax: "MODULE LOADEX"

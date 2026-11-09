@@ -1,6 +1,6 @@
 ---
 title: "MODULE UNLOAD"
-description: "Refused, as MODULE LOAD is."
+description: "Refused, as MODULE LOAD is: KiviDB does not load modules, so there is none to unload."
 version: "1.2"
 command: "MODULE UNLOAD"
 syntax: "MODULE UNLOAD"

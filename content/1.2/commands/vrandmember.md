@@ -1,6 +1,6 @@
 ---
 title: "VRANDMEMBER"
-description: "Returns elements of the vector set at key, picked at random: one, or count different ones, or, with a negative count, exactly -count that may repeat."
+description: "Returns elements of the vector set at key, picked at random."
 version: "1.2"
 command: "VRANDMEMBER"
 syntax: "VRANDMEMBER key [count]"

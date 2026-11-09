@@ -1,6 +1,6 @@
 ---
 title: "MODULE LOAD"
-description: "Refused: KiviDB does not load modules, since Redis's module interface, a C library loaded into the server, does not fit KiviDB's design."
+description: "Refused, whatever the path: KiviDB does not load modules."
 version: "1.2"
 command: "MODULE LOAD"
 syntax: "MODULE LOAD"

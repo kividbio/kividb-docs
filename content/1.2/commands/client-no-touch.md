@@ -1,6 +1,6 @@
 ---
 title: "CLIENT NO-TOUCH"
-description: "Accepted."
+description: "Accepted for compatibility, and changes nothing."
 version: "1.2"
 command: "CLIENT NO-TOUCH"
 syntax: "CLIENT NO-TOUCH ON|OFF"

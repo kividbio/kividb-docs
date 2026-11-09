@@ -1,6 +1,6 @@
 ---
 title: "GEORADIUSBYMEMBER_RO"
-description: "GEORADIUSBYMEMBER without STORE or STOREDIST, for read-only replicas."
+description: "Returns the members of the geospatial index at key within radius of one of its members, as GEORADIUSBYMEMBER does, but without its STORE and STOREDIST options: it only reads, and its command flags sa…"
 version: "1.2"
 command: "GEORADIUSBYMEMBER_RO"
 syntax: "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC]"

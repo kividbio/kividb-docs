@@ -1,6 +1,6 @@
 ---
 title: "JSON.DEBUG"
-description: "Reports on JSON documents."
+description: "A container for commands that report on JSON documents rather than read or change them."
 version: "1.2"
 command: "JSON.DEBUG"
 syntax: "JSON.DEBUG"

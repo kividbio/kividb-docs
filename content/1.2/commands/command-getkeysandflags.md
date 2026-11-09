@@ -1,6 +1,6 @@
 ---
 title: "COMMAND GETKEYSANDFLAGS"
-description: "Returns the keys a command would use, each with how it uses it."
+description: "Returns the keys a command would use, as COMMAND GETKEYS does, each with flags saying how the command uses it."
 version: "1.2"
 command: "COMMAND GETKEYSANDFLAGS"
 syntax: "COMMAND GETKEYSANDFLAGS command [arg ...]"

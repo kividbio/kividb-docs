@@ -1,6 +1,6 @@
 ---
 title: "BACKUP ABORT"
-description: "Cancels a backup that has not been sealed; its state becomes failed, with the error aborted."
+description: "Cancels a backup that has not been sealed, while its snapshot is being written or while it is collecting writes."
 version: "1.2"
 command: "BACKUP ABORT"
 syntax: "BACKUP ABORT"

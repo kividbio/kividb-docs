@@ -1,6 +1,6 @@
 ---
 title: "FLUSHDB"
-description: "Deletes every key of the current database."
+description: "Deletes every key of the current database, the one chosen with SELECT, and leaves the other databases as they are."
 version: "1.2"
 command: "FLUSHDB"
 syntax: "FLUSHDB"
@@ -38,6 +38,14 @@ KiviDB does not check the argument: anything other than `ASYNC` is taken as `SYN
 ## Examples
 
 ```
+> SELECT 1
+OK
+> SET k v
+OK
+> SELECT 0
+OK
+> SET a 1
+OK
 > FLUSHDB ASYNC
 OK
 > DBSIZE

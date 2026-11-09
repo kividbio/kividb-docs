@@ -1,6 +1,6 @@
 ---
 title: "FT.ALIASLIST"
-description: "Returns the aliases that point to an index (Redis 8.10)."
+description: "Returns the aliases that point at an index, the command Redis 8.10 added."
 version: "1.2"
 command: "FT.ALIASLIST"
 syntax: "FT.ALIASLIST index"

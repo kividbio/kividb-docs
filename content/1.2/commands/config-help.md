@@ -1,6 +1,6 @@
 ---
 title: "CONFIG HELP"
-description: "Lists the CONFIG subcommands and what each does."
+description: "Lists the CONFIG subcommands, one line each with its arguments, followed by an indented line saying what it does: CONFIG GET, CONFIG SET, CONFIG RESETSTAT, CONFIG REWRITE and CONFIG HELP."
 version: "1.2"
 command: "CONFIG HELP"
 syntax: "CONFIG HELP"

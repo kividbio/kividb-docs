@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER ADDSLOTSRANGE"
-description: "Like CLUSTER ADDSLOTS, for the ranges start to end, both included."
+description: "Makes this node the owner of every slot from start to end, both included, for each pair given."
 version: "1.2"
 command: "CLUSTER ADDSLOTSRANGE"
 syntax: "CLUSTER ADDSLOTSRANGE start end [start end ...]"

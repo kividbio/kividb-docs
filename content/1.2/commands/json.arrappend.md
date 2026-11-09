@@ -1,6 +1,6 @@
 ---
 title: "JSON.ARRAPPEND"
-description: "Appends values, each JSON text, to each array path matches."
+description: "Appends one or more values to the end of each array path matches in the JSON document at key."
 version: "1.2"
 command: "JSON.ARRAPPEND"
 syntax: "JSON.ARRAPPEND key path value [value ...]"

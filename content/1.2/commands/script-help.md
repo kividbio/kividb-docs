@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT HELP"
-description: "Lists the SCRIPT subcommands and what each does."
+description: "In Redis, SCRIPT HELP lists the SCRIPT subcommands."
 version: "1.2"
 command: "SCRIPT HELP"
 syntax: "SCRIPT HELP"

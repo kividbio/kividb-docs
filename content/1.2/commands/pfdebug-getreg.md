@@ -1,6 +1,6 @@
 ---
 title: "PFDEBUG GETREG"
-description: "Returns all 16,384 registers of the HyperLogLog, each from 0 to 63, dense or sparse."
+description: "Returns all 16,384 registers of the HyperLogLog at key, in order, each a number from 0 to 63."
 version: "1.2"
 command: "PFDEBUG GETREG"
 syntax: "PFDEBUG GETREG key"

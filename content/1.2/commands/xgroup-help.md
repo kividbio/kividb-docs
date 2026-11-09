@@ -1,6 +1,6 @@
 ---
 title: "XGROUP HELP"
-description: "Lists the XGROUP subcommands and what each does."
+description: "In Redis, XGROUP HELP lists the XGROUP subcommands with a line on what each does."
 version: "1.2"
 command: "XGROUP HELP"
 syntax: "XGROUP HELP"

@@ -1,6 +1,6 @@
 ---
 title: "MEMORY HELP"
-description: "Lists the MEMORY subcommands and what each does."
+description: "Lists the MEMORY subcommands, one line each with its arguments, followed by an indented line saying what it does: DOCTOR, MALLOC-STATS, PURGE, STATS, USAGE and HELP."
 version: "1.2"
 command: "MEMORY HELP"
 syntax: "MEMORY HELP"

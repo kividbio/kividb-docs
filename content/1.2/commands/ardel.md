@@ -1,6 +1,6 @@
 ---
 title: "ARDEL"
-description: "Empties the slots at the given indexes."
+description: "Empties the slots at the given indexes in the array at key."
 version: "1.2"
 command: "ARDEL"
 syntax: "ARDEL key index [index ...]"

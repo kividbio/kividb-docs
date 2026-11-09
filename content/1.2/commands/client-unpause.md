@@ -1,6 +1,6 @@
 ---
 title: "CLIENT UNPAUSE"
-description: "Ends a CLIENT PAUSE at once, releasing the clients it held."
+description: "Ends a CLIENT PAUSE at once, whether it held every command or just writes, and releases the commands it held: each runs, in the order it arrived, and gets its reply."
 version: "1.2"
 command: "CLIENT UNPAUSE"
 syntax: "CLIENT UNPAUSE"

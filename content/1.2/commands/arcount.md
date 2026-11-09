@@ -1,6 +1,6 @@
 ---
 title: "ARCOUNT"
-description: "Returns the number of filled slots; 0 for a missing key."
+description: "Returns the number of filled slots in the array at key."
 version: "1.2"
 command: "ARCOUNT"
 syntax: "ARCOUNT key"

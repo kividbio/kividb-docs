@@ -1,6 +1,6 @@
 ---
 title: "FT.CONFIG HELP"
-description: "Lists the FT.CONFIG subcommands and what each does."
+description: "Lists the search settings that FT.CONFIG GET and FT.CONFIG SET know, each with its current value."
 version: "1.2"
 command: "FT.CONFIG HELP"
 syntax: "FT.CONFIG HELP"

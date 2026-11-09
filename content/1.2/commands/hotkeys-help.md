@@ -1,6 +1,6 @@
 ---
 title: "HOTKEYS HELP"
-description: "Lists the HOTKEYS subcommands and what each does."
+description: "Lists the HOTKEYS subcommands, with their arguments and a line on what each does: START and its options, STOP, GET, RESET and HELP itself."
 version: "1.2"
 command: "HOTKEYS HELP"
 syntax: "HOTKEYS HELP"

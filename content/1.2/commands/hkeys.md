@@ -1,6 +1,6 @@
 ---
 title: "HKEYS"
-description: "Returns the field names of the hash at key."
+description: "Returns the names of all the fields of the hash at key."
 version: "1.2"
 command: "HKEYS"
 syntax: "HKEYS key"

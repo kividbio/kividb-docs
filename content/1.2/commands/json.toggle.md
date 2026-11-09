@@ -1,6 +1,6 @@
 ---
 title: "JSON.TOGGLE"
-description: "Flips each boolean path matches."
+description: "Flips each boolean path matches in the JSON document at key: true becomes false and false becomes true."
 version: "1.2"
 command: "JSON.TOGGLE"
 syntax: "JSON.TOGGLE key path"

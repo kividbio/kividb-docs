@@ -1,6 +1,6 @@
 ---
 title: "VSETATTR"
-description: "Sets an element's JSON attributes; an empty string removes them."
+description: "Sets the attributes of an element of the vector set at key, replacing any it had."
 version: "1.2"
 command: "VSETATTR"
 syntax: "VSETATTR key element json"

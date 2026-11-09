@@ -1,6 +1,6 @@
 ---
 title: "FUNCTION KILL"
-description: "Stops the function running, if it has not written."
+description: "Stops the function that is running, called with FCALL or FCALL_RO, if it has not written anything yet."
 version: "1.2"
 command: "FUNCTION KILL"
 syntax: "FUNCTION KILL"

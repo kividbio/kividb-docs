@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB NUMPAT"
-description: "Returns how many pattern subscriptions there are, from all clients together."
+description: "Returns how many distinct patterns clients are subscribed to with PSUBSCRIBE."
 version: "1.2"
 command: "PUBSUB NUMPAT"
 syntax: "PUBSUB NUMPAT"

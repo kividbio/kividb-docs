@@ -1,6 +1,6 @@
 ---
 title: "BACKUP LIST"
-description: "Returns the paths of the backup's files that are complete and safe to copy: the snapshot; once sealed, also the writes and the manifest."
+description: "Returns the full paths of the backup's files that are complete and safe to copy."
 version: "1.2"
 command: "BACKUP LIST"
 syntax: "BACKUP LIST"

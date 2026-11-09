@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER MYSHARDID"
-description: "Returns the ID of this node's shard: a master's own ID, or a replica's master's."
+description: "Returns the ID of this node's shard: the master and its replicas, which hold the same slots."
 version: "1.2"
 command: "CLUSTER MYSHARDID"
 syntax: "CLUSTER MYSHARDID"

@@ -1,6 +1,6 @@
 ---
 title: "COMMAND INFO"
-description: "COMMAND's entries for the commands named, nil for a name that is not a command, or for every command."
+description: "Returns COMMAND's entry for each command named, or for every command when none is named: nil for a name that is not a command."
 version: "1.2"
 command: "COMMAND INFO"
 syntax: "COMMAND INFO [command ...]"
@@ -23,7 +23,7 @@ COMMAND INFO [command ...]
 <!-- generated: end -->
 Returns [`COMMAND`](command.md)'s entry for each command named, or for every command when none is named: `nil` for a name that is not a command. Names are not case-sensitive.
 
-Each entry is the command's name, its arity (negative: at least that many arguments, the name included), its flags, its first key, last key and step between keys, its ACL categories, its tips, its key specifications and its subcommands. Client libraries read it to learn which commands are read-only and where their keys are.
+Each entry is the command's name, its arity (negative: at least that many arguments, the name included), its flags, its first key, last key and step between keys, its ACL categories, then three arrays for tips, key specifications and subcommands, which KiviDB leaves empty. Client libraries read it to learn which commands are read-only and where their keys are.
 
 ## Examples
 

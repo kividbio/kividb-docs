@@ -1,6 +1,6 @@
 ---
 title: "CLIENT INFO"
-description: "Returns this connection's line of CLIENT LIST."
+description: "Returns this connection's line of CLIENT LIST: its ID, address, name, database, the last command it ran, its user, its protocol (resp=2 or resp=3), the library it reported with CLIENT SETINFO, and it…"
 version: "1.2"
 command: "CLIENT INFO"
 syntax: "CLIENT INFO"

@@ -1,6 +1,6 @@
 ---
 title: "UNWATCH"
-description: "Stops watching every key this connection watches."
+description: "Stops watching every key the connection watches with WATCH, so that the next EXEC no longer depends on them."
 version: "1.2"
 command: "UNWATCH"
 syntax: "UNWATCH"

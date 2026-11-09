@@ -1,6 +1,6 @@
 ---
 title: "XREVRANGE"
-description: "XRANGE, newest first; end comes first."
+description: "Returns the entries of the stream at key from end down to start, newest first: XRANGE in reverse, with the two bounds given the other way round."
 version: "1.2"
 command: "XREVRANGE"
 syntax: "XREVRANGE key end start [COUNT count]"

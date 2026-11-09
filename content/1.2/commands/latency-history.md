@@ -1,6 +1,6 @@
 ---
 title: "LATENCY HISTORY"
-description: "Returns an event's samples, oldest first, each the Unix time and the milliseconds; an empty array for an event with none."
+description: "Returns the samples the latency monitor has recorded for one event, oldest first: for each, the Unix time in seconds and how many milliseconds it took."
 version: "1.2"
 command: "LATENCY HISTORY"
 syntax: "LATENCY HISTORY event"
@@ -25,7 +25,7 @@ Returns the samples the latency monitor has recorded for one event, oldest first
 
 `event` is one of the monitor's event names, such as `command`, `fast-command` or `expire-cycle` (see [`LATENCY`](latency.md)). Names are lower case and matched exactly: `COMMAND` is not `command`. An event with no samples, or a name that is no event's, gives an empty array.
 
-Samples are recorded only while [`latency-monitor-threshold`](../reference/configuration.md#latency-monitor-threshold) is above `0`, its default, for what took at least that many milliseconds. Each event keeps its last 180 samples, the oldest going first. Every sample is kept, even two in the same second, where Redis keeps 160, one a second, the highest. [`LATENCY RESET`](latency-reset.md) clears them.
+Samples are recorded only while [`latency-monitor-threshold`](../reference/configuration.md#latency-monitor-threshold) is above `0` (its default, `0`, turns the monitor off), for what took at least that many milliseconds. Each event keeps its last 180 samples, the oldest going first. Every sample is kept, even two in the same second, where Redis keeps 160, one a second, the highest. [`LATENCY RESET`](latency-reset.md) clears them.
 
 ## Reply
 

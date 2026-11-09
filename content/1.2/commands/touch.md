@@ -1,6 +1,6 @@
 ---
 title: "TOUCH"
-description: "Counts how many of the given keys exist."
+description: "Marks the given keys as used, and returns how many of them exist."
 version: "1.2"
 command: "TOUCH"
 syntax: "TOUCH key [key ...]"

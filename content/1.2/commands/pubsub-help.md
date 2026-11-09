@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB HELP"
-description: "Lists the PUBSUB subcommands and what each does."
+description: "Lists the PUBSUB subcommands, one line each with its arguments, followed by an indented line saying what it does: CHANNELS, NUMPAT, NUMSUB, SHARDCHANNELS, SHARDNUMSUB and HELP."
 version: "1.2"
 command: "PUBSUB HELP"
 syntax: "PUBSUB HELP"

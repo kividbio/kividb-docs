@@ -1,6 +1,6 @@
 ---
 title: "SLOWLOG LEN"
-description: "Returns how many entries the slow log holds."
+description: "Returns how many entries the slow log holds now."
 version: "1.2"
 command: "SLOWLOG LEN"
 syntax: "SLOWLOG LEN"

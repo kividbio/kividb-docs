@@ -1,6 +1,6 @@
 ---
 title: "PUBSUB NUMSUB"
-description: "Returns how many clients are subscribed to each of the given channels, not counting pattern subscriptions."
+description: "Returns, for each channel named, how many clients are subscribed to it with SUBSCRIBE."
 version: "1.2"
 command: "PUBSUB NUMSUB"
 syntax: "PUBSUB NUMSUB [channel ...]"

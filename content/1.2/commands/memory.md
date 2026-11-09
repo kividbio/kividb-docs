@@ -1,6 +1,6 @@
 ---
 title: "MEMORY"
-description: "Reports on memory use."
+description: "MEMORY is a container: its subcommands report on the server's memory and on what a key takes."
 version: "1.2"
 command: "MEMORY"
 syntax: "MEMORY"
@@ -44,6 +44,8 @@ Subcommands: [MEMORY DOCTOR](memory-doctor.md), [MEMORY HELP](memory-help.md), [
 ```
 > MEMORY
 (error) ERR wrong number of arguments for 'memory' command
+> HSET user:1 name Alice
+(integer) 1
 > MEMORY USAGE user:1
 (integer) 193
 ```

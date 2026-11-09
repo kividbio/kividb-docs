@@ -1,6 +1,6 @@
 ---
 title: "VREM"
-description: "Removes elements from the vector set at key."
+description: "Removes elements, with their vectors and attributes, from the vector set at key, and returns how many it removed."
 version: "1.2"
 command: "VREM"
 syntax: "VREM key element [element ...]"
@@ -25,7 +25,7 @@ VREM key element [element ...]
 <!-- generated: end -->
 Removes elements, with their vectors and attributes, from the vector set at `key`, and returns how many it removed. It takes one element or several. Elements that are not in the set are skipped, and a key that does not exist is an empty set. When the last element goes, the key is deleted.
 
-To delete the whole set, use [`DEL`](del.md) or [`UNLINK`](unlink.md). To change an element's vector, [`VADD`](vadd.md) it again; to change its attributes, use [`VSETATTR`](vsetattr.md).
+To delete the whole set, use [`DEL`](del.md) or [`UNLINK`](unlink.md). To change an element's vector, [`VADD`](vadd.md) it again, with `SETATTR` if it should keep its attributes: without it they are removed. To change only its attributes, use [`VSETATTR`](vsetattr.md).
 
 ## Reply
 

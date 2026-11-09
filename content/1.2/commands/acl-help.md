@@ -1,6 +1,6 @@
 ---
 title: "ACL HELP"
-description: "Lists the ACL subcommands and what each does."
+description: "Lists the ACL subcommands, each with its arguments and a line on what it does, as the server knows them."
 version: "1.2"
 command: "ACL HELP"
 syntax: "ACL HELP"

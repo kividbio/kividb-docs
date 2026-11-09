@@ -1,6 +1,6 @@
 ---
 title: "EXISTS"
-description: "Counts how many of the given keys exist."
+description: "Returns how many of the given keys exist."
 version: "1.2"
 command: "EXISTS"
 syntax: "EXISTS key [key ...]"

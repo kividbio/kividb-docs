@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER FLUSHSLOTS"
-description: "Makes this node give up every slot it owns, as CLUSTER DELSLOTS of each."
+description: "Clears this node's slot table: afterwards it owns no slots."
 version: "1.2"
 command: "CLUSTER FLUSHSLOTS"
 syntax: "CLUSTER FLUSHSLOTS"

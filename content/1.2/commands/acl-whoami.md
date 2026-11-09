@@ -1,6 +1,6 @@
 ---
 title: "ACL WHOAMI"
-description: "Returns the name of the user this connection is logged in as."
+description: "Returns the name of the user the connection is logged in as."
 version: "1.2"
 command: "ACL WHOAMI"
 syntax: "ACL WHOAMI"

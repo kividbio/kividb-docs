@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER DELSLOTSRANGE"
-description: "Like CLUSTER DELSLOTS, for the ranges start to end, both included."
+description: "Makes this node give up every slot from start to end, both included, for each pair given."
 version: "1.2"
 command: "CLUSTER DELSLOTSRANGE"
 syntax: "CLUSTER DELSLOTSRANGE start end [start end ...]"

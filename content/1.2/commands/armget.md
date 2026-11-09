@@ -1,6 +1,6 @@
 ---
 title: "ARMGET"
-description: "Returns the values at several indexes, in the order given, nil for empty slots."
+description: "Returns the values at several indexes in the array at key, in one call."
 version: "1.2"
 command: "ARMGET"
 syntax: "ARMGET key index [index ...]"

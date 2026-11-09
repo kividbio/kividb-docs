@@ -1,6 +1,6 @@
 ---
 title: "QUIT"
-description: "Asks the server to close the connection, after replying OK."
+description: "Asks the server to close the connection."
 version: "1.2"
 command: "QUIT"
 syntax: "QUIT"

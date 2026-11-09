@@ -1,6 +1,6 @@
 ---
 title: "XGROUP CREATECONSUMER"
-description: "Creates the consumer consumer in the group."
+description: "Creates the consumer consumer in the consumer group group of the stream at key."
 version: "1.2"
 command: "XGROUP CREATECONSUMER"
 syntax: "XGROUP CREATECONSUMER key group consumer"

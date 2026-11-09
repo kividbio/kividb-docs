@@ -1,6 +1,6 @@
 ---
 title: "GEORADIUS_RO"
-description: "GEORADIUS without STORE or STOREDIST: it only reads, so it can be sent to a read-only replica."
+description: "Returns the members of the geospatial index at key within radius of a longitude and latitude, as GEORADIUS does, but without its STORE and STOREDIST options: it only reads."
 version: "1.2"
 command: "GEORADIUS_RO"
 syntax: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC]"

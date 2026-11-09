@@ -1,6 +1,6 @@
 ---
 title: "CLIENT GETNAME"
-description: "Returns the connection's name, or nil."
+description: "Returns the name the connection was given with CLIENT SETNAME, or nil when it has none."
 version: "1.2"
 command: "CLIENT GETNAME"
 syntax: "CLIENT GETNAME"

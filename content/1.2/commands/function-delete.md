@@ -1,6 +1,6 @@
 ---
 title: "FUNCTION DELETE"
-description: "Deletes a library and its functions."
+description: "Deletes a library of functions, and with it every function the library registered."
 version: "1.2"
 command: "FUNCTION DELETE"
 syntax: "FUNCTION DELETE library-name"

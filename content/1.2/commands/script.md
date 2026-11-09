@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT"
-description: "Manages the cache of scripts EVAL and SCRIPT LOAD fill, and the script running."
+description: "SCRIPT is a container: its subcommands manage the cache of Lua scripts that EVAL and SCRIPT LOAD fill and EVALSHA runs from, and the script running now."
 version: "1.2"
 command: "SCRIPT"
 syntax: "SCRIPT"
@@ -41,7 +41,7 @@ Libraries of functions are managed with [`FUNCTION`](function.md) instead. [Scri
 
 Lua is in the `lua` and `full` builds only. In the default build, every `SCRIPT` subcommand gets `ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.0-lua, or a kividb-lua release file)`.
 
-`SCRIPT` alone, or with a name that is not one of its subcommands, is an error. Unlike Redis's, the error does not suggest `SCRIPT HELP`.
+`SCRIPT` alone, or with a name it does not know, such as `NOPE`, is an error. Unlike Redis's, the error does not suggest `SCRIPT HELP`.
 
 ## Examples
 

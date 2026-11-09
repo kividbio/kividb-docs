@@ -1,6 +1,6 @@
 ---
 title: "FT.ALIASDEL"
-description: "Deletes an alias."
+description: "Deletes an alias made with FT.ALIASADD or FT.ALIASUPDATE."
 version: "1.2"
 command: "FT.ALIASDEL"
 syntax: "FT.ALIASDEL alias"

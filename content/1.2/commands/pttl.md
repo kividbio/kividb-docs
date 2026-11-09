@@ -1,6 +1,6 @@
 ---
 title: "PTTL"
-description: "Returns how long key has before it expires, in milliseconds."
+description: "Returns how long key has left before it expires, in milliseconds."
 version: "1.2"
 command: "PTTL"
 syntax: "PTTL key"

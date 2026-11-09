@@ -1,6 +1,6 @@
 ---
 title: "ACL USERS"
-description: "Returns the names of every user."
+description: "Returns the names of every user the server has, default included, sorted by name."
 version: "1.2"
 command: "ACL USERS"
 syntax: "ACL USERS"

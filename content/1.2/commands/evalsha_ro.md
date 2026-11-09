@@ -1,6 +1,6 @@
 ---
 title: "EVALSHA_RO"
-description: "EVALSHA for a script that only reads, as EVAL_RO is."
+description: "Runs a script the server already has, named by its SHA1 digest, as EVALSHA does, on the condition that the script only reads: a command in it that writes fails, and the script stops with that error."
 version: "1.2"
 command: "EVALSHA_RO"
 syntax: "EVALSHA_RO sha1 numkeys key [key ...] arg [arg ...]"

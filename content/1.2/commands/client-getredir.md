@@ -1,6 +1,6 @@
 ---
 title: "CLIENT GETREDIR"
-description: "Returns the connection this one sends its invalidations to; -1 if tracking is off or it does not redirect."
+description: "Returns the ID of the connection this one's client-side caching invalidations go to, as set with REDIRECT in CLIENT TRACKING."
 version: "1.2"
 command: "CLIENT GETREDIR"
 syntax: "CLIENT GETREDIR"

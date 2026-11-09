@@ -1,6 +1,6 @@
 ---
 title: "FT.CONFIG GET"
-description: "Returns settings matching a name or pattern, * for all, as [name, value] pairs."
+description: "Returns the value of each search setting whose name matches pattern: an exact name such as TIMEOUT, or a glob-style pattern, * for every setting."
 version: "1.2"
 command: "FT.CONFIG GET"
 syntax: "FT.CONFIG GET option|pattern"

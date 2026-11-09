@@ -1,6 +1,6 @@
 ---
 title: "FT.CURSOR DEL"
-description: "Closes a cursor before it is read to the end."
+description: "Closes a cursor opened by FT.AGGREGATE ... WITHCURSOR before it has been read to the end, and frees the rows it holds."
 version: "1.2"
 command: "FT.CURSOR DEL"
 syntax: "FT.CURSOR DEL index cursor_id"

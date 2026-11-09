@@ -1,6 +1,6 @@
 ---
 title: "HOTKEYS"
-description: "Finds the keys that use the most CPU time, or the most network bytes, during a session started with HOTKEYS START."
+description: "HOTKEYS finds the keys that cost the server the most over a period: the CPU time spent on the commands that name them, the network bytes those commands read and wrote, or both."
 version: "1.2"
 command: "HOTKEYS"
 syntax: "HOTKEYS"

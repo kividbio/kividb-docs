@@ -1,6 +1,6 @@
 ---
 title: "JSON.OBJKEYS"
-description: "Returns the member names of each object path matches, in the order they were added."
+description: "Returns the member names of each object path matches in the JSON document at key."
 version: "1.2"
 command: "JSON.OBJKEYS"
 syntax: "JSON.OBJKEYS key [path]"

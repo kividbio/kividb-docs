@@ -1,6 +1,6 @@
 ---
 title: "ARSEEK"
-description: "Moves the insert cursor to index."
+description: "Moves the insert cursor of the array at key to index, so the next ARINSERT writes there."
 version: "1.2"
 command: "ARSEEK"
 syntax: "ARSEEK key index"

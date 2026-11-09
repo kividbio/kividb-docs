@@ -1,6 +1,6 @@
 ---
 title: "LATENCY RESET"
-description: "Clears the samples of every event, or of the events named."
+description: "Clears what the latency monitor has recorded: the samples of every event, or, with names, of those events only."
 version: "1.2"
 command: "LATENCY RESET"
 syntax: "LATENCY RESET [event ...]"

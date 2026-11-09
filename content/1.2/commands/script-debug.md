@@ -1,6 +1,6 @@
 ---
 title: "SCRIPT DEBUG"
-description: "Accepted for compatibility with Redis, with YES, SYNC or NO."
+description: "Accepted for compatibility with Redis, and replies OK, but does nothing: KiviDB has no Lua debugger."
 version: "1.2"
 command: "SCRIPT DEBUG"
 syntax: "SCRIPT DEBUG YES | SYNC | NO"
