@@ -109,31 +109,34 @@ If it is not the fingerprint above, do not install from the repository.
 Images are on the GitHub Container Registry and Docker Hub (`kividb/kividb`), with the same tags in both:
 
 ```bash
-docker run -d -p 6380:6380 ghcr.io/kividbio/kividb:v1.2.1
+docker run -d -p 6380:6380 -v kividb-data:/home/kividb ghcr.io/kividbio/kividb:v1.2.2
 # or
-docker run -d -p 6380:6380 kividb/kividb:v1.2.1
+docker run -d -p 6380:6380 -v kividb-data:/home/kividb kividb/kividb:v1.2.2
 ```
+
+The image keeps its data in `/home/kividb`, its working directory: without a volume there, the data is lost when the container is removed or recreated.
 
 | Tag | Build |
 |---|---|
-| `v1.2.1`, `1.2`, `latest` | default |
-| `v1.2.1-lua` | with Lua scripting |
-| `v1.2.1-tls` | with TLS |
-| `v1.2.1-full` | Lua and TLS |
+| `v1.2.2`, `1.2`, `latest` | default |
+| `v1.2.2-lua` | with Lua scripting |
+| `v1.2.2-tls` | with TLS |
+| `v1.2.2-full` | Lua and TLS |
 
-Images are built for `amd64` and `arm64`. `1.2` and `latest` move to each new release; pin a version tag in production. The `v1.2.0` tags stay published.
+Images are built for `amd64` and `arm64`. `1.2` and `latest` move to each new release; pin a version tag in production. The `v1.2.0` and `v1.2.2` tags stay published.
 
 **Arguments replace the image's default command.** A container is always reached through its network, never over loopback, so the image runs with `--protected-mode no` by default. Any arguments you pass replace that, and protected mode is on again. When you pass your own flags, set a password, or add `--protected-mode no` yourself:
 
 ```bash
-docker run -d -p 6380:6380 ghcr.io/kividbio/kividb:v1.2.1 --requirepass "change-me"
+docker run -d -p 6380:6380 -v kividb-data:/home/kividb \
+  ghcr.io/kividbio/kividb:v1.2.2 --requirepass "change-me"
 ```
 
-**Keeping data.** Mount a volume on `/home/kividb`, where the server runs as UID 1000. With `--aof`, every write is also appended to a log that is replayed on start:
+**Keeping data.** Mount a volume on `/home/kividb`, where the server runs as UID 1000 (a host directory works too, if UID 1000 can write to it). With `--aof`, every write is also appended to a log that is replayed on start:
 
 ```bash
-docker run -d -p 6380:6380 -v "$(pwd)/data:/home/kividb" \
-  ghcr.io/kividbio/kividb:v1.2.1 --aof --requirepass "change-me"
+docker run -d -p 6380:6380 -v kividb-data:/home/kividb \
+  ghcr.io/kividbio/kividb:v1.2.2 --aof --requirepass "change-me"
 ```
 
 Give each server a volume of its own: a second server started on a data directory another one is using waits until the first has stopped. See [Persistence](../guides/persistence.md#one-server-per-data-directory).
@@ -153,7 +156,7 @@ docker run --rm -it --network container:<name> redis redis-cli -p 6380
 Binaries for Linux (x86_64, aarch64) and macOS (Apple silicon, Intel) are attached to each [GitHub release](https://github.com/kividbio/kividb/releases):
 
 ```bash
-curl -LO https://github.com/kividbio/kividb/releases/download/v1.2.1/kividb-linux-x86_64.tar.gz
+curl -LO https://github.com/kividbio/kividb/releases/download/v1.2.2/kividb-linux-x86_64.tar.gz
 tar xzf kividb-linux-x86_64.tar.gz
 ./kividb/kividb
 ```
@@ -200,10 +203,10 @@ KiviDB runs on Linux and macOS only.
 Each GitHub release also has `.deb` and `.rpm` packages of the default build, for `amd64` and `arm64`. They are the packages in the [repositories](#linux-package-repositories), which add a signature to the RPMs, and install the same files:
 
 ```bash
-curl -LO https://github.com/kividbio/kividb/releases/download/v1.2.1/kividb_amd64.deb
+curl -LO https://github.com/kividbio/kividb/releases/download/v1.2.2/kividb_amd64.deb
 sudo apt install ./kividb_amd64.deb
 # or
-curl -LO https://github.com/kividbio/kividb/releases/download/v1.2.1/kividb.x86_64.rpm
+curl -LO https://github.com/kividbio/kividb/releases/download/v1.2.2/kividb.x86_64.rpm
 sudo dnf install ./kividb.x86_64.rpm
 ```
 
@@ -217,7 +220,7 @@ To upgrade servers that replicate, upgrade the replicas first and their master l
 
 ```bash
 gh attestation verify kividb-linux-x86_64.tar.gz --repo kividbio/kividb
-gh attestation verify oci://ghcr.io/kividbio/kividb:v1.2.1 --repo kividbio/kividb
+gh attestation verify oci://ghcr.io/kividbio/kividb:v1.2.2 --repo kividbio/kividb
 ```
 
 The packages in the repositories are checked by the package manager, against the [signing key](#the-signing-key). The RPMs there carry that key's signature, so their checksums differ from the release's files.
@@ -229,7 +232,7 @@ You need a stable Rust toolchain, 1.89 or newer:
 ```bash
 git clone https://github.com/kividbio/kividb.git
 cd kividb
-git checkout v1.2.1
+git checkout v1.2.2
 
 cargo build --release                      # default build
 cargo build --release --features lua       # with Lua scripting
@@ -239,7 +242,7 @@ cargo build --release --features lua,tls   # both
 ./target/release/kividb
 ```
 
-Each release also has a source tag without the `v`, such as `1.2.1-src`, for ports and packages that fetch GitHub's source archive by tag. It builds the same server.
+Each release also has a source tag without the `v`, such as `1.2.2-src`, for ports and packages that fetch GitHub's source archive by tag. It builds the same server.
 
 `docker build -t kividb .` builds the default image. `docker build --build-arg KIVIDB_FEATURES=lua,tls -t kividb:full .` builds another build.
 

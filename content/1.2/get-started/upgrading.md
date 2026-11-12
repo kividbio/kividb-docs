@@ -1,14 +1,21 @@
 ---
 title: "Upgrading"
-description: "Upgrading to KiviDB 1.2.1, from 1.2.0 or from 1.1: the order to upgrade in, which files carry over, and what applications and operators will notice."
+description: "Upgrading to KiviDB 1.2.2, from 1.2.1, 1.2.0 or 1.1: the order to upgrade in, which files carry over, and what applications and operators will notice."
 version: "1.2"
 weight: 50
 ---
 
-This page is for those who run KiviDB 1.2.0 or 1.1 and move to 1.2.1, the newest 1.2 release. **Upgrade:** 1.2.1 fixes security issues that affect 1.2.0 and 1.1.3, and 1.1 gets no further release.
+This page is for those who run KiviDB 1.2.1, 1.2.0 or 1.1 and move to 1.2.2, the newest 1.2 release. **Upgrade:** 1.2.1 fixes security issues that affect 1.2.0 and 1.1.3, 1.2.2 fixes a bug that could make a server with a search index stop answering, and 1.1 gets no further release.
 
-- From 1.2.0: read [Upgrading from 1.2.0 to 1.2.1](#upgrading-from-120-to-121).
-- From 1.1: read [Upgrading from 1.1 to 1.2](#upgrading-from-11-to-12), then the part from 1.2.0 to 1.2.1, which applies to you too. Upgrade straight to 1.2.1: there is no need to stop at 1.2.0.
+- From 1.2.1: read [Upgrading from 1.2.1 to 1.2.2](#upgrading-from-121-to-122).
+- From 1.2.0: read [Upgrading from 1.2.0 to 1.2.1](#upgrading-from-120-to-121), which applies to you; 1.2.2 adds only one fix. Upgrade straight to 1.2.2.
+- From 1.1: read [Upgrading from 1.1 to 1.2](#upgrading-from-11-to-12), then the part from 1.2.0 to 1.2.1, which applies to you too. Upgrade straight to 1.2.2: there is no need to stop at 1.2.0 or 1.2.1.
+
+## Upgrading from 1.2.1 to 1.2.2
+
+1.2.2 is a patch release of 1.2.1, released on 13 November 2026, with one [fix](#fixed-in-122), for the security issue [GHSA-8rm8-p5c5-g3mr](https://github.com/kividbio/kividb/security/advisories/GHSA-8rm8-p5c5-g3mr): a multi-key write over a key past its time to live (`MSET`, `MSETNX`, `JSON.MSET`, or a `MULTI`/`EXEC` of plain `SET`s after `WATCH`) could make the server stop answering, until a restart, when a search index existed and was being changed at the same time. Servers without a search index were not affected. Its [release notes](https://github.com/kividbio/kividb/blob/v1.2.2/docs/releases/v1.2.2.md) and [changelog](https://github.com/kividbio/kividb/blob/v1.2.2/CHANGELOG.md) say the same.
+
+There is nothing to check: 1.2.2 changes no command, setting or file. Upgrade in the same order as before: the replicas first, one at a time, then their master; in a cluster, shard by shard. From 1.2.0, the [part from 1.2.0 to 1.2.1](#upgrading-from-120-to-121) still applies.
 
 ## Upgrading from 1.2.0 to 1.2.1
 
@@ -223,13 +230,19 @@ Since 1.1.3, and in 1.2: a write to a key past its time to live makes a new key,
 
 ## Known issues
 
-These are known in 1.2.1, as in 1.2.0:
+These are known in 1.2.2, as in 1.2.0 and 1.2.1:
 
 - **A power loss during a checkpoint can leave a gap in the append-only file** ([kividb#277](https://github.com/kividbio/kividb/issues/277)). A checkpoint turns the log over: it syncs the old log while new writes go to the new one, and the kernel may get part of the new log to the disk before the end of the old one. A power loss in that window, up to a few seconds on a slow disk, can keep the newest writes while losing the last ones before the checkpoint, where recovery should stop at a clean cut. A process that is killed or crashes, `SHUTDOWN` and a restart lose nothing: only a power loss or a kernel crash is affected. In 1.1, the same window stalled writes instead.
 - **`redis-cli --cluster reshard` under heavy writes slows the source node's writes to seconds** ([kividb#310](https://github.com/kividbio/kividb/issues/310)). A reshard of 128 slots from a node with 2 million keys took 12 to 27 minutes under 100,000 writes a second, and the node's write p99 rose to about a second with the io_uring I/O model (100 ms with Tokio). No write was lost. 1.1 does the same. `CLUSTER MIGRATION IMPORT`, which the Kubernetes operator uses, is not affected. See [Cluster](../guides/cluster.md#adding-a-master-and-moving-slots).
 - **Memory freed by dropping a large vector index stays with the process** ([kividb#300](https://github.com/kividbio/kividb/issues/300)). After `FT.DROPINDEX` and deleting its documents, `used_memory` falls at once, but the resident size stays where it was until [`MEMORY PURGE`](../commands/memory-purge.md), which gives it back in under a second. Container memory limits count it until then.
 - **Values of about 3.8 to 4 KB take up to 5% more memory than in 1.1.3, and `SET`s of values over about 4 KB are about 8% slower** ([kividb#240](https://github.com/kividbio/kividb/issues/240)). After light churn (10 to 20% of the keys deleted and written again), the process settles 13 to 16% above what it took after loading, where active defrag does not reach; it does not grow past that. After heavier churn, 1.2 takes as much as 1.1.3 or less. See [Memory](../guides/memory.md#what-deleting-gives-back).
 - **A cache under eviction serves 3 to 9% fewer reads a second than Redis 8.10** ([kividb#251](https://github.com/kividbio/kividb/issues/251)), on one thread under `allkeys-lfu` or `allkeys-lru` at its `maxmemory`, with the same hit rate and memory and a lower P99 latency. Choosing a key to evict costs more than in Redis.
+
+### Fixed in 1.2.2
+
+This was a bug of 1.2.0 and 1.2.1. Upgrade to 1.2.2 to be rid of it.
+
+- **A multi-key write over a key past its time to live could make the server stop answering** ([GHSA-8rm8-p5c5-g3mr](https://github.com/kividbio/kividb/security/advisories/GHSA-8rm8-p5c5-g3mr)). `MSET`, `MSETNX`, `JSON.MSET`, or a `MULTI`/`EXEC` of plain `SET`s after `WATCH`, over a key whose time to live had passed, could make the server stop answering, until a restart, when a search index existed and was being changed at the same time. Servers without a search index, and 1.1, were not affected.
 
 ### Fixed in 1.2.1
 

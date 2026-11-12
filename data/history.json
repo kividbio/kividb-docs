@@ -6004,6 +6004,15 @@
     "slave-priority"
    ],
    "settings_removed": []
+  },
+  {
+   "commands_added": [],
+   "commands_changed": [],
+   "commands_removed": [],
+   "defaults_changed": [],
+   "release": "1.2.2",
+   "settings_added": [],
+   "settings_removed": []
   }
  ],
  "settings": {

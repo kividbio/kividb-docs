@@ -9,10 +9,10 @@ KiviDB is published in four builds. They are the same server; the others add Lua
 
 | Build | Adds | Docker tag | Binary file |
 |---|---|---|---|
-| default | | `v1.2.1` | `kividb-linux-x86_64.tar.gz` |
-| `lua` | Lua scripting | `v1.2.1-lua` | `kividb-lua-linux-x86_64.tar.gz` |
-| `tls` | TLS | `v1.2.1-tls` | `kividb-tls-linux-x86_64.tar.gz` |
-| `full` | Lua scripting and TLS | `v1.2.1-full` | `kividb-full-linux-x86_64.tar.gz` |
+| default | | `v1.2.2` | `kividb-linux-x86_64.tar.gz` |
+| `lua` | Lua scripting | `v1.2.2-lua` | `kividb-lua-linux-x86_64.tar.gz` |
+| `tls` | TLS | `v1.2.2-tls` | `kividb-tls-linux-x86_64.tar.gz` |
+| `full` | Lua scripting and TLS | `v1.2.2-full` | `kividb-full-linux-x86_64.tar.gz` |
 
 [Install KiviDB](install.md) has every tag and file, for each system. The Linux packages (`.deb`, `.rpm`) are the default build.
 
@@ -24,7 +24,7 @@ In the default build, the scripting commands (`EVAL`, `EVALSHA`, `SCRIPT`, `FUNC
 
 ```
 > EVAL "return 1" 0
-(error) ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.1-lua, or a kividb-lua release file)
+(error) ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.2-lua, or a kividb-lua release file)
 ```
 
 In 1.1 it said `Lua scripting is not supported by KiviDB`, which read as if no build had it.
