@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: 2
 flags: []
-acl_categories: ["dangerous", "generic", "keyspace", "read", "slow"]
-history: []
+acl_categories: ["dangerous", "keyspace", "read", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 KEYS pattern
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@generic`, `@keyspace`, `@read`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@keyspace`, `@read`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Returns every key of the current database that matches a glob-style `pattern`.
 

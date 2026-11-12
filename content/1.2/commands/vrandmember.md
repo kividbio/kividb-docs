@@ -30,6 +30,8 @@ Returns elements of the vector set at `key`, picked at random. Use it to sample 
 - With a negative `count`: exactly `-count` elements, which may repeat.
 - `0`: an empty array.
 
+A `count` that is not an integer is `ERR COUNT value is not an integer`, and more arguments are refused, as in Redis, since 1.2.1.
+
 ## Reply
 
 - An element, or `nil` without `count` when the key does not exist.

@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: -1
 flags: ["write"]
-acl_categories: ["dangerous", "server", "slow", "write"]
-history: []
+acl_categories: ["dangerous", "slow", "write"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 FLUSHALL
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@server`, `@slow`, `@write`
+**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Deletes every key of every database, then replies. It cannot be undone, and it is a write like any other: replicas delete their keys too, and the next snapshot or AOF rewrite has none.
 
@@ -29,7 +33,7 @@ Deletes every key of every database, then replies. It cannot be undone, and it i
 - `ASYNC` replies at once and frees large values on a background thread, as described in [Memory](../guides/memory.md#freeing-large-values).
 - Without either, it frees at once, as with `SYNC`. [`lazyfree-lazy-user-flush`](../reference/configuration.md#accepted-for-compatibility-with-redis) is accepted and changes nothing.
 
-KiviDB does not check the argument: anything other than `ASYNC` is taken as `SYNC`, and further arguments are ignored, where Redis replies with a syntax error. [`FLUSHDB`](flushdb.md) deletes the keys of one database.
+Anything but `ASYNC` or `SYNC` is refused with `ERR syntax error`, as in Redis, since 1.2.1. 1.2.0 took any other word as `SYNC`, and flushed. [`FLUSHDB`](flushdb.md) deletes the keys of one database.
 
 ## Reply
 

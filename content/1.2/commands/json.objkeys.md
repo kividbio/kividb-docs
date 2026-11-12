@@ -30,7 +30,8 @@ A JSONPath reports on every value it matches, so the reply nests one list of nam
 ## Reply
 
 - A JSONPath: an array with one array of names per match, `nil` where a match is not an object; an empty array when nothing matches.
-- A legacy path or no path: an array of names; `nil` when the match is not an object or nothing matches.
+- A legacy path or no path: an array of names; `nil` when nothing matches.
+- `ERR Path does not exist or not an object`, for a legacy path that matches a value that is not an object, as in RedisJSON, since 1.2.1 (1.2.0 answered `nil`).
 - `nil` if the key does not exist.
 
 ## Examples

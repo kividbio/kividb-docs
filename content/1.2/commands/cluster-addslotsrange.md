@@ -26,7 +26,7 @@ Makes this node the owner of every slot from `start` to `end`, both included, fo
 - `start`, `end`: slot numbers from `0` to `16383`, with `start` not above `end`. A range of one slot is `n n`.
 - Several pairs can be given in one call.
 
-A slot that any node already owns is refused with `Slot n is already busy`. Within one range that is all or nothing. Across ranges it is not: the ranges are claimed in order, and those before the one that failed stay claimed. Redis checks every range before claiming any, and refuses overlapping ranges with `Slot n specified multiple times`; KiviDB claims the first and then reports the overlap as busy. When a call fails, check [`CLUSTER SLOTS`](cluster-slots.md) to see what it did.
+A slot that any node already owns is refused with `Slot n is already busy`, and ranges that overlap with `Slot n specified multiple times`. Every range is checked before any is claimed, as in Redis: when a call fails, it claimed nothing. That is since 1.2.1; in 1.2.0, the ranges were claimed in order, those before the one that failed stayed claimed, and an overlap was reported as busy.
 
 The other nodes learn of the new owner from this node's heartbeats. On success the node saves [`nodes.conf`](../reference/configuration.md#cluster-config-file).
 
@@ -37,7 +37,8 @@ The other nodes learn of the new owner from this node's heartbeats. On success t
 ## Errors
 
 - `ERR Slot n is already busy`: the slot is owned, by this node or another.
-- `ERR Invalid range start-end`: `start` is above `end`.
+- `ERR Slot n specified multiple times`: two ranges overlap.
+- `ERR start slot number start is greater than end slot number end`: `start` is above `end` (`ERR Invalid range start-end` before 1.2.1).
 - `ERR Invalid slot n, must be between 0 and 16383`.
 - `ERR wrong number of arguments for 'cluster|addslotsrange' command`: no pair, or an odd number of slot numbers.
 - `ERR This instance has cluster support disabled`: the server is not a cluster node.
@@ -46,15 +47,11 @@ The other nodes learn of the new owner from this node's heartbeats. On success t
 
 ```
 > CLUSTER ADDSLOTSRANGE 0 99 50 120
-(error) ERR Slot 50 is already busy
+(error) ERR Slot 50 specified multiple times
 > CLUSTER SLOTS
-1) 1) (integer) 0
-   2) (integer) 99
-   3) 1) "127.0.0.1"
-      2) (integer) 7100
-      3) "74cea35fa9a656f033023e9f6cb3d78ef2b1a95a"
-> CLUSTER ADDSLOTSRANGE 100 5460
+(empty array)
+> CLUSTER ADDSLOTSRANGE 0 5460
 OK
 > CLUSTER ADDSLOTSRANGE 10 5
-(error) ERR Invalid range 10-5
+(error) ERR start slot number 10 is greater than end slot number 5
 ```

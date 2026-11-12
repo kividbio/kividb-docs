@@ -1,6 +1,6 @@
 ---
 title: "TTL"
-description: "Returns how long key has before it expires, in seconds."
+description: "Returns how long key has before it expires, in seconds, rounded to the nearest second, as in Redis: a key with 1,499 milliseconds left has 1."
 version: "1.2"
 command: "TTL"
 syntax: "TTL key"
@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: 2
 flags: ["fast", "readonly"]
-acl_categories: ["fast", "generic", "keyspace", "read"]
-history: []
+acl_categories: ["fast", "keyspace", "read"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,9 +21,13 @@ status: "reviewed"
 TTL key
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@read`
+**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@keyspace`, `@read`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
-Returns how long `key` has before it expires, in seconds.
+Returns how long `key` has before it expires, in seconds, rounded to the nearest second, as in Redis: a key with 1,499 milliseconds left has `1`. Before 1.2.1 it rounded up, to `2`. [`PTTL`](pttl.md) gives the milliseconds.
 
 ## Reply
 

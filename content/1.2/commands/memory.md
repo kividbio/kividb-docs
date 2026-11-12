@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: -2
 flags: ["readonly"]
-acl_categories: ["server", "slow"]
-history: []
+acl_categories: ["slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 subcommands: ["MEMORY DOCTOR", "MEMORY HELP", "MEMORY MALLOC-STATS", "MEMORY PURGE", "MEMORY STATS", "MEMORY USAGE"]
 # generated: end
 status: "reviewed"
@@ -22,9 +22,13 @@ status: "reviewed"
 MEMORY
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@slow`
 
 Subcommands: [MEMORY DOCTOR](memory-doctor.md), [MEMORY HELP](memory-help.md), [MEMORY MALLOC-STATS](memory-malloc-stats.md), [MEMORY PURGE](memory-purge.md), [MEMORY STATS](memory-stats.md), [MEMORY USAGE](memory-usage.md)
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 `MEMORY` is a container: its subcommands report on the server's memory and on what a key takes.
 

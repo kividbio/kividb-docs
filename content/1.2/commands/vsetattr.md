@@ -29,22 +29,23 @@ KiviDB stores the string as it is given, and does not check that it is JSON. An 
 
 ## Reply
 
-- `OK`.
-- `ERR no such element` if the element is not in the set.
-- `ERR no such key` if the key does not exist.
+- `1` if the attributes were set.
+- `0` if the key or the element does not exist.
 - `WRONGTYPE` if the key holds another type.
+
+That is Redis's reply, since 1.2.1. 1.2.0 answered `OK`, `ERR no such element` or `ERR no such key`.
 
 ## Examples
 
 ```
 > VSETATTR points a '{"color":"blue"}'
-OK
+(integer) 1
 > VSIM points VALUES 3 1 0 0 FILTER '.color == "blue"'
 1) "a"
 > VSETATTR points a ""
-OK
+(integer) 1
 > VGETATTR points a
 (nil)
 > VSETATTR points nope '{"a":1}'
-(error) ERR no such element
+(integer) 0
 ```

@@ -48,7 +48,7 @@ While the `default` user has no password, `AUTH` with a password alone is refuse
 
 Before logging in, a client may send only `AUTH`, `HELLO` with `AUTH`, `QUIT` and `RESET`, of at most 10 arguments of 16 KB each. [`ACL GENPASS`](../commands/acl-genpass.md) makes a good password.
 
-There is no delay after a wrong password, as in Redis: with a password that is short enough to guess, a client that can connect can try many a second. Use a long, random one. Passwords are kept as their SHA-256.
+There is no delay after a wrong password, as in Redis: with a password that is short enough to guess, a client that can connect can try many a second. Use a long, random one. Passwords are kept as their SHA-256. A password is any bytes, as in Redis; before 1.2.1, one that was not UTF-8 was read as an empty one.
 
 ### Users
 
@@ -82,10 +82,12 @@ OK
 | `&pattern`, `allchannels`, `resetchannels` | Pub/Sub channels it may use. |
 | `+@category`, `-@category`, `+command`, `-command`, `+command\|sub` | Commands it may run, by [category](../commands/acl-cat.md) or one by one. |
 | `readonly` | No write commands: `-@write`. |
+
+The categories are Redis's since 1.2.1, and apply to existing users as soon as the server is upgraded. `@connection` holds `AUTH`, `CLIENT`, `COMMAND`, `ECHO`, `HELLO`, `PING`, `QUIT`, `RESET`, `SELECT`, `READONLY`, `READWRITE`, `ASKING`, `WAIT` and `WAITAOF`. `SELECT` is not in `@write`, nor `WAIT` and `WAITAOF` in `@read`, `@keyspace` or `@generic`, where 1.2.0 had them. So a user of `+@read +@write` needs `+select` (or `+@connection`) to change databases, and `+wait +waitaof` to wait for replicas; a user of `+@all -@write` may `SELECT`. `ACL WHOAMI`, `ACL CAT`, `ACL GENPASS` and `ACL HELP` are not in `@admin` or `@dangerous`.
 | `(...)`, `clearselectors` | Selectors: another set of keys and commands that also applies. |
 | `reset` | Back to a user with no rights. |
 
-[`ACL DRYRUN`](../commands/acl-dryrun.md) says whether a user may run a command, without running it; [`ACL LOG`](../commands/acl-log.md) lists recent refusals and failed logins.
+[`ACL DRYRUN`](../commands/acl-dryrun.md) says whether a user may run a command, without running it; [`ACL LOG`](../commands/acl-log.md) lists recent refusals and failed logins, as Redis lists them: the ten newest without a count, up to [`acllog-max-len`](../reference/configuration.md#acllog-max-len) (128) kept, and a refusal like a recent one counted in that entry rather than added again. Its fields have been Redis's, in Redis's order, since 1.2.1 (`entry-id`, not `id`).
 
 ### Keeping users
 
@@ -109,6 +111,21 @@ Even a user that may write everything should not need the commands that run the 
 There is no `rename-command`: ACL rules are how commands are kept from clients. `CONFIG SET` refuses a name it does not know, as Redis does, rather than taking it and doing nothing, and refuses a setting read only at startup (`bind`, `dir`, `threads`, ...): see [`CONFIG SET`](../commands/config-set.md). [`DEBUG SLEEP`](../commands/debug.md) blocks a thread of the server for as long as it is told.
 
 Key rules apply to the keys a command reaches through a pattern, too. `SORT` and `SORT_RO` with a `BY` pattern that has a `*`, or with a `GET` other than `GET #`, read the keys the pattern names, so they need read access to every key, as in Redis: a user limited to some keys gets `ERR BY option of SORT denied due to insufficient ACL permissions.` (or `GET option`). Every `STORE` and `STOREDIST` destination of `SORT`, `GEORADIUS` and `GEORADIUSBYMEMBER` is checked, and so are the streams of `XREADGROUP`. Before 1.2 they were not, and a user limited to some keys could read or write others ([GHSA-6rw7-4fcr-r6j3](https://github.com/kividbio/kividb/security/advisories/GHSA-6rw7-4fcr-r6j3)).
+
+A command that writes only with some arguments is checked as a write when it is given them, as in Redis. `GEORADIUS` and `GEORADIUSBYMEMBER` with `STORE` or `STOREDIST`, and `MIGRATE`, need write access to the keys they write, so a user with read-only key rights (`%R~*`) gets `NOPERM`; they are not in `@read`, and `-@write` takes them away, with `FUNCTION LOAD`, `DELETE`, `FLUSH` and `RESTORE`. `min-replicas-to-write`, the out-of-memory refusal and `aof-ack-after-write` hold them as they hold other writes. Before 1.2.1 none of this applied to them ([GHSA-cg4w-p5w5-57w5](https://github.com/kividbio/kividb/security/advisories/GHSA-cg4w-p5w5-57w5)):
+
+```
+> ACL SETUSER reporting on >report-password %R~* +@all
+OK
+> AUTH reporting report-password
+OK
+> GEORADIUS places 15 37 200 km
+1) "Palermo"
+> GEORADIUS places 15 37 200 km STORE nearby
+(error) NOPERM User reporting has no permissions to access the 'nearby' key
+```
+
+A JSON document is at most 128 levels deep: a write that would nest one deeper is refused with `ERR recursion limit exceeded`, as in RedisJSON. Before 1.2.1, `JSON.SET` at ever deeper paths could build a document deep enough that reading it crashed the server ([GHSA-qh83-449g-hwm5](https://github.com/kividbio/kividb/security/advisories/GHSA-qh83-449g-hwm5)).
 
 Secrets are not shown to those who may watch commands. [`SLOWLOG GET`](../commands/slowlog-get.md) and [`MONITOR`](../commands/monitor.md) show `(redacted)` for the passwords given to `ACL SETUSER` and to `MIGRATE ... AUTH` or `AUTH2`, and for the secret settings given to `CONFIG SET` (`requirepass`, `masterauth`, `primaryauth`, `cluster-bus-secret`, and the TLS key passphrases); so does the server log. `AUTH` and `HELLO ... AUTH` are never recorded. Before 1.2 those arguments were shown ([GHSA-c4xj-63wm-4jj9](https://github.com/kividbio/kividb/security/advisories/GHSA-c4xj-63wm-4jj9)).
 

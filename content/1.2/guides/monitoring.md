@@ -9,7 +9,7 @@ KiviDB reports on itself as Redis does: `INFO`, the slow log, the latency monito
 
 ## INFO
 
-[`INFO`](../commands/info.md) returns sections of `field:value` lines. With no argument, every section but `commandstats`, `latencystats` and `keysizes`; `INFO all` adds them. `keysizes` looks at every key: `INFO keysizes` counts them each time, while `INFO all` and `INFO everything` give a count up to 10 seconds old, so that a scraper pays for one pass over the keys every 10 seconds at most.
+[`INFO`](../commands/info.md) returns sections of `field:value` lines. With no argument, every section but `commandstats`, `latencystats` and `keysizes`; `INFO all` adds them. `keysizes` looks at every key: `INFO keysizes` counts them each time, while `INFO all` and `INFO everything` give a count up to 10 seconds old, so that a scraper pays for one pass over the keys every 10 seconds at most. Since 1.2.1 that count runs on a thread of its own, and `INFO all` returns the last one without waiting for it, unless it is more than 20 seconds old; and `INFO` works out `avg_ttl` from running sums, so it no longer stalls writes on a server with many keys that have a time to live: about 0.1 ms with 5 million of them, against 55 ms in 1.2.0.
 
 What to watch:
 
@@ -18,19 +18,22 @@ What to watch:
 | `used_memory`, `maxmemory` | memory | Memory in use, and the limit it is compared with. See [Memory](memory.md). |
 | `used_memory_rss` | memory | Memory the system gives the process. |
 | `mem_fragmentation_ratio` | memory | `used_memory_rss` over `used_memory`. |
-| `connected_clients`, `blocked_clients` | clients | Clients connected, and waiting on a blocking command. |
+| `connected_clients`, `blocked_clients` | clients | Clients connected, and waiting on a blocking command (`WAIT` included). Since 1.2.1, replicas' replication links are not counted in `connected_clients`, as in Redis. |
 | `total_commands_processed`, `instantaneous_ops_per_sec` | stats | Commands run, in all and a second. |
 | `keyspace_hits`, `keyspace_misses` | stats | Reads that found their key, and that did not. |
 | `evicted_keys`, `expired_keys` | stats | Keys deleted at the memory limit, and on expiry. |
 | `total_error_replies` | stats | Errors returned; `INFO errorstats` breaks them down. |
 | `role`, `connected_slaves`, `slaveN` | replication | The server's role, and each replica's state, offset and lag. |
 | `master_link_status` | replication | On a replica: `up` while it follows its master. |
-| `rdb_changes_since_last_save`, `aof_last_write_status` | persistence | Writes not yet in a snapshot; whether the append-only file can be written. |
+| `rdb_changes_since_last_save`, `aof_last_write_status` | persistence | Writes not yet in a snapshot; whether the append-only file can be written. Since 1.2.1, a write that changed nothing is not counted. |
+| `aof_superseded_files`, `aof_superseded_bytes` | persistence | Since 1.2.1: logs kept aside in the data directory, never replayed and never removed by the server. Above 0, check them and remove them: see [Persistence](persistence.md#logs-kept-aside). |
+| `active_defrag_panics`, `active_defrag_disabled_by_panics` | memory | Since 1.2.1: active defrag passes that panicked, and `1` once active defrag has turned itself off after 5 in a row. A pass that panics is logged at `ERROR`; report it. `CONFIG SET activedefrag yes` turns it back on. |
+| `slave_priority`, `replica_announced` | replication | On a replica: what Redis Sentinel reads to choose one to promote and to list it. Since 1.2.1 they report [`replica-priority`](../reference/configuration.md#replica-priority) and [`replica-announced`](../reference/configuration.md#replica-announced). |
 | `db0:keys=...,expires=...` | keyspace | Keys, and keys with a time to live, in each database. |
 
 ### Command statistics
 
-`INFO commandstats` has, for each command that has run, its calls, the microseconds spent in it, and how many were refused or failed. It is exact, and the best measure of what the server does:
+`INFO commandstats` has, for each command that has run, its calls, the microseconds spent in it, and how many were refused or failed. It is exact, and the best measure of what the server does. Since 1.2.1 it counts `WATCH`, `UNWATCH`, `HELLO`, `DISCARD`, `RESET` and `AUTH` too, which it left out:
 
 ```
 cmdstat_get:calls=3,usec=59,usec_per_call=19.67,rejected_calls=0,failed_calls=0

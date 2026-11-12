@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: 1
 flags: ["fast"]
-acl_categories: ["fast", "server"]
-history: []
+acl_categories: ["fast"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 TIME
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@server`
+**Available since:** 1.1.0 · **ACL categories:** `@fast`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Returns the server's clock: Unix time in seconds, and the microseconds within that second, as two bulk strings. It reads the clock of the machine the server runs on, so it can be used to compare clients' clocks with the server's, or to stamp data with one time for every client.
 

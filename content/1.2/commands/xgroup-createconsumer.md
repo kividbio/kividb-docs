@@ -30,7 +30,7 @@ Creates the consumer `consumer` in the consumer group `group` of the stream at `
 ## Errors
 
 - `NOGROUP No such consumer group '<group>' for key name '<key>'` if the group does not exist.
-- `ERR no such key` if the key does not exist. Redis answers `ERR The XGROUP subcommand requires the key to exist` instead.
+- `ERR The XGROUP subcommand requires the key to exist. Note that for CREATE you may want to use the MKSTREAM option to create an empty stream automatically.` if the key does not exist, as in Redis, since 1.2.1 (`ERR no such key` before).
 - `WRONGTYPE` if the key holds another type.
 
 ## Examples
@@ -53,5 +53,5 @@ Creates the consumer `consumer` in the consumer group `group` of the stream at `
 > XGROUP CREATECONSUMER jobs nogroup dave
 (error) NOGROUP No such consumer group 'nogroup' for key name 'jobs'
 > XGROUP CREATECONSUMER nokey workers dave
-(error) ERR no such key
+(error) ERR The XGROUP subcommand requires the key to exist. Note that for CREATE you may want to use the MKSTREAM option to create an empty stream automatically.
 ```

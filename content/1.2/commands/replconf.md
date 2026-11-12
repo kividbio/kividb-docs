@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: -1
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 REPLCONF ...
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Sent by a replica to its master during replication, and not meant for applications. A replica sends it before [`PSYNC`](psync.md) to give the port it listens on (`listening-port`) and what it can do (`capa`), then to acknowledge how far it has applied the master's stream (`ACK offset`): at once after applying commands, and about once a second when idle. [`WAIT`](wait.md) counts these acknowledgements. A KiviDB master does not send `GETACK`.
 

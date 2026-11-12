@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: 3
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 SLAVEOF host port | NO ONE
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Another name for [`REPLICAOF`](replicaof.md), with the same arguments and replies, kept for clients and scripts written before Redis renamed it. `SLAVEOF host port` makes the server a replica of that master, dropping its own data for the master's; `SLAVEOF NO ONE` makes it a master again, keeping the data it has.
 

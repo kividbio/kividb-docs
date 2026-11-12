@@ -32,7 +32,7 @@ Functions are in the `lua` and `full` builds only; the default build answers `ER
 ## Reply
 
 - `OK`: the function stops, and the client that called it gets `ERR Script killed by user`.
-- `ERR No scripts in execution.` if nothing is running. Redis replies `NOTBUSY No scripts in execution right now.`
+- `NOTBUSY No scripts in execution right now.` if nothing is running, as in Redis, since 1.2.1 (`ERR No scripts in execution.` before).
 - `UNKILLABLE Sorry the script already executed write commands against the dataset.` if the function has written.
 - `BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.` if what is running is a script, not a function.
 
@@ -44,7 +44,7 @@ client 2> FUNCTION KILL
 OK
 client 1> (error) ERR Script killed by user
 client 2> FUNCTION KILL
-(error) ERR No scripts in execution.
+(error) NOTBUSY No scripts in execution right now.
 client 1> EVAL "while true do end" 0
 client 2> FUNCTION KILL
 (error) BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.

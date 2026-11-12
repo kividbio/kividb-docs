@@ -8,8 +8,8 @@ group: "observability"
 since: "1.1.0"
 arity: -1
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 subcommands: ["HOTKEYS GET", "HOTKEYS HELP", "HOTKEYS RESET", "HOTKEYS START", "HOTKEYS STOP"]
 # generated: end
 status: "reviewed"
@@ -22,9 +22,13 @@ status: "reviewed"
 HOTKEYS
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
 
 Subcommands: [HOTKEYS GET](hotkeys-get.md), [HOTKEYS HELP](hotkeys-help.md), [HOTKEYS RESET](hotkeys-reset.md), [HOTKEYS START](hotkeys-start.md), [HOTKEYS STOP](hotkeys-stop.md)
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 `HOTKEYS` finds the keys that cost the server the most over a period: the CPU time spent on the commands that name them, the network bytes those commands read and wrote, or both. Use it when one key, or a few, may be taking more than their share, and you want their names rather than totals. It is Redis 8.6's command.
 

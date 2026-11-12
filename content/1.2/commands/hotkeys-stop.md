@@ -23,12 +23,12 @@ HOTKEYS STOP
 <!-- generated: end -->
 Stops the running `HOTKEYS` session. Keys are no longer charged for the commands that follow, and the results so far stay, for [`HOTKEYS GET`](hotkeys-get.md): its `tracking-active` becomes `0`, and `collection-duration-ms` is fixed at how long the session ran.
 
-A session started with `DURATION` stops by itself when that time is up; `HOTKEYS STOP` is then not needed, and usually replies with the error below. It replies `OK` if no other command has run since the time was up, as the session is only seen to have ended when one does. To discard the results, use [`HOTKEYS RESET`](hotkeys-reset.md); a new [`HOTKEYS START`](hotkeys-start.md) replaces them too.
+A session started with `DURATION` stops by itself when that time is up; `HOTKEYS STOP` is then not needed, and replies `nil`. To discard the results, use [`HOTKEYS RESET`](hotkeys-reset.md); a new [`HOTKEYS START`](hotkeys-start.md) replaces them too.
 
 ## Reply
 
 - `OK`.
-- `ERR hotkeys tracking is not active` if no session is running: none was started, it was stopped already, or its `DURATION` has passed.
+- `nil` if no session is running: none was started, it was stopped already, or its `DURATION` has passed, as in Redis, since 1.2.1. 1.2.0 answered `ERR hotkeys tracking is not active`, or `OK` when no other command had run since the `DURATION` passed.
 
 ## Examples
 
@@ -42,7 +42,7 @@ OK
 > HOTKEYS STOP
 OK
 > HOTKEYS STOP
-(error) ERR hotkeys tracking is not active
+(nil)
 > HOTKEYS GET
 1)  1) "tracking-active"
     2) (integer) 0

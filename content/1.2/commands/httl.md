@@ -1,6 +1,6 @@
 ---
 title: "HTTL"
-description: "Returns how long fields of the hash at key have before they expire, in seconds."
+description: "Returns how long fields of the hash at key have before they expire, in seconds, rounded up to the next second, as in Redis: a field with 1,499 milliseconds left has 2."
 version: "1.2"
 command: "HTTL"
 syntax: "HTTL key FIELDS numfields field [field ...]"
@@ -23,7 +23,7 @@ HTTL key FIELDS numfields field [field ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@hash`, `@read`, `@slow`
 <!-- generated: end -->
-Returns how long fields of the hash at `key` have before they expire, in seconds.
+Returns how long fields of the hash at `key` have before they expire, in seconds, rounded up to the next second, as in Redis: a field with 1,499 milliseconds left has `2`.
 
 ## Reply
 

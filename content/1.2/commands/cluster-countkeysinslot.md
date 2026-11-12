@@ -27,7 +27,7 @@ Returns the number of keys this node holds in `slot`. Use it to check how many k
 
 It counts the keys in this node's memory only. A slot this node does not own normally has `0`; a replica counts the keys it holds for its master's slots. The count walks every key of the node, so it takes longer the more keys the node holds.
 
-Unlike Redis, it also works on a server that is not a cluster node, counting the keys that would hash to the slot.
+On a server that is not a cluster node it replies `ERR This instance has cluster support disabled`, as Redis does, since 1.2.1; 1.2.0 counted the keys that would hash to the slot.
 
 ## Reply
 
@@ -37,6 +37,7 @@ The number of keys, as an integer.
 
 - `ERR Invalid slot n, must be between 0 and 16383`.
 - `ERR value is not an integer or out of range`: `slot` is not a number.
+- `ERR This instance has cluster support disabled`: the server is not a cluster node.
 
 ## Examples
 

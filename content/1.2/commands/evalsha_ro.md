@@ -40,7 +40,7 @@ What the script returns, as for `EVAL`.
 
 - `NOSCRIPT No matching script. Please use EVAL.` if the server does not have the script: after a restart or [`SCRIPT FLUSH`](script-flush.md), for example. `EVAL_RO` sends the script itself.
 - `ERR Write commands are not allowed from read-only scripts. ...` if the script runs a command that writes. Nothing is written.
-- In the default build: `ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.0-lua, or a kividb-lua release file)`.
+- In the default build: `ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.1-lua, or a kividb-lua release file)`.
 
 ## Examples
 

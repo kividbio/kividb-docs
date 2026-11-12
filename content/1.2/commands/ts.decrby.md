@@ -3,7 +3,7 @@ title: "TS.DECRBY"
 description: "Adds a sample whose value is the series' last value minus value, for counters that go down: stock left, open slots, a balance."
 version: "1.2"
 command: "TS.DECRBY"
-syntax: "TS.DECRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK SIZE size] [LABELS label value ...]"
+syntax: "TS.DECRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK_SIZE size] [DUPLICATE_POLICY policy] [LABELS label value ...]"
 group: "time-series"
 since: "1.1.0"
 arity: -2
@@ -18,16 +18,16 @@ status: "reviewed"
 ## Syntax
 
 ```
-TS.DECRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK SIZE size] [LABELS label value ...]
+TS.DECRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK_SIZE size] [DUPLICATE_POLICY policy] [LABELS label value ...]
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@slow`, `@timeseries`, `@write`
 <!-- generated: end -->
-Adds a sample whose value is the series' last value minus `value`, for counters that go down: stock left, open slots, a balance. It is [`TS.INCRBY`](ts.incrby.md) with the sign turned. A series that does not exist is created, with default settings, and counts down from `0`.
+Adds a sample whose value is the series' last value minus `value`, for counters that go down: stock left, open slots, a balance. It is [`TS.INCRBY`](ts.incrby.md) with the sign turned. A series that does not exist is created, with the options given, and counts down from `0`.
 
 `TIMESTAMP` gives the sample's time in milliseconds, or `*`; the server's clock is the default. It must be at or after the series' last sample: at the same timestamp, the last value is replaced by the new one, whatever the series' duplicate policy.
 
-In 1.2.0, the other options in the syntax, `RETENTION`, `CHUNK SIZE` and `LABELS`, are accepted and ignored, also when the series is created. Create the series with [`TS.CREATE`](ts.create.md) first to give it those.
+`RETENTION`, `CHUNK_SIZE`, `DUPLICATE_POLICY` and `LABELS` apply when it creates the series, as in RedisTimeSeries; an existing series keeps its own. The sample is added as [`TS.ADD`](ts.add.md) adds one, so the series is trimmed to its retention. That is since 1.2.1: in 1.2.0 these options were accepted and ignored, a series it created had the defaults and no labels, and it was never trimmed.
 
 ## Reply
 
@@ -51,4 +51,8 @@ In 1.2.0, the other options in the syntax, `RETENTION`, `CHUNK SIZE` and `LABELS
    2) -4.5
 > TS.DECRBY ctr 1 TIMESTAMP 1500
 (error) TSDB: timestamp must be equal to or higher than the maximum existing timestamp
+> TS.DECRBY stock 1 TIMESTAMP 1000 RETENTION 60000 LABELS item 42
+(integer) 1000
+> TS.QUERYINDEX item=42
+1) "stock"
 ```

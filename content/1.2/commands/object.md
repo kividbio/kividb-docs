@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: -2
 flags: ["readonly"]
-acl_categories: ["generic", "keyspace", "read", "slow"]
-history: []
+acl_categories: ["keyspace", "read", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 subcommands: ["OBJECT ENCODING", "OBJECT FREQ", "OBJECT HELP", "OBJECT IDLETIME", "OBJECT REFCOUNT"]
 # generated: end
 status: "reviewed"
@@ -22,9 +22,13 @@ status: "reviewed"
 OBJECT
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@read`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@keyspace`, `@read`, `@slow`
 
 Subcommands: [OBJECT ENCODING](object-encoding.md), [OBJECT FREQ](object-freq.md), [OBJECT HELP](object-help.md), [OBJECT IDLETIME](object-idletime.md), [OBJECT REFCOUNT](object-refcount.md)
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 `OBJECT` is a container: its subcommands report on a single key's value, and on how the key has been used.
 

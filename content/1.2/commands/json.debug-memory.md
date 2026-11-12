@@ -23,15 +23,18 @@ JSON.DEBUG MEMORY key [path]
 <!-- generated: end -->
 Reports the size, in bytes, of each value `path` matches in the JSON document at `key`, or of the whole document with no path. Use it to find which parts of a document are large.
 
-The size KiviDB reports is the length of the value written as compact JSON text, the form [`JSON.GET`](json.get.md) returns without formatting options. It is not measured from the server's allocations. [`MEMORY USAGE`](memory-usage.md) gives an estimate for the whole key; for a JSON document it is this same text length plus 128 bytes, and the key name's length too if it is over 24 bytes. A string's size includes its two quotes.
+The size is the bytes the value takes in the server's memory, as in RedisJSON: the value itself and what it points to, so a small value takes several times its length as text. [`MEMORY USAGE`](memory-usage.md) gives an estimate for the whole key in another way: for a JSON document, the length of its compact JSON text plus 128 bytes, and the key name's length too if it is over 24 bytes.
+
+Before 1.2.1, `JSON.DEBUG MEMORY` reported the length of the value's compact JSON text, and `nil` for a key that did not exist.
 
 A JSONPath reports on every value it matches; a legacy path on the first match only. See [JSON paths](../reference/json-paths.md).
 
 ## Reply
 
 - A JSONPath: an array with one size per match; an empty array when nothing matches.
-- A legacy path or no path: the size, as an integer; `nil` when the path matches nothing.
-- `nil` if the key does not exist.
+- A legacy path or no path: the size, as an integer.
+- `ERR Path does not exist`, for a legacy path that matches nothing.
+- For a key that does not exist, `0` with a legacy path or no path, and an empty array with a JSONPath.
 
 ## Examples
 
@@ -39,15 +42,17 @@ A JSONPath reports on every value it matches; a legacy path on the first match o
 > JSON.SET d $ '{"name":"Ada","tags":["math","code"],"addr":{"city":"London"}}'
 OK
 > JSON.DEBUG MEMORY d
-(integer) 62
+(integer) 701
 > JSON.DEBUG MEMORY d $.name
-1) (integer) 5
+1) (integer) 75
 > JSON.DEBUG MEMORY d .tags
-(integer) 15
+(integer) 224
 > JSON.DEBUG MEMORY d '$.*'
-1) (integer) 5
-2) (integer) 15
-3) (integer) 17
+1) (integer) 75
+2) (integer) 224
+3) (integer) 195
 > MEMORY USAGE d
 (integer) 190
+> JSON.DEBUG MEMORY nokey
+(integer) 0
 ```

@@ -31,3 +31,5 @@ Returns a line per connection, with Redis's fields: `id`, `addr`, `laddr`, `name
 | `ADDR ip:port`, `LADDR ip:port` | the client's address, or the server's |
 | `SKIPME yes \| no` | whether to leave this connection out |
 | `MAXAGE seconds` | connections at most this old |
+
+`flags` is `N` for an ordinary client, `S` on a master for a replica's replication link, `M` on a replica for its link to its master, `b` for a client blocked in a command such as `BLPOP` or `WAIT`, `P` for a Pub/Sub subscriber, and `e` with [`CLIENT NO-EVICT`](client-no-evict.md) on. `laddr` is the address the client connected to. The replication links show as `S` and `M` since 1.2.1, so that `TYPE replica` and `TYPE master` find them; in 1.2.0 they showed as `N`. `e`, and `b` for every blocked client, are since 1.2.1 too.

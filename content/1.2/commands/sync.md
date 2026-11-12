@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: 1
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 SYNC
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 The original replication handshake: a replica sends it to get a snapshot of the master's data, then every write that follows, with no way to resume after a broken link. Replicas use [`PSYNC`](psync.md) instead, which can continue from where they were when the link drops, so `SYNC` is kept only for old tools.
 

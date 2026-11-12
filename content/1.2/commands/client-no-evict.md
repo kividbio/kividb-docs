@@ -23,7 +23,7 @@ CLIENT NO-EVICT ON|OFF
 <!-- generated: end -->
 Accepted for compatibility, and changes nothing. In Redis, `ON` exempts this connection from client eviction, which closes the connections using the most memory once all of them together pass `maxmemory-clients`. KiviDB has no client eviction: [`maxmemory-clients`](../reference/configuration.md) is accepted and has no effect, so no connection is closed to free memory, with or without this.
 
-`ON` and `OFF` are the only arguments. Unlike Redis, `CLIENT LIST` shows no `e` flag for it.
+`ON` and `OFF` are the only arguments. [`CLIENT LIST`](client-list.md) and `CLIENT INFO` show the `e` flag for it, and [`RESET`](reset.md) turns it off, as in Redis, since 1.2.1; 1.2.0 showed no flag and kept it through `RESET`.
 
 ## Reply
 

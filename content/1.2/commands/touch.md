@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: -2
 flags: ["fast", "readonly"]
-acl_categories: ["fast", "generic", "keyspace", "read"]
-history: []
+acl_categories: ["fast", "keyspace", "read"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 TOUCH key [key ...]
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@read`
+**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@keyspace`, `@read`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Marks the given keys as used, and returns how many of them exist. It is for keeping keys that matter from being evicted: under an LRU `maxmemory-policy`, `TOUCH` resets each key's idle time, as a read would, without sending its value back; under an LFU one, it counts as a use. [Memory](../guides/memory.md#at-the-limit) explains how eviction picks keys.
 

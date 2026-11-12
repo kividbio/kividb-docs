@@ -27,7 +27,7 @@ Returns the vector of `element` in the vector set at `key`, as one number per di
 
 KiviDB keeps every vector as 32-bit floats, as it was given, so the numbers are what [`VADD`](vadd.md) stored, printed in their shortest form.
 
-With `RAW`, the reply is one string of little-endian 32-bit floats, four bytes per dimension: the form `VADD ... FP32` takes, so it can be given back unchanged.
+With `RAW`, the reply is one string of little-endian 32-bit floats, four bytes per dimension: the form `VADD ... FP32` takes, so it can be given back unchanged. Any other option is `ERR invalid option`, since 1.2.1.
 
 ## Reply
 

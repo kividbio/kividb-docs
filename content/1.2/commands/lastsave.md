@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: 1
 flags: ["admin", "fast"]
-acl_categories: ["admin", "dangerous", "fast", "server"]
-history: []
+acl_categories: ["admin", "dangerous", "fast"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 LASTSAVE
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@fast`, `@server`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@fast`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Returns the Unix time of the last snapshot saved, `0` if none.
 

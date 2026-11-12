@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: 1
 flags: []
-acl_categories: ["generic", "keyspace", "read", "slow"]
-history: []
+acl_categories: ["keyspace", "read", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 RANDOMKEY
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@read`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@keyspace`, `@read`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Returns the name of a key of the current database, picked at random, or `nil` if the database has no keys. It is useful to sample a database: what kinds of keys it holds, or how their sizes or times to live look, without listing them all. To go through every key, use [`SCAN`](scan.md).
 

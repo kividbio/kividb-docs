@@ -28,7 +28,7 @@ A client blocked in [`XREADGROUP`](xreadgroup.md) on the group is woken with an 
 ## Reply
 
 - `1` if the group existed and was deleted, `0` if not.
-- `0` also when the key does not exist, where Redis answers `ERR The XGROUP subcommand requires the key to exist`.
+- `ERR The XGROUP subcommand requires the key to exist. Note that for CREATE you may want to use the MKSTREAM option to create an empty stream automatically.` if the key does not exist, as in Redis, since 1.2.1. 1.2.0 answered `0`.
 - `WRONGTYPE` if the key holds another type.
 
 ## Examples
@@ -39,7 +39,7 @@ A client blocked in [`XREADGROUP`](xreadgroup.md) on the group is woken with an 
 > XGROUP DESTROY jobs workers
 (integer) 0
 > XGROUP DESTROY nokey workers
-(integer) 0
+(error) ERR The XGROUP subcommand requires the key to exist. Note that for CREATE you may want to use the MKSTREAM option to create an empty stream automatically.
 ```
 
 With a consumer waiting:

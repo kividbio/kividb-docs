@@ -25,7 +25,7 @@ Returns the samples the latency monitor has recorded for one event, oldest first
 
 `event` is one of the monitor's event names, such as `command`, `fast-command` or `expire-cycle` (see [`LATENCY`](latency.md)). Names are lower case and matched exactly: `COMMAND` is not `command`. An event with no samples, or a name that is no event's, gives an empty array.
 
-Samples are recorded only while [`latency-monitor-threshold`](../reference/configuration.md#latency-monitor-threshold) is above `0` (its default, `0`, turns the monitor off), for what took at least that many milliseconds. Each event keeps its last 180 samples, the oldest going first. Every sample is kept, even two in the same second, where Redis keeps 160, one a second, the highest. [`LATENCY RESET`](latency-reset.md) clears them.
+Samples are recorded only while [`latency-monitor-threshold`](../reference/configuration.md#latency-monitor-threshold) is above `0` (its default, `0`, turns the monitor off), for what took at least that many milliseconds. Each event keeps its last 160 samples, one a second, the highest of that second, as in Redis, since 1.2.1. 1.2.0 kept 180, every sample, even two in the same second. [`LATENCY RESET`](latency-reset.md) clears them.
 
 ## Reply
 

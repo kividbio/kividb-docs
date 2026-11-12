@@ -33,7 +33,7 @@ While subscribed, a connection speaking RESP2 can only send subscription command
 
 - For each shard channel, an acknowledgement: `ssubscribe`, the channel, and how many subscriptions the connection now has.
 
-The count is of all the connection's subscriptions: channels, patterns and shard channels together. In Redis, the count after `SSUBSCRIBE` covers shard channels only, and that after `SUBSCRIBE` or `PSUBSCRIBE` the other two, so the numbers differ for a connection that mixes them.
+The count is of the connection's shard channels only, as in Redis; that after `SUBSCRIBE` or `PSUBSCRIBE` counts channels and patterns. Before 1.2.1 every count was of all three together, so the numbers differed from Redis's for a connection that mixed them.
 
 ## Examples
 

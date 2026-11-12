@@ -3,7 +3,7 @@ title: "CLIENT UNBLOCK"
 description: "Ends the blocking command another connection is waiting in, such as BLPOP, BLMOVE, BZPOPMIN or XREAD BLOCK, as if its timeout had passed, or with an error."
 version: "1.2"
 command: "CLIENT UNBLOCK"
-syntax: "CLIENT UNBLOCK id"
+syntax: "CLIENT UNBLOCK id [TIMEOUT | ERROR]"
 group: "server"
 since: "1.1.0"
 history: []
@@ -16,7 +16,7 @@ status: "reviewed"
 ## Syntax
 
 ```
-CLIENT UNBLOCK id
+CLIENT UNBLOCK id [TIMEOUT | ERROR]
 ```
 
 **Available since:** 1.1.0

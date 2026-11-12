@@ -25,6 +25,8 @@ ZCOUNT key min max
 <!-- generated: end -->
 Counts the members of the sorted set at `key` with a score between `min` and `max`. The bounds are included; `(` before a bound excludes it, as in `(2`. `-inf` and `+inf` are open ends.
 
+Bounds are read as Redis reads them, since 1.2.1: an empty bound is `0`, `(` alone an open `0`, a number too large for a double, such as `1e400`, is `+inf` (`-1e400` is `-inf`), and space before a number is skipped. 1.2.0 refused these with `ERR min or max is not a float`. The same holds for `ZRANGEBYSCORE`, `ZREVRANGEBYSCORE`, `ZREMRANGEBYSCORE`, and `ZRANGE` and `ZRANGESTORE` with `BYSCORE`. Since 1.2.1 too, `ZCOUNT` and `ZREMRANGEBYSCORE` no longer go through the whole sorted set.
+
 ## Reply
 
 - The count.
@@ -39,5 +41,7 @@ Counts the members of the sorted set at `key` with a score between `min` and `ma
 > ZCOUNT r (2 3
 (integer) 1
 > ZCOUNT r -inf +inf
+(integer) 4
+> ZCOUNT r -1e400 1e400
 (integer) 4
 ```

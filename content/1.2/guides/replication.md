@@ -48,6 +48,8 @@ master_repl_offset:96
 
 A replica's `state` is `wait_bgsave` while the master takes the copy, `send_bulk` while it is sent, and `online` once the replica follows the stream of writes.
 
+In [`CLIENT LIST`](../commands/client-list.md), a replica's link shows `flags=S` on the master, and the link to the master shows `flags=M` on the replica, as in Redis, so `CLIENT KILL TYPE replica` and `CLIENT KILL TYPE master` find them; the replica connects again and carries on where it was. `connected_clients` does not count these links. Before 1.2.1, both showed `flags=N` and were counted, and with `--io-model tokio` a `CLIENT KILL` of a replica's link left the replica connected.
+
 ## How a replica catches up
 
 ### A full copy
@@ -74,6 +76,8 @@ A master that restarts cleanly with the append-only file on keeps its replicatio
 
 A master disconnects a replica that has more than [`repl-replica-max-backlog-bytes`](../reference/configuration.md#repl-replica-max-backlog-bytes) (256 MB) of writes waiting for it, rather than keep them all; it copies the dataset again when it reconnects. While it loads a full copy, the larger [`repl-replica-sync-max-backlog-bytes`](../reference/configuration.md#repl-replica-sync-max-backlog-bytes) applies instead. Since 1.2, `CONFIG SET` changes both.
 
+What waits for a replica is not counted against [`maxmemory`](../reference/configuration.md#maxmemory), as in Redis, and a replica dropped for passing the limit has its queue freed at once. Before 1.2.1, part of it was counted: under an `allkeys-*` policy, a replica that was being copied or had fallen behind under heavy writes could make its master evict nearly every key and answer writes with `OOM`.
+
 A replica that hears nothing from its master for [`repl-timeout`](../reference/configuration.md#repl-timeout) seconds (60) takes the link to be down and connects again; the master pings it every [`repl-ping-replica-period`](../reference/configuration.md#repl-ping-replica-period) seconds (10), so a quiet master is not mistaken for a lost one.
 
 The other way round, a master disconnects a replica that is online and has sent no acknowledgement (`REPLCONF ACK`) for `repl-timeout` seconds, as Redis does, and logs `Replication: disconnecting timedout replica <ip>:<port>`. That is a replica whose machine went away without closing the connection: a terminated VM, a lost network path, a paused container. A replica still loading the dataset sends no acknowledgement, and is not timed out. Since 1.1.3: before it, such a replica stayed in `INFO replication` as `state=online`, its `lag` growing, and was counted in `connected_slaves` until the master restarted. [`min-replicas-to-write`](../reference/configuration.md#min-replicas-to-write) and [`WAIT`](../commands/wait.md) were not misled by it: they go by each replica's last acknowledgement.
@@ -82,9 +86,13 @@ The other way round, a master disconnects a replica that is online and has sent 
 
 A replica is read-only: a write is refused with `READONLY You can't write against a read only replica.` `replica-read-only no` in the configuration file is accepted with a warning, and changes nothing.
 
+[`GEORADIUS`](../commands/georadius.md) and [`GEORADIUSBYMEMBER`](../commands/georadiusbymember.md) are refused there too, with `READONLY`, even without `STORE`, as in Redis, because they can write: read from a replica with `GEORADIUS_RO`, `GEORADIUSBYMEMBER_RO` or [`GEOSEARCH`](../commands/geosearch.md). Before 1.2.1, they ran on a replica when they did not store. [`WAIT`](../commands/wait.md) is refused on a replica, where before 1.2.1 it waited for ever.
+
 What it returns can be a little behind the master. It serves its data while it is disconnected from the master, too.
 
 A replica does not delete expired keys itself: its clients see a key past its time as gone, and it is deleted when the master's `UNLINK` for it arrives (a `DEL` with [`lazyfree-lazy-expire no`](../reference/configuration.md#lazyfree-lazy-expire)), as in Redis. The master sends one for every key it expires, whether a read, a write or the background task found it. Until it arrives, the key still counts in `DBSIZE` and `INFO keyspace`. Since 1.1.3: before it, the master sent no deletions, and a replica expired keys by its own clock, so it could delete a key while the master's writes to it were still on the way, and diverge from the master. See [Keys and expiry](expiration.md#replicas-snapshots-and-the-append-only-file).
+
+Hash fields with a time to live go the same way since 1.2.1: only the master removes a field for its time, and it sends the removal on as an `HDEL` (a `DEL` of the hash, if that empties it). A replica hides a field past its time from its readers until that `HDEL` arrives. Before 1.2.1, each server removed such fields by its own clock and the master sent nothing, so a replica that lagged could apply a write the master made while the field lived after the field was gone, and end up with another hash than the master's. A 1.2.1 master says it sends these removals with `kividb_expired_fields_propagated:1` in `INFO`. While any server of a master and its replicas runs 1.2.0, fields are still removed by each server's own clock: the gap closes once the master, upgraded after its replicas, runs 1.2.1.
 
 A replica of a master that sends no deletions, KiviDB 1.1.2 or older, expires keys by its own clock, as every replica did before 1.1.3: it deletes them, and sends nothing on. Otherwise it would keep every key that master expires, unseen by reads but in memory, for good. Keep the machines' clocks in step, with NTP, while it follows one. The replica asks its master which release it is when it connects, and logs:
 
@@ -117,7 +125,7 @@ Before 1.2, `EVAL`, `EVALSHA` and `FCALL` were refused on a replica before the s
 
 Replication is asynchronous: the master replies to a write before any replica has it. A write the master acknowledged and had not yet sent is lost if the master is lost and a replica takes its place.
 
-- [`WAIT`](../commands/wait.md) `numreplicas timeout` waits until that many replicas have the client's writes. It makes the window small; it does not make a write safe from every failure.
+- [`WAIT`](../commands/wait.md) `numreplicas timeout` waits until that many replicas have the client's writes. It makes the window small; it does not make a write safe from every failure. With fewer replicas than asked for, it waits out its timeout, as in Redis, also with none at all; before 1.2.1 it answered at once when no replica was connected.
 - [`min-replicas-to-write`](../reference/configuration.md#min-replicas-to-write) makes a master refuse writes, with `NOREPLICAS`, while fewer replicas than that have acknowledged within [`min-replicas-max-lag`](../reference/configuration.md#min-replicas-max-lag) seconds. A master cut off from its replicas then stops taking writes that would be lost.
 
 ```
@@ -131,12 +139,16 @@ OK
 
 There is no Sentinel, and no `FAILOVER` command, outside a cluster. To make a replica the master:
 
-1. Stop writes to the old master, if it still runs, and wait for the replica to catch up: its offset in `INFO replication` reaches the master's.
+1. Stop writes to the old master, if it still runs, and wait for the replica to catch up: its offset in `INFO replication` reaches the master's. [`CLIENT PAUSE`](../commands/client-pause.md) `timeout WRITE` stops them: since 1.2.1 it replies only once every write already being applied is in `master_repl_offset`, so the offset you read after it holds every acknowledged write. If a write being applied takes more than 5 seconds (a `FLUSHALL`, a `DEL` of a huge key), it answers `ERR writes in progress did not finish before the pause could take hold` and pauses nothing: send it again.
 2. On the replica: `REPLICAOF NO ONE`. It keeps its data and takes writes.
 3. On every other replica: `REPLICAOF host port` of the new master.
 4. Point the clients at the new master.
 
 The new master keeps the old master's stream as well as its own, as Redis does, so the other replicas carry on from where they were in step 3, without a full copy, as long as it has every write since then. Before 1.2, they copied the whole dataset again.
+
+A master made a replica, by `REPLICAOF` or a cluster failover, ends its clients blocked in `BLPOP`, `XREAD ... BLOCK`, `WAIT` and the other blocking commands with `UNBLOCKED force unblock from blocking operation, instance state changed (master -> replica?)` and closes their connections, as Redis does. Before 1.2.1 they stayed blocked.
+
+Redis Sentinel reads `slave_priority` and `replica_announced` from `INFO replication`. Since 1.2.1 they report [`replica-priority`](../reference/configuration.md#replica-priority) and `replica-announced` as set, so a replica set to priority `0` is not promoted; before, `INFO` always said `slave_priority:100`.
 
 ## Replicas of replicas
 
@@ -160,9 +172,11 @@ Upgrade the replicas first, one at a time, and the master last. A replica that r
 
 `FT.SEARCH` and `FT.AGGREGATE` with a `TIMEOUT` work across a cluster whose masters run 1.1 and 1.2 during the upgrade.
 
+From 1.2.0 to 1.2.1, the replicas first matters more: a 1.2.1 master can hold keys a 1.2.0 replica cannot load (keys that are not UTF-8, and the empty key), and a 1.2.0 replica cannot then copy it. A 1.2.1 replica of a 1.2.0 master is fine. See [Upgrading from 1.2.0 to 1.2.1](../get-started/upgrading.md#upgrading-from-120-to-121).
+
 HyperLogLogs: keep [`hll-write-format`](../reference/configuration.md#hll-write-format) `legacy`, its default, until every node runs 1.2; then set it to `redis` on the master and every replica. A master and its replicas must agree, since `PFADD` and `PFMERGE` reach replicas as commands and each node writes new values in its own setting.
 
-[Upgrading from 1.1](../get-started/upgrading.md) has the rest.
+[Upgrading from 1.1](../get-started/upgrading.md#upgrading-from-11-to-12) has the rest.
 
 ## Redis and KiviDB
 

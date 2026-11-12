@@ -6,10 +6,10 @@ command: "JSON.MGET"
 syntax: "JSON.MGET key [key ...] path"
 group: "json"
 since: "1.1.0"
-arity: -2
+arity: -3
 flags: ["readonly"]
 acl_categories: ["json", "read", "slow"]
-history: []
+history: [{"release": "1.2.1", "change": "arity: -2 -> -3"}]
 # generated: end
 status: "reviewed"
 ---
@@ -22,6 +22,10 @@ JSON.MGET key [key ...] path
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@read`, `@slow`
+
+**History:**
+
+- 1.2.1: arity: -2 -> -3
 <!-- generated: end -->
 Evaluates `path` in the JSON documents at several keys.
 

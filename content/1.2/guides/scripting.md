@@ -13,7 +13,7 @@ Lua is in the `lua` and `full` builds only; see [Choose a build](../get-started/
 
 ```
 > EVAL "return 1" 0
-(error) ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.0-lua, or a kividb-lua release file)
+(error) ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.1-lua, or a kividb-lua release file)
 ```
 
 Job queues that run on scripts, BullMQ and Sidekiq among them, need a build with Lua. Before 1.2, the error said `Lua scripting is not supported by KiviDB`, which read as if no build had it.
@@ -32,6 +32,12 @@ The language is Lua 5.4, not Redis's 5.1. Most scripts written for Redis run unc
 ```
 
 Name every key the script uses in `KEYS`, and pass every other value in `ARGV`, rather than writing them into the script: a cluster sends the script to the node that owns its keys, scripts run alongside each other by their keys (below), and the server keeps one compiled copy of each distinct script.
+
+`SCRIPT LOAD` compiles the script, and refuses one that does not compile, or whose first line has a flag it does not know, since 1.2.1; before, the error came at `EVALSHA`.
+
+A blocking command, `BLPOP`, `BLMOVE`, `BZPOPMIN` and the rest, runs in a script as its non-blocking form, as in Redis and as in a transaction: it takes what is there, or gives its empty reply. Before 1.2.1 it answered nil without running, whatever the key held.
+
+A script's `false`, which is also what `redis.call` gives back for a nil reply, reaches a RESP3 client as RESP3's null, as in Redis; 1.2.0 sent RESP2's, which redis-py 8 refused, so Celery chords never completed. Under `redis.setresp(3)`, a Lua boolean is `true` or `false` to a RESP3 client and `1` or `0` to a RESP2 one, and doubles, maps and sets are shaped for the client's protocol.
 
 [`EVAL_RO`](../commands/eval_ro.md) and [`EVALSHA_RO`](../commands/evalsha_ro.md) run a script that may only read. A first line `#!lua flags=no-writes` does the same for `EVAL`; `allow-oom` lets a script run while the server is over [`maxmemory`](memory.md).
 

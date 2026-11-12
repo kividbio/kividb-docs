@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: 2
 flags: ["fast", "readonly"]
-acl_categories: ["fast", "generic", "keyspace", "read"]
-history: []
+acl_categories: ["fast", "keyspace", "read"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 PEXPIRETIME key
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@read`
+**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@keyspace`, `@read`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Returns the Unix time, in milliseconds, at which `key` expires.
 

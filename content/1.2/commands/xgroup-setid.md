@@ -34,7 +34,7 @@ The consumers and their pending entries are kept. An entry that is still pending
 ## Errors
 
 - `NOGROUP` if the group does not exist.
-- `ERR no such key` if the key does not exist. Redis answers `ERR The XGROUP subcommand requires the key to exist` instead.
+- `ERR The XGROUP subcommand requires the key to exist. Note that for CREATE you may want to use the MKSTREAM option to create an empty stream automatically.` if the key does not exist, as in Redis, since 1.2.1 (`ERR no such key` before).
 - `ERR Invalid stream ID specified as stream command argument` for an ID that is not one.
 - `ERR value for ENTRIESREAD must be positive or -1` for a negative count other than `-1`.
 

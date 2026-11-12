@@ -12,12 +12,13 @@ The image is `ghcr.io/kividbio/kividb`, also on Docker Hub as `kividb/kividb`, f
 - The server runs as user and group 1000, in `/home/kividb`, its working directory: snapshots, the append-only file, backups and `nodes.conf` are written there.
 - It listens on 6380.
 - Its default command is `--protected-mode no`, since a container is reached through its network, never its loopback. Arguments given to `docker run`, or `args` in Kubernetes, replace it: protected mode is then on again, and clients from other containers are refused until the server has a password. Give it a password.
+- It is started without a configuration file, so [`CONFIG REWRITE`](../commands/config-rewrite.md) answers `ERR The server is running without a config file`, since 1.2.1. To use it, mount a file and give its path with `--configfile`.
 - There is no shell, and no `redis-cli`, in the image. Since 1.2 it has no OpenSSL either: its base is distroless's `base-nossl`, and TLS is built into the binary, so image scanners have less to report.
 
 ```bash
 docker run -d --name kividb -p 6380:6380 \
   -v kividb-data:/home/kividb \
-  ghcr.io/kividbio/kividb:v1.2.0 --requirepass "change-me" --aof --maxmemory 1gb
+  ghcr.io/kividbio/kividb:v1.2.1 --requirepass "change-me" --aof --maxmemory 1gb
 ```
 
 ## Keeping data

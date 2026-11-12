@@ -2,7 +2,34 @@
  "baseline": "1.1.0",
  "commands": {
   "ACL": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed admin",
+       "field": "flags",
+       "from": [
+        "admin"
+       ],
+       "to": []
+      },
+      {
+       "change": "removed admin, dangerous, server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -271,7 +298,45 @@
    "since": "1.1.0"
   },
   "ASKING": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "added connection; removed cluster",
+       "field": "acl_categories",
+       "from": [
+        "cluster",
+        "fast"
+       ],
+       "to": [
+        "connection",
+        "fast"
+       ]
+      },
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Per-connection single-shot flag. Required before each query against an `IMPORTING` slot.",
+         "section": "Cluster",
+         "subsection": "Migration",
+         "syntax": "ASKING"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Per-connection single-shot flag. Required before each query against an `IMPORTING` slot. Refused on a server that is not a cluster node (`ERR This instance has cluster support disabled`), as in Redis.",
+         "section": "Cluster",
+         "subsection": "Migration",
+         "syntax": "ASKING"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -281,7 +346,28 @@
    "since": "1.1.0"
   },
   "BACKUP": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -321,12 +407,54 @@
    "since": "1.1.0"
   },
   "BGREWRITEAOF": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "BGSAVE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -512,7 +640,33 @@
    "since": "1.1.0"
   },
   "CLIENT|UNBLOCK": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Returns 0; accepted for compatibility, not functional",
+         "section": "Server commands",
+         "subsection": "CLIENT subcommands",
+         "syntax": "CLIENT UNBLOCK id"
+        }
+       ],
+       "to": [
+        {
+         "notes": "End the blocking command (`BLPOP`, `BLMOVE`, `BZPOPMIN`, `XREAD BLOCK`, ...) connection `id` waits in: as on a timeout (`TIMEOUT`, the default) or with `-UNBLOCKED client unblocked via CLIENT UNBLOCK` (`ERROR`). Returns 1 if it was blocked, 0 otherwise",
+         "section": "Server commands",
+         "subsection": "CLIENT subcommands",
+         "syntax": "CLIENT UNBLOCK id [TIMEOUT | ERROR]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -522,32 +676,179 @@
    "since": "1.1.0"
   },
   "CLUSTER": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed cluster",
+       "field": "acl_categories",
+       "from": [
+        "cluster",
+        "slow"
+       ],
+       "to": [
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "CLUSTER|ADDSLOTS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Claim individual slots. Atomic \u2014 rejects duplicates.",
+         "section": "Cluster",
+         "subsection": "Slot ownership",
+         "syntax": "CLUSTER ADDSLOTS slot [slot ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Claim individual slots. All or nothing, as in Redis: a slot already assigned (`Slot n is already busy`) or named twice (`Slot n specified multiple times`) claims none. A claimed slot's `IMPORTING` state is cleared.",
+         "section": "Cluster",
+         "subsection": "Slot ownership",
+         "syntax": "CLUSTER ADDSLOTS slot [slot ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "CLUSTER|ADDSLOTSRANGE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Claim contiguous ranges.",
+         "section": "Cluster",
+         "subsection": "Slot ownership",
+         "syntax": "CLUSTER ADDSLOTSRANGE start end [start end ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Claim contiguous ranges. All the ranges or none, as `ADDSLOTS`; overlapping ranges are `Slot n specified multiple times`.",
+         "section": "Cluster",
+         "subsection": "Slot ownership",
+         "syntax": "CLUSTER ADDSLOTSRANGE start end [start end ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "CLUSTER|BUMPEPOCH": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Advance `current_epoch` and return `BUMPED <new>`.",
+         "section": "Cluster",
+         "subsection": "Epoch and lifecycle",
+         "syntax": "CLUSTER BUMPEPOCH"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Give this node a config epoch above every epoch it knows of and reply `BUMPED <epoch>`, or reply `STILL <epoch>` when its config epoch is already the highest (and not 0), as in Redis.",
+         "section": "Cluster",
+         "subsection": "Epoch and lifecycle",
+         "syntax": "CLUSTER BUMPEPOCH"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "CLUSTER|COUNT-FAILURE-REPORTS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Number of distinct nodes currently flagging this node as failing. Excludes the local node's own opinion.",
+         "section": "Cluster",
+         "subsection": "Discovery and membership",
+         "syntax": "CLUSTER COUNT-FAILURE-REPORTS node-id"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Number of distinct nodes currently flagging this node as failing. Excludes the local node's own opinion. A node this one does not know is `ERR Unknown node <id>`.",
+         "section": "Cluster",
+         "subsection": "Discovery and membership",
+         "syntax": "CLUSTER COUNT-FAILURE-REPORTS node-id"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "CLUSTER|COUNTKEYSINSLOT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Walks the current DB to count keys hashing to `slot`.",
+         "section": "Cluster",
+         "subsection": "Topology and persistence",
+         "syntax": "CLUSTER COUNTKEYSINSLOT slot"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Walks the current DB to count keys hashing to `slot`. Refused on a server that is not a cluster node (`ERR This instance has cluster support disabled`), as in Redis.",
+         "section": "Cluster",
+         "subsection": "Topology and persistence",
+         "syntax": "CLUSTER COUNTKEYSINSLOT slot"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -567,7 +868,33 @@
    "since": "1.1.0"
   },
   "CLUSTER|FLUSHSLOTS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Clear all slot ownership for this node.",
+         "section": "Cluster",
+         "subsection": "Slot ownership",
+         "syntax": "CLUSTER FLUSHSLOTS"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Give up every slot this node owns; other nodes' slots stay as they are. Refused with `ERR DB must be empty to perform CLUSTER FLUSHSLOTS.` while the node holds keys, as in Redis.",
+         "section": "Cluster",
+         "subsection": "Slot ownership",
+         "syntax": "CLUSTER FLUSHSLOTS"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -577,7 +904,33 @@
    "since": "1.1.0"
   },
   "CLUSTER|GETKEYSINSLOT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Returns up to `count` keys in `slot`.",
+         "section": "Cluster",
+         "subsection": "Topology and persistence",
+         "syntax": "CLUSTER GETKEYSINSLOT slot count"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Returns up to `count` keys in `slot`; a `count` of 0 returns an empty array, a negative one is `ERR Invalid slot or number of keys`. Refused on a server that is not a cluster node (`ERR This instance has cluster support disabled`), as in Redis.",
+         "section": "Cluster",
+         "subsection": "Topology and persistence",
+         "syntax": "CLUSTER GETKEYSINSLOT slot count"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -612,12 +965,64 @@
    "since": "1.1.0"
   },
   "CLUSTER|MYID": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Returns this node's 40-hex ID. Stable across restarts.",
+         "section": "Cluster",
+         "subsection": "Topology and persistence",
+         "syntax": "CLUSTER MYID"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Returns this node's 40-hex ID. Stable across restarts. Refused on a server that is not a cluster node (`ERR This instance has cluster support disabled`), as in Redis.",
+         "section": "Cluster",
+         "subsection": "Topology and persistence",
+         "syntax": "CLUSTER MYID"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "CLUSTER|MYSHARDID": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Returns the shard ID \u2014 own ID for masters, master's ID for replicas.",
+         "section": "Cluster",
+         "subsection": "Topology and persistence",
+         "syntax": "CLUSTER MYSHARDID"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Returns the shard ID \u2014 own ID for masters, master's ID for replicas. So it changes when a replica takes over; in Redis a shard has an ID of its own that stays the same across failovers.",
+         "section": "Cluster",
+         "subsection": "Topology and persistence",
+         "syntax": "CLUSTER MYSHARDID"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -673,7 +1078,33 @@
    "since": "1.1.0"
   },
   "CLUSTER|SET-CONFIG-EPOCH": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Set this node's `config_epoch`. Only valid when current value is 0.",
+         "section": "Cluster",
+         "subsection": "Epoch and lifecycle",
+         "syntax": "CLUSTER SET-CONFIG-EPOCH epoch"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Set this node's `config_epoch`, on a fresh node only, as in Redis: refused once the node knows any other node, when its config epoch is already non-zero, and for a negative epoch.",
+         "section": "Cluster",
+         "subsection": "Epoch and lifecycle",
+         "syntax": "CLUSTER SET-CONFIG-EPOCH epoch"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -755,7 +1186,25 @@
    "since": "1.1.0"
   },
   "COMMAND": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "added connection; removed server",
+       "field": "acl_categories",
+       "from": [
+        "server",
+        "slow"
+       ],
+       "to": [
+        "connection",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -821,7 +1270,28 @@
    "since": "1.1.0"
   },
   "CONFIG": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -836,7 +1306,33 @@
    "since": "1.1.0"
   },
   "CONFIG|RESETSTAT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Returns OK",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "CONFIG RESETSTAT"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Reset the statistics INFO reports, among them `active_defrag_hits`, `active_defrag_misses` and `active_defrag_panics` (not `active_defrag_disabled_by_panics`, which is a state). Returns OK",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "CONFIG RESETSTAT"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -866,6 +1362,31 @@
       }
      ],
      "release": "1.1.1"
+    },
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Persist the current runtime config to the file the server was started with (default `/etc/kividb/kividb.conf`). Creates the file and parent directories if they don't exist. Atomic write via tmpfile-rename. Keeps the file's mode, and its owner when run as root; a new file is `0600`. Redis resets the mode to `0644` less the umask instead",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "CONFIG REWRITE"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Persist the current runtime config to the file the server was started with (default `/etc/kividb/kividb.conf`). A server started without one (the file was not there at startup) replies `ERR The server is running without a config file` and writes nothing, as Redis does. Atomic write via tmpfile-rename. Keeps the file's mode, and its owner when run as root; a new file is `0600`. Redis resets the mode to `0644` less the umask instead",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "CONFIG REWRITE"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
     }
    ],
    "removed": null,
@@ -903,19 +1424,148 @@
    "since": "1.1.0"
   },
   "COPY": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "keyspace",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "DBSIZE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "server"
+       ],
+       "to": [
+        "fast"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "DEBUG": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      },
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Accepted and ignored for redis-cli compatibility",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "DEBUG ..."
+        }
+       ],
+       "to": [
+        {
+         "notes": "Any other subcommand, including Redis's `RELOAD`, `LOADAOF` and `CHANGE-REPL-ID`, or one with the wrong number of arguments, is refused with Redis's `ERR unknown subcommand or wrong number of arguments for '<name>'. Try DEBUG HELP.`",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "DEBUG ..."
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
+  },
+  "DEBUG|DIGEST-VALUE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
+  },
+  "DEBUG|HELP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
+  },
+  "DEBUG|LOG": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
+  },
+  "DEBUG|OBJECT": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
+  },
+  "DEBUG|PAUSE-CRON": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
+  },
+  "DEBUG|POPULATE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
+  },
+  "DEBUG|PROTOCOL": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
+  },
+  "DEBUG|SET-ACTIVE-EXPIRE": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
+  },
+  "DEBUG|SET-DISABLE-DENY-SCRIPTS": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
+  },
+  "DEBUG|SLEEP": {
+   "changes": [],
+   "removed": null,
+   "since": "1.2.1"
   },
   "DECR": {
    "changes": [],
@@ -928,7 +1578,28 @@
    "since": "1.1.0"
   },
   "DEL": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "keyspace",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -948,7 +1619,28 @@
    "since": "1.1.0"
   },
   "DUMP": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "keyspace",
+        "read",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -983,7 +1675,28 @@
    "since": "1.1.0"
   },
   "EXISTS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "read"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "read"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1013,23 +1726,106 @@
       }
      ],
      "release": "1.2.0"
+    },
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "write"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
     }
    ],
    "removed": null,
    "since": "1.1.0"
   },
   "EXPIREAT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "write"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "EXPIRETIME": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "read"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "read"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "FAILOVER": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1044,12 +1840,54 @@
    "since": "1.1.0"
   },
   "FLUSHALL": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "dangerous",
+        "server",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "dangerous",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "FLUSHDB": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "dangerous",
+        "server",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "dangerous",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1412,7 +2250,33 @@
    "since": "1.1.0"
   },
   "FT._LIST": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return a list of all index names",
+         "section": "Vector Search commands (FT.*)",
+         "subsection": "Index lifecycle",
+         "syntax": "FT._LIST"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return the names of the selected database's indexes",
+         "section": "Vector Search commands (FT.*)",
+         "subsection": "Index lifecycle",
+         "syntax": "FT._LIST"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1492,12 +2356,76 @@
    "since": "1.1.0"
   },
   "GEORADIUS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "added write; removed readonly",
+       "field": "flags",
+       "from": [
+        "movablekeys",
+        "readonly"
+       ],
+       "to": [
+        "movablekeys",
+        "write"
+       ]
+      },
+      {
+       "change": "added write; removed read",
+       "field": "acl_categories",
+       "from": [
+        "geo",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "geo",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "GEORADIUSBYMEMBER": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "added write; removed readonly",
+       "field": "flags",
+       "from": [
+        "movablekeys",
+        "readonly"
+       ],
+       "to": [
+        "movablekeys",
+        "write"
+       ]
+      },
+      {
+       "change": "added write; removed read",
+       "field": "acl_categories",
+       "from": [
+        "geo",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "geo",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1557,7 +2485,33 @@
    "since": "1.1.0"
   },
   "HELLO": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Switch the connection to RESP2 or RESP3 and return the server's details (`server`, `version`, `proto`, `id`, `mode`, `role`, `modules`) \u2014 a map under RESP3. `AUTH` and `SETNAME` apply before the reply. Unauthenticated, when a password is required, it is `NOAUTH`",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "HELLO [protover [AUTH username password] [SETNAME clientname]]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Switch the connection to RESP2 or RESP3 and return the server's details (`server`, `version`, `proto`, `id`, `mode`, `role`, `modules`) \u2014 a map under RESP3. `server` and `version` are the Redis release KiviDB follows (`redis`, `8.10.0`), as `INFO`'s `redis_version`; KiviDB's own release follows them as `kividb_version`, as in `INFO`. `AUTH` and `SETNAME` apply before the reply. Unauthenticated, when a password is required, it is `NOAUTH`",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "HELLO [protover [AUTH username password] [SETNAME clientname]]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1652,7 +2606,28 @@
    "since": "1.1.0"
   },
   "HOTKEYS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1792,23 +2767,97 @@
       }
      ],
      "release": "1.2.0"
+    },
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "dangerous",
+        "slow"
+       ]
+      },
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return server info; sections include `server`, `keyspace`, `replication`, `errorstats` (per-error reply counters), `all`, etc. `INFO commandstats` has, for each command that has been called, `calls`, `usec`, `usec_per_call`, `rejected_calls` and `failed_calls`, and the Redis 8.8 slowlog fields `slowlog_count`, `slowlog_time_ms_sum` and `slowlog_time_ms_max`. `INFO memory` reports `used_memory` (allocated bytes \u2014 what `maxmemory` is compared with), `used_memory_rss`, `maxmemory_policy`, the slabs of string values (`value_slab_bytes`, and `value_slab_live_bytes` in them) and active defrag's `active_defrag_running`, `active_defrag_hits` (values moved) and `active_defrag_misses` (left, being held); `INFO stats` reports `evicted_keys`",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "INFO [section [section ...]]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return server info; sections include `server`, `keyspace`, `replication`, `errorstats` (per-error reply counters), `all`, etc. `INFO commandstats` has, for each command that has been called, `calls`, `usec`, `usec_per_call`, `rejected_calls` and `failed_calls`, and the Redis 8.8 slowlog fields `slowlog_count`, `slowlog_time_ms_sum` and `slowlog_time_ms_max`. `INFO memory` reports `used_memory` (allocated bytes \u2014 what `maxmemory` is compared with), `used_memory_rss`, `maxmemory_policy`, the slabs of string values (`value_slab_bytes`, and `value_slab_live_bytes` in them) and active defrag's `active_defrag_running`, `active_defrag_hits` (values moved), `active_defrag_misses` (left, being held), `active_defrag_panics` (passes that panicked: each panic is caught and logged at `ERROR` with its file and line, the slabs the pass was emptying are put back in use, and the next pass comes 1, 2, 4, then 8 seconds later) and `active_defrag_disabled_by_panics` (1 once 5 passes in a row have panicked with none ending between them: active defrag has then turned itself off, `CONFIG GET activedefrag` says `no`, and `CONFIG SET activedefrag yes` sent while it is off turns it back on and sets this to 0; sent while it is on, it changes nothing. It is not kept across a restart: after a `CONFIG REWRITE`, which writes `activedefrag no` then, the server starts with active defrag off and this at 0, and the `ERROR` line \"active defrag turned itself off\" in the log says why); `INFO stats` reports `evicted_keys`",
+         "section": "Server commands",
+         "subsection": null,
+         "syntax": "INFO [section [section ...]]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
     }
    ],
    "removed": null,
    "since": "1.1.0"
   },
   "JSON.ARRAPPEND": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> -3",
+       "field": "arity",
+       "from": -2,
+       "to": -3
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "JSON.ARRINDEX": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> -4",
+       "field": "arity",
+       "from": -2,
+       "to": -4
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "JSON.ARRINSERT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> -5",
+       "field": "arity",
+       "from": -2,
+       "to": -5
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1823,7 +2872,19 @@
    "since": "1.1.0"
   },
   "JSON.ARRTRIM": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> 5",
+       "field": "arity",
+       "from": -2,
+       "to": 5
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1863,27 +2924,107 @@
    "since": "1.1.0"
   },
   "JSON.MERGE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> -4",
+       "field": "arity",
+       "from": -2,
+       "to": -4
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "JSON.MGET": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> -3",
+       "field": "arity",
+       "from": -2,
+       "to": -3
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "JSON.MSET": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> -4",
+       "field": "arity",
+       "from": -2,
+       "to": -4
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "JSON.NUMINCRBY": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> 4",
+       "field": "arity",
+       "from": -2,
+       "to": 4
+      },
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Add to each matched number. Returns the new values as one JSON array in a bulk string, `null` where the match is not a number \u2014 `\"[1820,1972,null]\"` (RESP3: an array of numbers). A legacy path returns the one new value. A result that is not a finite number fails the command and changes nothing",
+         "section": "JSON commands",
+         "subsection": "Commands",
+         "syntax": "JSON.NUMINCRBY key path number"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Add to each matched number. Returns the new values as one JSON array in a bulk string, `null` where the match is not a number \u2014 `\"[1820,1972,null]\"` (RESP3: an array of numbers). A legacy path returns the one new value. The result is an integer only when both numbers are integers, so a float stays a float even when it is whole (`1.5 + 1.5` is `3.0`). An integer result that does not fit an `i64` (`ERR numeric overflow`) or a result that is not a finite number fails the command and changes nothing",
+         "section": "JSON commands",
+         "subsection": "Commands",
+         "syntax": "JSON.NUMINCRBY key path number"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "JSON.NUMMULTBY": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> 4",
+       "field": "arity",
+       "from": -2,
+       "to": 4
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1903,12 +3044,36 @@
    "since": "1.1.0"
   },
   "JSON.SET": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> -4",
+       "field": "arity",
+       "from": -2,
+       "to": -4
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "JSON.STRAPPEND": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> -3",
+       "field": "arity",
+       "from": -2,
+       "to": -3
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1918,7 +3083,19 @@
    "since": "1.1.0"
   },
   "JSON.TOGGLE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "-2 -> 3",
+       "field": "arity",
+       "from": -2,
+       "to": 3
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -1928,17 +3105,82 @@
    "since": "1.1.0"
   },
   "KEYS": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "dangerous",
+        "generic",
+        "keyspace",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "dangerous",
+        "keyspace",
+        "read",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "LASTSAVE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "fast",
+        "server"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "fast"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "LATENCY": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2065,7 +3307,24 @@
    "since": "1.1.0"
   },
   "LOLWUT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "server",
+        "slow"
+       ],
+       "to": [
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2110,7 +3369,24 @@
    "since": "1.1.0"
   },
   "MEMORY": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "server",
+        "slow"
+       ],
+       "to": [
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2150,12 +3426,68 @@
    "since": "1.1.0"
   },
   "MIGRATE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "added write; removed readonly",
+       "field": "flags",
+       "from": [
+        "movablekeys",
+        "readonly"
+       ],
+       "to": [
+        "movablekeys",
+        "write"
+       ]
+      },
+      {
+       "change": "added write; removed generic, read",
+       "field": "acl_categories",
+       "from": [
+        "dangerous",
+        "generic",
+        "keyspace",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "dangerous",
+        "keyspace",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "MODULE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2185,12 +3517,54 @@
    "since": "1.1.0"
   },
   "MONITOR": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "MOVE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "keyspace",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2215,7 +3589,28 @@
    "since": "1.1.0"
   },
   "OBJECT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "keyspace",
+        "read",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2245,22 +3640,106 @@
    "since": "1.1.0"
   },
   "PERSIST": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "write"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "PEXPIRE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "write"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "PEXPIREAT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "write"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "PEXPIRETIME": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "read"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "read"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2321,7 +3800,33 @@
    "since": "1.1.0"
   },
   "PFDEBUG|ENCODING": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Return the encoding type; always `dense` as KiviDB uses only the dense representation",
+         "section": "HyperLogLog commands",
+         "subsection": "Debug and testing commands",
+         "syntax": "PFDEBUG ENCODING key"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Return the encoding type of the value (`dense`, or `sparse` for a Redis-format value that is still sparse)",
+         "section": "HyperLogLog commands",
+         "subsection": "Debug and testing commands",
+         "syntax": "PFDEBUG ENCODING key"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2336,7 +3841,33 @@
    "since": "1.1.0"
   },
   "PFDEBUG|TODENSE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "No-op \u2014 KiviDB uses dense encoding exclusively; returns OK for compatibility",
+         "section": "HyperLogLog commands",
+         "subsection": "Debug and testing commands",
+         "syntax": "PFDEBUG TODENSE key"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Convert a sparse (Redis-format) value to the dense encoding, as in Redis; returns 1 if it converted, 0 if the value was already dense",
+         "section": "HyperLogLog commands",
+         "subsection": "Debug and testing commands",
+         "syntax": "PFDEBUG TODENSE key"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2366,12 +3897,54 @@
    "since": "1.1.0"
   },
   "PSYNC": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "PTTL": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "read"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "read"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2426,37 +3999,218 @@
    "since": "1.1.0"
   },
   "RANDOMKEY": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "keyspace",
+        "read",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "READONLY": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "added connection; removed cluster",
+       "field": "acl_categories",
+       "from": [
+        "cluster",
+        "fast"
+       ],
+       "to": [
+        "connection",
+        "fast"
+       ]
+      },
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Per-connection flag: read commands for slots this node replicates are served here instead of redirected to the master.",
+         "section": "Cluster",
+         "subsection": "Migration",
+         "syntax": "READONLY"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Per-connection flag: read commands for slots this node replicates are served here instead of redirected to the master. Refused on a server that is not a cluster node (`ERR This instance has cluster support disabled`), as in Redis.",
+         "section": "Cluster",
+         "subsection": "Migration",
+         "syntax": "READONLY"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "READWRITE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "added connection; removed cluster",
+       "field": "acl_categories",
+       "from": [
+        "cluster",
+        "fast"
+       ],
+       "to": [
+        "connection",
+        "fast"
+       ]
+      },
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Clears the `READONLY` flag.",
+         "section": "Cluster",
+         "subsection": "Migration",
+         "syntax": "READWRITE"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Clears the `READONLY` flag. Refused on a server that is not a cluster node (`ERR This instance has cluster support disabled`), as in Redis.",
+         "section": "Cluster",
+         "subsection": "Migration",
+         "syntax": "READWRITE"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "RENAME": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "keyspace",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "RENAMENX": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "keyspace",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "REPLCONF": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "REPLICAOF": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2466,12 +4220,54 @@
    "since": "1.1.0"
   },
   "RESTORE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "dangerous",
+        "generic",
+        "keyspace",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "dangerous",
+        "keyspace",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "ROLE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "dangerous",
+        "fast",
+        "server"
+       ],
+       "to": [
+        "dangerous",
+        "fast"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2501,12 +4297,54 @@
    "since": "1.1.0"
   },
   "SAVE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "SCAN": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "keyspace",
+        "read",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2592,7 +4430,37 @@
    "since": "1.1.0"
   },
   "SELECT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed write",
+       "field": "flags",
+       "from": [
+        "fast",
+        "write"
+       ],
+       "to": [
+        "fast"
+       ]
+      },
+      {
+       "change": "added connection; removed server, write",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "server",
+        "write"
+       ],
+       "to": [
+        "connection",
+        "fast"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2622,7 +4490,28 @@
    "since": "1.1.0"
   },
   "SHUTDOWN": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2647,12 +4536,54 @@
    "since": "1.1.0"
   },
   "SLAVEOF": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "SLOWLOG": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2718,12 +4649,56 @@
    "since": "1.1.0"
   },
   "SORT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "dangerous",
+        "generic",
+        "keyspace",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "dangerous",
+        "keyspace",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "SORT_RO": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "generic",
+        "keyspace",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "keyspace",
+        "read",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2793,32 +4768,164 @@
    "since": "1.1.0"
   },
   "SWAPDB": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "dangerous",
+        "server",
+        "slow",
+        "write"
+       ],
+       "to": [
+        "dangerous",
+        "slow",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "SYNC": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "admin",
+        "dangerous",
+        "server",
+        "slow"
+       ],
+       "to": [
+        "admin",
+        "dangerous",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "TIME": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed server",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "server"
+       ],
+       "to": [
+        "fast"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "TOUCH": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "read"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "read"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "TS.ADD": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Append a sample. Use `*` for current time. Auto-creates the key if absent. Returns the stored timestamp",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Adding samples",
+         "syntax": "TS.ADD key timestamp value [RETENTION ms] [ENCODING ...] [CHUNK SIZE size] [ON DUPLICATE policy] [LABELS label value ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Append a sample. Use `*` for current time. Auto-creates the key if absent, with the options given. `ON_DUPLICATE` is the policy for this sample alone; KiviDB's older `ON DUPLICATE policy`, and `DUPLICATE_POLICY`, make it the series' own. A sample the policy refuses changes nothing. Returns the stored timestamp",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Adding samples",
+         "syntax": "TS.ADD key timestamp value [RETENTION ms] [ENCODING ...] [CHUNK_SIZE size] [DUPLICATE_POLICY policy] [ON_DUPLICATE policy] [LABELS label value ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "TS.ALTER": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Update retention, chunk size, duplicate policy, or labels. Updating labels atomically rebuilds the label index",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Data lifecycle",
+         "syntax": "TS.ALTER key [RETENTION ms] [CHUNK SIZE size] [DUPLICATE_POLICY policy] [LABELS label value ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Update retention, chunk size, duplicate policy, or labels; what is given is set, `RETENTION 0` and `LABELS` with no pairs too. Updating labels atomically rebuilds the label index",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Data lifecycle",
+         "syntax": "TS.ALTER key [RETENTION ms] [CHUNK_SIZE size] [DUPLICATE_POLICY policy] [LABELS label value ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2848,6 +4955,31 @@
       }
      ],
      "release": "1.2.0"
+    },
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Create a new time series. ENCODING is accepted but ignored \u2014 storage is always BTreeMap. Without `DUPLICATE_POLICY`, a series (made here or by `TS.ADD`) takes `ts-duplicate-policy`: `last` unless set; RedisTimeSeries's default is `block`",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Data lifecycle",
+         "syntax": "TS.CREATE key [RETENTION ms] [ENCODING COMPRESSED|UNCOMPRESSED] [CHUNK SIZE size] [DUPLICATE_POLICY BLOCK|FIRST|LAST|MIN|MAX|SUM] [LABELS label value ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Create a new time series. ENCODING is accepted but ignored \u2014 storage is always BTreeMap. `CHUNK_SIZE` is a multiple of 8 from 48 to 1048576; it is reported by `TS.INFO`. Without `DUPLICATE_POLICY`, a series (made here or by `TS.ADD`) takes `ts-duplicate-policy`: `last` unless set; RedisTimeSeries's default is `block`. See [Time series options](#time-series-options)",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Data lifecycle",
+         "syntax": "TS.CREATE key [RETENTION ms] [ENCODING COMPRESSED|UNCOMPRESSED] [CHUNK_SIZE size] [DUPLICATE_POLICY BLOCK|FIRST|LAST|MIN|MAX|SUM] [LABELS label value ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
     }
    ],
    "removed": null,
@@ -2885,7 +5017,33 @@
    "since": "1.1.0"
   },
   "TS.DECRBY": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Add a new sample equal to the last sample's value minus the given decrement",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Adding samples",
+         "syntax": "TS.DECRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK SIZE size] [LABELS label value ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Add a new sample equal to the last sample's value minus the given decrement; as `TS.INCRBY`",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Adding samples",
+         "syntax": "TS.DECRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK_SIZE size] [DUPLICATE_POLICY policy] [LABELS label value ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2905,7 +5063,33 @@
    "since": "1.1.0"
   },
   "TS.INCRBY": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "COMMANDS.md row changed",
+       "field": "documented",
+       "from": [
+        {
+         "notes": "Add a new sample equal to the last sample's value plus the given increment. Creates the series at 0 if absent",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Adding samples",
+         "syntax": "TS.INCRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK SIZE size] [LABELS label value ...]"
+        }
+       ],
+       "to": [
+        {
+         "notes": "Add a new sample equal to the last sample's value plus the given increment, at or after the last one, replacing its value at the same timestamp. Creates the series at 0 if absent, with the options given; an existing series keeps its own. Trims to the retention",
+         "section": "Time Series commands (TS.*)",
+         "subsection": "Adding samples",
+         "syntax": "TS.INCRBY key value [TIMESTAMP timestamp] [RETENTION ms] [CHUNK_SIZE size] [DUPLICATE_POLICY policy] [LABELS label value ...]"
+        }
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -2996,17 +5180,80 @@
    "since": "1.1.0"
   },
   "TTL": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "read"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "read"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "TYPE": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "read"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "read"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
   "UNLINK": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "removed generic",
+       "field": "acl_categories",
+       "from": [
+        "fast",
+        "generic",
+        "keyspace",
+        "write"
+       ],
+       "to": [
+        "fast",
+        "keyspace",
+        "write"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -3138,7 +5385,29 @@
    "since": "1.1.0"
   },
   "WAIT": {
-   "changes": [],
+   "changes": [
+    {
+     "diffs": [
+      {
+       "change": "added connection; removed generic, keyspace, read",
+       "field": "acl_categories",
+       "from": [
+        "blocking",
+        "generic",
+        "keyspace",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "blocking",
+        "connection",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
+    }
+   ],
    "removed": null,
    "since": "1.1.0"
   },
@@ -3168,6 +5437,27 @@
       }
      ],
      "release": "1.2.0"
+    },
+    {
+     "diffs": [
+      {
+       "change": "added connection; removed generic, keyspace, read",
+       "field": "acl_categories",
+       "from": [
+        "blocking",
+        "generic",
+        "keyspace",
+        "read",
+        "slow"
+       ],
+       "to": [
+        "blocking",
+        "connection",
+        "slow"
+       ]
+      }
+     ],
+     "release": "1.2.1"
     }
    ],
    "removed": null,
@@ -3588,6 +5878,132 @@
     "ts-duplicate-policy"
    ],
    "settings_removed": []
+  },
+  {
+   "commands_added": [
+    "DEBUG|DIGEST-VALUE",
+    "DEBUG|HELP",
+    "DEBUG|LOG",
+    "DEBUG|OBJECT",
+    "DEBUG|PAUSE-CRON",
+    "DEBUG|POPULATE",
+    "DEBUG|PROTOCOL",
+    "DEBUG|SET-ACTIVE-EXPIRE",
+    "DEBUG|SET-DISABLE-DENY-SCRIPTS",
+    "DEBUG|SLEEP"
+   ],
+   "commands_changed": [
+    "ACL",
+    "ASKING",
+    "BACKUP",
+    "BGREWRITEAOF",
+    "BGSAVE",
+    "CLIENT|UNBLOCK",
+    "CLUSTER",
+    "CLUSTER|ADDSLOTS",
+    "CLUSTER|ADDSLOTSRANGE",
+    "CLUSTER|BUMPEPOCH",
+    "CLUSTER|COUNT-FAILURE-REPORTS",
+    "CLUSTER|COUNTKEYSINSLOT",
+    "CLUSTER|FLUSHSLOTS",
+    "CLUSTER|GETKEYSINSLOT",
+    "CLUSTER|MYID",
+    "CLUSTER|MYSHARDID",
+    "CLUSTER|SET-CONFIG-EPOCH",
+    "COMMAND",
+    "CONFIG",
+    "CONFIG|RESETSTAT",
+    "CONFIG|REWRITE",
+    "COPY",
+    "DBSIZE",
+    "DEBUG",
+    "DEL",
+    "DUMP",
+    "EXISTS",
+    "EXPIRE",
+    "EXPIREAT",
+    "EXPIRETIME",
+    "FAILOVER",
+    "FLUSHALL",
+    "FLUSHDB",
+    "FT._LIST",
+    "GEORADIUS",
+    "GEORADIUSBYMEMBER",
+    "HELLO",
+    "HOTKEYS",
+    "INFO",
+    "JSON.ARRAPPEND",
+    "JSON.ARRINDEX",
+    "JSON.ARRINSERT",
+    "JSON.ARRTRIM",
+    "JSON.MERGE",
+    "JSON.MGET",
+    "JSON.MSET",
+    "JSON.NUMINCRBY",
+    "JSON.NUMMULTBY",
+    "JSON.SET",
+    "JSON.STRAPPEND",
+    "JSON.TOGGLE",
+    "KEYS",
+    "LASTSAVE",
+    "LATENCY",
+    "LOLWUT",
+    "MEMORY",
+    "MIGRATE",
+    "MODULE",
+    "MONITOR",
+    "MOVE",
+    "OBJECT",
+    "PERSIST",
+    "PEXPIRE",
+    "PEXPIREAT",
+    "PEXPIRETIME",
+    "PFDEBUG|ENCODING",
+    "PFDEBUG|TODENSE",
+    "PSYNC",
+    "PTTL",
+    "RANDOMKEY",
+    "READONLY",
+    "READWRITE",
+    "RENAME",
+    "RENAMENX",
+    "REPLCONF",
+    "REPLICAOF",
+    "RESTORE",
+    "ROLE",
+    "SAVE",
+    "SCAN",
+    "SELECT",
+    "SHUTDOWN",
+    "SLAVEOF",
+    "SLOWLOG",
+    "SORT",
+    "SORT_RO",
+    "SWAPDB",
+    "SYNC",
+    "TIME",
+    "TOUCH",
+    "TS.ADD",
+    "TS.ALTER",
+    "TS.CREATE",
+    "TS.DECRBY",
+    "TS.INCRBY",
+    "TTL",
+    "TYPE",
+    "UNLINK",
+    "WAIT",
+    "WAITAOF"
+   ],
+   "commands_removed": [],
+   "defaults_changed": [],
+   "release": "1.2.1",
+   "settings_added": [
+    "acllog-max-len",
+    "replica-announced",
+    "replica-priority",
+    "slave-priority"
+   ],
+   "settings_removed": []
   }
  ],
  "settings": {
@@ -3600,6 +6016,16 @@
    ],
    "removed": null,
    "since": "1.1.0"
+  },
+  "acllog-max-len": {
+   "defaults": [
+    {
+     "default": "128",
+     "release": "1.2.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.2.1"
   },
   "active-defrag-cycle-max": {
    "defaults": [
@@ -4503,6 +6929,16 @@
    "removed": null,
    "since": "1.1.0"
   },
+  "replica-announced": {
+   "defaults": [
+    {
+     "default": "yes",
+     "release": "1.2.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.2.1"
+  },
   "replica-announced-port": {
    "defaults": [
     {
@@ -4532,6 +6968,16 @@
    ],
    "removed": null,
    "since": "1.1.0"
+  },
+  "replica-priority": {
+   "defaults": [
+    {
+     "default": "100",
+     "release": "1.2.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.2.1"
   },
   "replicaof": {
    "defaults": [
@@ -4632,6 +7078,16 @@
    ],
    "removed": null,
    "since": "1.2.0"
+  },
+  "slave-priority": {
+   "defaults": [
+    {
+     "default": "100",
+     "release": "1.2.1"
+    }
+   ],
+   "removed": null,
+   "since": "1.2.1"
   },
   "slaveof": {
    "defaults": [
