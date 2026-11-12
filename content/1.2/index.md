@@ -5,7 +5,7 @@ version: "1.2"
 weight: 0
 ---
 
-These pages document KiviDB 1.2: 1.2.0, released on 3 November 2026, and 1.2.1, a patch release of it, released on 12 November 2026. 1.2.1 is the current release: use it. It fixes security issues that affect 1.2.0 and 1.1.3, and the 1.2.0 known issues of reshards that could lose writes and replicas that could stop while they saved. 1.1 gets no further release. A page says where 1.2.1 added or changed something. Read [Upgrading](get-started/upgrading.md) first, from 1.2.0 or from 1.1.
+These pages document KiviDB 1.2: 1.2.0, released on 3 November 2026, and its patch releases 1.2.1, released on 12 November 2026, and 1.2.2, released on 13 November 2026. 1.2.2 is the current release: use it. 1.2.1 fixes security issues that affect 1.2.0 and 1.1.3, and the 1.2.0 known issues of reshards that could lose writes and replicas that could stop while they saved; 1.2.2 fixes one bug that could make a server with a search index stop answering. 1.1 gets no further release. A page says where 1.2.1 added or changed something. Read [Upgrading](get-started/upgrading.md) first, from 1.2.0 or from 1.1.
 
 1.2 is mostly about not losing writes and being a better Redis: a write is acknowledged once it is in the append-only file, transactions reach replicas whole, replicas carry on after their master restarts or fails over, cluster reshards finish under writes, keys take about a quarter less memory, search stems words and scores as Redis does, TLS changes without a restart, and dozens of replies, errors and `INFO` fields are now Redis 8.10's.
 

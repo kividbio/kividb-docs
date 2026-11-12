@@ -27,7 +27,7 @@ It takes exactly one argument: `YES`, `SYNC` or `NO`. Any other word is refused 
 
 To find what a script does, return the values you want to see, or write them to the server's log with `redis.log`; see [Scripting](../guides/scripting.md#scripts).
 
-`SCRIPT DEBUG` is in the `lua` and `full` builds only. The default build answers it, like every `SCRIPT` subcommand, with `ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.1-lua, or a kividb-lua release file)`.
+`SCRIPT DEBUG` is in the `lua` and `full` builds only. The default build answers it, like every `SCRIPT` subcommand, with `ERR this build of KiviDB has no Lua: EVAL, SCRIPT, FUNCTION and FCALL need the lua or full variant (Docker image kividb/kividb:v1.2.2-lua, or a kividb-lua release file)`.
 
 ## Reply
 

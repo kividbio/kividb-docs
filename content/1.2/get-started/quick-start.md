@@ -10,8 +10,10 @@ weight: 20
 With Docker:
 
 ```bash
-docker run -d --name kividb -p 6380:6380 ghcr.io/kividbio/kividb:v1.2.1
+docker run -d --name kividb -p 6380:6380 -v kividb-data:/home/kividb ghcr.io/kividbio/kividb:v1.2.2
 ```
+
+The image keeps its data in `/home/kividb`, its working directory: without a volume there, the data is lost when the container is removed or recreated.
 
 Or with a [Linux binary](install.md#release-binaries):
 

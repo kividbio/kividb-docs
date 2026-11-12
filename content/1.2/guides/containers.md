@@ -18,12 +18,12 @@ The image is `ghcr.io/kividbio/kividb`, also on Docker Hub as `kividb/kividb`, f
 ```bash
 docker run -d --name kividb -p 6380:6380 \
   -v kividb-data:/home/kividb \
-  ghcr.io/kividbio/kividb:v1.2.1 --requirepass "change-me" --aof --maxmemory 1gb
+  ghcr.io/kividbio/kividb:v1.2.2 --requirepass "change-me" --aof --maxmemory 1gb
 ```
 
 ## Keeping data
 
-Mount a volume on `/home/kividb`, writable by UID 1000. Without one, the data is gone with the container. With `--aof`, every write goes to the append-only file as well; without it, data is saved only by `SAVE`, `BGSAVE` and a clean stop. See [Persistence](persistence.md).
+Mount a volume on `/home/kividb`, writable by UID 1000, as above. Without one, the data is lost when the container is removed or recreated. With `--aof`, every write goes to the append-only file as well; without it, data is saved only by `SAVE`, `BGSAVE` and a clean stop. See [Persistence](persistence.md).
 
 ## Memory
 
