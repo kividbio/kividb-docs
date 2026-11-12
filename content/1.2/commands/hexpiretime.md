@@ -1,6 +1,6 @@
 ---
 title: "HEXPIRETIME"
-description: "Returns the Unix time, in seconds, at which fields of the hash at key expire."
+description: "Returns the Unix time, in seconds, at which fields of the hash at key expire, rounded up to the next second, as in Redis: a field set with HPEXPIREAT h 4102444800001 gives 4102444801."
 version: "1.2"
 command: "HEXPIRETIME"
 syntax: "HEXPIRETIME key FIELDS numfields field [field ...]"
@@ -23,7 +23,7 @@ HEXPIRETIME key FIELDS numfields field [field ...]
 
 **Available since:** 1.1.0 · **ACL categories:** `@hash`, `@read`, `@slow`
 <!-- generated: end -->
-Returns the Unix time, in seconds, at which fields of the hash at `key` expire.
+Returns the Unix time, in seconds, at which fields of the hash at `key` expire, rounded up to the next second, as in Redis: a field set with `HPEXPIREAT h 4102444800001` gives `4102444801`. Before 1.2.1 it was rounded down.
 
 ## Reply
 

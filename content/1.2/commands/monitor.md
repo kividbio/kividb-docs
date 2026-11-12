@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: 1
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 MONITOR
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Streams every command the server runs, from any client, to this connection, each as a line: the time, the database and client address, and the command and its arguments. A script's commands show `lua` as the address; a transaction shows `MULTI`, its commands, and `EXEC`. Administrative commands such as `AUTH` and `CONFIG` are not shown. `RESET` or `QUIT` ends it. It costs nothing while no client monitors.
 

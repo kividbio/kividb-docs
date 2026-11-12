@@ -108,12 +108,24 @@ With no password set, `AUTH <password>` is refused, as in Redis: `ERR AUTH <pass
 @file yes
 @runtime no: at startup only
 A file of users, one `user name rules...` line each, as [`ACL SAVE`](../commands/acl-save.md) writes it. It is loaded at startup and by [`ACL LOAD`](../commands/acl-load.md). Empty, the default: users exist only until the server stops.
+=== acllog-max-len
+@group Security
+How many entries [`ACL LOG`](../commands/acl-log.md) keeps: the oldest goes when a new one comes. `0` keeps none. Lowering it drops the oldest entries at once. It is applied since 1.2.1; 1.2.0 accepted it and ignored it.
 === masterauth
 @group Replication
 The password a replica gives its master, when the master has one.
 === masteruser
 @group Replication
 The user a replica logs in to its master as, with [`masterauth`](#masterauth). Empty, the default: `default`.
+=== replica-priority
+@group Replication
+Where this replica stands when Redis Sentinel picks one to promote: a lower number goes first, and `0` is never promoted. `INFO replication` reports it as `slave_priority`, which is what Sentinel reads, and [`CONFIG REWRITE`](../commands/config-rewrite.md) keeps it. KiviDB's own failover, in a cluster, does not use it. Before 1.2.1, the setting was taken but `INFO replication` always said `slave_priority:100`, so Sentinel could promote a replica set to `0`.
+=== slave-priority
+@group Replication
+Another name for [`replica-priority`](#replica-priority): setting either sets both.
+=== replica-announced
+@group Replication
+Whether Redis Sentinel lists this replica in `SENTINEL REPLICAS`: `yes`, the default, or `no`. `INFO replication` reports it as `replica_announced`. Before 1.2.1, `INFO` did not report it.
 === replicaof
 @group Replication
 @file yes
@@ -362,7 +374,9 @@ In Redis, rehashes the main hash table a little at a time in the background. Kiv
 In Redis, frees evicted keys in the background. It has no effect in KiviDB; `CONFIG GET` gives back what was set. It takes only `yes` or `no`, as in Redis; before 1.2, any value.
 === appendonly
 @group Persistence
-Turns the append-only file on or off: every write is appended to `appendonly.aof`, and replayed when the server starts. `CONFIG SET appendonly yes` turns it on at once, writing a snapshot first. On the command line it is [`--aof`](#aof). A write is acknowledged once its record is in the file, unless [`aof-ack-after-write`](#aof-ack-after-write) is `no`. The file is flushed to disk once a second; [`appendfsync`](#accepted-for-compatibility-with-redis) cannot change that.
+Turns the append-only file on or off: every write is appended to `appendonly.aof`, and replayed when the server starts. `CONFIG SET appendonly yes` turns it on at once, writing a snapshot first. On the command line it is [`--aof`](#aof). A write is acknowledged once its record is in the file, unless [`aof-ack-after-write`](#aof-ack-after-write) is `no`. When the file is flushed to disk is [`appendfsync`](#appendfsync).
+
+With it off, no `appendonly.aof` is made or opened. `CONFIG SET appendonly yes` starts a new, empty log, and replies with an error, leaving the file off, if it cannot create one. Both are since 1.2.1: 1.2.0 made an empty `appendonly.aof` at every start, and exited if it could not, and `CONFIG SET appendonly yes` appended to whatever log was there. A log that is not replayed is kept aside, never deleted: see [Persistence](../guides/persistence.md#logs-kept-aside).
 === aof
 @group Persistence
 The command-line switch for [`appendonly`](#appendonly): `--aof`, with no value. In the configuration file, `aof yes` and `appendonly yes` are the same.
@@ -433,6 +447,13 @@ Since 1.2, as in Redis, the time counts from when the replica was last in step w
 === aof-ack-after-write
 @group Persistence
 With the [append-only file](#appendonly) on, whether the reply to a write waits until its record is in the file. `yes`, the default, is Redis's guarantee: a process that is killed loses no acknowledged write, unless the disk fell more than 5 seconds behind: a reply waits at most 5 seconds, then is sent anyway, with a log line (see [Persistence](../guides/persistence.md)). `no` acknowledges a write once its record is queued for the file, as KiviDB did before 1.2: faster, and a killed process can lose the last few acknowledged writes. Waiting costs writes, not reads: on a 16-core server, 20 to 28% fewer `SET`s a second with 50 clients, with or without pipelining, and under 10% with one client. With the append-only file off, it changes nothing.
+=== appendfsync
+@group Persistence
+When the [append-only file](#appendonly) is flushed to disk. `everysec`, the default: once a second, so a power loss or a kernel crash can lose up to about the last second of acknowledged writes. `always`: before the reply to each write, as in Redis, so no acknowledged write is lost even then; replies waiting at the same time share one flush. `no`, which in Redis leaves it to the operating system, is taken as `everysec`.
+
+`always` costs writes a second, as in Redis. Under it, a reply waits for its flush however long the disk takes, [`aof-ack-after-write`](#aof-ack-after-write) `no` has no effect, and a failed write or flush stops the server rather than acknowledge a write that is not on disk. With the append-only file off, it changes nothing.
+
+`always` is since 1.2.1, and so is `--appendfsync`. In 1.2.0, `appendfsync` was accepted and did nothing: the configuration file warned that it had no effect, `CONFIG SET appendfsync always` replied `OK`, and the file was flushed once a second whatever was set.
 === ts-duplicate-policy
 @group Data types
 What a [time series](../commands/ts.create.md) made without a `DUPLICATE_POLICY`, by `TS.CREATE` or `TS.ADD`, does with a second sample at a timestamp it already has: `block` refuses it, `first` keeps the old value, `last`, the default, keeps the new one, `min` and `max` keep the smaller or larger, and `sum` adds them. A series keeps the policy it was made with. RedisTimeSeries's default is `block`; KiviDB's stays `last`, so that an upgraded server, and an append-only file it replays, do what they did before. Set it alike on a master and its replicas.

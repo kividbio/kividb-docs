@@ -6,10 +6,10 @@ command: "JSON.MSET"
 syntax: "JSON.MSET key path value [key path value ...]"
 group: "json"
 since: "1.1.0"
-arity: -2
+arity: -4
 flags: ["write"]
 acl_categories: ["json", "slow", "write"]
-history: []
+history: [{"release": "1.2.1", "change": "arity: -2 -> -4"}]
 # generated: end
 status: "reviewed"
 ---
@@ -22,6 +22,10 @@ JSON.MSET key path value [key path value ...]
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: arity: -2 -> -4
 <!-- generated: end -->
 Runs [`JSON.SET`](json.set.md) for several key, path and value triples in one command. The keys can differ, and one key can appear more than once; the triples are applied in order, so a later one sees what an earlier one wrote. Use it to write to several documents in one round trip.
 

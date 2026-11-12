@@ -25,9 +25,9 @@ Sets this node's config epoch: the number its claims to slots carry, so that whe
 
 - `epoch`: a whole number, `0` or above.
 
-It is accepted only while the node's config epoch is `0`, as on a node just started; afterwards it is refused. If `epoch` is above the node's current epoch, the current epoch is raised to it too. [`CLUSTER INFO`](cluster-info.md) shows both, as `cluster_my_epoch` and `cluster_current_epoch`.
+It is accepted only on a fresh node, as in Redis: while it knows no other node and its config epoch is `0`; afterwards it is refused. If `epoch` is above the node's current epoch, the current epoch is raised to it too. [`CLUSTER INFO`](cluster-info.md) shows both, as `cluster_my_epoch` and `cluster_current_epoch`.
 
-Redis also refuses it once the node knows any other node. KiviDB 1.2 accepts it on a node that has already joined a cluster, as long as the node's config epoch is still `0`.
+Before 1.2.1, it was accepted on a node that had already joined a cluster, as long as its config epoch was still `0`, and a negative epoch was `ERR value is not an integer or out of range`.
 
 ## Reply
 
@@ -36,7 +36,9 @@ Redis also refuses it once the node knows any other node. KiviDB 1.2 accepts it 
 ## Errors
 
 - `ERR Node config epoch is already non-zero`.
-- `ERR value is not an integer or out of range`: `epoch` is negative or not a number.
+- `ERR The user can assign a config epoch only when the node does not know any other node.`
+- `ERR Invalid config epoch specified: n`: `epoch` is negative.
+- `ERR value is not an integer or out of range`: `epoch` is not a number.
 - `ERR This instance has cluster support disabled`: the server is not a cluster node.
 
 ## Examples
@@ -47,5 +49,5 @@ OK
 > CLUSTER SET-CONFIG-EPOCH 2
 (error) ERR Node config epoch is already non-zero
 > CLUSTER SET-CONFIG-EPOCH -1
-(error) ERR value is not an integer or out of range
+(error) ERR Invalid config epoch specified: -1
 ```

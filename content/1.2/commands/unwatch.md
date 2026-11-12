@@ -25,9 +25,11 @@ UNWATCH
 <!-- generated: end -->
 Stops watching every key the connection watches with [`WATCH`](watch.md), so that the next [`EXEC`](exec.md) no longer depends on them. Use it after a `WATCH` when the client reads the keys and decides not to start the transaction after all: the watches would otherwise stay, and make a later, unrelated transaction fail. `EXEC` and [`DISCARD`](discard.md) end the watches on their own, so there is no need for `UNWATCH` after them.
 
-It has no arguments; any given are ignored, where Redis refuses them. With nothing watched, it does nothing and replies `OK`.
+It takes no arguments: `UNWATCH x` is `ERR wrong number of arguments for 'unwatch' command`. With nothing watched, it does nothing and replies `OK`.
 
-Inside a transaction, KiviDB runs `UNWATCH` at once, rather than queue it as Redis does: it replies `OK`, not `QUEUED`, and the watches end there. A key that changed after `WATCH` then no longer stops `EXEC`, where in Redis it still would. Call `UNWATCH` before [`MULTI`](multi.md), not after.
+Inside a transaction, `UNWATCH` is queued, as in Redis: it replies `QUEUED`, answers `OK` when `EXEC` runs it, and changes nothing, so a key that changed after `WATCH` still stops `EXEC`. Call `UNWATCH` before [`MULTI`](multi.md), not after.
+
+Both are since 1.2.1. In 1.2.0 it ignored arguments, and inside a transaction it ran at once and ended the watches, so `EXEC` ran even though another client had written a watched key, and that client's write was overwritten.
 
 See [Transactions](../guides/transactions.md#watch).
 
@@ -56,9 +58,9 @@ OK
 client 1> MULTI
 OK
 client 1> UNWATCH
-OK
+QUEUED
 client 1> SET balance:1 80
 QUEUED
 client 1> EXEC
-1) OK
+(nil)
 ```

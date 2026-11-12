@@ -1,6 +1,6 @@
 ---
 title: "XINFO HELP"
-description: "In Redis, XINFO HELP lists the XINFO subcommands with a line on what each does."
+description: "Lists the XINFO subcommands, with a line or two on what each does, as Redis does."
 version: "1.2"
 command: "XINFO HELP"
 syntax: "XINFO HELP"
@@ -21,19 +21,29 @@ XINFO HELP
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-In Redis, `XINFO HELP` lists the [`XINFO`](xinfo.md) subcommands with a line on what each does. KiviDB 1.2.0 does not implement it: `XINFO HELP` answers `ERR wrong number of arguments for 'xinfo' command`, and with an argument after it, `ERR wrong number of arguments for 'xinfo|help' command`, although [`COMMAND DOCS`](command-docs.md) lists `xinfo|help`. Do not rely on it to discover the subcommands.
+Lists the [`XINFO`](xinfo.md) subcommands, with a line or two on what each does, as Redis does. It takes no argument: `XINFO HELP x` is `ERR wrong number of arguments for 'xinfo|help' command`.
+
+It is since 1.2.1. In 1.2.0, `XINFO HELP` answered `ERR wrong number of arguments for 'xinfo' command`.
 
 The subcommands are [`XINFO STREAM`](xinfo-stream.md), [`XINFO GROUPS`](xinfo-groups.md) and [`XINFO CONSUMERS`](xinfo-consumers.md); each has its own page here.
 
 ## Reply
 
-- In 1.2.0, an error.
+An array of simple strings: a line for each subcommand and its arguments, each followed by a line that describes it, indented.
 
 ## Examples
 
 ```
 > XINFO HELP
-(error) ERR wrong number of arguments for 'xinfo' command
+1) XINFO <subcommand> [<arg> [value] [opt] ...]. Subcommands are:
+2) CONSUMERS <key> <groupname>
+3)     Show consumers of <groupname>.
+4) GROUPS <key>
+5)     Show the stream consumer groups.
+6) STREAM <key> [FULL [COUNT <count>]
+7)     Show information about the stream.
+8) HELP
+9)     Print this help.
 > XINFO HELP x
 (error) ERR wrong number of arguments for 'xinfo|help' command
 ```

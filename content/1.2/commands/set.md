@@ -40,14 +40,16 @@ Stores a string at `key`, replacing whatever the key held, of any type. Options 
 | `EXAT unix-seconds`, `PXAT unix-milliseconds` | Expire the key at this time. |
 | `KEEPTTL` | Keep the key's current expiry. |
 
-Only one of `NX`, `XX`, `IFEQ`, `IFNE`, `IFDEQ` and `IFDNE` can be given, and only one expiry option. Without an expiry option, the key's existing expiry is removed.
+Only one of `NX`, `XX`, `IFEQ`, `IFNE`, `IFDEQ` and `IFDNE` can be given, and only one expiry option: `KEEPTTL` with a time, or two of `EX`, `PX`, `EXAT` and `PXAT`, is `ERR syntax error`. The same one given twice takes the last. Without an expiry option, the key's existing expiry is removed.
+
+A time that is not a 64-bit signed integer is `ERR value is not an integer or out of range`. A deadline past 2^63 - 1 milliseconds after the epoch, a time of zero or below, and `EXAT 0` or `PXAT 0` are `ERR invalid expire time in 'set' command`. These are Redis's checks, since 1.2.1: before, some of these closed the connection with no reply, some set a deadline that read back negative, `EXAT 0` set the key and it was gone at once, and of two times the last was taken.
 
 ## Reply
 
 - `OK` if the value was set.
 - `nil` if a condition was not met, and the key is unchanged.
 - With `GET`: the old value, or `nil` if there was none. With `NX GET`, the old value is returned and nothing is set if the key exists.
-- An error for an expiry that is zero, negative, or not a number.
+- An error for an expiry that is zero, negative, too large, or not a number, or for two expiry options.
 
 ## Examples
 
@@ -74,4 +76,4 @@ OK
 
 ## Differences from Redis
 
-`SET` with both an expiry and `KEEPTTL` is refused, as in Redis, but KiviDB's error says `ERR invalid expire time in SET` where Redis says `ERR syntax error`.
+`SET` with both an expiry and `KEEPTTL` is refused with `ERR syntax error`, as in Redis, since 1.2.1; 1.2.0 said `ERR invalid expire time in SET`.

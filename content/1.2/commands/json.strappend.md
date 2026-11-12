@@ -6,10 +6,10 @@ command: "JSON.STRAPPEND"
 syntax: "JSON.STRAPPEND key [path] value"
 group: "json"
 since: "1.1.0"
-arity: -2
+arity: -3
 flags: ["write"]
 acl_categories: ["json", "slow", "write"]
-history: []
+history: [{"release": "1.2.1", "change": "arity: -2 -> -3"}]
 # generated: end
 status: "reviewed"
 ---
@@ -22,6 +22,10 @@ JSON.STRAPPEND key [path] value
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: arity: -2 -> -3
 <!-- generated: end -->
 Appends a JSON string to each string `path` matches. `value` is JSON text, so it is quoted: `'" L."'`.
 

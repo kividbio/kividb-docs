@@ -6,10 +6,10 @@ command: "JSON.ARRINSERT"
 syntax: "JSON.ARRINSERT key path index value [value ...]"
 group: "json"
 since: "1.1.0"
-arity: -2
+arity: -5
 flags: ["write"]
 acl_categories: ["json", "slow", "write"]
-history: []
+history: [{"release": "1.2.1", "change": "arity: -2 -> -5"}]
 # generated: end
 status: "reviewed"
 ---
@@ -22,6 +22,10 @@ JSON.ARRINSERT key path index value [value ...]
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: arity: -2 -> -5
 <!-- generated: end -->
 Inserts one or more values into each array `path` matches, before the element at `index`. The values go in together, in the order given, and the elements from `index` on move up to make room.
 

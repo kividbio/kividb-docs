@@ -6,10 +6,10 @@ command: "JSON.ARRAPPEND"
 syntax: "JSON.ARRAPPEND key path value [value ...]"
 group: "json"
 since: "1.1.0"
-arity: -2
+arity: -3
 flags: ["write"]
 acl_categories: ["json", "slow", "write"]
-history: []
+history: [{"release": "1.2.1", "change": "arity: -2 -> -3"}]
 # generated: end
 status: "reviewed"
 ---
@@ -22,6 +22,10 @@ JSON.ARRAPPEND key path value [value ...]
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: arity: -2 -> -3
 <!-- generated: end -->
 Appends one or more values to the end of each array `path` matches in the JSON document at `key`. Use it to grow a list inside a document, such as tags or events, without reading and rewriting the whole document.
 

@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: -2
 flags: ["write"]
-acl_categories: ["generic", "keyspace", "slow", "write"]
-history: []
+acl_categories: ["keyspace", "slow", "write"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 DEL key [key ...]
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@slow`, `@write`
+**Available since:** 1.1.0 · **ACL categories:** `@keyspace`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Deletes the given keys, whatever their type, and returns how many it deleted. A key that does not exist is skipped, and so is a key whose time to live has run out. A key named twice is deleted, and counted, once.
 

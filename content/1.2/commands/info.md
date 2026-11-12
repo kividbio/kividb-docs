@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: -1
 flags: []
-acl_categories: ["dangerous", "server", "slow"]
-history: []
+acl_categories: ["dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 INFO [section [section ...]]
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Returns information and statistics about the server, as `field:value` lines in sections. With no section, the default ones, which leave out `commandstats`, `latencystats` and `keysizes`; with `all` or `everything`, all of them.
 

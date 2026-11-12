@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: -2
 flags: ["movablekeys", "readonly"]
-acl_categories: ["generic", "keyspace", "read", "slow"]
-history: []
+acl_categories: ["keyspace", "read", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 SORT_RO key [BY pattern] [LIMIT offset count] [GET pattern [...]] [ASC|DESC] [ALPHA]
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@read`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@keyspace`, `@read`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 [`SORT`](sort.md) without `STORE`: it only reads, so it can be sent to a read-only replica.
 

@@ -25,7 +25,7 @@ Puts a script in the server's cache, without running it, and returns its SHA1 di
 
 - `script`: the Lua source, which must be UTF-8. The digest is the SHA1 of exactly these bytes, as Redis computes it, so the same script has the same digest on every server. Loading it again changes nothing and returns the same digest.
 
-KiviDB does not compile the script when it is loaded: a script with a syntax error is cached and gets its digest, and the error comes when the script is run. Redis compiles it, and refuses it with an error at once.
+The script is compiled when it is loaded, as in Redis: one with a syntax error, or a first line with a flag it does not know, is refused at once, and not cached. Since 1.2.1; 1.2.0 cached it and gave it a digest, and the error came when the script was run.
 
 A script loaded this way stays until [`SCRIPT FLUSH`](script-flush.md) or a restart; it is not one of the 500 scripts sent with `EVAL` that the server keeps and lets go of. `SCRIPT LOAD` on the master loads the script on its replicas too. On a replica, it is refused with `READONLY`. Redis 7 takes it on a replica, and does not pass it on to replicas. See [Scripting](../guides/scripting.md#scripts).
 
@@ -43,7 +43,5 @@ The script's SHA1 digest, 40 lower-case hex characters.
 > EVALSHA 098e0f0d1448c0a81dafe820f66d460eb09263da 0 hello
 "hello"
 > SCRIPT LOAD "return ("
-"728acb63e2aaef0ee859ece5db586bff5d800d1e"
-> EVALSHA 728acb63e2aaef0ee859ece5db586bff5d800d1e 0
-(error) ERR user_script:1: unexpected symbol near <eof> script: 728acb63e2aaef0ee859ece5db586bff5d800d1e, on @user_script:1.
+(error) ERR Error compiling script (new function): user_script:1: unexpected symbol near <eof>
 ```

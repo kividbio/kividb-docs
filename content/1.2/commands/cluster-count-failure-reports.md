@@ -29,10 +29,11 @@ The count is this node's own view, so it can differ from node to node, and it dr
 
 ## Reply
 
-The number of masters reporting the node, as an integer. A well-formed ID of a node this node does not know also gets `0`, where Redis replies `ERR Unknown node`.
+The number of masters reporting the node, as an integer.
 
 ## Errors
 
+- `ERR Unknown node <id>`: a node this one does not know, as in Redis. Before 1.2.1, such an ID got `0`.
 - `ERR Invalid node id`: not 40 hexadecimal characters.
 - `ERR This instance has cluster support disabled`: the server is not a cluster node.
 

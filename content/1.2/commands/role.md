@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: 1
 flags: ["fast"]
-acl_categories: ["dangerous", "fast", "server"]
-history: []
+acl_categories: ["dangerous", "fast"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 ROLE
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@fast`, `@server`
+**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@fast`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Returns the server's replication role, with what a client needs to know about it, in fewer bytes than [`INFO replication`](info.md). Clients and failover tools use it to tell a master from a replica.
 

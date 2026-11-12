@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: 3
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 REPLICAOF host port | NO ONE
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Makes the server a replica of the master at `host port`, or, with `NO ONE`, a master. It is refused in cluster mode, where [`CLUSTER REPLICATE`](cluster-replicate.md) does it.
 

@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: 1
 flags: ["fast"]
-acl_categories: ["fast", "server"]
-history: []
+acl_categories: ["fast"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 DBSIZE
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@server`
+**Available since:** 1.1.0 · **ACL categories:** `@fast`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Returns the number of keys in the current database, the one chosen with [`SELECT`](select.md) (database 0 unless changed). Keys in other databases are not counted.
 

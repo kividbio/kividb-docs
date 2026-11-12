@@ -1,6 +1,6 @@
 ---
 title: "EXPIRETIME"
-description: "Returns the Unix time, in seconds, at which key expires."
+description: "Returns the Unix time, in seconds, at which key expires, rounded to the nearest second, as in Redis; before 1.2.1 it was rounded down."
 version: "1.2"
 command: "EXPIRETIME"
 syntax: "EXPIRETIME key"
@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: 2
 flags: ["fast", "readonly"]
-acl_categories: ["fast", "generic", "keyspace", "read"]
-history: []
+acl_categories: ["fast", "keyspace", "read"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,9 +21,13 @@ status: "reviewed"
 EXPIRETIME key
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@read`
+**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@keyspace`, `@read`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
-Returns the Unix time, in seconds, at which `key` expires.
+Returns the Unix time, in seconds, at which `key` expires, rounded to the nearest second, as in Redis; before 1.2.1 it was rounded down. For the latest deadline a key can have, it is `9223372036854776`.
 
 ## Reply
 

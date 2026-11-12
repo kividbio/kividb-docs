@@ -33,11 +33,11 @@ Subcommands: [XINFO CONSUMERS](xinfo-consumers.md), [XINFO GROUPS](xinfo-groups.
 | [`XINFO STREAM`](xinfo-stream.md) | the stream's length, first and last entries, IDs and counters; `FULL` adds its groups and pending entries |
 | [`XINFO GROUPS`](xinfo-groups.md) | each group's consumers, pending count, last delivered ID, entries read and lag |
 | [`XINFO CONSUMERS`](xinfo-consumers.md) | each consumer of a group, its pending count, and how long since it was seen and since it was last given entries |
-| [`XINFO HELP`](xinfo-help.md) | not implemented in 1.2.0 |
+| [`XINFO HELP`](xinfo-help.md) | list the subcommands (since 1.2.1) |
 
 [`XPENDING`](xpending.md) lists the pending entries themselves, and [`XLEN`](xlen.md) is the quick way to the length alone.
 
-`XINFO` needs a subcommand and a key: with fewer arguments it answers `ERR wrong number of arguments for 'xinfo' command`, whatever the subcommand, and a name that is not a subcommand gets `ERR unknown subcommand for XINFO`.
+`XINFO` needs a subcommand and a key: with fewer arguments it answers `ERR wrong number of arguments for 'xinfo' command`, whatever the subcommand, and a name that is not a subcommand gets Redis's `ERR unknown subcommand '<name>'. Try XINFO HELP.` (before 1.2.1, `ERR unknown subcommand for XINFO`).
 
 ## Examples
 
@@ -45,7 +45,7 @@ Subcommands: [XINFO CONSUMERS](xinfo-consumers.md), [XINFO GROUPS](xinfo-groups.
 > XINFO
 (error) ERR wrong number of arguments for 'xinfo' command
 > XINFO NOPE jobs
-(error) ERR unknown subcommand for XINFO
+(error) ERR unknown subcommand 'NOPE'. Try XINFO HELP.
 > XINFO GROUPS jobs
 1)  1) "name"
     2) "workers"

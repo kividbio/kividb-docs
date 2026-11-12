@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: -3
 flags: ["fast", "write"]
-acl_categories: ["fast", "generic", "keyspace", "write"]
-history: []
+acl_categories: ["fast", "keyspace", "write"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 PEXPIRE key milliseconds [NX | XX | GT | LT]
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@generic`, `@keyspace`, `@write`
+**Available since:** 1.1.0 · **ACL categories:** `@fast`, `@keyspace`, `@write`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Makes `key` expire after `milliseconds`. It takes the same `NX`, `XX`, `GT` and `LT` conditions as [`EXPIRE`](expire.md).
 

@@ -1,6 +1,6 @@
 ---
 title: "CLUSTER BUMPEPOCH"
-description: "Raises this node's current epoch to one above the highest epoch it knows of, and returns it."
+description: "Gives this node a config epoch above every epoch it knows of, so that its claims to its slots win over older ones, and replies BUMPED and the new epoch."
 version: "1.2"
 command: "CLUSTER BUMPEPOCH"
 syntax: "CLUSTER BUMPEPOCH"
@@ -21,13 +21,13 @@ CLUSTER BUMPEPOCH
 
 **Available since:** 1.1.0
 <!-- generated: end -->
-Raises this node's current epoch to one above the highest epoch it knows of, and returns it. The current epoch is the counter a node takes new epochs from, for a failover or a slot moved with [`CLUSTER SETSLOT`](cluster-setslot.md). [`CLUSTER INFO`](cluster-info.md) shows it as `cluster_current_epoch`.
+Gives this node a config epoch above every epoch it knows of, so that its claims to its slots win over older ones, and replies `BUMPED` and the new epoch. When the node's config epoch is already the highest, and not `0`, it changes nothing and replies `STILL` and the epoch. The config epoch is `cluster_my_epoch` in [`CLUSTER INFO`](cluster-info.md) and the epoch column of [`CLUSTER NODES`](cluster-nodes.md); the current epoch, `cluster_current_epoch`, is raised with it.
 
-In KiviDB 1.2 it does not change the node's own config epoch, `cluster_my_epoch` in `CLUSTER INFO` and the epoch column of [`CLUSTER NODES`](cluster-nodes.md). So on its own it does not make this node's claims to its slots win over older ones. Redis also gives the new epoch to the node as its config epoch, and replies `STILL` instead when the node's config epoch is already the highest; KiviDB always replies `BUMPED`.
+That is as in Redis, since 1.2.1. In 1.2.0 it raised only the current epoch, left the config epoch as it was, and always replied `BUMPED`.
 
 ## Reply
 
-`BUMPED` and the new current epoch, as a status string.
+`BUMPED` and the new epoch, or `STILL` and the epoch, as a status string.
 
 ## Errors
 
@@ -35,11 +35,18 @@ In KiviDB 1.2 it does not change the node's own config epoch, `cluster_my_epoch`
 
 ## Examples
 
+On a node whose config epoch is not the highest, then on one whose is:
+
 ```
 > CLUSTER INFO
-"...cluster_current_epoch:9\r\ncluster_my_epoch:2\r\n..."
+"...cluster_current_epoch:3\r\ncluster_my_epoch:1\r\n..."
 > CLUSTER BUMPEPOCH
-BUMPED 10
+BUMPED 4
 > CLUSTER INFO
-"...cluster_current_epoch:10\r\ncluster_my_epoch:2\r\n..."
+"...cluster_current_epoch:4\r\ncluster_my_epoch:4\r\n..."
+```
+
+```
+> CLUSTER BUMPEPOCH
+STILL 3
 ```

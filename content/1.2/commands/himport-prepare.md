@@ -24,9 +24,9 @@ HIMPORT PREPARE fieldset field [field ...]
 Defines a fieldset on this connection: a name for an ordered list of hash field names. [`HIMPORT SET`](himport-set.md) then creates a hash from the fieldset by giving only the values, in the same order, so a bulk load of many hashes with the same fields does not send the field names again for each one. See [`HIMPORT`](himport.md).
 
 - `fieldset`: the name to define. Preparing a name that is already defined replaces it.
-- `field ...`: one or more field names. They must be valid UTF-8, and no name may appear twice.
+- `field ...`: one or more field names, of any bytes, kept as [`HSET`](hset.md) keeps them. No name may appear twice. Before 1.2.1, they had to be valid UTF-8.
 
-A fieldset belongs to the connection that prepared it: other connections cannot use it, and it is forgotten when the connection closes. In 1.2.0, [`RESET`](reset.md) does not forget it. [`HIMPORT DISCARD`](himport-discard.md) and `HIMPORT DISCARDALL` forget fieldsets explicitly. `HIMPORT PREPARE` changes no data, so it is allowed wherever a read is, including on a replica.
+A fieldset belongs to the connection that prepared it: other connections cannot use it, and it is forgotten when the connection closes, or on [`RESET`](reset.md); 1.2.0 kept it through `RESET`. [`HIMPORT DISCARD`](himport-discard.md) and `HIMPORT DISCARDALL` forget fieldsets explicitly. `HIMPORT PREPARE` changes no data, so it is allowed wherever a read is, including on a replica.
 
 ## Reply
 
@@ -35,7 +35,6 @@ A fieldset belongs to the connection that prepared it: other connections cannot 
 ## Errors
 
 - `ERR duplicate field name '<field>' in fieldset` if a field is named twice.
-- `ERR field names must be valid UTF-8`.
 - `ERR wrong number of arguments for 'himport|prepare' command` if no field is given.
 
 ## Examples

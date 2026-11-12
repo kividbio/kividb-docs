@@ -25,12 +25,13 @@ JSON.STRLEN key [path]
 <!-- generated: end -->
 Returns the length of each string `path` matches in the JSON document at `key`. The length is in bytes of the string's UTF-8 text, without quotes, so `"Zürich"` has length 7: `ü` takes two bytes.
 
-A JSONPath reports on every value it matches; a legacy path, or no path, on the first match only. See [JSON paths](../reference/json-paths.md). A match that is not a string gives `nil` for both kinds of path. To add to a string, use [`JSON.STRAPPEND`](json.strappend.md), which replies with the new length in the same unit.
+A JSONPath reports on every value it matches; a legacy path, or no path, on the first match only. See [JSON paths](../reference/json-paths.md). For a JSONPath, a match that is not a string gives `nil`. For a legacy path, one that matches nothing is `ERR Path does not exist`, and a value that is not a string `WRONGTYPE wrong type of path value - expected string`, as in RedisJSON, since 1.2.1; 1.2.0 answered `nil` for both. To add to a string, use [`JSON.STRAPPEND`](json.strappend.md), which replies with the new length in the same unit.
 
 ## Reply
 
 - A JSONPath: an array with one length per match, `nil` where a match is not a string; an empty array when nothing matches.
-- A legacy path or no path: the length, as an integer; `nil` when the match is not a string or nothing matches.
+- A legacy path or no path: the length, as an integer.
+- `ERR Path does not exist`, or `WRONGTYPE wrong type of path value - expected string`, for a legacy path.
 - `nil` if the key does not exist.
 
 ## Examples

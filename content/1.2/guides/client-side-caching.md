@@ -5,7 +5,9 @@ version: "1.2"
 weight: 50
 ---
 
-A client that keeps the values it read in its own memory answers the next read without a round trip. The server tells it when a value it holds changes, so that it drops it: that is [`CLIENT TRACKING`](../commands/client-tracking.md), as in Redis 6 and later. Client libraries do it for you (`redis-py`'s client-side cache, Lettuce's `ClientSideCaching`, `rueidis`).
+A client that keeps the values it read in its own memory answers the next read without a round trip. The server tells it when a value it holds changes, so that it drops it: that is [`CLIENT TRACKING`](../commands/client-tracking.md), as in Redis 6 and later. Client libraries do it for you (`redis-py`'s client-side cache, Jedis's, Lettuce's `ClientSideCaching`, `rueidis`).
+
+Some turn it on only for a server that says, in its [`HELLO`](../commands/hello.md) reply, that it is Redis 7.4 or later: redis-py 8.1 and Jedis 5.2 do. Since 1.2.1, `HELLO` says `server: redis` and `version: 8.10.0`, the Redis release KiviDB follows, so they do. 1.2.0 said `server: kividb` and its own version, and they refused to cache against it, although `CLIENT TRACKING` worked.
 
 ## How it works
 

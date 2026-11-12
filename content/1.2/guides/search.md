@@ -34,7 +34,22 @@ The index covers the hashes whose names start with `product:`, those there alrea
 
 A document is indexed as it is written: once `HSET` or `JSON.SET` returns, searches find it. `FT.CREATE` indexes the keys already there before it replies (`SKIPINITIALSCAN` skips them), and so can take a while on a large dataset.
 
-Indexes are kept in the snapshot, HNSW graphs included, and the rest is built again from the keys when the server starts; meanwhile commands get `LOADING`. After a crash, each HNSW graph holds every vector of the documents the snapshot and the append-only file bring back: the graph from the snapshot is brought up to date with the keys at startup, the vectors written since the last checkpoint inserted and those deleted or overwritten taken out. Before 1.2, a server killed after a checkpoint (`BGREWRITEAOF`, the automatic rewrite, or `SAVE` / `BGSAVE` with the append-only file on) came back with the graphs as the snapshot had them: the vectors written since were in the hashes and counted in `num_docs`, but no KNN query found them, and a vector deleted since was still found. A clean shutdown did not lose them, and the files 1.1 wrote load correctly in 1.2. Before 1.1.3, a start from an append-only file with no snapshot in it also left one vector in each graph. An index belongs to the database it was created in: writes in other databases do not touch it. A replica builds its own. In a [cluster](cluster.md), each master indexes its own keys, `FT.CREATE` and `FT.DROPINDEX` reach every master, and `FT.SEARCH` and `FT.AGGREGATE` ask every master and merge their answers.
+Indexes are kept in the snapshot, HNSW graphs included, and the rest is built again from the keys when the server starts; meanwhile commands get `LOADING`. After a crash, each HNSW graph holds every vector of the documents the snapshot and the append-only file bring back: the graph from the snapshot is brought up to date with the keys at startup, the vectors written since the last checkpoint inserted and those deleted or overwritten taken out. Before 1.2, a server killed after a checkpoint (`BGREWRITEAOF`, the automatic rewrite, or `SAVE` / `BGSAVE` with the append-only file on) came back with the graphs as the snapshot had them: the vectors written since were in the hashes and counted in `num_docs`, but no KNN query found them, and a vector deleted since was still found. A clean shutdown did not lose them, and the files 1.1 wrote load correctly in 1.2. Before 1.1.3, a start from an append-only file with no snapshot in it also left one vector in each graph. An index belongs to the database it was created in: writes in other databases do not touch it, and since 1.2.1 it is seen only from that database. [`FT._LIST`](../commands/ft._list.md) lists the selected database's indexes, and from another database `FT.SEARCH`, `FT.INFO`, `FT.DROPINDEX`, `FT.ALTER` and the other commands that name an index answer `Index not found`, as if it were not there. Names are still one namespace across databases: `FT.CREATE` of a name another database uses is refused with `Index already exists`. In 1.2.0, `FT._LIST` listed every database's indexes, and a command sent from database 1 searched, altered or dropped an index of database 0. A replica builds its own.
+
+```
+> FT.CREATE idx0 ON HASH PREFIX 1 doc: SCHEMA t TEXT
+OK
+> SELECT 1
+OK
+> FT._LIST
+(empty array)
+> FT.INFO idx0
+(error) SEARCH_INDEX_NOT_FOUND Index not found: idx0
+> FT.CREATE idx0 ON HASH SCHEMA t TEXT
+(error) Index already exists
+```
+
+An `FT.ALTER`, `FT.ALIASADD`, `FT.ALIASDEL`, `FT.ALIASUPDATE` or `FT.SYNUPDATE` that 1.2.0 wrote to its append-only file, or sent as a master, for an index of another database is refused when 1.2.1 replays or applies it, and the index stays as it was. After upgrading, check such an index with `FT.INFO` from its own database, and repeat what is missing. In a [cluster](cluster.md), each master indexes its own keys, `FT.CREATE` and `FT.DROPINDEX` reach every master, and `FT.SEARCH` and `FT.AGGREGATE` ask every master and merge their answers.
 
 A key past its time to live is no document, even before the expiry cycle deletes it: it is neither counted nor returned. A key renamed leaves the indexes under its old name and is indexed under its new one; a hash overwritten by `SET` leaves them.
 

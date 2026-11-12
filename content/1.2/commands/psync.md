@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: -3
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 PSYNC repl_id offset
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Sent by a replica to its master to start or resume replication: `PSYNC replication-id offset`. The master either continues from that offset, or sends a full copy of the dataset first. Not for applications.
 

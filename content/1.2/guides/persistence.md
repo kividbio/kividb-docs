@@ -63,13 +63,19 @@ Expiries are in the file since 1.1.3. Before it, a key expired by the clock at r
 
 ### What a crash can lose
 
-A write is acknowledged once its record is in the file, as in Redis: the reply to a command that wrote waits until its record has been written, to the operating system's cache. The file is flushed to disk once a second. [`appendfsync`](../reference/configuration.md#accepted-for-compatibility-with-redis) is accepted and does not change that.
+A write is acknowledged once its record is in the file, as in Redis: the reply to a command that wrote waits until its record has been written, to the operating system's cache. When it is flushed to disk is [`appendfsync`](../reference/configuration.md#appendfsync):
+
+- `everysec`, the default: once a second.
+- `always`: before each write is acknowledged, as in Redis. Replies waiting at the same time share one flush. It costs writes a second; a failed write or flush stops the server rather than acknowledge a write that is not on disk, and [`aof-ack-after-write no`](../reference/configuration.md#aof-ack-after-write) has no effect.
+- `no`: once a second too.
+
+`always` is since 1.2.1. In 1.2.0, `appendfsync always` was accepted and did nothing: the file was flushed once a second whatever was set.
 
 | What happens | What is lost |
 |---|---|
 | `SHUTDOWN`, `SIGTERM`, `docker stop` | Nothing: the server writes out everything and saves a snapshot. |
 | The process is killed (`kill -9`, the out-of-memory killer, a container stopped without a grace period) | No write that was acknowledged: its record is in the file. The one exception is below. |
-| The machine crashes or loses power | Up to about the last second of writes. |
+| The machine crashes or loses power | Up to about the last second of writes; with `appendfsync always`, no write that was acknowledged. |
 
 Before 1.2, a write was acknowledged once its record was queued for the file, and a process that was killed could lose the last few.
 
@@ -94,9 +100,15 @@ Checkpoints (a rewrite, `SAVE`, `BGSAVE`, the snapshot at shutdown) run one at a
 
 That is since 1.1.3, which fixes [GHSA-pjrr-m43f-m5g3](https://github.com/kividbio/kividb/security/advisories/GHSA-pjrr-m43f-m5g3). In 1.1.0 to 1.1.2, overlapping checkpoints could lose acknowledged writes or bring deleted keys back, and a crash in the middle of a rewrite could leave no log, so that the next start replayed nothing written since the last snapshot.
 
-### Known issue
+### Turning it on and off
 
-An empty `appendonly.aof` is created even with the append-only file off. Filed as [kividb#47](https://github.com/kividbio/kividb/issues/47).
+With the append-only file off, no `appendonly.aof` is made or needed. [`CONFIG SET appendonly yes`](../commands/config-set.md) starts a new, empty log and writes the dataset out before it replies; if the log cannot be created, the reply is an error and the file stays off. Before 1.2.1, every start made an empty `appendonly.aof`, on or off, and a server that could not create it exited ([kividb#47](https://github.com/kividbio/kividb/issues/47)); `CONFIG SET appendonly yes` appended to whatever log was there, and a crash before its checkpoint finished could bring back old writes.
+
+### Logs kept aside
+
+A log that is not replayed is never deleted. Since 1.2.1, when a log in the directory does not go on from the snapshot that was loaded (the snapshot was saved later with the file off, say), the server moves it aside as `superseded.<time>.<n>.appendonly.aof` (or `.appendonly.aof.prev`), logs a warning that says whether its writes are already in the dataset, and lists such files at every start. `INFO persistence` counts them, as `aof_superseded_files` and `aof_superseded_bytes`. The server never removes them: once you have checked one, delete it yourself. Do not send its writes to the server if the warning says they are in the dataset already, which would apply them twice.
+
+Before 1.2.1, a restart with the file on, after a save made with it off, replayed the old log over the newer snapshot, and applied its writes twice. A directory left that way by 1.2.0 is recognised: the old log is kept aside, not replayed.
 
 ## Starting up
 
@@ -106,6 +118,8 @@ At startup the server loads, in order:
 2. `appendonly.aof`, on top of it, if the append-only file is on. Started without it, the server ignores the file.
 
 A file that exists and cannot be read stops the server, rather than starting it empty. An `appendonly.aof` whose last record was cut short by a crash is cut back to its last whole record, with a warning; damage before the end stops the server. An `appendonly.aof` that belongs to a newer `dump.kdb` than the one there stops it too: the files were not copied together.
+
+Since 1.2.1, a snapshot that is not whole is refused rather than loaded in part: a `dump.kdb` cut short anywhere, an RDB file with a wrong checksum (unless `rdbchecksum no` is set), and a file with keys in more databases than the server has ([`databases`](../reference/configuration.md#databases)); the message names the database and the `databases` to start with. 1.2.0 loaded the keys before a cut, started without the times to live, function libraries and indexes stored after one, and dropped, or merged into database 0, the databases past its own. A sorted set with a `NaN` score is refused too, naming the key.
 
 The files that belong together, all in the working directory:
 
@@ -129,7 +143,7 @@ That is what happens when a replacement pod is started on a volume while the old
 
 ### Coming from Redis
 
-A Redis `dump.rdb` in the working directory is loaded when there is no `dump.kdb`, from Redis 6.2 to 8.10; the next snapshot is written as `dump.kdb`. KiviDB does not write RDB files, and does not read Redis 7's multi-part append-only files. To load one Redis snapshot from anywhere, start the server with [`preload-file`](../reference/configuration.md#preload-file) `rdb:/path/to/dump.rdb`.
+A Redis `dump.rdb` in the working directory is loaded when there is no `dump.kdb`, from Redis 6.2 to 8.10, Redis Stack 6.2 included; the next snapshot is written as `dump.kdb`. Since 1.2.1, so are Valkey 9.0's and 9.1's RDB files, and Dragonfly's and KeyDB's with their hash fields' times to live; what KiviDB cannot read (a Dragonfly `.dfs` file, its Bloom filters, a KeyDB set member's time to live) is refused by name, rather than skipped. KiviDB does not write RDB files, and does not read Redis 7's multi-part append-only files. To load one Redis snapshot from anywhere, start the server with [`preload-file`](../reference/configuration.md#preload-file) `rdb:/path/to/dump.rdb`.
 
 ## Backups
 

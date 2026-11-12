@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: -4
 flags: ["write"]
-acl_categories: ["dangerous", "generic", "keyspace", "slow", "write"]
-history: []
+acl_categories: ["dangerous", "keyspace", "slow", "write"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,11 +21,17 @@ status: "reviewed"
 RESTORE key ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME seconds] [FREQ frequency]
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@generic`, `@keyspace`, `@slow`, `@write`
+**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@keyspace`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Creates `key` from a [`DUMP`](dump.md) payload. `ttl` is in milliseconds, `0` for no expiry.
 
 Accepts KiviDB's own payloads and supported Redis `DUMP` encodings, so data can be imported through `DUMP`/`RESTORE` or [`MIGRATE`](migrate.md). See [Migrating from Redis](../guides/migrating-from-redis.md#4-move-the-data) for the types that can be imported.
+
+Since 1.2.1 it also takes the payloads of Valkey 9.0 and 9.1, KeyDB's, and Dragonfly's hashes with field times to live and JSON documents. It refuses a sorted set with a `NaN` score with `ERR Bad data format`, as Redis does, and a JSON document nested 128 levels or deeper. A key of any bytes can be restored, the empty key and keys that are not UTF-8 included; a 1.2.0 server refuses such a key, so a `MIGRATE` of one to it fails. A time series' payload carries no compaction rules: see [`TS.CREATERULE`](ts.createrule.md).
 
 ## Options
 

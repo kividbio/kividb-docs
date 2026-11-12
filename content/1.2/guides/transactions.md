@@ -29,7 +29,21 @@ While `EXEC` runs, no other client's command runs, reads included: no client see
 
 A command that cannot be queued, an unknown command, wrong arguments, or one the user may not run (`NOPERM`), aborts the transaction: `EXEC` replies `EXECABORT`, and nothing runs. Before 1.2, a command refused by ACL did not abort it, and `EXEC` ran the others. A command that fails when it runs, `INCR` of a value that is not a number, fails alone: the others still run, and its reply is its error. There is no rollback. [`DISCARD`](../commands/discard.md) drops the queue.
 
-A blocking command in a transaction does not block: `BLPOP` of an empty list returns nil at once.
+A blocking command in a transaction does not block: `BLPOP` of an empty list returns nil at once. Nor does it in a script, since 1.2.1: there it takes what is there, as `LPOP` would, where before it answered nil whatever the list held.
+
+`UNWATCH`, `AUTH`, `HELLO`, `MONITOR`, `WAIT` and `WAITAOF` are queued like any other command, as in Redis 8, and run by `EXEC`: `AUTH` and `HELLO` then change the user or the protocol for the commands after them in the transaction, `MONITOR` gets `ERR MONITOR isn't allowed for DENY BLOCKING client`, and `WAIT` and `WAITAOF` answer at once, without waiting. A queued `UNWATCH` answers `OK` and changes nothing: the watch still holds for that `EXEC`. Before 1.2.1, these six ran at once inside `MULTI`, and a `WATCH` followed by an `UNWATCH` inside the transaction let `EXEC` run although the watched key had changed. `PSYNC` and `SYNC` are refused inside `MULTI`, with `ERR Command not allowed inside a transaction`, and `EXEC` then aborts. An `EXEC` the user's ACL rules refuse discards the transaction and its watches, and answers `EXECABORT`.
+
+```
+> MULTI
+OK
+> MONITOR
+QUEUED
+> WAIT 0 100
+QUEUED
+> EXEC
+1) (error) ERR MONITOR isn't allowed for DENY BLOCKING client
+2) (integer) 0
+```
 
 ## WATCH
 
@@ -48,9 +62,11 @@ QUEUED
 1) OK
 ```
 
-`EXEC`, `DISCARD` and [`UNWATCH`](../commands/unwatch.md) end the watch.
+`EXEC`, `DISCARD` and [`UNWATCH`](../commands/unwatch.md) end the watch; an `UNWATCH` sent inside the transaction is queued, and does not.
 
 A write that changes nothing, such as `SET key value NX` on a key that exists, `SADD` of a member already there, or `EXPIRE` of a missing key, leaves the watch alone, as in Redis. On a replica, the writes that come from its master count as changes, as a client's do. Before 1.2, a write that changed nothing failed the watch, and a replica's `WATCH` did not see its master's writes.
+
+A write fails the watch only on the keys it changed, as in Redis: of `BLPOP a b`, the key it took from; of `SUNIONSTORE`, `COPY`, `SORT ... STORE` and the like, the destination and not the sources; of `DEL`, the keys that were there. `MOVE` and `COPY ... DB` fail a watch on the key in the other database, and `SWAPDB` only the watches on keys of the two databases it swaps. Consumer group commands (`XREADGROUP`, `XACK`, `XCLAIM`, `XGROUP` but `CREATE ... MKSTREAM`) do not fail a watch on the stream. All this is since 1.2.1: before it, a write failed the watch on every key it named, and `SWAPDB` every watch.
 
 ## What is atomic without a transaction
 

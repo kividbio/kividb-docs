@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: -2
 flags: []
-acl_categories: ["generic", "keyspace", "read", "slow"]
-history: []
+acl_categories: ["keyspace", "read", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 SCAN cursor [MATCH pattern] [COUNT count] [TYPE type]
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@read`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@keyspace`, `@read`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Goes through the keys of the current database a page at a time. Start with cursor `0`, and call again with the cursor each reply gives, until it gives `0`.
 

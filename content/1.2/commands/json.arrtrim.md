@@ -6,10 +6,10 @@ command: "JSON.ARRTRIM"
 syntax: "JSON.ARRTRIM key path start stop"
 group: "json"
 since: "1.1.0"
-arity: -2
+arity: 5
 flags: ["write"]
 acl_categories: ["json", "slow", "write"]
-history: []
+history: [{"release": "1.2.1", "change": "arity: -2 -> 5"}]
 # generated: end
 status: "reviewed"
 ---
@@ -22,6 +22,10 @@ JSON.ARRTRIM key path start stop
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: arity: -2 -> 5
 <!-- generated: end -->
 Keeps only the elements from `start` to `stop`, both included, in each array `path` matches.
 

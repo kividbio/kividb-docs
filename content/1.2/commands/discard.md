@@ -25,7 +25,7 @@ DISCARD
 <!-- generated: end -->
 Ends a transaction without running it: the commands queued since [`MULTI`](multi.md) are dropped, none of them runs, and the connection is back to running each command as it is sent. Use it when the client decides, part way through queuing, not to go on, or to get out of a transaction a queuing error has already doomed: after an unknown command or wrong arguments, [`EXEC`](exec.md) would only reply `EXECABORT`.
 
-`DISCARD` also ends every [`WATCH`](watch.md) of the connection, as `EXEC` does. Outside a transaction it is an error, and leaves the watches as they are: use [`UNWATCH`](unwatch.md) there. Arguments after `DISCARD` are ignored, where Redis refuses them.
+`DISCARD` also ends every [`WATCH`](watch.md) of the connection, as `EXEC` does. Outside a transaction it is an error, and leaves the watches as they are: use [`UNWATCH`](unwatch.md) there. It takes no arguments: `DISCARD x` is `ERR wrong number of arguments for 'discard' command`, as in Redis, since 1.2.1; 1.2.0 ignored them.
 
 See [Transactions](../guides/transactions.md#multi-and-exec).
 

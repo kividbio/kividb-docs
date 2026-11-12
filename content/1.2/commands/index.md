@@ -82,7 +82,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`HEXISTS`](hexists.md) | Tells whether field exists in the hash at key. | 1.1.0 |
 | [`HEXPIRE`](hexpire.md) | Makes fields of the hash at key expire after seconds. | 1.1.0 |
 | [`HEXPIREAT`](hexpireat.md) | Makes fields of the hash at key expire at a Unix time, in seconds. | 1.1.0 |
-| [`HEXPIRETIME`](hexpiretime.md) | Returns the Unix time, in seconds, at which fields of the hash at key expire. | 1.1.0 |
+| [`HEXPIRETIME`](hexpiretime.md) | Returns the Unix time, in seconds, at which fields of the hash at key expire, rounded up to the next second, as in Redis: a field set with HPEXPIREAT h 4102444800001 gives 4102444801. | 1.1.0 |
 | [`HGET`](hget.md) | Returns the value of field in the hash at key. | 1.1.0 |
 | [`HGETALL`](hgetall.md) | Returns every field of the hash at key with its value. | 1.1.0 |
 | [`HGETDEL`](hgetdel.md) | Returns the values of fields of the hash at key and deletes those fields, in one step. | 1.1.0 |
@@ -105,7 +105,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`HSETEX`](hsetex.md) | Sets fields of the hash at key, with one expiry for all of them, in one step. | 1.1.0 |
 | [`HSETNX`](hsetnx.md) | Sets field in the hash at key only if the field does not exist. | 1.1.0 |
 | [`HSTRLEN`](hstrlen.md) | Returns the length, in bytes, of the value of field in the hash at key. | 1.1.0 |
-| [`HTTL`](httl.md) | Returns how long fields of the hash at key have before they expire, in seconds. | 1.1.0 |
+| [`HTTL`](httl.md) | Returns how long fields of the hash at key have before they expire, in seconds, rounded up to the next second, as in Redis: a field with 1,499 milliseconds left has 2. | 1.1.0 |
 | [`HVALS`](hvals.md) | Returns the values of all the fields of the hash at key, without their names. | 1.1.0 |
 
 ## HyperLogLog
@@ -157,7 +157,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`EXISTS`](exists.md) | Returns how many of the given keys exist. | 1.1.0 |
 | [`EXPIRE`](expire.md) | Makes key expire after seconds. | 1.1.0 |
 | [`EXPIREAT`](expireat.md) | Makes key expire at a Unix time, in seconds. | 1.1.0 |
-| [`EXPIRETIME`](expiretime.md) | Returns the Unix time, in seconds, at which key expires. | 1.1.0 |
+| [`EXPIRETIME`](expiretime.md) | Returns the Unix time, in seconds, at which key expires, rounded to the nearest second, as in Redis; before 1.2.1 it was rounded down. | 1.1.0 |
 | [`KEYS`](keys.md) | Returns every key of the current database that matches a glob-style pattern. | 1.1.0 |
 | [`MOVE`](move.md) | Moves key to database db. | 1.1.0 |
 | [`OBJECT`](object.md) | OBJECT is a container: its subcommands report on a single key's value, and on how the key has been used. | 1.1.0 |
@@ -175,7 +175,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`SORT_RO`](sort_ro.md) | SORT without STORE: it only reads, so it can be sent to a read-only replica. | 1.1.0 |
 | [`SWAPDB`](swapdb.md) | Swaps the contents of two databases in one step: every key, with its value and its time to live, moves from db1 to db2 and the other way round. | 1.1.0 |
 | [`TOUCH`](touch.md) | Marks the given keys as used, and returns how many of them exist. | 1.1.0 |
-| [`TTL`](ttl.md) | Returns how long key has before it expires, in seconds. | 1.1.0 |
+| [`TTL`](ttl.md) | Returns how long key has before it expires, in seconds, rounded to the nearest second, as in Redis: a key with 1,499 milliseconds left has 1. | 1.1.0 |
 | [`TYPE`](type.md) | Returns the type of the value at key. | 1.1.0 |
 | [`UNLINK`](unlink.md) | Deletes the given keys, like DEL, but frees large values in the background. | 1.1.0 |
 
@@ -286,7 +286,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`FT.SYNDUMP`](ft.syndump.md) | Returns the synonym groups of an index, made with FT.SYNUPDATE, turned around: each word, followed by the groups it is in. | 1.1.0 |
 | [`FT.SYNUPDATE`](ft.synupdate.md) | Creates or updates a synonym group of an index: words to be treated as the same. | 1.1.0 |
 | [`FT.TAGVALS`](ft.tagvals.md) | Returns the distinct values of a TAG field across the documents an index holds, sorted. | 1.1.0 |
-| [`FT._LIST`](ft._list.md) | Returns the names of every index on the server. | 1.1.0 |
+| [`FT._LIST`](ft._list.md) | Returns the names of the indexes of the selected database. | 1.1.0 |
 
 ## Server
 
@@ -305,7 +305,7 @@ Every command KiviDB 1.2 has, by group. A command's page gives its syntax, what 
 | [`HELLO`](hello.md) | Switches the connection to RESP2 or RESP3, and returns the server's details: its name, version, protocol, connection ID, mode, role and modules, as a map under RESP3. | 1.1.0 |
 | [`INFO`](info.md) | Returns information and statistics about the server, as field:value lines in sections. | 1.1.0 |
 | [`LASTSAVE`](lastsave.md) | Returns the Unix time of the last snapshot saved, 0 if none. | 1.1.0 |
-| [`LOLWUT`](lolwut.md) | Returns the KiviDB logo, drawn in block characters, and a last line with the server's version, KiviDB version 1.2.0, bits 64. | 1.1.0 |
+| [`LOLWUT`](lolwut.md) | Returns the KiviDB logo, drawn in block characters, and a last line with the server's version, KiviDB version 1.2.1, bits 64. | 1.1.0 |
 | [`MEMORY`](memory.md) | MEMORY is a container: its subcommands report on the server's memory and on what a key takes. | 1.1.0 |
 | [`MONITOR`](monitor.md) | Streams every command the server runs, from any client, to this connection, each as a line: the time, the database and client address, and the command and its arguments. | 1.1.0 |
 | [`PSYNC`](psync.md) | Sent by a replica to its master to start or resume replication: PSYNC replication-id offset. | 1.1.0 |

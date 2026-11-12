@@ -33,7 +33,7 @@ Returns the string at `key` and, optionally, changes its expiry.
 | `EXAT unix-seconds`, `PXAT unix-milliseconds` | Expire the key at this time. |
 | `PERSIST` | Remove the key's expiry. |
 
-Without an option, `GETEX` is `GET`.
+Without an option, `GETEX` is `GET`. Only one option can be given: two are `ERR syntax error`. A time is checked as [`SET`](set.md) checks it, `EXAT 0` and `PXAT 0` included. An `EXAT` or `PXAT` that has passed deletes the key at once, and the key's keyspace event is `del`, as in Redis. On a key that is not there, it answers `nil` whatever the time. These are since 1.2.1: 1.2.0 read the first option only and passed over the rest.
 
 ## Reply
 

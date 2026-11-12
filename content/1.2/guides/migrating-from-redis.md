@@ -34,13 +34,12 @@ A line that is neither KiviDB's nor Redis's, a misspelt name among them, stops t
 |---|---|
 | `io-threads` | No effect: commands run on every core. [`threads`](../reference/configuration.md#threads) sets how many. |
 | `save 3600 1` | No effect: there is no snapshot on a schedule. Use the append-only file, or `BGSAVE`. |
-| `appendfsync` | Always once a second. |
 | `dbfilename`, `appendfilename` | `dump.kdb` and `appendonly.aof`. |
 | `maxclients` | Enforced, as in Redis, within the open-file limit: see [`maxclients`](../reference/configuration.md#maxclients). |
 | `lazyfree-lazy-expire` | Picks whether an expired key reaches replicas and the append-only file as `UNLINK` (`yes`) or `DEL` (`no`). The other `lazyfree-*` settings have no effect. All take only `yes` or `no`, as in Redis: another value stops the server. |
 | `latency-tracking`, `latency-tracking-info-percentiles` | As in Redis: whether `INFO latencystats` reports, and which percentiles. |
 | `client-output-buffer-limit` | Accepted, with a warning, and has no effect. |
-| `appendfsync always`, `appendfsync no` | Accepted, with a warning: the file is synced once a second. |
+| `appendfsync` | As in Redis since 1.2.1: `always` syncs each write before it is acknowledged, `everysec`, the default, once a second. `no` syncs once a second too. In 1.2.0, `always` was accepted with a warning and the file was synced once a second. |
 | `loadmodule` | Not supported: the server does not start. Search, JSON, time series and vector sets are built in. |
 | `rename-command` | Not supported: the server does not start. Use ACL rules. |
 | Sentinel | There is none. Use a cluster, which fails over on its own, or promote replicas yourself. |
@@ -91,7 +90,7 @@ OK
 
 ## 5. Persistence
 
-Turn on the append-only file, `--aof` or `appendonly yes`, for writes to survive a crash: without it, data is on disk only after `SAVE` or `BGSAVE`, and at a clean shutdown. With it, as in Redis, a write is acknowledged once its record is in the file, so a process that is killed loses no acknowledged write; a clean shutdown loses nothing, and a machine that loses power up to a second, as Redis with `appendfsync everysec`. Before 1.2, a process that was killed could lose the last few acknowledged writes. See [Persistence](persistence.md).
+Turn on the append-only file, `--aof` or `appendonly yes`, for writes to survive a crash: without it, data is on disk only after `SAVE` or `BGSAVE`, and at a clean shutdown. With it, as in Redis, a write is acknowledged once its record is in the file, so a process that is killed loses no acknowledged write; a clean shutdown loses nothing, and a machine that loses power up to a second, as Redis with `appendfsync everysec`, or nothing acknowledged with `appendfsync always`. Before 1.2, a process that was killed could lose the last few acknowledged writes. See [Persistence](persistence.md).
 
 ## 6. Replication and clusters
 
@@ -102,7 +101,7 @@ A cluster supports Redis Cluster's slots, redirections and management commands, 
 ## 7. Check the application
 
 1. Run its tests against KiviDB. A command KiviDB does not have answers `ERR unknown command`.
-2. Look for what 1.2 made Redis's, if the application was written against KiviDB 1.1: [Upgrading from 1.1](../get-started/upgrading.md) lists it. Search scores (`WITHSCORES`, the order of results) are Redis 8.10's, with stemming; `VSIM` scores are Redis's, from 0 to 1; keyspace notifications have Redis's event names; [`COMMAND DOCS`](../commands/command-docs.md) answers as Redis does.
+2. Look for what 1.2 made Redis's, if the application was written against KiviDB 1.1: [Upgrading from 1.1](../get-started/upgrading.md#upgrading-from-11-to-12) lists it. Search scores (`WITHSCORES`, the order of results) are Redis 8.10's, with stemming; `VSIM` scores are Redis's, from 0 to 1; keyspace notifications have Redis's event names; [`COMMAND DOCS`](../commands/command-docs.md) answers as Redis does.
 3. Look up the commands it relies on in [Commands](../commands/index.md): each page says where KiviDB differs, and its known issues. The scripting differences are in [Scripting](scripting.md#differences-from-redis).
 4. Measure with your own load. Published benchmarks are one setup.
 

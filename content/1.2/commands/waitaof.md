@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: 4
 flags: ["blocking"]
-acl_categories: ["blocking", "generic", "keyspace", "read", "slow"]
-history: []
+acl_categories: ["blocking", "connection", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: added connection; removed generic, keyspace, read"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,11 +21,17 @@ status: "reviewed"
 WAITAOF numlocal numreplicas timeout
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@blocking`, `@generic`, `@keyspace`, `@read`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@blocking`, `@connection`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: added connection; removed generic, keyspace, read
 <!-- generated: end -->
 Waits for pending writes to be fsynced to the local append-only file, or until `timeout` milliseconds pass.
 
 In 1.2, `numreplicas` is accepted but ignored: KiviDB does not track replicas' AOF fsync acknowledgements, and the second number in the reply is always `0`. The timeout applies only to the local fsync; the command does not wait for replicas. [`WAIT`](wait.md) can wait for replication acknowledgements, but those do not confirm that a replica has fsynced its AOF.
+
+Inside [`MULTI`](multi.md) it is queued, and answers at once when `EXEC` runs it, since 1.2.1. It is in the `@connection` ACL category since 1.2.1, no longer in `@read`, `@keyspace` and `@generic`: a user given `+@read` but not `+@connection` needs `+waitaof`.
 
 ## Reply
 

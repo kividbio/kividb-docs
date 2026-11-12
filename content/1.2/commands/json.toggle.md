@@ -6,10 +6,10 @@ command: "JSON.TOGGLE"
 syntax: "JSON.TOGGLE key path"
 group: "json"
 since: "1.1.0"
-arity: -2
+arity: 3
 flags: ["write"]
 acl_categories: ["json", "slow", "write"]
-history: []
+history: [{"release": "1.2.1", "change": "arity: -2 -> 3"}]
 # generated: end
 status: "reviewed"
 ---
@@ -22,6 +22,10 @@ JSON.TOGGLE key path
 ```
 
 **Available since:** 1.1.0 · **ACL categories:** `@json`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: arity: -2 -> 3
 <!-- generated: end -->
 Flips each boolean `path` matches in the JSON document at `key`: `true` becomes `false` and `false` becomes `true`. Use it for flags such as `active` or `muted` without reading the value first. The path is required; to toggle a document that is a single boolean, give `$`.
 

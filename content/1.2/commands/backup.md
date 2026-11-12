@@ -8,8 +8,8 @@ group: "other"
 since: "1.1.0"
 arity: -1
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 subcommands: ["BACKUP ABORT", "BACKUP CLEANUP", "BACKUP HELP", "BACKUP LIST", "BACKUP SEAL", "BACKUP START", "BACKUP STATUS"]
 # generated: end
 status: "reviewed"
@@ -22,9 +22,13 @@ status: "reviewed"
 BACKUP
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
 
 Subcommands: [BACKUP ABORT](backup-abort.md), [BACKUP CLEANUP](backup-cleanup.md), [BACKUP HELP](backup-help.md), [BACKUP LIST](backup-list.md), [BACKUP SEAL](backup-seal.md), [BACKUP START](backup-start.md), [BACKUP STATUS](backup-status.md)
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Takes a consistent backup of the dataset while the server keeps serving: a snapshot as of the start, then the writes that follow, up to the moment it is sealed. KiviDB's own command. See its subcommands.
 

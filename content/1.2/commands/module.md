@@ -8,8 +8,8 @@ group: "other"
 since: "1.1.0"
 arity: -2
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 subcommands: ["MODULE HELP", "MODULE LIST", "MODULE LOAD", "MODULE LOADEX", "MODULE UNLOAD"]
 # generated: end
 status: "reviewed"
@@ -22,9 +22,13 @@ status: "reviewed"
 MODULE
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
 
 Subcommands: [MODULE HELP](module-help.md), [MODULE LIST](module-list.md), [MODULE LOAD](module-load.md), [MODULE LOADEX](module-loadex.md), [MODULE UNLOAD](module-unload.md)
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 KiviDB does not load modules. Search, JSON, time series and vector sets are built into the server, and their commands are always there; there is nothing to load and nothing to unload. `MODULE` is kept so that clients and tools that ask a server about its modules get an answer.
 

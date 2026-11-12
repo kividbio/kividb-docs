@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: -2
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 subcommands: ["CONFIG GET", "CONFIG HELP", "CONFIG RESETSTAT", "CONFIG REWRITE", "CONFIG SET"]
 # generated: end
 status: "reviewed"
@@ -22,8 +22,12 @@ status: "reviewed"
 CONFIG
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
 
 Subcommands: [CONFIG GET](config-get.md), [CONFIG HELP](config-help.md), [CONFIG RESETSTAT](config-resetstat.md), [CONFIG REWRITE](config-rewrite.md), [CONFIG SET](config-set.md)
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Reads and changes the server's settings at runtime. See its subcommands, and [Configuration](../reference/configuration.md) for every setting. A script cannot run it, `CONFIG GET` included: it is refused with `ERR This Redis command is not allowed from script`, as in Redis. Before 1.2, a script could.

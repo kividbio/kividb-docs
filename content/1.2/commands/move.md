@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: 3
 flags: ["write"]
-acl_categories: ["generic", "keyspace", "slow", "write"]
-history: []
+acl_categories: ["keyspace", "slow", "write"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 MOVE key db
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@generic`, `@keyspace`, `@slow`, `@write`
+**Available since:** 1.1.0 · **ACL categories:** `@keyspace`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Moves `key` to database `db`.
 

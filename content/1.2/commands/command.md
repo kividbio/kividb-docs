@@ -8,8 +8,8 @@ group: "server"
 since: "1.1.0"
 arity: -1
 flags: []
-acl_categories: ["server", "slow"]
-history: []
+acl_categories: ["connection", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: added connection; removed server"}]
 subcommands: ["COMMAND COUNT", "COMMAND DOCS", "COMMAND GETKEYS", "COMMAND GETKEYSANDFLAGS", "COMMAND HELP", "COMMAND INFO", "COMMAND LIST"]
 # generated: end
 status: "reviewed"
@@ -22,9 +22,13 @@ status: "reviewed"
 COMMAND
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@connection`, `@slow`
 
 Subcommands: [COMMAND COUNT](command-count.md), [COMMAND DOCS](command-docs.md), [COMMAND GETKEYS](command-getkeys.md), [COMMAND GETKEYSANDFLAGS](command-getkeysandflags.md), [COMMAND HELP](command-help.md), [COMMAND INFO](command-info.md), [COMMAND LIST](command-list.md)
+
+**History:**
+
+- 1.2.1: acl categories: added connection; removed server
 <!-- generated: end -->
 Returns every command, each as an array: its name, its arity (a negative number is a minimum), its flags, the positions of its first and last key and the step between them, and its ACL categories. A command whose keys depend on its arguments has the `movablekeys` flag. Cluster clients route by this.
 

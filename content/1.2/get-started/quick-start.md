@@ -10,7 +10,7 @@ weight: 20
 With Docker:
 
 ```bash
-docker run -d --name kividb -p 6380:6380 ghcr.io/kividbio/kividb:v1.2.0
+docker run -d --name kividb -p 6380:6380 ghcr.io/kividbio/kividb:v1.2.1
 ```
 
 Or with a [Linux binary](install.md#release-binaries):
@@ -120,5 +120,5 @@ The Docker image starts with `--protected-mode no`, since a container is never r
 ## Next
 
 - [Choose a build](builds.md), if you need Lua scripting or TLS.
-- [Upgrading from 1.1](upgrading.md), if you run 1.1 now.
+- [Upgrading from 1.1](upgrading.md#upgrading-from-11-to-12), if you run 1.1 now.
 - [Configuration](../reference/configuration.md): every setting.

@@ -25,7 +25,7 @@ Returns this node's ID: 40 hexadecimal characters that name the node to the rest
 
 A node picks its ID at random the first time it starts, and keeps it in [`nodes.conf`](../reference/configuration.md#cluster-config-file), so it keeps the same ID across restarts. Keep that file with the node's data: a node started without it is a new node, with a new ID. [`CLUSTER RESET HARD`](cluster-reset.md) gives it a new one; `CLUSTER RESET SOFT` keeps it.
 
-On a server that is not a cluster node it returns 40 zeros, where Redis replies `ERR This instance has cluster support disabled`.
+On a server that is not a cluster node it replies `ERR This instance has cluster support disabled`, as Redis does, since 1.2.1; 1.2.0 returned 40 zeros.
 
 ## Reply
 
@@ -46,5 +46,5 @@ On a standalone server:
 
 ```
 > CLUSTER MYID
-"0000000000000000000000000000000000000000"
+(error) ERR This instance has cluster support disabled
 ```

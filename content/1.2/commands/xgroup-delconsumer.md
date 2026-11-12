@@ -32,7 +32,7 @@ Use it to remove consumers that are gone for good, such as workers of a scaled-d
 ## Errors
 
 - `NOGROUP` if the group does not exist.
-- `ERR no such key` if the key does not exist. Redis answers `ERR The XGROUP subcommand requires the key to exist` instead.
+- `ERR The XGROUP subcommand requires the key to exist. Note that for CREATE you may want to use the MKSTREAM option to create an empty stream automatically.` if the key does not exist, as in Redis, since 1.2.1 (`ERR no such key` before).
 
 ## Examples
 

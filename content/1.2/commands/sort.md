@@ -8,8 +8,8 @@ group: "generic"
 since: "1.1.0"
 arity: -2
 flags: ["movablekeys", "write"]
-acl_categories: ["dangerous", "generic", "keyspace", "slow", "write"]
-history: []
+acl_categories: ["dangerous", "keyspace", "slow", "write"]
+history: [{"release": "1.2.1", "change": "acl categories: removed generic"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,7 +21,11 @@ status: "reviewed"
 SORT key [BY pattern] [LIMIT offset count] [GET pattern [...]] [ASC|DESC] [ALPHA] [STORE destination]
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@generic`, `@keyspace`, `@slow`, `@write`
+**Available since:** 1.1.0 · **ACL categories:** `@dangerous`, `@keyspace`, `@slow`, `@write`
+
+**History:**
+
+- 1.2.1: acl categories: removed generic
 <!-- generated: end -->
 Sorts the elements of a list, set or sorted set, as numbers unless `ALPHA` is given.
 
@@ -32,8 +36,10 @@ Sorts the elements of a list, set or sorted set, as numbers unless `ALPHA` is gi
 | `ASC`, `DESC` | Ascending (the default) or descending. |
 | `ALPHA` | Sort as strings, not numbers. |
 | `LIMIT offset count` | Return `count` elements from `offset`. |
-| `BY pattern` | Sort by other keys: `*` in the pattern is replaced by each element, and a `->field` suffix reads a hash field. |
-| `GET pattern` | Return other keys' values instead of the elements, the same way; `GET #` is the element itself. Can be given more than once. |
+| `BY pattern` | Sort by other keys: the first `*` in the pattern is replaced by each element, and a `->field` suffix reads a hash field. |
+| `GET pattern` | Return other keys' values instead of the elements, the same way; `GET #` is the element itself. Can be given more than once. A key holding an empty string gives an empty string; one that does not exist, `nil`. |
+
+Since 1.2.1, as in Redis: only the first `*` of a pattern is replaced (1.2.0 replaced every one), a pattern is bytes, `->field` reads a field that has a time to live too, and a `GET` of a key holding an empty string gives an empty string, not `nil`. A `SORT` whose `BY` or `GET` reads a hash field runs alone, as a script does, so that the removal of a field past its time reaches replicas before any other write: see [Keys and expiry](../guides/expiration.md#replicas-snapshots-and-the-append-only-file).
 | `STORE destination` | Store the result as a list at `destination` instead of returning it. The destination loses any time to live it had; an empty result deletes it. |
 
 ## Reply

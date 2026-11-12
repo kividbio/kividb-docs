@@ -148,6 +148,12 @@ Since 1.2, `CONFIG SET tls-replication yes|no` decides whether the replica's nex
 
 A file of users, one `user name rules...` line each, as [`ACL SAVE`](../commands/acl-save.md) writes it. It is loaded at startup and by [`ACL LOAD`](../commands/acl-load.md). Empty, the default: users exist only until the server stops.
 
+### `acllog-max-len`
+
+**Default:** `128` · **Since:** 1.2.1 · **Command line:** `--acllog-max-len <ACLLOG_MAX_LEN>` · **Config file:** yes · **`CONFIG SET`:** yes
+
+How many entries [`ACL LOG`](../commands/acl-log.md) keeps: the oldest goes when a new one comes. `0` keeps none. Lowering it drops the oldest entries at once. It is applied since 1.2.1; 1.2.0 accepted it and ignored it.
+
 ### `requirepass`
 
 **Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--requirepass <REQUIREPASS>` · **Config file:** yes · **`CONFIG SET`:** yes
@@ -243,6 +249,12 @@ Seconds without a byte from its master before a replica takes the link to be dow
 
 It works the other way too, as in Redis: a master disconnects a replica that is online and has sent no acknowledgement (`REPLCONF ACK`) for this many seconds, and logs `Replication: disconnecting timedout replica <ip>:<port>: no REPLCONF ACK for {n} s (repl-timeout)`. That is since 1.1.3, and in 1.2; before, such a replica stayed listed as `state=online` until the master restarted. See [Replication](../guides/replication.md#a-replica-that-falls-behind).
 
+### `replica-announced`
+
+**Default:** `yes` · **Since:** 1.2.1 · **Command line:** `--replica-announced <REPLICA_ANNOUNCED>` · **Config file:** yes · **`CONFIG SET`:** yes
+
+Whether Redis Sentinel lists this replica in `SENTINEL REPLICAS`: `yes`, the default, or `no`. `INFO replication` reports it as `replica_announced`. Before 1.2.1, `INFO` did not report it.
+
 ### `replica-announced-port`
 
 **Default:** `0` · **Since:** 1.1.0 · **Command line:** `--replica-announced-port <REPLICA_ANNOUNCED_PORT>` · **Config file:** yes · **`CONFIG SET`:** no: not a `CONFIG` setting
@@ -269,6 +281,12 @@ The percentage for `replica-full-sync-guard shrink`.
 
 Since 1.1.3, and in 1.2, it is also used whatever `replica-full-sync-guard` says, in one case: a replica does not drop its dataset for the master it followed until a moment ago (within [`repl-timeout`](#repl-timeout)) when that master comes back under a replication ID that does not continue its stream, and holds fewer than this percentage of the replica's keys. In a cluster the replica takes over from it instead; see [Cluster](../guides/cluster.md#a-master-back-without-its-data).
 
+### `replica-priority`
+
+**Default:** `100` · **Since:** 1.2.1 · **Command line:** `--replica-priority <REPLICA_PRIORITY>` · **Config file:** yes · **`CONFIG SET`:** yes
+
+Where this replica stands when Redis Sentinel picks one to promote: a lower number goes first, and `0` is never promoted. `INFO replication` reports it as `slave_priority`, which is what Sentinel reads, and [`CONFIG REWRITE`](../commands/config-rewrite.md) keeps it. KiviDB's own failover, in a cluster, does not use it. Before 1.2.1, the setting was taken but `INFO replication` always said `slave_priority:100`, so Sentinel could promote a replica set to `0`.
+
 ### `replicaof`
 
 **Default:** (empty) · **Since:** 1.1.0 · **Command line:** `--replicaof <HOST> <PORT>` · **Config file:** yes · **`CONFIG SET`:** no: use `REPLICAOF`
@@ -280,6 +298,12 @@ Makes the server a replica of the master at `host port` when it starts. [`REPLIC
 **Default:** `10` · **Since:** 1.2.0 · **Command line:** `--shutdown-timeout <SHUTDOWN_TIMEOUT>` · **Config file:** yes · **`CONFIG SET`:** yes
 
 Seconds a master that is shutting down (`SHUTDOWN`, `SIGTERM`) waits for its replicas to have every write it acknowledged, before it saves and exits, as in Redis. Clients are paused while it waits. A replica that has every write carries on after the restart with a partial resync, instead of being sent the whole dataset again. The default is 10; in our tests the wait took tens of milliseconds. `0` does not wait, and neither do `SHUTDOWN NOW` and `SHUTDOWN NOSAVE`. New in 1.2.
+
+### `slave-priority`
+
+**Default:** `100` · **Since:** 1.2.1 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
+
+Another name for [`replica-priority`](#replica-priority): setting either sets both.
 
 ### `slaveof`
 
@@ -624,11 +648,23 @@ Another name for [`auto-aof-rewrite-min-size`](#auto-aof-rewrite-min-size), and 
 
 Another name for [`auto-aof-rewrite-percentage`](#auto-aof-rewrite-percentage), and the only one on the command line. `CONFIG SET` takes either name; `CONFIG GET` lists only the `auto-` one.
 
+### `appendfsync`
+
+**Default:** `everysec` · **Since:** 1.1.0 · **Command line:** `--appendfsync <APPENDFSYNC>` · **Config file:** yes · **`CONFIG SET`:** yes
+
+When the [append-only file](#appendonly) is flushed to disk. `everysec`, the default: once a second, so a power loss or a kernel crash can lose up to about the last second of acknowledged writes. `always`: before the reply to each write, as in Redis, so no acknowledged write is lost even then; replies waiting at the same time share one flush. `no`, which in Redis leaves it to the operating system, is taken as `everysec`.
+
+`always` costs writes a second, as in Redis. Under it, a reply waits for its flush however long the disk takes, [`aof-ack-after-write`](#aof-ack-after-write) `no` has no effect, and a failed write or flush stops the server rather than acknowledge a write that is not on disk. With the append-only file off, it changes nothing.
+
+`always` is since 1.2.1, and so is `--appendfsync`. In 1.2.0, `appendfsync` was accepted and did nothing: the configuration file warned that it had no effect, `CONFIG SET appendfsync always` replied `OK`, and the file was flushed once a second whatever was set.
+
 ### `appendonly`
 
 **Default:** `no` · **Since:** 1.1.0 · **Command line:** no · **Config file:** yes · **`CONFIG SET`:** yes
 
-Turns the append-only file on or off: every write is appended to `appendonly.aof`, and replayed when the server starts. `CONFIG SET appendonly yes` turns it on at once, writing a snapshot first. On the command line it is [`--aof`](#aof). A write is acknowledged once its record is in the file, unless [`aof-ack-after-write`](#aof-ack-after-write) is `no`. The file is flushed to disk once a second; [`appendfsync`](#accepted-for-compatibility-with-redis) cannot change that.
+Turns the append-only file on or off: every write is appended to `appendonly.aof`, and replayed when the server starts. `CONFIG SET appendonly yes` turns it on at once, writing a snapshot first. On the command line it is [`--aof`](#aof). A write is acknowledged once its record is in the file, unless [`aof-ack-after-write`](#aof-ack-after-write) is `no`. When the file is flushed to disk is [`appendfsync`](#appendfsync).
+
+With it off, no `appendonly.aof` is made or opened. `CONFIG SET appendonly yes` starts a new, empty log, and replies with an error, leaving the file off, if it cannot create one. Both are since 1.2.1: 1.2.0 made an empty `appendonly.aof` at every start, and exited if it could not, and `CONFIG SET appendonly yes` appended to whatever log was there. A log that is not replayed is kept aside, never deleted: see [Persistence](../guides/persistence.md#logs-kept-aside).
 
 ### `auto-aof-rewrite-min-size`
 
@@ -777,7 +813,6 @@ These are Redis settings that mean nothing in KiviDB: how Redis encodes small va
 
 | Setting | Default | Since | Config file |
 |---|---|---|---|
-| `appendfsync` | `everysec` | 1.1.0 | accepted, but has no effect |
 | `client-query-buffer-limit` | `1073741824` | 1.1.0 | yes |
 | `close-on-replica-write` | `yes` | 1.1.0 | yes |
 | `hash-max-listpack-entries` | `512` | 1.1.0 | yes |

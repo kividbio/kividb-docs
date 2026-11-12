@@ -8,8 +8,8 @@ group: "other"
 since: "1.1.0"
 arity: -1
 flags: ["admin"]
-acl_categories: ["admin", "dangerous", "server", "slow"]
-history: []
+acl_categories: ["admin", "dangerous", "slow"]
+history: [{"release": "1.2.1", "change": "acl categories: removed server"}]
 # generated: end
 status: "reviewed"
 ---
@@ -21,6 +21,10 @@ status: "reviewed"
 FAILOVER
 ```
 
-**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@server`, `@slow`
+**Available since:** 1.1.0 · **ACL categories:** `@admin`, `@dangerous`, `@slow`
+
+**History:**
+
+- 1.2.1: acl categories: removed server
 <!-- generated: end -->
 Refused. In Redis, `FAILOVER` hands a master's role to one of its replicas. KiviDB replies `ERR FAILOVER is not supported by KiviDB.` For a cluster, use [`CLUSTER FAILOVER`](cluster-failover.md); for a master with replicas outside a cluster, [`REPLICAOF NO ONE`](replicaof.md) on the replica.

@@ -35,11 +35,13 @@ Subcommands: [XGROUP CREATE](xgroup-create.md), [XGROUP CREATECONSUMER](xgroup-c
 | [`XGROUP DELCONSUMER`](xgroup-delconsumer.md) | remove a consumer and its pending entries |
 | [`XGROUP SETID`](xgroup-setid.md) | move where the group reads from |
 | [`XGROUP DESTROY`](xgroup-destroy.md) | delete a group |
-| [`XGROUP HELP`](xgroup-help.md) | not implemented in 1.2.0 |
+| [`XGROUP HELP`](xgroup-help.md) | list the subcommands (since 1.2.1) |
 
 Consumers read with [`XREADGROUP`](xreadgroup.md), acknowledge with [`XACK`](xack.md), and take over another's stalled entries with [`XCLAIM`](xclaim.md) or [`XAUTOCLAIM`](xautoclaim.md). [`XPENDING`](xpending.md) and [`XINFO GROUPS`](xinfo-groups.md) show what is outstanding.
 
-`XGROUP` alone, or with a name that is not a subcommand, is an error. Redis's error for an unknown subcommand names it and suggests `XGROUP HELP`; KiviDB's does not.
+`XGROUP` alone, or with a name that is not a subcommand, is an error. Since 1.2.1 the error for an unknown subcommand is Redis's, which names it and suggests `XGROUP HELP`; before, it was `ERR unknown subcommand for XGROUP`.
+
+A subcommand on a key that does not exist gets Redis's error, `ERR The XGROUP subcommand requires the key to exist. Note that for CREATE you may want to use the MKSTREAM option to create an empty stream automatically.`; in 1.2.0, `XGROUP DESTROY` answered `0`. `XGROUP CREATE` takes `MKSTREAM` and `ENTRIESREAD` only after the ID, so a key or group called `mkstream` no longer creates the stream.
 
 ## Examples
 
@@ -47,7 +49,7 @@ Consumers read with [`XREADGROUP`](xreadgroup.md), acknowledge with [`XACK`](xac
 > XGROUP
 (error) ERR wrong number of arguments for 'xgroup' command
 > XGROUP NOPE
-(error) ERR unknown subcommand for XGROUP
+(error) ERR unknown subcommand 'NOPE'. Try XGROUP HELP.
 > XGROUP CREATE jobs workers 0
 OK
 ```

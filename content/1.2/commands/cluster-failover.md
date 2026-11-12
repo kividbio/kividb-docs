@@ -29,6 +29,8 @@ Sent to a replica: makes it the master of its shard, and its master a replica of
 | `FORCE` | Skips the catching up, for a master that cannot be reached. An election is still held. |
 | `TAKEOVER` | Skips the election too: the replica takes the slots at once, without the other masters' agreement. For when no majority of masters can be reached. |
 
+During an atomic slot migration's handover from this replica's master ([`CLUSTER MIGRATION`](cluster-migration.md)), and for 3 seconds after it, a failover without `TAKEOVER` does not happen: the replica still replies `OK`, and it and its master log why (`Manual failover requested by ... refused`). Ask again a few seconds later. That is since 1.2.1, so that a failover and a handover exclude each other: in 1.2.0, a failover of the source while `CLUSTER MIGRATION IMPORT` ran lost the writes the new master acknowledged to the moving slots. `TAKEOVER`, which asks no other node, is not held back.
+
 A master that fails is replaced the same way without this command: once a majority of masters have not heard from it for `cluster-node-timeout` milliseconds, its replicas stand for election. When it comes back, it finds its slots taken at a higher epoch and becomes a replica.
 
 ## Reply

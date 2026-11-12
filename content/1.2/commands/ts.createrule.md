@@ -29,6 +29,8 @@ A bucket is written to the destination once it has closed, when the first sample
 
 A series takes compacted samples from one source only, and [`TS.INFO`](ts.info.md) of the destination names it as `sourceKey`.
 
+A rule links two keys, and goes with them only where both go together: `RENAME` of either takes the link along, and an atomic slot migration keeps it, but `DUMP`, `RESTORE` and `MIGRATE` leave it out, as in RedisTimeSeries. A link left behind by `DEL`, `RESTORE ... REPLACE`, `COPY ... REPLACE` or `MIGRATE` of one of its series is dead: the source no longer feeds the destination, `TS.INFO` no longer shows it, and `TS.CREATERULE` gives the destination a new source. That is since 1.2.1. 1.2.0 carried the links by key name inside `DUMP` payloads, so a copy fed the original's compaction, and a series renamed kept its links under the old name. An atomic slot migration from a 1.2.0 node, as in a rolling upgrade, loses the moved series' rules: make them again with `TS.CREATERULE`.
+
 Before 1.2, the destination got the open bucket written as samples arrived, and `LATEST` changed nothing. A snapshot with a compaction rule in it, written by 1.2, cannot be read by 1.1.2 and older.
 
 ## Reply
